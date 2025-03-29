@@ -11,12 +11,8 @@ from datetime import datetime, timedelta
 from tqdm.asyncio import tqdm_asyncio
 import json
 from typing import Dict, List, Optional
-import re
 from itertools import islice
 import hashlib
-from pathlib import Path
-import sys
-
 # Import your team list (modify path as needed)
 from valid_teams import TEAMS
 
@@ -24,7 +20,7 @@ from valid_teams import TEAMS
 # Configuration
 # ======================
 LOG_FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
-MAX_CONCURRENT_REQUESTS = 5
+MAX_CONCURRENT_REQUESTS = 8 # can go up to 10 but 8 doing it under 15 min avg 10~min
 BASE_DELAY = 1  # seconds between requests
 MAX_RETRIES = 5
 CACHE_EXPIRE_DAYS = 1  # Only re-check teams scraped more than this many days ago
@@ -423,111 +419,6 @@ def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
         conn.close()
 
 # ======================
-# Fixture Enrichment
-# ======================
-def get_team_stats(cursor, team_name: str, country: str, game_type: str) -> dict:
-    """Get all stats for a team from database"""
-    stats = {
-        'general': {},
-        'bet': {}
-    }
-    
-    cursor.execute(
-        "SELECT id FROM teams WHERE name = ? AND country = ? AND status = 'success'",
-        (team_name, country)
-    )
-    result = cursor.fetchone()
-    
-    if not result:
-        return stats
-    
-    team_id = result[0]
-    
-    # Get general stats
-    cursor.execute(
-        '''SELECT stat_name, stat_value, period 
-        FROM general_stats 
-        WHERE team_id = ? AND game_type = ?''',
-        (team_id, game_type)
-    )
-    
-    for stat_name, stat_value, period in cursor.fetchall():
-        if f'last{period}' not in stats['general']:
-            stats['general'][f'last{period}'] = {}
-        stats['general'][f'last{period}'][stat_name] = stat_value
-    
-    # Get bet stats
-    cursor.execute(
-        '''SELECT category, stat_name, stat_value, period 
-        FROM bet_stats 
-        WHERE team_id = ? AND game_type = ?''',
-        (team_id, game_type)
-    )
-    
-    for category, stat_name, stat_value, period in cursor.fetchall():
-        if f'last{period}' not in stats['bet']:
-            stats['bet'][f'last{period}'] = {}
-        if category not in stats['bet'][f'last{period}']:
-            stats['bet'][f'last{period}'][category] = {}
-        stats['bet'][f'last{period}'][category][stat_name] = stat_value
-    
-    return stats
-
-def enrich_fixtures_with_stats(league_json_path: str, output_dir: str = 'enriched_fixtures'):
-    """Enrich fixture data with stats from database"""
-    with open(league_json_path, 'r', encoding='utf-8') as f:
-        fixtures_data = json.load(f)
-    
-    conn = sqlite3.connect('statarea_stats.db')
-    cursor = conn.cursor()
-    
-    enriched_fixtures = []
-    
-    for fixture in fixtures_data['fixtures']:
-        home_team = fixture['teams']['home']['name']
-        away_team = fixture['teams']['away']['name']
-        country = fixtures_data['league']['country']
-        
-        home_stats = get_team_stats(cursor, home_team, country, 'host')
-        away_stats = get_team_stats(cursor, away_team, country, 'guest')
-        
-        enriched_fixture = {
-            **fixture,
-            'stats': {
-                'home': home_stats,
-                'away': away_stats
-            }
-        }
-        enriched_fixtures.append(enriched_fixture)
-    
-    conn.close()
-    
-    Path(output_dir).mkdir(exist_ok=True)
-    
-    output_data = {
-        **fixtures_data,
-        'fixtures': enriched_fixtures
-    }
-    
-    league_name = fixtures_data['league']['name'].replace(' ', '_').lower()
-    output_path = f"{output_dir}/{league_name}_{fixtures_data['date']}_enriched.json"
-    
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(output_data, f, indent=2, ensure_ascii=False)
-    
-    return output_path
-
-def process_all_fixtures(fixtures_dir: str = 'fixtures'):
-    """Process all fixture JSON files in a directory"""
-    for fixture_file in Path(fixtures_dir).glob('*.json'):
-        if '_enriched' not in fixture_file.name:
-            try:
-                output_path = enrich_fixtures_with_stats(str(fixture_file))
-                print(f"Created enriched file: {output_path}")
-            except Exception as e:
-                print(f"Failed to process {fixture_file}: {str(e)}")
-
-# ======================
 # Main Execution
 # ======================
 async def scrape_with_progress(
@@ -605,5 +496,3 @@ if __name__ == "__main__":
     # Run the scraper first to ensure we have fresh data
     run_scraper(periods=[5, 10, 15])
     
-    # Then process all fixtures to create enriched versions
-    process_all_fixtures()
