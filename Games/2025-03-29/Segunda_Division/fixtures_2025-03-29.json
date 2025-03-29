@@ -1,0 +1,122 @@
+{
+  "date": "2025-03-29",
+  "league": {
+    "id": 141,
+    "name": "Segunda Division",
+    "country": "Spain",
+    "logo": "https://media.api-sports.io/football/leagues/141.png",
+    "round": "Regular Season - 33"
+  },
+  "fixtures": [
+    {
+      "fixture_id": 1217858,
+      "league": {
+        "id": 141,
+        "name": "Segunda Division",
+        "country": "Spain",
+        "logo": "https://media.api-sports.io/football/leagues/141.png",
+        "round": "Regular Season - 33"
+      },
+      "teams": {
+        "home": {
+          "id": 9692,
+          "name": "Eldense",
+          "logo": "https://media.api-sports.io/football/teams/9692.png"
+        },
+        "away": {
+          "id": 9580,
+          "name": "Burgos",
+          "logo": "https://media.api-sports.io/football/teams/9580.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1217859,
+      "league": {
+        "id": 141,
+        "name": "Segunda Division",
+        "country": "Spain",
+        "logo": "https://media.api-sports.io/football/leagues/141.png",
+        "round": "Regular Season - 33"
+      },
+      "teams": {
+        "home": {
+          "id": 9409,
+          "name": "Racing Ferrol",
+          "logo": "https://media.api-sports.io/football/teams/9409.png"
+        },
+        "away": {
+          "id": 544,
+          "name": "Deportivo La Coruna",
+          "logo": "https://media.api-sports.io/football/teams/544.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1217857,
+      "league": {
+        "id": 141,
+        "name": "Segunda Division",
+        "country": "Spain",
+        "logo": "https://media.api-sports.io/football/leagues/141.png",
+        "round": "Regular Season - 33"
+      },
+      "teams": {
+        "home": {
+          "id": 4665,
+          "name": "Racing Santander",
+          "logo": "https://media.api-sports.io/football/teams/4665.png"
+        },
+        "away": {
+          "id": 732,
+          "name": "Zaragoza",
+          "logo": "https://media.api-sports.io/football/teams/732.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1217854,
+      "league": {
+        "id": 141,
+        "name": "Segunda Division",
+        "country": "Spain",
+        "logo": "https://media.api-sports.io/football/leagues/141.png",
+        "round": "Regular Season - 33"
+      },
+      "teams": {
+        "home": {
+          "id": 5262,
+          "name": "FC Cartagena",
+          "logo": "https://media.api-sports.io/football/teams/5262.png"
+        },
+        "away": {
+          "id": 5254,
+          "name": "Castellon",
+          "logo": "https://media.api-sports.io/football/teams/5254.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1217852,
+      "league": {
+        "id": 141,
+        "name": "Segunda Division",
+        "country": "Spain",
+        "logo": "https://media.api-sports.io/football/leagues/141.png",
+        "round": "Regular Season - 33"
+      },
+      "teams": {
+        "home": {
+          "id": 723,
+          "name": "Almeria",
+          "logo": "https://media.api-sports.io/football/teams/723.png"
+        },
+        "away": {
+          "id": 539,
+          "name": "Levante",
+          "logo": "https://media.api-sports.io/football/teams/539.png"
+        }
+      }
+    }
+  ]
+}

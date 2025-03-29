@@ -1,0 +1,37 @@
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+statarea_stats.db
+
+# Log files
+*.log
+scraper_progress.log
+failed_urls.log
+
+# Python cache and virtual environment
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+venv/
+env/
+.venv/
+ENV/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Checkpoint files
+progress_checkpoint.json
+
+# Output directories
+enriched_fixtures/
+fixtures/

@@ -1,0 +1,78 @@
+{
+  "date": "2025-03-29",
+  "league": {
+    "id": 106,
+    "name": "Ekstraklasa",
+    "country": "Poland",
+    "logo": "https://media.api-sports.io/football/leagues/106.png",
+    "round": "Regular Season - 26"
+  },
+  "fixtures": [
+    {
+      "fixture_id": 1203175,
+      "league": {
+        "id": 106,
+        "name": "Ekstraklasa",
+        "country": "Poland",
+        "logo": "https://media.api-sports.io/football/leagues/106.png",
+        "round": "Regular Season - 26"
+      },
+      "teams": {
+        "home": {
+          "id": 350,
+          "name": "Cracovia Krakow",
+          "logo": "https://media.api-sports.io/football/teams/350.png"
+        },
+        "away": {
+          "id": 3490,
+          "name": "Puszcza Niepoomice",
+          "logo": "https://media.api-sports.io/football/teams/3490.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1203179,
+      "league": {
+        "id": 106,
+        "name": "Ekstraklasa",
+        "country": "Poland",
+        "logo": "https://media.api-sports.io/football/leagues/106.png",
+        "round": "Regular Season - 26"
+      },
+      "teams": {
+        "home": {
+          "id": 343,
+          "name": "Lechia Gdansk",
+          "logo": "https://media.api-sports.io/football/teams/343.png"
+        },
+        "away": {
+          "id": 336,
+          "name": "Jagiellonia",
+          "logo": "https://media.api-sports.io/football/teams/336.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1203183,
+      "league": {
+        "id": 106,
+        "name": "Ekstraklasa",
+        "country": "Poland",
+        "logo": "https://media.api-sports.io/football/leagues/106.png",
+        "round": "Regular Season - 26"
+      },
+      "teams": {
+        "home": {
+          "id": 337,
+          "name": "Slask Wroclaw",
+          "logo": "https://media.api-sports.io/football/teams/337.png"
+        },
+        "away": {
+          "id": 347,
+          "name": "Lech Poznan",
+          "logo": "https://media.api-sports.io/football/teams/347.png"
+        }
+      }
+    }
+  ]
+}

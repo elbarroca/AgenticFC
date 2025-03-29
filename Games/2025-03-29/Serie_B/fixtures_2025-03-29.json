@@ -1,0 +1,144 @@
+{
+  "date": "2025-03-29",
+  "league": {
+    "id": 136,
+    "name": "Serie B",
+    "country": "Italy",
+    "logo": "https://media.api-sports.io/football/leagues/136.png",
+    "round": "Regular Season - 31"
+  },
+  "fixtures": [
+    {
+      "fixture_id": 1234937,
+      "league": {
+        "id": 136,
+        "name": "Serie B",
+        "country": "Italy",
+        "logo": "https://media.api-sports.io/football/leagues/136.png",
+        "round": "Regular Season - 31"
+      },
+      "teams": {
+        "home": {
+          "id": 498,
+          "name": "Sampdoria",
+          "logo": "https://media.api-sports.io/football/teams/498.png"
+        },
+        "away": {
+          "id": 512,
+          "name": "Frosinone",
+          "logo": "https://media.api-sports.io/football/teams/512.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1234935,
+      "league": {
+        "id": 136,
+        "name": "Serie B",
+        "country": "Italy",
+        "logo": "https://media.api-sports.io/football/leagues/136.png",
+        "round": "Regular Season - 31"
+      },
+      "teams": {
+        "home": {
+          "id": 899,
+          "name": "Modena",
+          "logo": "https://media.api-sports.io/football/teams/899.png"
+        },
+        "away": {
+          "id": 1687,
+          "name": "Catanzaro",
+          "logo": "https://media.api-sports.io/football/teams/1687.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1234934,
+      "league": {
+        "id": 136,
+        "name": "Serie B",
+        "country": "Italy",
+        "logo": "https://media.api-sports.io/football/leagues/136.png",
+        "round": "Regular Season - 31"
+      },
+      "teams": {
+        "home": {
+          "id": 1693,
+          "name": "Mantova",
+          "logo": "https://media.api-sports.io/football/teams/1693.png"
+        },
+        "away": {
+          "id": 1578,
+          "name": "Sudtirol",
+          "logo": "https://media.api-sports.io/football/teams/1578.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1234932,
+      "league": {
+        "id": 136,
+        "name": "Serie B",
+        "country": "Italy",
+        "logo": "https://media.api-sports.io/football/leagues/136.png",
+        "round": "Regular Season - 31"
+      },
+      "teams": {
+        "home": {
+          "id": 10137,
+          "name": "Cosenza",
+          "logo": "https://media.api-sports.io/football/teams/10137.png"
+        },
+        "away": {
+          "id": 801,
+          "name": "Pisa",
+          "logo": "https://media.api-sports.io/football/teams/801.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1234933,
+      "league": {
+        "id": 136,
+        "name": "Serie B",
+        "country": "Italy",
+        "logo": "https://media.api-sports.io/football/leagues/136.png",
+        "round": "Regular Season - 31"
+      },
+      "teams": {
+        "home": {
+          "id": 520,
+          "name": "Cremonese",
+          "logo": "https://media.api-sports.io/football/teams/520.png"
+        },
+        "away": {
+          "id": 510,
+          "name": "Cittadella",
+          "logo": "https://media.api-sports.io/football/teams/510.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1234938,
+      "league": {
+        "id": 136,
+        "name": "Serie B",
+        "country": "Italy",
+        "logo": "https://media.api-sports.io/football/leagues/136.png",
+        "round": "Regular Season - 31"
+      },
+      "teams": {
+        "home": {
+          "id": 488,
+          "name": "Sassuolo",
+          "logo": "https://media.api-sports.io/football/teams/488.png"
+        },
+        "away": {
+          "id": 880,
+          "name": "Reggiana",
+          "logo": "https://media.api-sports.io/football/teams/880.png"
+        }
+      }
+    }
+  ]
+}

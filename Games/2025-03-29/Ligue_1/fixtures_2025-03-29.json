@@ -1,0 +1,78 @@
+{
+  "date": "2025-03-29",
+  "league": {
+    "id": 61,
+    "name": "Ligue 1",
+    "country": "France",
+    "logo": "https://media.api-sports.io/football/leagues/61.png",
+    "round": "Regular Season - 27"
+  },
+  "fixtures": [
+    {
+      "fixture_id": 1213987,
+      "league": {
+        "id": 61,
+        "name": "Ligue 1",
+        "country": "France",
+        "logo": "https://media.api-sports.io/football/leagues/61.png",
+        "round": "Regular Season - 27"
+      },
+      "teams": {
+        "home": {
+          "id": 93,
+          "name": "Reims",
+          "logo": "https://media.api-sports.io/football/teams/93.png"
+        },
+        "away": {
+          "id": 81,
+          "name": "Marseille",
+          "logo": "https://media.api-sports.io/football/teams/81.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1213986,
+      "league": {
+        "id": 61,
+        "name": "Ligue 1",
+        "country": "France",
+        "logo": "https://media.api-sports.io/football/leagues/61.png",
+        "round": "Regular Season - 27"
+      },
+      "teams": {
+        "home": {
+          "id": 1063,
+          "name": "Saint Etienne",
+          "logo": "https://media.api-sports.io/football/teams/1063.png"
+        },
+        "away": {
+          "id": 85,
+          "name": "Paris Saint Germain",
+          "logo": "https://media.api-sports.io/football/teams/85.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1213989,
+      "league": {
+        "id": 61,
+        "name": "Ligue 1",
+        "country": "France",
+        "logo": "https://media.api-sports.io/football/leagues/61.png",
+        "round": "Regular Season - 27"
+      },
+      "teams": {
+        "home": {
+          "id": 91,
+          "name": "Monaco",
+          "logo": "https://media.api-sports.io/football/teams/91.png"
+        },
+        "away": {
+          "id": 84,
+          "name": "Nice",
+          "logo": "https://media.api-sports.io/football/teams/84.png"
+        }
+      }
+    }
+  ]
+}

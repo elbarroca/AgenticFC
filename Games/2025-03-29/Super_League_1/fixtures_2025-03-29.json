@@ -1,0 +1,100 @@
+{
+  "date": "2025-03-29",
+  "league": {
+    "id": 197,
+    "name": "Super League 1",
+    "country": "Greece",
+    "logo": "https://media.api-sports.io/football/leagues/197.png",
+    "round": "Conference League Play-off Group - 1"
+  },
+  "fixtures": [
+    {
+      "fixture_id": 1360708,
+      "league": {
+        "id": 197,
+        "name": "Super League 1",
+        "country": "Greece",
+        "logo": "https://media.api-sports.io/football/leagues/197.png",
+        "round": "Conference League Play-off Group - 1"
+      },
+      "teams": {
+        "home": {
+          "id": 1124,
+          "name": "OFI",
+          "logo": "https://media.api-sports.io/football/teams/1124.png"
+        },
+        "away": {
+          "id": 12260,
+          "name": "Atromitos",
+          "logo": "https://media.api-sports.io/football/teams/12260.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1360720,
+      "league": {
+        "id": 197,
+        "name": "Super League 1",
+        "country": "Greece",
+        "logo": "https://media.api-sports.io/football/leagues/197.png",
+        "round": "Relegation Round - 1"
+      },
+      "teams": {
+        "home": {
+          "id": 2095,
+          "name": "Kallithea",
+          "logo": "https://media.api-sports.io/football/teams/2095.png"
+        },
+        "away": {
+          "id": 2110,
+          "name": "Volos NFC",
+          "logo": "https://media.api-sports.io/football/teams/2110.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1360709,
+      "league": {
+        "id": 197,
+        "name": "Super League 1",
+        "country": "Greece",
+        "logo": "https://media.api-sports.io/football/leagues/197.png",
+        "round": "Conference League Play-off Group - 1"
+      },
+      "teams": {
+        "home": {
+          "id": 955,
+          "name": "Asteras Tripolis",
+          "logo": "https://media.api-sports.io/football/teams/955.png"
+        },
+        "away": {
+          "id": 1123,
+          "name": "Aris Thessalonikis",
+          "logo": "https://media.api-sports.io/football/teams/1123.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1360721,
+      "league": {
+        "id": 197,
+        "name": "Super League 1",
+        "country": "Greece",
+        "logo": "https://media.api-sports.io/football/leagues/197.png",
+        "round": "Relegation Round - 1"
+      },
+      "teams": {
+        "home": {
+          "id": 949,
+          "name": "Panetolikos",
+          "logo": "https://media.api-sports.io/football/teams/949.png"
+        },
+        "away": {
+          "id": 957,
+          "name": "Levadiakos",
+          "logo": "https://media.api-sports.io/football/teams/957.png"
+        }
+      }
+    }
+  ]
+}

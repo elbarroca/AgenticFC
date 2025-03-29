@@ -1,0 +1,78 @@
+{
+  "date": "2025-03-29",
+  "league": {
+    "id": 333,
+    "name": "Premier League",
+    "country": "Ukraine",
+    "logo": "https://media.api-sports.io/football/leagues/333.png",
+    "round": "Regular Season - 22"
+  },
+  "fixtures": [
+    {
+      "fixture_id": 1221036,
+      "league": {
+        "id": 333,
+        "name": "Premier League",
+        "country": "Ukraine",
+        "logo": "https://media.api-sports.io/football/leagues/333.png",
+        "round": "Regular Season - 22"
+      },
+      "teams": {
+        "home": {
+          "id": 17162,
+          "name": "Livyi Bereh",
+          "logo": "https://media.api-sports.io/football/teams/17162.png"
+        },
+        "away": {
+          "id": 3619,
+          "name": "Oleksandria",
+          "logo": "https://media.api-sports.io/football/teams/3619.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1221037,
+      "league": {
+        "id": 333,
+        "name": "Premier League",
+        "country": "Ukraine",
+        "logo": "https://media.api-sports.io/football/leagues/333.png",
+        "round": "Regular Season - 22"
+      },
+      "teams": {
+        "home": {
+          "id": 3630,
+          "name": "Obolon-Brovar",
+          "logo": "https://media.api-sports.io/football/teams/3630.png"
+        },
+        "away": {
+          "id": 550,
+          "name": "Shakhtar Donetsk",
+          "logo": "https://media.api-sports.io/football/teams/550.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1221035,
+      "league": {
+        "id": 333,
+        "name": "Premier League",
+        "country": "Ukraine",
+        "logo": "https://media.api-sports.io/football/leagues/333.png",
+        "round": "Regular Season - 22"
+      },
+      "teams": {
+        "home": {
+          "id": 3632,
+          "name": "Ruh Lviv",
+          "logo": "https://media.api-sports.io/football/teams/3632.png"
+        },
+        "away": {
+          "id": 572,
+          "name": "Dynamo Kyiv",
+          "logo": "https://media.api-sports.io/football/teams/572.png"
+        }
+      }
+    }
+  ]
+}

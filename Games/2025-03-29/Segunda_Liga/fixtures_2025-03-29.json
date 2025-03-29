@@ -1,0 +1,78 @@
+{
+  "date": "2025-03-29",
+  "league": {
+    "id": 95,
+    "name": "Segunda Liga",
+    "country": "Portugal",
+    "logo": "https://media.api-sports.io/football/leagues/95.png",
+    "round": "Regular Season - 27"
+  },
+  "fixtures": [
+    {
+      "fixture_id": 1231659,
+      "league": {
+        "id": 95,
+        "name": "Segunda Liga",
+        "country": "Portugal",
+        "logo": "https://media.api-sports.io/football/leagues/95.png",
+        "round": "Regular Season - 27"
+      },
+      "teams": {
+        "home": {
+          "id": 233,
+          "name": "Oliveirense",
+          "logo": "https://media.api-sports.io/football/teams/233.png"
+        },
+        "away": {
+          "id": 218,
+          "name": "Tondela",
+          "logo": "https://media.api-sports.io/football/teams/218.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1231660,
+      "league": {
+        "id": 95,
+        "name": "Segunda Liga",
+        "country": "Portugal",
+        "logo": "https://media.api-sports.io/football/leagues/95.png",
+        "round": "Regular Season - 27"
+      },
+      "teams": {
+        "home": {
+          "id": 235,
+          "name": "Penafiel",
+          "logo": "https://media.api-sports.io/football/teams/235.png"
+        },
+        "away": {
+          "id": 214,
+          "name": "Maritimo",
+          "logo": "https://media.api-sports.io/football/teams/214.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1231657,
+      "league": {
+        "id": 95,
+        "name": "Segunda Liga",
+        "country": "Portugal",
+        "logo": "https://media.api-sports.io/football/leagues/95.png",
+        "round": "Regular Season - 27"
+      },
+      "teams": {
+        "home": {
+          "id": 810,
+          "name": "Vizela",
+          "logo": "https://media.api-sports.io/football/teams/810.png"
+        },
+        "away": {
+          "id": 216,
+          "name": "Portimonense",
+          "logo": "https://media.api-sports.io/football/teams/216.png"
+        }
+      }
+    }
+  ]
+}

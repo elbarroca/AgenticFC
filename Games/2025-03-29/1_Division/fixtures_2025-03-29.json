@@ -1,0 +1,78 @@
+{
+  "date": "2025-03-29",
+  "league": {
+    "id": 318,
+    "name": "1 Division",
+    "country": "Cyprus",
+    "logo": "https://media.api-sports.io/football/leagues/318.png",
+    "round": "Championship Round - 2"
+  },
+  "fixtures": [
+    {
+      "fixture_id": 1361565,
+      "league": {
+        "id": 318,
+        "name": "1 Division",
+        "country": "Cyprus",
+        "logo": "https://media.api-sports.io/football/leagues/318.png",
+        "round": "Championship Round - 2"
+      },
+      "teams": {
+        "home": {
+          "id": 2247,
+          "name": "Apoel Nicosia",
+          "logo": "https://media.api-sports.io/football/teams/2247.png"
+        },
+        "away": {
+          "id": 602,
+          "name": "Apollon Limassol",
+          "logo": "https://media.api-sports.io/football/teams/602.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1361566,
+      "league": {
+        "id": 318,
+        "name": "1 Division",
+        "country": "Cyprus",
+        "logo": "https://media.api-sports.io/football/leagues/318.png",
+        "round": "Championship Round - 2"
+      },
+      "teams": {
+        "home": {
+          "id": 614,
+          "name": "AEK Larnaca",
+          "logo": "https://media.api-sports.io/football/teams/614.png"
+        },
+        "away": {
+          "id": 3408,
+          "name": "Aris",
+          "logo": "https://media.api-sports.io/football/teams/3408.png"
+        }
+      }
+    },
+    {
+      "fixture_id": 1361567,
+      "league": {
+        "id": 318,
+        "name": "1 Division",
+        "country": "Cyprus",
+        "logo": "https://media.api-sports.io/football/leagues/318.png",
+        "round": "Championship Round - 2"
+      },
+      "teams": {
+        "home": {
+          "id": 3403,
+          "name": "Pafos",
+          "logo": "https://media.api-sports.io/football/teams/3403.png"
+        },
+        "away": {
+          "id": 3402,
+          "name": "Omonia Nicosia",
+          "logo": "https://media.api-sports.io/football/teams/3402.png"
+        }
+      }
+    }
+  ]
+}
