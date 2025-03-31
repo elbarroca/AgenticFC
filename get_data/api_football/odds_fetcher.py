@@ -1,13 +1,9 @@
-import os
 import sys
-import json
 import time
-import requests
-import re
 import argparse
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple, Optional, Any
 import asyncio
 import aiohttp
 import logging
@@ -20,7 +16,7 @@ logger = logging.getLogger(__name__)
 project_root = str(Path(__file__).resolve().parent.parent.parent.parent)
 sys.path.insert(0, project_root)
 
-from src.betting.utils.api_manager import api_manager  # Import the API manager
+from get_data.api_football.db_mongo import db_manager # Import the DB manager
 
 def parse_args():
     """Parse command line arguments."""
@@ -44,13 +40,12 @@ class RateLimiter:
         self.last_call_time = time.time()
 
 class OddsFetcher:
-    def __init__(self, base_dir: str = "data", api_manager=None):
-        self.base_dir = Path(base_dir)
+    def __init__(self, api_manager=None):
         self.api_base_url = "https://api-football-v1.p.rapidapi.com/v3"
         self.bet365_id = "8"  # Bet365 bookmaker ID
         self.rate_limiter = RateLimiter(calls_per_minute=20)
         # Use provided api_manager or fall back to global instance
-        from src.betting.utils.api_manager import api_manager as global_api_manager
+        from get_data.api_football.api_manager import api_manager as global_api_manager
         self.api_manager = api_manager or global_api_manager
         logger.info("OddsFetcher initialized")
         
@@ -78,100 +73,43 @@ class OddsFetcher:
 
     def _get_fixtures_from_games(self, date_str: str) -> List[Tuple[str, str, str, str]]:
         """
-        Get fixture IDs from games.json files in the daily folder.
-        Returns a list of tuples: (fixture_id, home_team, away_team, league)
+        Get fixture IDs from the daily_games collection in MongoDB using the new hierarchical structure.
+        Returns a list of tuples: (fixture_id, home_team, away_team, league_name)
         """
         try:
-            # Get date path
-            date = datetime.strptime(date_str, "%Y-%m-%d")
-            date_path = self.base_dir / str(date.year) / f"{date.month:02d}" / f"{date.day:02d}"
+            logger.info(f"Fetching games data for {date_str} from MongoDB...")
+            games_data = db_manager.get_daily_games(date_str)
             
-            if not date_path.exists():
-                print(f"No data directory found for date {date_str}")
+            if not games_data or not games_data.get("leagues"):
+                logger.warning(f"No games data found in MongoDB for date {date_str}")
                 return []
             
-            fixtures = set()  # Use set to prevent duplicates
+            fixtures = []
             
-            # Iterate through league directories
-            for league_dir in date_path.iterdir():
-                if league_dir.is_dir():
-                    # Check for both .md and .json files
-                    for md_file in league_dir.glob("*.md"):
-                        try:
-                            # Read the MD file to get match info
-                            with open(md_file, 'r', encoding='utf-8') as f:
-                                md_content = f.read()
-                                
-                            # Extract fixture ID from MD content
-                            fixture_id_match = re.search(r'Fixture ID: (\d+)', md_content)
-                            if not fixture_id_match:
-                                logger.warning(f"No fixture ID found in {md_file}")
-                                continue
-                                
-                            fixture_id = fixture_id_match.group(1)
-                            
-                            # Extract teams from filename
-                            match_name = md_file.stem
-                            if " vs " not in match_name:
-                                logger.warning(f"Invalid match name format in {md_file}")
-                                continue
-                                
-                            home_team, away_team = match_name.split(" vs ")
-                            
-                            fixtures.add((fixture_id, home_team, away_team, league_dir.name))
-                            logger.info(f"Found fixture: {home_team} vs {away_team} (ID: {fixture_id})")
-                            
-                        except Exception as e:
-                            logger.error(f"Error processing {md_file}: {str(e)}")
-                            continue
-            
-            # Convert set back to list and sort by fixture_id
-            fixtures_list = sorted(list(fixtures), key=lambda x: x[0])
-            
-            if not fixtures_list:
-                logger.warning("No valid fixtures found in MD files")
-            else:
-                logger.info(f"\nFound {len(fixtures_list)} unique fixtures:")
-                for fixture_id, home_team, away_team, league in fixtures_list:
-                    logger.info(f"  - {home_team} vs {away_team} (ID: {fixture_id}) - {league}")
-            
-            return fixtures_list
-            
-        except Exception as e:
-            logger.error(f"Error getting fixtures from games: {str(e)}")
-            raise
-
-    def _validate_md_file(self, md_path: Path) -> bool:
-        """Validate that the MD file has the required structure."""
-        try:
-            with open(md_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-                
-            # Check for required sections
-            required_sections = [
-                "# ⚽",  # Title
-                "Fixture ID:",
-                "Competition:",
-                "Country:",
-                "Date:",
-                "Time:",
-                "## 📊 Team Statistics",
-                "## 🤝 Head-to-Head Analysis",
-                "## 📈 Statistical Overview",
-                "## ⚔️ Tactical Summary",
-                "## 💰 Betting Recommendations"
-            ]
-            
-            for section in required_sections:
-                if section not in content:
-                    logger.warning(f"Missing required section '{section}' in {md_path}")
-                    return False
+            # Iterate through leagues and matches in the retrieved data
+            for league_id, league_info in games_data.get("leagues", {}).items():
+                league_name = league_info.get("name", "Unknown League")
+                for match in league_info.get("matches", []):
+                    fixture_id = match.get("id")
+                    home_team = match.get("home_team", {}).get("name", "Unknown Home")
+                    away_team = match.get("away_team", {}).get("name", "Unknown Away")
                     
-            return True
+                    if fixture_id:
+                        fixtures.append((str(fixture_id), home_team, away_team, league_name))
+                        logger.debug(f"Found fixture from DB: {home_team} vs {away_team} (ID: {fixture_id})")
+                    else:
+                         logger.warning("Found match entry missing fixture ID in DB data")
+            
+            if not fixtures:
+                logger.warning(f"No valid fixtures extracted from MongoDB data for {date_str}")
+            else:
+                logger.info(f"Found {len(fixtures)} unique fixtures from MongoDB for {date_str}")
+            
+            return fixtures
             
         except Exception as e:
-            logger.error(f"Error validating MD file {md_path}: {str(e)}")
-            return False
+            logger.error(f"Error getting fixtures from MongoDB: {str(e)}")
+            return []
 
     async def _make_api_request(self, endpoint: str, params: Dict, retry_count: int = 3) -> Dict:
         """Make API request with rate limit handling and retries."""
@@ -229,221 +167,139 @@ class OddsFetcher:
             
         return await self._make_api_request('odds', params)
 
-    def _filter_odds_data(self, odds_data: Dict) -> Dict:
-        """Filter odds data to include only target markets."""
-        filtered_data = {}
-        
-        if not odds_data or "response" not in odds_data:
-            print("No response data found in odds_data")
-            return filtered_data
-            
-        if not odds_data["response"]:
-            print("Empty response array in odds_data")
-            return filtered_data
-            
-        for response in odds_data["response"]:
-            bookmakers = response.get("bookmakers", [])
-            if not bookmakers:
-                print("No bookmakers found in response")
-                continue
+    async def _update_match_with_odds(self, date_str: str, fixture_id: str, raw_odds_response: List[Dict]) -> bool:
+        """Update the match document with the raw odds API response."""
+        try:
+            # Get existing match data
+            match_data = db_manager.get_match_data(date_str, fixture_id)
+            if not match_data:
+                logger.warning(f"No match data found for fixture {fixture_id} on {date_str}, cannot add odds.")
+                return False
                 
-            for bookmaker in bookmakers:
-                if str(bookmaker["id"]) == str(self.bet365_id):
-                    bets = bookmaker.get("bets", [])
-                    if not bets:
-                        print("No bets found for bookmaker")
-                        continue
-                        
-                    for bet in bets:
-                        if bet["name"] in self.target_markets:
-                            filtered_data[bet["name"]] = {
-                                "values": bet["values"],
-                                "id": bet["id"]
-                            }
-        
-        return filtered_data
+            # Add the full odds response list to match data
+            # Naming the field clearly to indicate it's the raw API response
+            match_data["odds_api_response"] = raw_odds_response 
+            
+            # Save updated match data
+            success = db_manager.save_match_data(date_str, fixture_id, match_data)
+            return success
+        except Exception as e:
+            logger.error(f"Error updating match with odds data: {str(e)}")
+            return False
 
-    def _get_date_path(self, date_str: str) -> Path:
-        """Get path for specific date."""
-        date = datetime.strptime(date_str, "%Y-%m-%d")
-        path = self.base_dir / str(date.year) / f"{date.month:02d}" / f"{date.day:02d}"
-        return path
-
-    def _sanitize_filename(self, filename: str) -> str:
-        """Sanitize filename by replacing invalid characters."""
-        return re.sub(r'[<>:"/\\|?*]', '_', filename)
-
-    async def process_daily_report(self, date_str: str, specific_matches=None):
+    async def process_daily_report(self, date_str: str) -> Dict[str, Any]:
         """
-        Process fixtures from MD files or specific matches and save odds data.
-        
+        Process fixtures from MongoDB for the given date and save the full odds API response 
+        directly to match documents.
+        Uses the new hierarchical database structure.
+
         Args:
             date_str: The date string in YYYY-MM-DD format
-            specific_matches: Optional list of specific matches to process
-                              Each match should be a dict with fixture.id, teams.home.name, teams.away.name
+
+        Returns:
+            A dictionary summarizing the results.
         """
         try:
-            logger.info(f"Processing fixtures for {date_str}...")
+            logger.info(f"Processing odds for fixtures on {date_str}...")
             
-            fixtures = []
+            # Get fixtures from the daily games data in MongoDB
+            all_fixtures_from_db = self._get_fixtures_from_games(date_str)
             
-            # If specific matches are provided, use them
-            if specific_matches:
-                logger.info(f"Processing {len(specific_matches)} specific matches")
-                for match in specific_matches:
-                    fixture_id = match.get("fixture", {}).get("id")
-                    home_team = match.get("teams", {}).get("home", {}).get("name", "Unknown")
-                    away_team = match.get("teams", {}).get("away", {}).get("name", "Unknown")
-                    league = match.get("league", {}).get("name", "Unknown")
-                    
-                    if fixture_id:
-                        fixtures.append((fixture_id, home_team, away_team, league))
-            else:
-                # Otherwise get fixtures from MD files
-                fixtures = self._get_fixtures_from_games(date_str)
-            
-            if not fixtures:
-                logger.warning("No valid fixtures found")
-                return {
-                    "successful": 0,
-                    "failed": 0,
-                    "successful_fixtures": [],
-                    "failed_fixtures": []
-                }
-            
-            # Create odds directory
-            date = datetime.strptime(date_str, "%Y-%m-%d")
-            date_path = self.base_dir / str(date.year) / f"{date.month:02d}" / f"{date.day:02d}"
-            odds_path = date_path / "odds"
-            odds_path.mkdir(parents=True, exist_ok=True)
-            
-            # Process each fixture and save to individual files
-            successful_fixtures = []
-            failed_fixtures = []
-            
-            # Log initial API usage
-            logger.info("\nInitial API Usage Stats:")
-            for key, stats in self.api_manager.get_usage_stats().items():
-                logger.info(f"API Key {key}:")
-                logger.info(f"  - Requests Made: {stats['requests_made']}")
-                logger.info(f"  - Requests Remaining: {stats['requests_remaining']}")
-            
-            for fixture_id, home_team, away_team, league in fixtures:
-                try:
-                    logger.info(f"Processing {home_team} vs {away_team} (ID: {fixture_id})")
-                    
-                    # Create filename based on team names
-                    sanitized_home = self._sanitize_filename(home_team)
-                    sanitized_away = self._sanitize_filename(away_team)
-                    team_filename = f"{sanitized_home}_vs_{sanitized_away}_{fixture_id}.json"
-                    
-                    # Create output file path
-                    output_file = odds_path / team_filename
-                    
-                    if output_file.exists():
-                        logger.info(f"File already exists for fixture {fixture_id}, skipping...")
-                        successful_fixtures.append((fixture_id, home_team, away_team))
-                        continue
-                    
-                    # Fetch odds data
-                    fixture_odds = await self.fetch_odds(fixture_id)
-                    
-                    if fixture_odds.get("errors"):
-                        logger.error(f"Error fetching odds for fixture {fixture_id}: {fixture_odds['errors']}")
-                        failed_fixtures.append((fixture_id, home_team, away_team, str(fixture_odds['errors'])))
-                        continue
-                    
-                    filtered_odds = self._filter_odds_data(fixture_odds)
-                    
-                    if filtered_odds:
-                        # Create fixture data structure
-                        fixture_data = {
-                            "fixture_id": fixture_id,
-                            "date": date_str,
-                            "match_info": {
-                                "home_team": home_team,
-                                "away_team": away_team,
-                                "league": league
-                            },
-                            "odds": filtered_odds
-                        }
-                        
-                        # Save fixture data
-                        with open(output_file, "w", encoding="utf-8") as f:
-                            json.dump(fixture_data, f, indent=2, ensure_ascii=False)
-                        
-                        logger.info(f"Saved odds data for fixture {fixture_id} to {output_file}")
-                        successful_fixtures.append((fixture_id, home_team, away_team))
-                    else:
-                        logger.warning(f"No odds data found for fixture {fixture_id}")
-                        failed_fixtures.append((fixture_id, home_team, away_team, "No odds data found"))
-                    
-                except Exception as e:
-                    logger.error(f"Error processing fixture {fixture_id}: {str(e)}")
-                    failed_fixtures.append((fixture_id, home_team, away_team, str(e)))
-            # Log final API usage
-            logger.info("\nFinal API Usage Stats:")
-            for key, stats in self.api_manager.get_usage_stats().items():
-                logger.info(f"API Key {key}:")
-                logger.info(f"  - Requests Made: {stats['requests_made']}")
-                logger.info(f"  - Requests Remaining: {stats['requests_remaining']}")
-            
-            return {
-                "successful": len(successful_fixtures),
-                "failed": len(failed_fixtures),
-                "successful_fixtures": successful_fixtures,
-                "failed_fixtures": failed_fixtures
+            # Prepare stats for return
+            stats = {
+                "successful": 0,
+                "failed": 0,
+                "skipped": 0
             }
+
+            if not all_fixtures_from_db:
+                logger.warning("No fixtures found to process odds for.")
+                return stats
+            
+            for fixture_id, home_team, away_team, league_name in all_fixtures_from_db:
+                try:
+                    # Check if match exists
+                    if not db_manager.check_match_exists(date_str, fixture_id):
+                        logger.warning(f"Match data not found for fixture {fixture_id}, skipping odds fetch")
+                        stats["skipped"] += 1
+                        continue
+                    
+                    # Check if match already has the odds response
+                    match_data = db_manager.get_match_data(date_str, fixture_id)
+                    # Check specifically for the new field name
+                    if match_data and "odds_api_response" in match_data and match_data["odds_api_response"] is not None:
+                        logger.info(f"Odds API response already exists for fixture {fixture_id}, skipping...")
+                        stats["skipped"] += 1
+                        continue
+                    
+                    # Fetch odds
+                    logger.info(f"Processing {home_team} vs {away_team} (ID: {fixture_id})")
+                    odds_response = await self.fetch_odds(fixture_id)
+                    
+                    if odds_response.get("errors"):
+                        logger.error(f"API error fetching odds for fixture {fixture_id}: {odds_response.get('errors')}")
+                        stats["failed"] += 1
+                        continue
+                    
+                    # Get the raw response list
+                    raw_odds_list = odds_response.get("response", [])
+                    
+                    if not raw_odds_list:
+                        logger.warning(f"No odds response data found for fixture {fixture_id}")
+                        # Consider if this is a failure or just no odds available
+                        stats["failed"] += 1 # Count as failed if no odds are returned by API
+                        continue
+                    
+                    # Update match document with the full odds list
+                    success = await self._update_match_with_odds(date_str, fixture_id, raw_odds_list)
+                    
+                    if success:
+                        logger.info(f"Successfully saved odds API response for fixture {fixture_id}")
+                        stats["successful"] += 1
+                    else:
+                        logger.error(f"Failed to save odds API response for fixture {fixture_id}")
+                        stats["failed"] += 1
+                
+                except Exception as e:
+                    logger.error(f"Error processing odds for fixture {fixture_id}: {str(e)}")
+                    stats["failed"] += 1
+            
+            # Log summary
+            logger.info(f"Odds processing complete for {date_str}")
+            logger.info(f"Successful: {stats['successful']}, Failed: {stats['failed']}, Skipped: {stats['skipped']}")
+            
+            return stats
             
         except Exception as e:
-            logger.error(f"Error processing fixtures: {str(e)}")
-            raise
+            logger.error(f"Error processing daily report: {str(e)}")
+            return {
+                "successful": 0, 
+                "failed": 0, 
+                "skipped": 0,
+                "error": str(e)
+            }
 
-    def process_daily_report_sync(self, date_str: str):
-        """Synchronous version of process_daily_report."""
-        try:
-            # Create event loop
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            
-            # Run the async function in the loop
-            results = loop.run_until_complete(self.process_daily_report(date_str))
-            
-            # Close the loop
-            loop.close()
-            
-            return results
-            
-        except Exception as e:
-            print(f"Error in process_daily_report_sync: {str(e)}")
-            return None
-
+# Main function for testing
 async def main():
-    """Main function to process daily report and fetch odds."""
+    args = parse_args()
+    fetcher = OddsFetcher()
+    
     try:
-        args = parse_args()
-        date_str = args.date
+        logger.info(f"Starting odds fetcher for date: {args.date}")
+        results = await fetcher.process_daily_report(args.date)
         
-        # Validate date format
-        try:
-            datetime.strptime(date_str, "%Y-%m-%d")
-        except ValueError:
-            logger.error("Error: Date must be in YYYY-MM-DD format")
-            return
-        
-        logger.info(f"Starting odds fetcher for date: {date_str}")
-        fetcher = OddsFetcher()
-        
-        # Process daily report
-        await fetcher.process_daily_report(date_str)
-        
-        logger.info("Odds fetching completed successfully!")
-        
-    except FileNotFoundError as e:
-        logger.error(f"Error: {str(e)}")
-        logger.error("Please ensure the daily report exists for the specified date.")
+        logger.info("===== Results =====")
+        logger.info(f"Date: {args.date}")
+        logger.info(f"Successful: {results.get('successful', 0)}")
+        logger.info(f"Failed: {results.get('failed', 0)}")
+        logger.info(f"Skipped: {results.get('skipped', 0)}")
+        if "error" in results:
+            logger.error(f"Error: {results['error']}")
+            
     except Exception as e:
-        logger.error(f"Error in main function: {str(e)}")
+        logger.error(f"Error in main execution: {str(e)}")
+    
+    logger.info("Odds fetching process complete")
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())

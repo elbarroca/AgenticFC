@@ -1,23 +1,21 @@
 import os
-import json
 import requests
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List
-import time
 import logging
-from src.betting.utils.api_manager import api_manager
+from .api_manager import api_manager
+from .db_mongo import db_manager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class GameScraper:
-    """Class to scrape football games from the API."""
+    """Class to scrape football games from the API and store them in the optimized MongoDB structure."""
     
-    def __init__(self, base_dir: str = "data"):
+    def __init__(self):
         """Initialize the scraper with API configuration."""
-        self.base_dir = Path(base_dir)
         self.base_url = "https://api-football-v1.p.rapidapi.com/v3"
         
         # Get API key from environment variable
@@ -37,40 +35,39 @@ class GameScraper:
             
             # Secondary Leagues
              "40": {"name": "Championship", "tier": 2, "country": "England"},           # England's second division
-            #"136": {"name": "Serie B", "tier": 2, "country": "Italy"},                # Italy's second division
+            "136": {"name": "Serie B", "tier": 2, "country": "Italy"},                # Italy's second division
              "79": {"name": "2. Bundesliga", "tier": 2, "country": "Germany"},         # Germany's second division
-             # "62": {"name": "Ligue 2", "tier": 2, "country": "France"},                # France's second division
+             "62": {"name": "Ligue 2", "tier": 2, "country": "France"},                # France's second division
              "141": {"name": "Segunda División", "tier": 2, "country": "Spain"},        # Spain's second division
             
             # Other Major European Leagues
              "88": {"name": "Eredivisie", "tier": 1, "country": "Netherlands"},        # Netherlands' top division
              "95": {"name": "Segunda Liga", "tier": 2, "country": "Portugal"},         # Portugal's second division
             "203": {"name": "Super Lig", "tier": 1, "country": "Turkey"},            # Turkey's top division
-             #"179": {"name": "Premiership", "tier": 1, "country": "Scotland"},        # Scotland's top division
+             "179": {"name": "Premiership", "tier": 1, "country": "Scotland"},        # Scotland's top division
 
              "144": {"name": "Jupiler Pro League", "tier": 1, "country": "Belgium"},  # Belgium's top division
              "89": {"name": "Eredivisie 2", "tier": 2, "country": "Netherlands"},     # Netherlands' second division
              "94": {"name": "Primeira Liga", "tier": 1, "country": "Portugal"},       # Portugal's top division
              "106": {"name": "Ekstraklasa", "tier": 1, "country": "Poland"},         # Poland's Ekstraklasa league
-            #"210": {"name": "HNL", "tier": 1, "country": "Croatia"},                # Croatia's HNL league
+             "210": {"name": "HNL", "tier": 1, "country": "Croatia"},                # Croatia's HNL league
             
             # Nordic Leagues
-            # "113": {"name": "Allsvenskan", "tier": 1, "country": "Sweden"},         # Sweden's top division
-            # "103": {"name": "Eliteserien", "tier": 1, "country": "Norway"},         # Norway's top division
+             "113": {"name": "Allsvenskan", "tier": 1, "country": "Sweden"},         # Sweden's top division
+             "103": {"name": "Eliteserien", "tier": 1, "country": "Norway"},         # Norway's top division
              "119": {"name": "Superliga", "tier": 1, "country": "Denmark"},          # Denmark's top division
             
             # Eastern European Leagues
              "283": {"name": "Liga 1", "tier": 1, "country": "Romania"},             # Romania's top division
-            # "392": {"name": "First League", "tier": 1, "country": "Montenegro"},    # Montenegro's top division
-            # "364": {"name": "A Lyga", "tier": 1, "country": "Lithuania"},           # Lithuania's top division
+             "392": {"name": "First League", "tier": 1, "country": "Montenegro"},    # Montenegro's top division
+             "364": {"name": "A Lyga", "tier": 1, "country": "Lithuania"},           # Lithuania's top division
 
-            #"289": {"name": "1st Division", "tier": 1, "country": "South-Africa"}, # South-Africa's top division
+             "289": {"name": "1st Division", "tier": 1, "country": "South-Africa"}, # South-Africa's top division
             
             # European Competitions
              "2": {"name": "UEFA Champions League", "tier": 1, "country": "Europe"},         # Europe's premier club competition
              "3": {"name": "UEFA Europa League", "tier": 1, "country": "Europe"},            # Europe's secondary club competition
              "848": {"name": "UEFA Europa Conference League", "tier": 1, "country": "Europe"} # Europe's tertiary club competition
-            #"96": {"name": "Taca de Portugal", "tier": 1, "country": "Portugal"},      # Portugal's cup competition
         }
         
         # Use all_leagues as the meaningful leagues (active leagues)
@@ -82,24 +79,7 @@ class GameScraper:
             "youth", "academy", "junior", "development"
         ]
         
-        # Setup directory
-        self._setup_directory_structure()
         logger.info("GameScraper initialized successfully")
-
-    def _setup_directory_structure(self):
-        """Create base directory structure if it doesn't exist."""
-        try:
-            self.base_dir.mkdir(parents=True, exist_ok=True)
-            print(f"Created directory structure at {self.base_dir}")
-        except Exception as e:
-            print(f"Error creating directory structure: {str(e)}")
-            raise
-
-    def _get_date_path(self, date: datetime) -> Path:
-        """Get path for specific date."""
-        path = self.base_dir / str(date.year) / f"{date.month:02d}" / f"{date.day:02d}"
-        path.mkdir(parents=True, exist_ok=True)
-        return path
 
     def _make_api_request(self, endpoint: str, params: Dict = None) -> Dict:
         """Make API request with rate limit handling."""
@@ -159,11 +139,69 @@ class GameScraper:
         
         return True
 
+    def _fetch_standings(self, league_id: str, season: int, date_str: str) -> Dict:
+        """Fetch standings for a specific league and season."""
+        logger.info(f"Fetching standings for league {league_id}, season {season}")
+        
+        response = self._make_api_request(
+            'standings',
+            {
+                "league": league_id,
+                "season": season
+            }
+        )
+        
+        if not response or "response" not in response or not response["response"]:
+            logger.warning(f"No standings found for league {league_id}, season {season}")
+            return {}
+        
+        standings_data = response["response"][0]
+        
+        # Optimize standings data structure
+        optimized_standings = {
+            "league": {
+                "id": str(standings_data.get("league", {}).get("id", "")),
+                "name": standings_data.get("league", {}).get("name", ""),
+                "country": standings_data.get("league", {}).get("country", ""),
+                "season": season
+            },
+            "standings": []
+        }
+        
+        # Extract only necessary standings data
+        for league_standings in standings_data.get("league", {}).get("standings", []):
+            standings_group = []
+            for team in league_standings:
+                optimized_team = {
+                    "rank": team.get("rank", 0),
+                    "team": {
+                        "id": str(team.get("team", {}).get("id", "")),
+                        "name": team.get("team", {}).get("name", "")
+                    },
+                    "points": team.get("points", 0),
+                    "goalsDiff": team.get("goalsDiff", 0),
+                    "form": team.get("form", ""),
+                    "all": {
+                        "played": team.get("all", {}).get("played", 0),
+                        "win": team.get("all", {}).get("win", 0),
+                        "draw": team.get("all", {}).get("draw", 0),
+                        "lose": team.get("all", {}).get("lose", 0),
+                        "goals": team.get("all", {}).get("goals", {})
+                    }
+                }
+                standings_group.append(optimized_team)
+            optimized_standings["standings"].append(standings_group)
+        
+        # Save standings data to MongoDB
+        db_manager.save_standings_data(date_str, league_id, season, optimized_standings)
+        
+        return optimized_standings
+
     def get_games(self, date: datetime) -> Dict:
-        """Get games for a specific date."""
+        """Get games for a specific date and save in the optimized structure."""
         try:
             api_date = date.strftime('%Y-%m-%d')
-            print(f"\nFetching matches for {api_date}")
+            logger.info(f"Fetching matches for {api_date}")
             
             # Initialize organized data structure
             organized_data = {
@@ -182,14 +220,16 @@ class GameScraper:
             )
             
             if not response or "response" not in response:
-                print("No matches found or API error")
+                logger.warning(f"No matches found or API error for {api_date}")
                 return organized_data
             
             matches = response["response"]
-            print(f"Found {len(matches)} total matches")
+            logger.info(f"Found {len(matches)} total matches")
             
             # Process matches
             filtered_count = 0
+            standings_cache = {}  # Cache standings to avoid duplicate API calls
+            
             for match in matches:
                 if not self._is_valid_match(match):
                     continue
@@ -208,21 +248,17 @@ class GameScraper:
                         "matches": []
                     }
                 
-                # Create match data
+                # Create match data with minimal required info
                 match_data = {
                     "id": str(match["fixture"]["id"]),
                     "time": match["fixture"]["date"],
                     "home_team": {
                         "id": str(match["teams"]["home"]["id"]),
-                        "name": match["teams"]["home"]["name"],
-                        "longName": match["teams"]["home"]["name"],
-                        "score": match["goals"]["home"] if match["goals"]["home"] is not None else 0
+                        "name": match["teams"]["home"]["name"]
                     },
                     "away_team": {
                         "id": str(match["teams"]["away"]["id"]),
-                        "name": match["teams"]["away"]["name"],
-                        "longName": match["teams"]["away"]["name"],
-                        "score": match["goals"]["away"] if match["goals"]["away"] is not None else 0
+                        "name": match["teams"]["away"]["name"]
                     },
                     "status": {
                         "started": match["fixture"]["status"]["short"] in ["1H", "2H", "HT", "ET", "P", "BT", "INT"],
@@ -236,89 +272,83 @@ class GameScraper:
                 organized_data["total_matches"] += 1
                 filtered_count += 1
                 
-                # Print match info
-                status = "Not Started"
-                if match_data["status"]["started"]:
-                    status = f"Live ({match_data['status']['time']})"
-                if match_data["status"]["finished"]:
-                    status = "Finished"
+                # Fetch standings for this league if not already in cache
+                if league_id not in standings_cache:
+                    standings_cache[league_id] = self._fetch_standings(league_id, 2024, api_date)
                 
-                print(f"  ✓ [{league_name}] {match_data['home_team']['name']} vs {match_data['away_team']['name']}")
-                print(f"    Time: {match_data['time']}")
-                print(f"    Status: {status}")
-                if match_data["status"]["started"] or match_data["status"]["finished"]:
-                    print(f"    Score: {match_data['status']['score']}")
+                # Prepare detailed match data for the matches collection
+                fixture_id = str(match["fixture"]["id"])
+                
+                detailed_match = {
+                    "league_id": league_id,
+                    "league_name": league_name,
+                    "home_team": {
+                        "id": str(match["teams"]["home"]["id"]),
+                        "name": match["teams"]["home"]["name"],
+                        "logo": match["teams"]["home"].get("logo", "")
+                    },
+                    "away_team": {
+                        "id": str(match["teams"]["away"]["id"]),
+                        "name": match["teams"]["away"]["name"],
+                        "logo": match["teams"]["away"].get("logo", "")
+                    },
+                    "match_info": {
+                        "id": fixture_id,
+                        "referee": match["fixture"].get("referee", ""),
+                        "venue": {
+                            "name": match["fixture"].get("venue", {}).get("name", ""),
+                            "city": match["fixture"].get("venue", {}).get("city", "")
+                        },
+                        "status": match["fixture"]["status"],
+                        "date": match["fixture"]["date"],
+                        "timestamp": match["fixture"].get("timestamp", 0)
+                    },
+                    "goals": match["goals"],
+                    "standings": standings_cache.get(league_id, {})
+                }
+                
+                # Save detailed match data
+                db_manager.save_match_data(api_date, fixture_id, detailed_match)
             
             # Print summary
             if organized_data["total_matches"] > 0:
-                print(f"\nFound {filtered_count} meaningful matches in {len(organized_data['leagues'])} leagues")
-                print("\nLeagues with matches:")
+                logger.info(f"Found {filtered_count} meaningful matches in {len(organized_data['leagues'])} leagues")
                 for league_id, league_data in organized_data["leagues"].items():
-                    print(f"\n{league_data['name']} (Tier {league_data['tier']}) - {len(league_data['matches'])} matches")
+                    logger.info(f"{league_data['name']} (Tier {league_data['tier']}) - {len(league_data['matches'])} matches")
             else:
-                print("\nNo meaningful matches found for this date")
+                logger.warning(f"No meaningful matches found for date {api_date}")
+            
+            # Save daily games summary to MongoDB
+            if organized_data["total_matches"] > 0:
+                logger.info(f"Saving {api_date} games data to MongoDB...")
+                try:
+                    success = db_manager.save_daily_games(api_date, organized_data)
+                    if success:
+                        logger.info(f"Daily games data for {api_date} saved successfully to MongoDB")
+                    else:
+                        logger.error(f"Failed to save daily games data for {api_date} to MongoDB")
+                except Exception as db_e:
+                    logger.error(f"Error saving games data to MongoDB: {db_e}")
             
             return organized_data
             
         except Exception as e:
-            print(f"\nError fetching games: {str(e)}")
-            return {
-                "date": date.strftime('%Y-%m-%d'),
-                "total_matches": 0,
-                "leagues": {}
-            }
+            logger.error(f"Error in get_games: {str(e)}", exc_info=True)
+            return {"date": date.strftime('%Y-%m-%d'), "total_matches": 0, "leagues": {}, "error": str(e)}
 
-    def save_games(self, games_data: Dict):
-        """Save games data to a JSON file."""
-        if not games_data.get("total_matches", 0):
-            print("No games to save")
-            return
-
-        try:
-            date = datetime.strptime(games_data["date"], "%Y-%m-%d")
-            date_path = self._get_date_path(date)
-            games_file = date_path / "games.json"
-            
-            print(f"\nSaving matches data to {games_file}")
-            with open(games_file, "w", encoding="utf-8") as f:
-                json.dump(games_data, f, indent=2, ensure_ascii=False)
-            print("Data saved successfully")
-            
-        except Exception as e:
-            print(f"Error saving games data: {str(e)}")
-
+# Main function for testing
 def main():
-    """Main function to scrape games for tomorrow."""
-    try:
-        logger.info("Starting game scraper...")
-        scraper = GameScraper()
-        
-        # Log API usage before starting
-        logger.info("Current API Usage Stats:")
-        for key, stats in api_manager.get_usage_stats().items():
-            logger.info(f"API Key {key}:")
-            logger.info(f"  - Requests Made: {stats['requests_made']}")
-            logger.info(f"  - Requests Remaining: {stats['requests_remaining']}")
-            logger.info(f"  - Time until reset: {stats['time_until_reset']}")
-        
-        tomorrow = datetime.now() + timedelta(days=1)
-        logger.info(f"\nProcessing games for tomorrow: {tomorrow.strftime('%Y-%m-%d')}")
-        
-        games_data = scraper.get_games(tomorrow)
-        if games_data["total_matches"] > 0:
-            scraper.save_games(games_data)
-        
-        # Log final API usage
-        logger.info("\nFinal API Usage Stats:")
-        for key, stats in api_manager.get_usage_stats().items():
-            logger.info(f"API Key {key}:")
-            logger.info(f"  - Requests Made: {stats['requests_made']}")
-            logger.info(f"  - Requests Remaining: {stats['requests_remaining']}")
-        
-        logger.info("\nGame scraping completed successfully!")
-        
-    except Exception as e:
-        logger.error(f"\nError in main function: {str(e)}")
-
+    # Setup logging
+    logging.basicConfig(level=logging.INFO)
+    
+    # Create scraper
+    scraper = GameScraper()
+    
+    # Get games for today
+    today = datetime.now()
+    games = scraper.get_games(today)
+    
+    print(f"Total matches: {games['total_matches']}")
+    
 if __name__ == "__main__":
     main() 

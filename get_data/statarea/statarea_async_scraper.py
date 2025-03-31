@@ -1,7 +1,4 @@
 import asyncio
-import winloop
-asyncio.set_event_loop_policy(winloop.EventLoopPolicy())
-
 import aiohttp
 from bs4 import BeautifulSoup
 import logging
@@ -14,7 +11,7 @@ from typing import Dict, List, Optional
 from itertools import islice
 import hashlib
 # Import your team list (modify path as needed)
-from valid_teams import TEAMS
+from get_data.statarea.valid_teams import TEAMS
 
 # ======================
 # Configuration

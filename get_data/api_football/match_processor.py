@@ -1,10 +1,8 @@
-import os
 import sys
 import json
 import time
-import requests
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, Any
 from pathlib import Path
 import asyncio
 import aiohttp
@@ -19,7 +17,8 @@ logger = logging.getLogger(__name__)
 project_root = str(Path(__file__).resolve().parent.parent.parent.parent)
 sys.path.insert(0, project_root)
 
-from src.betting.utils.api_manager import api_manager  # Import the API manager
+from .api_manager import api_manager  # Import the API manager
+from .db_mongo import db_manager # Import the DB manager
 
 class RateLimiter:
     def __init__(self, calls_per_minute: int = 29):
@@ -36,49 +35,11 @@ class RateLimiter:
         self.last_call_time = time.time()
 
 class MatchProcessor:
-    def __init__(self, base_dir: str = "data"):
-        """Initialize MatchProcessor with base directory for data storage."""
-        self.base_dir = Path(base_dir)
-        self._setup_directory_structure()
+    def __init__(self):
+        """Initialize MatchProcessor."""
         self.api_base_url = "https://api-football-v1.p.rapidapi.com/v3"
         self.rate_limiter = RateLimiter(calls_per_minute=25)
-        logger.info(f"Initialized MatchProcessor with base directory: {self.base_dir}")
-
-    def _setup_directory_structure(self):
-        """Create base directory structure if it doesn't exist."""
-        try:
-            self.base_dir.mkdir(parents=True, exist_ok=True)
-            logger.info(f"Created directory structure at {self.base_dir}")
-        except Exception as e:
-            logger.error(f"Error creating directory structure: {str(e)}")
-            raise
-
-    def _get_date_path(self, date_str: str) -> Path:
-        """Get path for specific date."""
-        date = datetime.strptime(date_str, "%Y-%m-%d")
-        path = self.base_dir / str(date.year) / f"{date.month:02d}" / f"{date.day:02d}"
-        path.mkdir(parents=True, exist_ok=True)
-        logger.info(f"Generated date path: {path}")
-        return path
-
-    def _sanitize_filename(self, name: str) -> str:
-        """Sanitize string to be used as a folder name."""
-        sanitized = "".join(c if c.isalnum() or c.isspace() else "_" for c in name)
-        sanitized = "_".join(filter(None, sanitized.split("_")))
-        return sanitized
-
-    def _get_league_path(self, base_path: Path, league_name: str) -> Path:
-        """Get path for league."""
-        sanitized_name = self._sanitize_filename(league_name)
-        league_path = base_path / sanitized_name
-        league_path.mkdir(exist_ok=True)
-        return league_path
-
-    def _get_match_filename(self, home_team: str, away_team: str) -> str:
-        """Generate match filename from team names."""
-        home = self._sanitize_filename(home_team)
-        away = self._sanitize_filename(away_team)
-        return f"{home}_vs_{away}.json"
+        logger.info(f"Initialized MatchProcessor")
 
     async def _make_api_request(self, endpoint: str, params: Dict, retry_count: int = 3) -> Dict:
         """Make API request with rate limit handling and retries."""
@@ -123,7 +84,7 @@ class MatchProcessor:
 
     async def _fetch_league_standings(self, league_id: str, season: int) -> Dict:
         """Fetch standings data for a league."""
-        logger.info(f"\nFetching standings for league {league_id}...")
+        logger.info(f"Fetching standings for league {league_id}...")
         return await self._make_api_request('standings', {
             'league': league_id,
             'season': season
@@ -131,7 +92,7 @@ class MatchProcessor:
 
     async def _fetch_team_statistics(self, team_id: str, league_id: str, season: int) -> Dict:
         """Fetch team statistics for the current season."""
-        logger.info(f"\nFetching team statistics for team {team_id}...")
+        logger.info(f"Fetching team statistics for team {team_id}...")
         return await self._make_api_request('teams/statistics', {
             'team': team_id,
             'league': league_id,
@@ -140,219 +101,208 @@ class MatchProcessor:
 
     async def _fetch_predictions(self, fixture_id: str) -> Dict:
         """Fetch predictions for a specific fixture."""
-        logger.info(f"\nFetching predictions for fixture {fixture_id}...")
+        logger.info(f"Fetching predictions for fixture {fixture_id}...")
         return await self._make_api_request('predictions', {
             'fixture': fixture_id
         })
 
-    async def process_games_file_async(self, games_file: str):
-        """Process all matches from a games file asynchronously."""
-        try:
-            logger.info(f"\nLoading games file: {games_file}")
-            with open(games_file, "r") as f:
-                games_data = json.load(f)
+    def _optimize_team_stats(self, raw_stats: Dict) -> Dict:
+        """Extract and optimize relevant team statistics."""
+        if not raw_stats or not raw_stats.get("response"):
+            return {}
             
-            date = games_data.get("date")
-            if not date:
-                logger.error("Error: No date found in games data")
-                return
-                
-            base_path = self._get_date_path(date)
+        stats = raw_stats.get("response", {})
+        
+        # Extract only needed stats to reduce size
+        return {
+            "form": stats.get("form", ""),
+            "fixtures": {
+                "played": stats.get("fixtures", {}).get("played", {}),
+                "wins": stats.get("fixtures", {}).get("wins", {}),
+                "draws": stats.get("fixtures", {}).get("draws", {}),
+                "loses": stats.get("fixtures", {}).get("loses", {})
+            },
+            "goals": {
+                "for": stats.get("goals", {}).get("for", {}),
+                "against": stats.get("goals", {}).get("against", {})
+            },
+            "biggest": {
+                "streak": stats.get("biggest", {}).get("streak", {}),
+                "wins": stats.get("biggest", {}).get("wins", {}),
+                "loses": stats.get("biggest", {}).get("loses", {})
+            },
+            "clean_sheet": stats.get("clean_sheet", {}),
+            "failed_to_score": stats.get("failed_to_score", {})
+        }
+        
+    def _optimize_predictions(self, raw_predictions: Dict) -> Dict:
+        """Extract and optimize prediction data."""
+        if not raw_predictions or not raw_predictions.get("response"):
+            return {}
             
-            # Save original games data
-            with open(base_path / "games.json", "w") as f:
-                json.dump(games_data, f, indent=2)
-            
-            # Get current season
-            current_date = datetime.strptime(date, "%Y-%m-%d")
-            season = current_date.year if current_date.month > 6 else current_date.year - 1
-            
-            # Process each league
-            for league_id, league_data in games_data.get("leagues", {}).items():
-                league_name = league_data.get("name", "Unknown_League")
-                logger.info(f"\nProcessing league: {league_name}")
-                
-                # Create league directory
-                league_path = self._get_league_path(base_path, league_name)
-                
-                # Fetch and save league standings
-                standings_data = await self._fetch_league_standings(league_id, season)
-                if not standings_data.get("errors"):
-                    with open(league_path / "standings.json", "w") as f:
-                        json.dump(standings_data, f, indent=2)
-                
-                # Process each match in the league
-                for match in league_data.get("matches", []):
-                    match_id = match.get("id")
-                    if not match_id:
-                        logger.info("Skipping match - no match ID found")
-                        continue
-                    
-                    # Get team names
-                    home_team = match.get("home_team", {})
-                    away_team = match.get("away_team", {})
-                    home_team_name = home_team.get("name", "Unknown_Home")
-                    away_team_name = away_team.get("name", "Unknown_Away")
-                    logger.info(f"\nProcessing match: {home_team_name} vs {away_team_name}")
-                    
-                    # Create match data structure
-                    match_data = {
-                        "match_info": match,
-                        "predictions": None,
-                        "home_team_stats": None,
-                        "away_team_stats": None
-                    }
-                    
-                    # Only fetch predictions and stats if match hasn't started
-                    if not match.get("status", {}).get("started", False):
-                        # Fetch predictions
-                        predictions_data = await self._fetch_predictions(match_id)
-                        if not predictions_data.get("errors"):
-                            match_data["predictions"] = predictions_data
-                        
-                        # Fetch team statistics
-                        for team_type, team in [("home_team_stats", home_team), ("away_team_stats", away_team)]:
-                            team_id = team.get("id")
-                            if team_id:
-                                team_stats = await self._fetch_team_statistics(team_id, league_id, season)
-                                if not team_stats.get("errors"):
-                                    match_data[team_type] = team_stats
-                    
-                    # Save match data with team names in filename
-                    match_filename = self._get_match_filename(home_team_name, away_team_name)
-                    with open(league_path / match_filename, "w") as f:
-                        json.dump(match_data, f, indent=2)
-                    
-                    logger.info(f"Completed processing match {match_id}")
-                    # No fixed sleep here - rate limiter handles delays
-                
-                logger.info(f"Completed processing league {league_name}")
-                # No fixed sleep here - rate limiter handles delays
+        predictions = raw_predictions.get("response", [])[0] if raw_predictions.get("response") else {}
+        
+        # Extract only relevant prediction data
+        return {
+            "comparison": predictions.get("comparison", {}),
+            "predictions": {
+                "winner": predictions.get("predictions", {}).get("winner", {}),
+                "win_or_draw": predictions.get("predictions", {}).get("win_or_draw", False),
+                "under_over": predictions.get("predictions", {}).get("under_over", ""),
+                "goals": predictions.get("predictions", {}).get("goals", {}),
+                "advice": predictions.get("predictions", {}).get("advice", "")
+            },
+            "h2h": [] # We'll exclude h2h to save space
+        }
 
-        except Exception as e:
-            logger.error(f"Error processing games file: {str(e)}")
-            import traceback
-            logger.error(traceback.format_exc())
-            raise  # Re-raise the exception to be caught by the workflow
-
-    async def process_games_data_async(self, games_data: Dict, base_path: Path) -> Dict[str, Any]:
-        """Process all matches from games data asynchronously."""
+    async def process_games_data_async(self, games_data: Dict) -> Dict[str, Any]:
+        """Process all matches from games data asynchronously using the new hierarchical DB structure.
+           Saves FULL raw API responses for standings, stats, and predictions.
+        """
         try:
-            date = games_data.get("date")
-            if not date:
+            date_str = games_data.get("date")
+            if not date_str:
                 error_msg = "No date found in games data"
                 logger.error(f"❌ {error_msg}")
                 return {"status": "error", "error": error_msg}
             
-            # Get current season
-            current_date = datetime.strptime(date, "%Y-%m-%d")
+            # Get current season based on the processing date
+            current_date = datetime.strptime(date_str, "%Y-%m-%d")
             season = current_date.year if current_date.month > 6 else current_date.year - 1
             
-            # Process each league
+            # Track processing statistics
+            stats = {
+                "leagues_processed": 0,
+                "matches_processed": 0,
+                "matches_skipped": 0,
+                "errors": 0
+            }
+            
+            standings_cache = {} # Cache for raw standings response per league
+            
             for league_id, league_data in games_data.get("leagues", {}).items():
                 league_name = league_data.get("name", "Unknown_League")
-                logger.info(f"\nProcessing league: {league_name}")
+                logger.info(f"Processing league: {league_name} (ID: {league_id})")
                 
-                # Create league directory
-                league_path = base_path / league_name
-                league_path.mkdir(parents=True, exist_ok=True)
-                
-                # Fetch and save league standings
-                standings_data = await self._fetch_league_standings(league_id, season)
-                if not standings_data.get("errors"):
-                    with open(league_path / "standings.json", "w") as f:
-                        json.dump(standings_data, f, indent=2)
-                
-                # Process each match in the league
-                for match in league_data.get("matches", []):
-                    match_id = match.get("id")
-                    if not match_id:
-                        logger.info("Skipping match - no match ID found")
-                        continue
-                    
-                    # Get team names
-                    home_team = match.get("home_team", {})
-                    away_team = match.get("away_team", {})
-                    home_team_name = home_team.get("name", "Unknown_Home")
-                    away_team_name = away_team.get("name", "Unknown_Away")
-                    logger.info(f"\nProcessing match: {home_team_name} vs {away_team_name}")
-                    
-                    # Create match data structure
-                    match_data = {
-                        "match_info": match,
-                        "predictions": None,
-                        "home_team_stats": None,
-                        "away_team_stats": None
-                    }
-                    
-                    # Only fetch predictions and stats if match hasn't started
-                    if not match.get("status", {}).get("started", False):
-                        # Fetch predictions
-                        predictions_data = await self._fetch_predictions(match_id)
-                        if not predictions_data.get("errors"):
-                            match_data["predictions"] = predictions_data
+                try:
+                    # --- Fetch and save league standings (RAW) --- 
+                    if league_id not in standings_cache:
+                        standings_data = await self._fetch_league_standings(league_id, season)
+                        raw_standings_response = standings_data.get("response")
+                        standings_cache[league_id] = raw_standings_response # Cache the raw response list
                         
-                        # Fetch team statistics
-                        for team_type, team in [("home_team_stats", home_team), ("away_team_stats", away_team)]:
-                            team_id = team.get("id")
-                            if team_id:
-                                team_stats = await self._fetch_team_statistics(team_id, league_id, season)
-                                if not team_stats.get("errors"):
-                                    match_data[team_type] = team_stats
+                        if raw_standings_response:
+                            # Prepare raw standings payload for the standings collection
+                            standings_payload = {
+                                # _id is handled by save_standings_data
+                                "league_id": str(league_id),
+                                "season": season,
+                                "date": date_str, 
+                                "standings_api_response": raw_standings_response # Store the raw array
+                            }
+                            # Save raw standings data to its dedicated collection
+                            success = db_manager.save_standings_data(date_str, league_id, season, standings_payload)
+                            if success:
+                                logger.info(f"Saved raw standings for league {league_id} ({season}) to standings collection")
+                            else:
+                                logger.error(f"Failed to save raw standings for league {league_id} to standings collection")
+                        else:
+                            logger.warning(f"No standings data available or API error for league {league_id}")
                     
-                    # Save match data with team names in filename
-                    match_filename = self._get_match_filename(home_team_name, away_team_name)
-                    with open(league_path / match_filename, "w") as f:
-                        json.dump(match_data, f, indent=2)
-                    
-                    logger.info(f"✅ Completed processing match {match_id}")
-                    # No fixed sleep here - rate limiter handles delays
-                
-                logger.info(f"✅ Completed processing league {league_name}")
-                # No fixed sleep here - rate limiter handles delays
+                    # Get cached raw standings for embedding snapshot
+                    current_league_standings_response = standings_cache.get(league_id)
 
-            return {"status": "success"}
+                    # --- Process each match in the league --- 
+                    for match in league_data.get("matches", []):
+                        fixture_id = str(match.get("id", ""))
+                        if not fixture_id:
+                            logger.warning("Skipping match - no match ID found")
+                            stats["errors"] += 1
+                            continue
+                        
+                        # Get team names for logging
+                        home_team = match.get("home_team", {})
+                        away_team = match.get("away_team", {})
+                        home_team_name = home_team.get("name", "Unknown_Home")
+                        away_team_name = away_team.get("name", "Unknown_Away")
+                        logger.info(f"Processing match: {home_team_name} vs {away_team_name} (ID: {fixture_id})")
+                        
+                        # Check if match data already exists in the database
+                        # NOTE: This check might prevent updates if you run the processor again.
+                        # Consider if you want to overwrite or just skip.
+                        existing_match = db_manager.get_match_data(date_str, fixture_id)
+                        if existing_match and existing_match.get("predictions") and existing_match.get("home_team_stats") and existing_match.get("away_team_stats"):
+                             logger.info(f"Stats & Predictions already exist for fixture {fixture_id}. Skipping fetch.")
+                             stats["matches_skipped"] += 1
+                             continue # Skip if we already have predictions and stats
+                        elif existing_match:
+                             logger.info(f"Match {fixture_id} exists, will update with stats/predictions.")
+                        else:
+                             logger.warning(f"Match {fixture_id} not found in DB, cannot add stats/predictions. Should have been created by GameScraper.")
+                             stats["errors"] += 1
+                             continue # Cannot update a non-existent match
+                        
+                        # Fetch additional data for the match (RAW)
+                        try:
+                            # Fetch predictions (RAW)
+                            predictions_data = await self._fetch_predictions(fixture_id)
+                            raw_predictions_response = predictions_data.get("response")
+                            
+                            # Fetch team statistics (RAW)
+                            home_team_id = str(home_team.get("id", ""))
+                            away_team_id = str(away_team.get("id", ""))
+                            
+                            raw_home_stats_response = None
+                            raw_away_stats_response = None
+                            
+                            if home_team_id:
+                                home_stats_data = await self._fetch_team_statistics(home_team_id, league_id, season)
+                                raw_home_stats_response = home_stats_data.get("response")
+                            
+                            if away_team_id:
+                                away_stats_data = await self._fetch_team_statistics(away_team_id, league_id, season)
+                                raw_away_stats_response = away_stats_data.get("response")
+                            
+                            # Prepare update for the existing match document
+                            update_payload = { 
+                                "predictions": raw_predictions_response[0] if raw_predictions_response else None,
+                                "home_team_stats": raw_home_stats_response, 
+                                "away_team_stats": raw_away_stats_response,
+                                # Embed snapshot of standings league info from the cached raw response
+                                "standings_snapshot": current_league_standings_response[0].get("league", {}) if current_league_standings_response else {} 
+                            }
+
+                            # Merge and save
+                            final_match_data = {**existing_match, **update_payload}
+                            success = db_manager.save_match_data(date_str, fixture_id, final_match_data)
+                            if success:
+                                logger.info(f"Updated match data for fixture {fixture_id} with stats/predictions")
+                                stats["matches_processed"] += 1
+                            else:
+                                logger.error(f"Failed to update match data for fixture {fixture_id}")
+                                stats["errors"] += 1
+                                
+                        except Exception as match_e:
+                            logger.error(f"Error fetching/updating match {fixture_id}: {str(match_e)}")
+                            stats["errors"] += 1
+                    
+                    stats["leagues_processed"] += 1
+                    
+                except Exception as league_e:
+                    logger.error(f"Error processing league {league_id}: {str(league_e)}")
+                    stats["errors"] += 1
+            
+            # Return processing results
+            success = stats["errors"] == 0
+            return {
+                "status": "success" if success else "partial_failure",
+                "date": date_str,
+                "stats": stats,
+                "message": f"Processed {stats['leagues_processed']} leagues, updated {stats['matches_processed']} matches with {stats['errors']} errors."
+            }
 
         except Exception as e:
             error_msg = f"Error processing games data: {str(e)}"
             logger.error(f"❌ {error_msg}")
             logger.error(traceback.format_exc())
-            return {"status": "error", "error": error_msg}
-
-async def main():
-    """Main function to process matches."""
-    try:
-        logger.info("Starting match processor...")
-        processor = MatchProcessor()
-        
-        # Log initial API usage
-        logger.info("Current API Usage Stats:")
-        for key, stats in api_manager.get_usage_stats().items():
-            logger.info(f"API Key {key}:")
-            logger.info(f"  - Requests Made: {stats['requests_made']}")
-            logger.info(f"  - Requests Remaining: {stats['requests_remaining']}")
-            logger.info(f"  - Time until reset: {stats['time_until_reset']}")
-        
-        # Process the specific games file we have
-        games_file = "data/2025/01/07/games.json"
-        
-        if not Path(games_file).exists():
-            logger.error(f"Error: Games file not found at {games_file}")
-            return
-        
-        await processor.process_games_file_async(str(games_file))
-        
-        # Log final API usage
-        logger.info("\nFinal API Usage Stats:")
-        for key, stats in api_manager.get_usage_stats().items():
-            logger.info(f"API Key {key}:")
-            logger.info(f"  - Requests Made: {stats['requests_made']}")
-            logger.info(f"  - Requests Remaining: {stats['requests_remaining']}")
-        
-        logger.info("\nMatch processing completed successfully!")
-        
-    except Exception as e:
-        logger.error(f"Error in main function: {str(e)}")
-
-if __name__ == "__main__":
-    asyncio.run(main()) 
+            return {"status": "error", "error": error_msg} 

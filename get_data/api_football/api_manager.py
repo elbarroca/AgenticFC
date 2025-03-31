@@ -1,11 +1,10 @@
 import time
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Dict, Optional, Tuple, List
 import logging
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -70,9 +69,6 @@ class APIManager:
         if api_keys:
             self.api_keys = api_keys
         else:
-            # Load environment variables
-            load_dotenv()
-            
             # Try to get API keys from environment variables
             env_keys = [
                 os.getenv("RAPID_API_KEY_1"),
