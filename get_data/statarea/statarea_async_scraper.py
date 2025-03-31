@@ -10,8 +10,13 @@ import json
 from typing import Dict, List, Optional
 from itertools import islice
 import hashlib
-# Import your team list (modify path as needed)
-from get_data.statarea.valid_teams import TEAMS
+import platform
+# Import team data with API IDs from the same directory
+from team_data import TEAM_DATA
+
+# Fix for Windows event loop
+if platform.system() == 'Windows':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 # ======================
 # Configuration
@@ -123,7 +128,7 @@ def initialize_database(db_name: str = 'statarea_stats.db'):
     
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS teams (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
         country TEXT NOT NULL,
         last_scraped TEXT,
@@ -137,7 +142,7 @@ def initialize_database(db_name: str = 'statarea_stats.db'):
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS general_stats (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        team_id INTEGER,
+        team_id TEXT,
         game_type TEXT CHECK(game_type IN ('host', 'guest')),
         period INTEGER CHECK(period IN (5, 10, 15)),
         scrape_date TEXT,
@@ -151,7 +156,7 @@ def initialize_database(db_name: str = 'statarea_stats.db'):
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS bet_stats (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        team_id INTEGER,
+        team_id TEXT,
         game_type TEXT CHECK(game_type IN ('host', 'guest')),
         period INTEGER CHECK(period IN (5, 10, 15)),
         scrape_date TEXT,
@@ -195,15 +200,15 @@ def purge_chronic_failures(max_retries=5):
     conn.commit()
     conn.close()
 
-def needs_scraping(team: str, country: str, db_name: str = 'statarea_stats.db') -> bool:
+def needs_scraping(team: str, country: str, api_id: str, db_name: str = 'statarea_stats.db') -> bool:
     """Check if team needs to be scraped based on last_scraped time and status"""
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
     
     cursor.execute('''
     SELECT last_scraped, status FROM teams 
-    WHERE name = ? AND country = ?
-    ''', (team, country))
+    WHERE id = ?
+    ''', (api_id,))
     
     result = cursor.fetchone()
     conn.close()
@@ -229,6 +234,7 @@ async def scrape_team_stats_async(
     team: str,
     game_type: str,
     country: str,
+    api_id: str,
     period: int = 10,
     max_retries: int = MAX_RETRIES
 ) -> Optional[Dict]:
@@ -240,8 +246,8 @@ async def scrape_team_stats_async(
     cursor = conn.cursor()
     cursor.execute('''
     UPDATE teams SET status = 'pending'
-    WHERE name = ? AND country = ?
-    ''', (team, country))
+    WHERE id = ?
+    ''', (api_id,))
     conn.commit()
     conn.close()
     
@@ -250,8 +256,8 @@ async def scrape_team_stats_async(
     cursor = conn.cursor()
     cursor.execute('''
     SELECT content_hash FROM teams 
-    WHERE name = ? AND country = ?
-    ''', (team, country))
+    WHERE id = ?
+    ''', (api_id,))
     result = cursor.fetchone()
     previous_hash = result[0] if result else None
     conn.close()
@@ -282,6 +288,7 @@ async def scrape_team_stats_async(
                     return {
                         'team': team,
                         'country': country,
+                        'api_id': api_id,
                         'game_type': game_type,
                         'period': period,
                         'scrape_date': datetime.now().isoformat(),
@@ -317,7 +324,7 @@ def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
     if not stats:
         # Explicit failure case
         status = 'failed'
-        stats = {'team': 'unknown', 'country': 'unknown', 'scrape_date': datetime.now().isoformat()}
+        stats = {'team': 'unknown', 'country': 'unknown', 'api_id': 'unknown', 'scrape_date': datetime.now().isoformat()}
     else:
         status = 'success' if stats.get('general_statistics') else 'failed'
     
@@ -328,9 +335,10 @@ def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
         # Get or create team record
         cursor.execute('''
         INSERT OR IGNORE INTO teams 
-        (name, country, last_scraped, content_hash, status)
-        VALUES (?, ?, ?, ?, ?)
+        (id, name, country, last_scraped, content_hash, status)
+        VALUES (?, ?, ?, ?, ?, ?)
         ''', (
+            stats['api_id'],
             stats['team'], 
             stats['country'],
             stats['scrape_date'],
@@ -343,8 +351,7 @@ def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
             'last_scraped': stats['scrape_date'],
             'content_hash': stats.get('content_hash'),
             'status': status,
-            'team': stats['team'],
-            'country': stats['country']
+            'api_id': stats['api_id']
         }
         
         if status == 'failed':
@@ -354,7 +361,7 @@ def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
                 content_hash = :content_hash,
                 status = :status,
                 retry_count = retry_count + 1
-            WHERE name = :team AND country = :country
+            WHERE id = :api_id
             ''', update_params)
         else:
             cursor.execute('''
@@ -362,27 +369,21 @@ def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
                 last_scraped = :last_scraped,
                 content_hash = :content_hash,
                 status = :status
-            WHERE name = :team AND country = :country
+            WHERE id = :api_id
             ''', update_params)
         
         # Only save stats if successful
         if status == 'success':
-            # Get team ID
-            cursor.execute('''
-            SELECT id FROM teams WHERE name = ? AND country = ?
-            ''', (stats['team'], stats['country']))
-            team_id = cursor.fetchone()[0]
-            
             # Clear old stats first
             cursor.execute('''
             DELETE FROM general_stats 
             WHERE team_id = ? AND game_type = ? AND period = ?
-            ''', (team_id, stats['game_type'], stats['period']))
+            ''', (stats['api_id'], stats['game_type'], stats['period']))
             
             cursor.execute('''
             DELETE FROM bet_stats 
             WHERE team_id = ? AND game_type = ? AND period = ?
-            ''', (team_id, stats['game_type'], stats['period']))
+            ''', (stats['api_id'], stats['game_type'], stats['period']))
             
             # Save general stats
             for stat_name, stat_value in stats['general_statistics'].items():
@@ -391,7 +392,7 @@ def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
                 (team_id, game_type, period, scrape_date, stat_name, stat_value)
                 VALUES (?, ?, ?, ?, ?, ?)
                 ''', (
-                    team_id, stats['game_type'], stats['period'],
+                    stats['api_id'], stats['game_type'], stats['period'],
                     stats['scrape_date'], stat_name, stat_value
                 ))
             
@@ -403,7 +404,7 @@ def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
                     (team_id, game_type, period, scrape_date, category, stat_name, stat_value)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
                     ''', (
-                        team_id, stats['game_type'], stats['period'],
+                        stats['api_id'], stats['game_type'], stats['period'],
                         stats['scrape_date'], category, stat_name, stat_value
                     ))
         
@@ -422,22 +423,23 @@ async def scrape_with_progress(
     session: aiohttp.ClientSession,
     team: str,
     country: str,
+    api_id: str,
     game_type: str,
     period: int
 ) -> Optional[Dict]:
     """Wrapper to handle progress tracking"""
-    if not needs_scraping(team, country):
+    if not needs_scraping(team, country, api_id):
         progress['skipped'] += 1
         progress['completed'] += 1
         return None
         
-    result = await scrape_team_stats_async(session, team, game_type, country, period)
+    result = await scrape_team_stats_async(session, team, game_type, country, api_id, period)
     update_progress(result is not None, team)
     save_checkpoint()
     return result
 
 async def scrape_all_teams_async(
-    teams: Dict[str, str],
+    teams: Dict[str, Dict],
     periods: List[int] = [10],
     max_concurrent: int = MAX_CONCURRENT_REQUESTS
 ):
@@ -462,8 +464,8 @@ async def scrape_all_teams_async(
         }
     ) as session:
         tasks = [
-            scrape_with_progress(session, team, country, game_type, period)
-            for team, country in teams.items()
+            scrape_with_progress(session, team, data['country'], data['api_id'], game_type, period)
+            for team, data in teams.items()
             for period in periods
             for game_type in ['host', 'guest']
         ]
@@ -486,7 +488,7 @@ async def scrape_all_teams_async(
 
 def run_scraper(team_count: Optional[int] = None, periods: List[int] = [10]):
     """Run the scraper with progress tracking"""
-    selected_teams = dict(islice(TEAMS.items(), team_count)) if team_count else TEAMS
+    selected_teams = dict(islice(TEAM_DATA.items(), team_count)) if team_count else TEAM_DATA
     asyncio.run(scrape_all_teams_async(selected_teams, periods))
 
 if __name__ == "__main__":
