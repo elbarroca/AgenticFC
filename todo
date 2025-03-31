@@ -1,0 +1,11 @@
+Statera Scraper
+1- mapear IDs  do Statera ( ex - Vilafranquesne ) igualar com os Ids do API Football
+2- Scrape ao Website todo ( falta team standings e resultados dos 15 jogos )
+API Football
+3- Refactor endpoints para uma Cloud ( Mongo DB ? , para nao tar sempre a busacr a data local -> Visao , ter uma api eventualmente )
+
+Main goal
+- ter um unico file , onde uma vez corrido ( o file ), buscar a DATA TODA , de certas partidas ( api + Scraper )
+
+https://www.figma.com/board/0f9pGDxoybnJhLNXUIMezx/Agentic.FC?node-id=0-1&t=lOTYCNgqk0Cg3SEO-1
+
