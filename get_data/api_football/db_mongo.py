@@ -1,7 +1,8 @@
 import os
 import logging
+import time
 from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure
+from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from typing import Optional, Dict, Any, List
 from dotenv import load_dotenv
 from datetime import datetime
@@ -12,6 +13,7 @@ class MongoDBManager:
     _instance = None
     _client = None
     _dbs = {}  # Dictionary to store database references
+    _max_retries = 3  # Maximum number of connection retries
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -29,33 +31,45 @@ class MongoDBManager:
             logger.error("MONGO_URI environment variable not set.")
             raise ValueError("MONGO_URI environment variable not set.")
 
-        try:
-            logger.info("Attempting to connect to MongoDB...")
-            self._client = MongoClient(mongo_uri, serverSelectionTimeoutMS=5000)
-            self._client.admin.command('ping')
-            logger.info(f"Successfully connected to MongoDB")
-            
-            # Initialize database references
-            self._dbs = {
-                'games': self._client['games'],
-                'matches': self._client['matches'],
-                'standings': self._client['standings'],
-                'odds': self._client['odds']
-            }
-            
-            self._initialized = True
-        except ConnectionFailure as e:
-            logger.error(f"MongoDB connection failed: {e}")
-            self._client = None
-            self._dbs = {}
-            self._initialized = False
-            raise ConnectionFailure(f"MongoDB connection failed: {e}")
-        except Exception as e:
-            logger.error(f"An error occurred during MongoDB initialization: {e}")
-            self._client = None
-            self._dbs = {}
-            self._initialized = False
-            raise e
+        retry_count = 0
+        connected = False
+        
+        while not connected and retry_count < self._max_retries:
+            try:
+                retry_count += 1
+                logger.info(f"Attempting to connect to MongoDB (attempt {retry_count}/{self._max_retries})...")
+                self._client = MongoClient(mongo_uri, serverSelectionTimeoutMS=10000)  # Increased timeout from 5000 to 10000
+                self._client.admin.command('ping')
+                logger.info(f"Successfully connected to MongoDB")
+                
+                # Initialize database references
+                self._dbs = {
+                    'games': self._client['games'],
+                    'matches': self._client['matches'],
+                    'standings': self._client['standings'],
+                    'odds': self._client['odds']
+                }
+                
+                self._initialized = True
+                connected = True
+            except (ConnectionFailure, ServerSelectionTimeoutError) as e:
+                logger.warning(f"MongoDB connection attempt {retry_count} failed: {e}")
+                if retry_count < self._max_retries:
+                    wait_time = 2 ** retry_count  # Exponential backoff
+                    logger.info(f"Retrying in {wait_time} seconds...")
+                    time.sleep(wait_time)
+                else:
+                    logger.error(f"MongoDB connection failed after {self._max_retries} attempts: {e}")
+                    self._client = None
+                    self._dbs = {}
+                    self._initialized = False
+                    raise ConnectionFailure(f"MongoDB connection failed after {self._max_retries} attempts: {e}")
+            except Exception as e:
+                logger.error(f"An error occurred during MongoDB initialization: {e}")
+                self._client = None
+                self._dbs = {}
+                self._initialized = False
+                raise e
 
     def close_connection(self):
         if self._client is not None:
