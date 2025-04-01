@@ -2,7 +2,8 @@ Instalar o CURSOR
 
 Statera Scraper
 1- mapear IDs  do Statera ( ex - Vilafranquesne ) igualar com os Ids do API Football DONE
-2- Scrape ao Website todo ( falta team standings e resultados dos 15 jogos )
+2- Scrape ao Website todo (resultados dos 15 jogos ) DONE 
+3- falta team standings
 
 Main goal
 - ter um unico file , onde uma vez corrido ( o file ), buscar a DATA TODA , de certas partidas ( api + Scraper )
