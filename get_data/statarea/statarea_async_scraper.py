@@ -15,7 +15,7 @@ import time
 from contextlib import contextmanager
 
 # Import team data from external file
-from team_data import TEAM_DATA
+from get_data.db_ids.team_data import TEAM_DATA
 
 # ======================
 # Configuration
