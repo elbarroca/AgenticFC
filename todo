@@ -1,14 +1,19 @@
-Instalar o CURSOR
+# To-Do List
 
-Statera Scraper
-1- mapear IDs  do Statera ( ex - Vilafranquesne ) igualar com os Ids do API Football DONE
-2- Scrape ao Website todo (resultados dos 15 jogos ) DONE 
-3- falta team standings
+## Scraper Improvements
+- [x] Map Statera IDs to API Football IDs (e.g. Vilafranquense)
+- [x] Scrape full website data including last 15 match results
+- [ ] Add team standings data (Ultimos 15 dias , com quem jogou , e os resultados)
+- [ ] Ter um unico file , onde uma vez corrido ( o file ), buscar a DATA TODA , de certas partidas ( api + Scraper ) , com base no @data_fetcher + Scraper , para deps so chamar um file e uma funcao e termos codigo optiimizado
 
-Main goal
-- ter um unico file , onde uma vez corrido ( o file ), buscar a DATA TODA , de certas partidas ( api + Scraper )
+## Scorer Enhancement 
 
+- [ ] Create specialized file scorer for:
+  - Goal scoring patterns (acime/abaixo de x)
+  - Clean sheet probability ( ambas marcam )
+  - Win/draw/loss likelihood ( ganha/empata)
 
+- [ ] Improve output format and readability
 
 https://www.figma.com/board/0f9pGDxoybnJhLNXUIMezx/Agentic.FC?node-id=0-1&t=lOTYCNgqk0Cg3SEO-1
 
