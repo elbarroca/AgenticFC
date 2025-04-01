@@ -4,7 +4,7 @@ import json
 import unicodedata
 from datetime import datetime
 from dotenv import load_dotenv
-from get_data.statarea.league_ids import LEAGUE_IDS
+from get_data.db_ids.league_ids import LEAGUE_IDS
 
 # Load environment variables
 load_dotenv()

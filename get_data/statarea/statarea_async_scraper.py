@@ -11,25 +11,18 @@ from typing import Dict, List, Optional
 from itertools import islice
 import hashlib
 import platform
-# Import team data with API IDs from the same directory
-from team_data import TEAM_DATA
+from get_data.db_ids.team_data import TEAM_DATA
 
 # Fix for Windows event loop
 if platform.system() == 'Windows':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-# ======================
-# Configuration
-# ======================
 LOG_FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
 MAX_CONCURRENT_REQUESTS = 8 # can go up to 10 but 8 doing it under 15 min avg 10~min
 BASE_DELAY = 1  # seconds between requests
 MAX_RETRIES = 5
 CACHE_EXPIRE_DAYS = 1  # Only re-check teams scraped more than this many days ago
 
-# ======================
-# Setup
-# ======================
 logging.basicConfig(
     level=logging.INFO,
     format=LOG_FORMAT,
@@ -48,9 +41,6 @@ progress = {
     'last_team': None
 }
 
-# ======================
-# Helper Functions
-# ======================
 def update_progress(success: bool, team: str):
     """Update global progress counters"""
     progress['completed'] += 1
@@ -118,9 +108,6 @@ def extract_team_bet_statistics(soup: BeautifulSoup) -> Dict:
     
     return stats
 
-# ======================
-# Database Functions
-# ======================
 def initialize_database(db_name: str = 'statarea_stats.db'):
     """Set up SQLite database with optimized schema"""
     conn = sqlite3.connect(db_name)
@@ -226,9 +213,6 @@ def needs_scraping(team: str, country: str, api_id: str, db_name: str = 'statare
     last_scraped_date = datetime.fromisoformat(last_scraped) if last_scraped else datetime.min
     return datetime.now() - last_scraped_date > timedelta(days=CACHE_EXPIRE_DAYS)
 
-# ======================
-# Scraping Functions
-# ======================
 async def scrape_team_stats_async(
     session: aiohttp.ClientSession,
     team: str,
@@ -316,9 +300,6 @@ async def scrape_team_stats_async(
     
     return None
 
-# ======================
-# Data Saving
-# ======================
 def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
     """Save results to SQLite database"""
     if not stats:
@@ -416,9 +397,6 @@ def save_to_database(stats: Dict, db_name: str = 'statarea_stats.db'):
     finally:
         conn.close()
 
-# ======================
-# Main Execution
-# ======================
 async def scrape_with_progress(
     session: aiohttp.ClientSession,
     team: str,

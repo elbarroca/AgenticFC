@@ -1,7 +1,6 @@
 from datetime import datetime, timezone
 import logging
 from typing import Optional, Dict, Any
-from pathlib import Path
 import asyncio
 
 from get_data.api_football.game_scraper import GameScraper
@@ -176,9 +175,6 @@ async def fetch_all_data(target_date: Optional[datetime] = None, force_reprocess
     logger.info(f"Step 2 (Matches): Success={results['steps']['process_matches']['success']}, Message='{results['steps']['process_matches']['message']}'")
     logger.info(f"Step 3 (Odds): Success={results['steps']['fetch_odds']['success']}, Message='{results['steps']['fetch_odds']['message']}'")
 
-    # Clean up games_data if it's large and not needed in the final return
-    # results.pop("games_data", None)
-
     return results
 
 # Keep __main__ block for testing, but adapt for async
@@ -193,8 +189,6 @@ if __name__ == '__main__':
 
         # Remember to close DB connection if managed globally and needs explicit close
         try:
-            # db_manager might handle closing internally or via context manager
-            # If explicit close is needed: db_manager.close_connection()
             pass
         except Exception as e:
             logger.warning(f"Could not close DB connection (if needed): {e}")
