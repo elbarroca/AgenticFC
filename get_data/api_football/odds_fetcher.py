@@ -167,31 +167,46 @@ class OddsFetcher:
             
         return await self._make_api_request('odds', params)
 
-    async def _update_match_with_odds(self, date_str: str, fixture_id: str, raw_odds_response: List[Dict]) -> bool:
-        """Update the match document with the raw odds API response."""
+    async def _save_odds_data(self, date_str: str, fixture_id: str, raw_odds_response: List[Dict]) -> bool:
+        """
+        Save odds data to the dedicated odds collection using the new database structure.
+        Also adds a reference to the match document.
+        """
         try:
-            # Get existing match data
-            match_data = db_manager.get_match_data(date_str, fixture_id)
-            if not match_data:
-                logger.warning(f"No match data found for fixture {fixture_id} on {date_str}, cannot add odds.")
+            # Prepare the odds payload
+            odds_payload = {
+                "fixture_id": str(fixture_id),
+                "date": date_str,
+                "bookmakers": raw_odds_response,
+                "fetched_at": datetime.now().isoformat()
+            }
+            
+            # Save to the dedicated odds collection
+            odds_saved = db_manager.save_odds_data(date_str, fixture_id, odds_payload)
+            
+            if not odds_saved:
+                logger.error(f"Failed to save odds data for fixture {fixture_id}")
                 return False
                 
-            # Add the full odds response list to match data
-            # Naming the field clearly to indicate it's the raw API response
-            match_data["odds_api_response"] = raw_odds_response 
-            
-            # Save updated match data
-            success = db_manager.save_match_data(date_str, fixture_id, match_data)
-            return success
+            # Update the match document with a reference to odds data
+            match_data = db_manager.get_match_data(date_str, fixture_id)
+            if match_data:
+                # Add just a reference flag indicating odds are available
+                match_data["has_odds"] = True
+                match_data["odds_updated_at"] = datetime.now().isoformat()
+                
+                # Save the updated match data
+                db_manager.save_match_data(date_str, fixture_id, match_data)
+                
+            return True
         except Exception as e:
-            logger.error(f"Error updating match with odds data: {str(e)}")
+            logger.error(f"Error saving odds data: {str(e)}")
             return False
 
     async def process_daily_report(self, date_str: str) -> Dict[str, Any]:
         """
-        Process fixtures from MongoDB for the given date and save the full odds API response 
-        directly to match documents.
-        Uses the new hierarchical database structure.
+        Process fixtures from MongoDB for the given date and save the odds data to 
+        the dedicated odds collection. Uses the new hierarchical database structure.
 
         Args:
             date_str: The date string in YYYY-MM-DD format
@@ -224,11 +239,10 @@ class OddsFetcher:
                         stats["skipped"] += 1
                         continue
                     
-                    # Check if match already has the odds response
-                    match_data = db_manager.get_match_data(date_str, fixture_id)
-                    # Check specifically for the new field name
-                    if match_data and "odds_api_response" in match_data and match_data["odds_api_response"] is not None:
-                        logger.info(f"Odds API response already exists for fixture {fixture_id}, skipping...")
+                    # Check if odds already exist for this fixture
+                    odds_data = db_manager.get_odds_data(date_str, fixture_id)
+                    if odds_data:
+                        logger.info(f"Odds data already exists for fixture {fixture_id}, skipping...")
                         stats["skipped"] += 1
                         continue
                     
@@ -249,57 +263,52 @@ class OddsFetcher:
                         # Consider if this is a failure or just no odds available
                         stats["failed"] += 1 # Count as failed if no odds are returned by API
                         continue
-                    
-                    # Update match document with the full odds list
-                    success = await self._update_match_with_odds(date_str, fixture_id, raw_odds_list)
-                    
-                    if success:
+                        
+                    # Save the odds data using the new method for dedicated odds collection
+                    if await self._save_odds_data(date_str, fixture_id, raw_odds_list):
                         logger.info(f"Successfully saved odds API response for fixture {fixture_id}")
                         stats["successful"] += 1
                     else:
-                        logger.error(f"Failed to save odds API response for fixture {fixture_id}")
+                        logger.error(f"Failed to save odds data for fixture {fixture_id}")
                         stats["failed"] += 1
-                
+                    
                 except Exception as e:
                     logger.error(f"Error processing odds for fixture {fixture_id}: {str(e)}")
                     stats["failed"] += 1
             
-            # Log summary
             logger.info(f"Odds processing complete for {date_str}")
             logger.info(f"Successful: {stats['successful']}, Failed: {stats['failed']}, Skipped: {stats['skipped']}")
-            
             return stats
             
         except Exception as e:
-            logger.error(f"Error processing daily report: {str(e)}")
-            return {
-                "successful": 0, 
-                "failed": 0, 
-                "skipped": 0,
-                "error": str(e)
-            }
+            logger.error(f"Critical error in odds processing: {str(e)}")
+            return {"error": str(e), "successful": 0, "failed": 0, "skipped": 0}
 
-# Main function for testing
 async def main():
+    """Run as a standalone script."""
     args = parse_args()
-    fetcher = OddsFetcher()
     
     try:
-        logger.info(f"Starting odds fetcher for date: {args.date}")
-        results = await fetcher.process_daily_report(args.date)
+        # Initialize required services if running standalone
+        from get_data.api_football.api_manager import api_manager
+        api_manager.initialize()
         
-        logger.info("===== Results =====")
-        logger.info(f"Date: {args.date}")
+        odds_fetcher = OddsFetcher()
+        date_str = args.date
+        
+        logger.info(f"Starting odds fetching for date: {date_str}")
+        results = await odds_fetcher.process_daily_report(date_str)
+        
+        logger.info("Odds fetching complete:")
         logger.info(f"Successful: {results.get('successful', 0)}")
         logger.info(f"Failed: {results.get('failed', 0)}")
         logger.info(f"Skipped: {results.get('skipped', 0)}")
-        if "error" in results:
-            logger.error(f"Error: {results['error']}")
-            
+        
     except Exception as e:
         logger.error(f"Error in main execution: {str(e)}")
-    
-    logger.info("Odds fetching process complete")
+    finally:
+        # Close DB connection
+        db_manager.close_connection()
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class MongoDBManager:
     _instance = None
     _client = None
-    _db = None
+    _dbs = {}  # Dictionary to store database references
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -19,10 +19,10 @@ class MongoDBManager:
             cls._instance._initialized = False
         return cls._instance
 
-    def __init__(self, db_name: str = "pregame_data"):
+    def __init__(self):
         if hasattr(self, '_initialized') and self._initialized:
             return
-        load_dotenv()  # Load environment variables from .env file
+        load_dotenv()
         mongo_uri = os.getenv("MONGO_URI")
 
         if not mongo_uri:
@@ -31,34 +31,31 @@ class MongoDBManager:
 
         try:
             logger.info("Attempting to connect to MongoDB...")
-            # Explicitly set serverSelectionTimeoutMS to handle connection delays
             self._client = MongoClient(mongo_uri, serverSelectionTimeoutMS=5000)
-            # The ismaster command is cheap and does not require auth.
-            self._client.admin.command('ping') # Use ping for modern MongoDB versions
-            self._db = self._client[db_name]
-            logger.info(f"Successfully connected to MongoDB database: {db_name}")
+            self._client.admin.command('ping')
+            logger.info(f"Successfully connected to MongoDB")
+            
+            # Initialize database references
+            self._dbs = {
+                'games': self._client['games'],
+                'matches': self._client['matches'],
+                'standings': self._client['standings'],
+                'odds': self._client['odds']
+            }
+            
             self._initialized = True
         except ConnectionFailure as e:
             logger.error(f"MongoDB connection failed: {e}")
             self._client = None
-            self._db = None
-            self._initialized = False # Ensure not marked as initialized
+            self._dbs = {}
+            self._initialized = False
             raise ConnectionFailure(f"MongoDB connection failed: {e}")
         except Exception as e:
             logger.error(f"An error occurred during MongoDB initialization: {e}")
             self._client = None
-            self._db = None
-            self._initialized = False # Ensure not marked as initialized
+            self._dbs = {}
+            self._initialized = False
             raise e
-
-    def get_db(self):
-        if self._db is None:
-            logger.error("Database not initialized. Attempting to re-initialize...")
-            # Attempt re-initialization if needed, potentially raising an error
-            self.__init__()
-            if self._db is None:
-                 raise ConnectionFailure("Database could not be initialized.")
-        return self._db
 
     def close_connection(self):
         if self._client is not None:
@@ -66,12 +63,10 @@ class MongoDBManager:
             logger.info("MongoDB connection closed.")
         # Reset state fully on close
         self._client = None
-        self._db = None
+        self._dbs = {}
         self._initialized = False
         MongoDBManager._instance = None
 
-    # --- Helper Methods ---
-    
     def _parse_date_components(self, date_str: str) -> Dict[str, str]:
         """Extract year, month, day from date string"""
         try:
@@ -85,177 +80,307 @@ class MongoDBManager:
             logger.error(f"Invalid date format: {date_str}. Expected YYYY-MM-DD")
             return {"year": "0000", "month": "00", "day": "00"}
 
-    def _get_collection_path(self, date_str: str, collection_type: str) -> str:
-        """Generate hierarchical collection path"""
+    def _get_month_collection(self, db_type: str, date_str: str):
+        """Get the monthly collection from the appropriate database"""
         date_parts = self._parse_date_components(date_str)
-        # Ensure collection type is part of the name
-        return f"pregame.{date_parts['year']}.{date_parts['month']}.{date_parts['day']}.{collection_type}"
+        month = date_parts["month"]
+        collection_name = f"month_{month}"
+        
+        # Ensure the database type is valid
+        if db_type not in self._dbs:
+            logger.error(f"Invalid database type: {db_type}")
+            return None
+            
+        return self._dbs[db_type][collection_name]
 
-    # --- Collection Specific Methods ---
-
+    # --- Games Methods ---
+    
     def save_daily_games(self, date_str: str, games_data: Dict[str, Any]):
-        """Saves the daily games list for a specific date using the new structure."""
-        db = self.get_db()
+        """Saves the daily games list for a specific date."""
         try:
-            # Use hierarchical collection structure
-            collection_name = self._get_collection_path(date_str, "daily_games")
-            collection = db.get_collection(collection_name)
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
             
-            # Clean up data - remove redundant information to optimize storage
-            optimized_data = {
-                "_id": date_str,
-                "date": date_str,
-                "total_matches": games_data.get("total_matches", 0),
-                "leagues": {}
-            }
+            # Get the appropriate monthly collection
+            games_collection = self._get_month_collection('games', date_str)
             
-            # Optimize league data structure
-            for league_id, league_data in games_data.get("leagues", {}).items():
-                optimized_data["leagues"][league_id] = {
-                    "name": league_data.get("name", ""),
-                    "country": league_data.get("country", ""),
-                    "tier": league_data.get("tier", 0),
-                    "matches": []
-                }
-                
-                # Optimize match data
-                for match in league_data.get("matches", []):
-                    optimized_match = {
-                        "id": match.get("id", ""),
-                        "time": match.get("time", ""),
-                        "home_team": {
-                            "id": match.get("home_team", {}).get("id", ""),
-                            "name": match.get("home_team", {}).get("name", "")
-                        },
-                        "away_team": {
-                            "id": match.get("away_team", {}).get("id", ""),
-                            "name": match.get("away_team", {}).get("name", "")
-                        },
-                        "status": match.get("status", {})
-                    }
-                    optimized_data["leagues"][league_id]["matches"].append(optimized_match)
+            # Prepare data with day prefix in _id
+            doc_id = f"day_{day}"
             
-            # Save optimized data
-            result = collection.replace_one({"_id": date_str}, optimized_data, upsert=True)
-            logger.info(f"Saved/Updated daily games for {date_str} in {collection_name}. Matched: {result.matched_count}, Modified: {result.modified_count}, Upserted: {result.upserted_id}")
+            # Save games data
+            result = games_collection.update_one(
+                {"_id": doc_id},
+                {"$set": {
+                    "date": date_str,
+                    "data": games_data
+                }},
+                upsert=True
+            )
+            
+            logger.info(f"Saved/Updated daily games for {date_str}. Modified: {result.modified_count}")
             return True
         except Exception as e:
             logger.error(f"Error saving daily games for {date_str} to MongoDB: {e}")
             return False
 
     def get_daily_games(self, date_str: str) -> Optional[Dict[str, Any]]:
-        """Retrieves the daily games list for a specific date using the new structure."""
-        db = self.get_db()
+        """Retrieves the daily games list for a specific date."""
         try:
-            collection_name = self._get_collection_path(date_str, "daily_games")
-            collection = db.get_collection(collection_name)
-            return collection.find_one({"_id": date_str})
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
+            
+            # Get the appropriate monthly collection
+            games_collection = self._get_month_collection('games', date_str)
+            
+            # Find by day ID
+            doc_id = f"day_{day}"
+            result = games_collection.find_one({"_id": doc_id})
+            
+            return result["data"] if result else None
         except Exception as e:
             logger.error(f"Error getting daily games for {date_str} from MongoDB: {e}")
             return None
 
+    # --- Match Methods ---
+    
     def save_match_data(self, date_str: str, fixture_id: str, match_data: Dict[str, Any]):
-        """Saves or updates detailed match data (including raw stats/preds/odds/standings snapshot) using the new structure."""
-        db = self.get_db()
+        """Saves or updates detailed match data."""
         try:
-            collection_name = self._get_collection_path(date_str, "matches")
-            collection = db.get_collection(collection_name)
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
             
-            fixture_id = str(fixture_id)
+            # Get the appropriate monthly collection
+            matches_collection = self._get_month_collection('matches', date_str)
             
-            # Use replace_one with upsert=True to handle both creation and updates
-            # The match_data payload passed in should contain ALL fields for the match document
-            # Ensure _id is set correctly within the match_data if creating new
-            if "_id" not in match_data:
-                match_data["_id"] = fixture_id
-                
-            result = collection.replace_one({"_id": fixture_id}, match_data, upsert=True)
+            # Create document ID with day and fixture ID
+            doc_id = f"day_{day}_fixture_{fixture_id}"
             
-            if result.upserted_id:
-                logger.info(f"Created match data for fixture {fixture_id} ({date_str}) in {collection_name}")
-            elif result.modified_count > 0:
-                logger.info(f"Updated match data for fixture {fixture_id} ({date_str}) in {collection_name}")
-            else:
-                logger.info(f"Match data for fixture {fixture_id} ({date_str}) already up-to-date in {collection_name}")
+            # Include date and fixture ID in data
+            match_data["date"] = date_str
+            match_data["fixture_id"] = fixture_id
+            
+            # Save match data
+            result = matches_collection.update_one(
+                {"_id": doc_id},
+                {"$set": match_data},
+                upsert=True
+            )
+            
+            logger.info(f"Saved/Updated match data for fixture {fixture_id} ({date_str}). Modified: {result.modified_count}")
             return True
         except Exception as e:
             logger.error(f"Error saving/updating match data for fixture {fixture_id} to MongoDB: {e}")
             return False
 
     def check_match_exists(self, date_str: str, fixture_id: str) -> bool:
-        """Checks if a match with the given fixture ID exists in the new structure."""
-        db = self.get_db()
+        """Checks if a match with the given fixture ID exists."""
         try:
-            collection_name = self._get_collection_path(date_str, "matches")
-            collection = db.get_collection(collection_name)
-            return collection.count_documents({"_id": str(fixture_id)}) > 0
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
+            
+            # Get the appropriate monthly collection
+            matches_collection = self._get_month_collection('matches', date_str)
+            
+            # Check if document exists
+            doc_id = f"day_{day}_fixture_{fixture_id}"
+            result = matches_collection.find_one({"_id": doc_id}, {"_id": 1})
+            
+            return result is not None
         except Exception as e:
             logger.error(f"Error checking match existence for fixture {fixture_id}: {e}")
             return False
 
     def get_match_fixture_ids_for_date(self, date_str: str) -> List[str]:
-        """Gets all fixture IDs for matches saved on a specific date using the new structure."""
-        db = self.get_db()
+        """Gets all fixture IDs for matches saved on a specific date."""
         try:
-            collection_name = self._get_collection_path(date_str, "matches")
-            collection = db.get_collection(collection_name)
-            # Find documents matching the date and project only the _id field
-            cursor = collection.find({}, {"_id": 1})
-            return [doc["_id"] for doc in cursor]
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
+            
+            # Get the appropriate monthly collection
+            matches_collection = self._get_month_collection('matches', date_str)
+            
+            # Find all documents for this day
+            day_prefix = f"day_{day}_fixture_"
+            cursor = matches_collection.find({"_id": {"$regex": f"^{day_prefix}"}}, {"fixture_id": 1})
+            
+            # Extract fixture IDs
+            fixture_ids = []
+            for doc in cursor:
+                if "fixture_id" in doc:
+                    fixture_ids.append(doc["fixture_id"])
+                else:
+                    # Fallback: extract from _id if fixture_id field is missing
+                    doc_id = doc["_id"]
+                    fixture_id = doc_id.replace(day_prefix, "")
+                    fixture_ids.append(fixture_id)
+                    
+            return fixture_ids
         except Exception as e:
             logger.error(f"Error getting fixture IDs for date {date_str}: {e}")
             return []
 
     def get_match_data(self, date_str: str, fixture_id: str) -> Optional[Dict[str, Any]]:
-        """Retrieves detailed match data for a specific fixture using the new structure."""
-        db = self.get_db()
+        """Retrieves detailed match data for a specific fixture."""
         try:
-            collection_name = self._get_collection_path(date_str, "matches")
-            collection = db.get_collection(collection_name)
-            return collection.find_one({"_id": str(fixture_id)})
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
+            
+            # Get the appropriate monthly collection
+            matches_collection = self._get_month_collection('matches', date_str)
+            
+            # Find the document
+            doc_id = f"day_{day}_fixture_{fixture_id}"
+            return matches_collection.find_one({"_id": doc_id})
         except Exception as e:
             logger.error(f"Error retrieving match data for fixture {fixture_id}: {e}")
             return None
 
+    # --- Standings Methods ---
+    
     def save_standings_data(self, date_str: str, league_id: str, season: int, standings_payload: Dict[str, Any]):
-        """Saves raw league standings API response using the new structure."""
-        db = self.get_db()
+        """Saves league standings API response."""
         try:
-            # Store standings in their dedicated collection per day
-            collection_name = self._get_collection_path(date_str, "standings")
-            collection = db.get_collection(collection_name)
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
             
-            # Use a composite key of league_id and season as the document ID
-            doc_id = f"{league_id}_{season}"
+            # Get the appropriate monthly collection
+            standings_collection = self._get_month_collection('standings', date_str)
             
-            # Ensure the payload has the _id field set
-            standings_payload["_id"] = doc_id 
-            # Ensure league_id, season, date are present for querying
+            # Create document ID
+            doc_id = f"day_{day}_league_{league_id}_season_{season}"
+            
+            # Ensure required fields
+            standings_payload["date"] = date_str
             standings_payload["league_id"] = str(league_id)
             standings_payload["season"] = season
-            standings_payload["date"] = date_str
             
-            # The standings_payload already contains the raw `standings_api_response` field
+            # Save standings data
+            result = standings_collection.update_one(
+                {"_id": doc_id},
+                {"$set": standings_payload},
+                upsert=True
+            )
             
-            result = collection.replace_one({"_id": doc_id}, standings_payload, upsert=True)
-            logger.info(f"Saved/Updated raw standings for league {league_id}, season {season} in {collection_name}. Matched: {result.matched_count}, Modified: {result.modified_count}, Upserted: {result.upserted_id}")
+            logger.info(f"Saved/Updated standings for league {league_id}, season {season}. Modified: {result.modified_count}")
             return True
         except Exception as e:
-            logger.error(f"Error saving raw standings for league {league_id}, season {season} to MongoDB: {e}")
+            logger.error(f"Error saving standings for league {league_id}, season {season} to MongoDB: {e}")
             return False
 
     def get_standings_data(self, date_str: str, league_id: str, season: int) -> Optional[Dict[str, Any]]:
-        """Retrieves raw league standings API response using the new structure."""
-        db = self.get_db()
+        """Retrieves league standings API response."""
         try:
-            collection_name = self._get_collection_path(date_str, "standings")
-            collection = db.get_collection(collection_name)
-            doc_id = f"{league_id}_{season}"
-            # Return the full document containing the raw response
-            return collection.find_one({"_id": doc_id})
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
+            
+            # Get the appropriate monthly collection
+            standings_collection = self._get_month_collection('standings', date_str)
+            
+            # Find document
+            doc_id = f"day_{day}_league_{league_id}_season_{season}"
+            return standings_collection.find_one({"_id": doc_id})
         except Exception as e:
-            logger.error(f"Error retrieving raw standings for league {league_id}, season {season}: {e}")
+            logger.error(f"Error retrieving standings for league {league_id}, season {season}: {e}")
+            return None
+
+    # --- Odds Methods ---
+    
+    def save_odds_data(self, date_str: str, fixture_id: str, odds_payload: Dict[str, Any]):
+        """Saves odds data for a specific fixture."""
+        try:
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
+            
+            # Get the appropriate monthly collection
+            odds_collection = self._get_month_collection('odds', date_str)
+            
+            # Create document ID
+            doc_id = f"day_{day}_fixture_{fixture_id}"
+            
+            # Include date reference
+            odds_payload["date"] = date_str
+            odds_payload["fixture_id"] = fixture_id
+            
+            # Save odds data
+            result = odds_collection.update_one(
+                {"_id": doc_id},
+                {"$set": odds_payload},
+                upsert=True
+            )
+            
+            logger.info(f"Saved/Updated odds for fixture {fixture_id} ({date_str}). Modified: {result.modified_count}")
+            return True
+        except Exception as e:
+            logger.error(f"Error saving odds for fixture {fixture_id} to MongoDB: {e}")
+            return False
+
+    def get_odds_data(self, date_str: str, fixture_id: str) -> Optional[Dict[str, Any]]:
+        """Retrieves odds data for a specific fixture."""
+        try:
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
+            
+            # Get the appropriate monthly collection
+            odds_collection = self._get_month_collection('odds', date_str)
+            
+            # Find document
+            doc_id = f"day_{day}_fixture_{fixture_id}"
+            return odds_collection.find_one({"_id": doc_id})
+        except Exception as e:
+            logger.error(f"Error retrieving odds for fixture {fixture_id}: {e}")
+            return None
+
+    def get_day_summary(self, date_str: str) -> Optional[Dict[str, Any]]:
+        """Retrieves a summary of all data available for a specific date."""
+        try:
+            date_parts = self._parse_date_components(date_str)
+            day = date_parts["day"]
+            day_prefix = f"day_{day}"
+            
+            # Create summary
+            summary = {
+                "_id": date_str,
+                "date": date_str,
+                "has_games": False,
+                "has_matches": False,
+                "has_standings": False,
+                "has_odds": False,
+                "games_count": 0,
+                "matches_count": 0,
+                "standings_count": 0,
+                "odds_count": 0
+            }
+            
+            # Check games
+            games_collection = self._get_month_collection('games', date_str)
+            games_doc = games_collection.find_one({"_id": day_prefix})
+            if games_doc:
+                summary["has_games"] = True
+                if "data" in games_doc and "total_matches" in games_doc["data"]:
+                    summary["games_count"] = games_doc["data"]["total_matches"]
+            
+            # Count matches
+            matches_collection = self._get_month_collection('matches', date_str)
+            matches_count = matches_collection.count_documents({"_id": {"$regex": f"^{day_prefix}"}})
+            summary["matches_count"] = matches_count
+            summary["has_matches"] = matches_count > 0
+            
+            # Count standings
+            standings_collection = self._get_month_collection('standings', date_str)
+            standings_count = standings_collection.count_documents({"_id": {"$regex": f"^{day_prefix}"}})
+            summary["standings_count"] = standings_count
+            summary["has_standings"] = standings_count > 0
+            
+            # Count odds
+            odds_collection = self._get_month_collection('odds', date_str)
+            odds_count = odds_collection.count_documents({"_id": {"$regex": f"^{day_prefix}"}})
+            summary["odds_count"] = odds_count
+            summary["has_odds"] = odds_count > 0
+            
+            return summary
+        except Exception as e:
+            logger.error(f"Error retrieving day summary for {date_str}: {e}")
             return None
 
 # Singleton instance
-db_manager = MongoDBManager() 
+db_manager = MongoDBManager()
