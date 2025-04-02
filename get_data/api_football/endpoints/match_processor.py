@@ -17,8 +17,8 @@ logger = logging.getLogger(__name__)
 project_root = str(Path(__file__).resolve().parent.parent.parent.parent)
 sys.path.insert(0, project_root)
 
-from .api_manager import api_manager  # Import the API manager
-from .db_mongo import db_manager # Import the DB manager
+from api_football.api_manager import api_manager  # Import the API manager
+from api_football.db_mongo import db_manager # Import the DB manager
 
 class RateLimiter:
     def __init__(self, calls_per_minute: int = 29):

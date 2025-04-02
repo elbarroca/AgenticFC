@@ -3,7 +3,7 @@ import time
 import argparse
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional, Any
+from typing import Dict, List, Tuple, Any
 import asyncio
 import aiohttp
 import logging
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 project_root = str(Path(__file__).resolve().parent.parent.parent.parent)
 sys.path.insert(0, project_root)
 
-from get_data.api_football.db_mongo import db_manager # Import the DB manager
+from api_football.db_mongo import db_manager # Import the DB manager
 
 def parse_args():
     """Parse command line arguments."""
@@ -45,7 +45,7 @@ class OddsFetcher:
         self.bet365_id = "8"  # Bet365 bookmaker ID
         self.rate_limiter = RateLimiter(calls_per_minute=20)
         # Use provided api_manager or fall back to global instance
-        from get_data.api_football.api_manager import api_manager as global_api_manager
+        from api_football.api_manager import api_manager as global_api_manager
         self.api_manager = api_manager or global_api_manager
         logger.info("OddsFetcher initialized")
         
@@ -290,7 +290,7 @@ async def main():
     
     try:
         # Initialize required services if running standalone
-        from get_data.api_football.api_manager import api_manager
+        from api_football.api_manager import api_manager
         api_manager.initialize()
         
         odds_fetcher = OddsFetcher()

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Advanced Soccer Match Prediction Script
 ---------------------------------------

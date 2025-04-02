@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List
 import logging
-from .api_manager import api_manager
-from .db_mongo import db_manager
+from ..api_manager import api_manager
+from ..db_mongo import db_manager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
