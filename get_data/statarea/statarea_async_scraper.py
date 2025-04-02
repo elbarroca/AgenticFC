@@ -7,21 +7,18 @@ import sqlite3
 from datetime import datetime, timedelta
 from tqdm.asyncio import tqdm_asyncio
 import json
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Callable
 import hashlib
 import platform
 from itertools import islice
 import time
-from contextlib import contextmanager
-import logging
 import os
+from contextlib import contextmanager
+from db_ids.team_data import TEAM_DATA
 
-# Import team data from external file
-from get_data.db_ids.team_data import TEAM_DATA
-
-logger = logging.getLogger(__name__)
-
+# ======================
 # Configuration
+# ======================
 LOG_FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
 MAX_CONCURRENT_REQUESTS = 8
 BASE_DELAY = 1  # seconds between requests
@@ -30,15 +27,6 @@ CACHE_EXPIRE_DAYS = 1
 MATCH_HISTORY_LIMIT = 15  # Number of matches to scrape
 SQLITE_TIMEOUT = 30  # seconds
 SQLITE_JOURNAL_MODE = "WAL"
-
-logging.basicConfig(
-    level=logging.INFO,
-    format=LOG_FORMAT,
-    handlers=[
-        logging.FileHandler('scraper_progress.log'),
-        logging.StreamHandler()
-    ]
-)
 
 progress = {
     'total': 0,
@@ -53,7 +41,7 @@ progress = {
 # Database Connection Manager
 # ======================
 @contextmanager
-def get_db_connection(db_path='statarea_stats.db'):
+def get_db_connection(db_path: str = 'statarea_stats.db'):
     conn = None
     try:
         conn = sqlite3.connect(
@@ -73,6 +61,27 @@ def get_db_connection(db_path='statarea_stats.db'):
 # ======================
 # Helper Functions
 # ======================
+def setup_logging(logs_dir: Optional[str] = None):
+    """Configure logging with optional directory for log files"""
+    handlers = [logging.StreamHandler()]
+    
+    if logs_dir:
+        # Create logs directory if it doesn't exist
+        os.makedirs(logs_dir, exist_ok=True)
+        log_file = os.path.join(logs_dir, 'scraper_progress.log')
+        handlers.append(logging.FileHandler(log_file))
+    else:
+        handlers.append(logging.FileHandler('scraper_progress.log'))
+    
+    logging.basicConfig(
+        level=logging.INFO,
+        format=LOG_FORMAT,
+        handlers=handlers,
+        force=True  # Force reconfiguration if already configured
+    )
+    
+    logging.info(f"Logging configured with {'external logs dir' if logs_dir else 'local log file'}")
+
 def update_progress(success: bool, team: str):
     progress['completed'] += 1
     progress['last_team'] = team
@@ -90,12 +99,14 @@ def update_progress(success: bool, team: str):
             f"Last: {team}"
         )
 
-def save_checkpoint():
-    with open('progress_checkpoint.json', 'w') as f:
+def save_checkpoint(logs_dir: Optional[str] = None):
+    checkpoint_path = os.path.join(logs_dir, 'progress_checkpoint.json') if logs_dir else 'progress_checkpoint.json'
+    with open(checkpoint_path, 'w') as f:
         json.dump(progress, f)
 
-def log_failed_url(url: str):
-    with open('failed_urls.log', 'a') as f:
+def log_failed_url(url: str, logs_dir: Optional[str] = None):
+    failed_urls_path = os.path.join(logs_dir, 'failed_urls.log') if logs_dir else 'failed_urls.log'
+    with open(failed_urls_path, 'a') as f:
         f.write(f"{datetime.now().isoformat()},{url}\n")
 
 def construct_url(team: str, game_type: str, country: str, period: int = 10) -> str:
@@ -195,89 +206,87 @@ def extract_match_history(soup: BeautifulSoup, team_name: str) -> List[Dict]:
 # ======================
 # Database Functions
 # ======================
-def initialize_database(db_path='statarea_stats.db'):
+def initialize_database(db_path: str = 'statarea_stats.db'):
     """Initialize the database with required tables"""
     max_attempts = 3
     attempt = 0
     
+    logging.info(f"Initializing database at path: {db_path}")
+    
+    # Ensure directory exists
+    os.makedirs(os.path.dirname(db_path), exist_ok=True)
+    
     while attempt < max_attempts:
         try:
-            conn = sqlite3.connect(
-                db_path,
-                timeout=SQLITE_TIMEOUT,
-                check_same_thread=False
-            )
-            cursor = conn.cursor()
-            
-            cursor.execute(f"PRAGMA journal_mode={SQLITE_JOURNAL_MODE}")
-            
-            cursor.execute('''
-            CREATE TABLE IF NOT EXISTS teams (
-                id TEXT PRIMARY KEY,
-                name TEXT NOT NULL,
-                country TEXT NOT NULL,
-                last_scraped TEXT,
-                content_hash TEXT,
-                status TEXT DEFAULT 'pending',
-                retry_count INTEGER DEFAULT 0,
-                UNIQUE(name, country)
-            )
-            ''')
-            
-            cursor.execute('''
-            CREATE TABLE IF NOT EXISTS general_stats (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                team_id TEXT,
-                game_type TEXT CHECK(game_type IN ('host', 'guest')),
-                period INTEGER CHECK(period IN (5, 10, 15)),
-                scrape_date TEXT,
-                stat_name TEXT,
-                stat_value TEXT,
-                FOREIGN KEY (team_id) REFERENCES teams(id),
-                UNIQUE(team_id, game_type, period, stat_name)
-            )
-            ''')
-            
-            cursor.execute('''
-            CREATE TABLE IF NOT EXISTS bet_stats (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                team_id TEXT,
-                game_type TEXT CHECK(game_type IN ('host', 'guest')),
-                period INTEGER CHECK(period IN (5, 10, 15)),
-                scrape_date TEXT,
-                category TEXT,
-                stat_name TEXT,
-                stat_value TEXT,
-                FOREIGN KEY (team_id) REFERENCES teams(id),
-                UNIQUE(team_id, game_type, period, category, stat_name)
-            )
-            ''')
-            
-            cursor.execute('''
-            CREATE TABLE IF NOT EXISTS match_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                team_id TEXT,
-                game_type TEXT CHECK(game_type IN ('host', 'guest')),
-                match_date TEXT,
-                competition TEXT,
-                opponent TEXT,
-                team_goals INTEGER,
-                opponent_goals INTEGER,
-                result TEXT CHECK(result IN ('win', 'loss', 'draw')),
-                venue TEXT CHECK(venue IN ('home', 'away')),
-                scrape_date TEXT,
-                FOREIGN KEY (team_id) REFERENCES teams(id),
-                UNIQUE(team_id, match_date, opponent)
-            )
-            ''')
-            
-            cursor.execute('CREATE INDEX IF NOT EXISTS idx_match_history_team ON match_history(team_id)')
-            cursor.execute('CREATE INDEX IF NOT EXISTS idx_match_history_date ON match_history(match_date)')
-            
-            conn.commit()
-            conn.close()
-            logging.info(f"Database initialized successfully at {db_path}")
-            return True
+            with get_db_connection(db_path) as conn:
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS teams (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    country TEXT NOT NULL,
+                    last_scraped TEXT,
+                    content_hash TEXT,
+                    status TEXT DEFAULT 'pending',
+                    retry_count INTEGER DEFAULT 0,
+                    UNIQUE(name, country)
+                )
+                ''')
+                
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS general_stats (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    team_id TEXT,
+                    game_type TEXT CHECK(game_type IN ('host', 'guest')),
+                    period INTEGER CHECK(period IN (5, 10, 15)),
+                    scrape_date TEXT,
+                    stat_name TEXT,
+                    stat_value TEXT,
+                    FOREIGN KEY (team_id) REFERENCES teams(id),
+                    UNIQUE(team_id, game_type, period, stat_name)
+                )
+                ''')
+                
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS bet_stats (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    team_id TEXT,
+                    game_type TEXT CHECK(game_type IN ('host', 'guest')),
+                    period INTEGER CHECK(period IN (5, 10, 15)),
+                    scrape_date TEXT,
+                    category TEXT,
+                    stat_name TEXT,
+                    stat_value TEXT,
+                    FOREIGN KEY (team_id) REFERENCES teams(id),
+                    UNIQUE(team_id, game_type, period, category, stat_name)
+                )
+                ''')
+                
+                cursor.execute('''
+                CREATE TABLE IF NOT EXISTS match_history (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    team_id TEXT,
+                    game_type TEXT CHECK(game_type IN ('host', 'guest')),
+                    match_date TEXT,
+                    competition TEXT,
+                    opponent TEXT,
+                    team_goals INTEGER,
+                    opponent_goals INTEGER,
+                    result TEXT CHECK(result IN ('win', 'loss', 'draw')),
+                    venue TEXT CHECK(venue IN ('home', 'away')),
+                    scrape_date TEXT,
+                    FOREIGN KEY (team_id) REFERENCES teams(id),
+                    UNIQUE(team_id, match_date, opponent)
+                )
+                ''')
+                
+                cursor.execute('CREATE INDEX IF NOT EXISTS idx_match_history_team ON match_history(team_id)')
+                cursor.execute('CREATE INDEX IF NOT EXISTS idx_match_history_date ON match_history(match_date)')
+                
+                conn.commit()
+                logging.info(f"Database initialized successfully at {db_path}")
+                return True
                 
         except sqlite3.Error as e:
             attempt += 1
@@ -289,14 +298,14 @@ def initialize_database(db_path='statarea_stats.db'):
     logging.error("Failed to initialize database after multiple attempts")
     return False
 
-def save_match_history(team_id: str, game_type: str, matches: List[Dict], scrape_date: str):
+def save_match_history(team_id: str, game_type: str, matches: List[Dict], scrape_date: str, db_path: str):
     if not matches:
         return
         
     logging.info(f"Attempting to save {len(matches)} matches for team {team_id}")
     
     try:
-        with get_db_connection() as conn:
+        with get_db_connection(db_path) as conn:
             cursor = conn.cursor()
             cursor.execute("BEGIN TRANSACTION")
             
@@ -325,12 +334,12 @@ def save_match_history(team_id: str, game_type: str, matches: List[Dict], scrape
         logging.error(f"Failed to save match history: {str(e)}")
         raise
 
-def save_to_database(stats: Dict):
+def save_to_database(stats: Dict, db_path: str):
     if not stats:
         return
         
     try:
-        with get_db_connection() as conn:
+        with get_db_connection(db_path) as conn:
             cursor = conn.cursor()
             cursor.execute("BEGIN TRANSACTION")
             
@@ -377,16 +386,26 @@ def save_to_database(stats: Dict):
                     stats['api_id'],
                     stats['game_type'],
                     stats['match_history'],
-                    stats['scrape_date']
+                    stats['scrape_date'],
+                    db_path
                 )
             
     except Exception as e:
         logging.error(f"Database error for {stats['team']}: {str(e)}")
         raise
 
-def needs_scraping(team: str, country: str, api_id: str) -> bool:
+def needs_scraping(team: str, country: str, api_id: str, db_path: str, 
+                   check_exists_func: Optional[Callable] = None) -> bool:
+    """
+    Check if a team needs to be scraped, with optional custom check function
+    """
+    if check_exists_func:
+        # Use provided custom function for checking
+        return check_exists_func(team, country)
+        
+    # Default check logic
     try:
-        with get_db_connection() as conn:
+        with get_db_connection(db_path) as conn:
             cursor = conn.cursor()
             cursor.execute('''
             SELECT last_scraped, status FROM teams 
@@ -418,7 +437,8 @@ async def scrape_team_stats_async(
     game_type: str,
     country: str,
     api_id: str,
-    period: int = 10
+    period: int = 10,
+    logs_dir: Optional[str] = None
 ) -> Optional[Dict]:
     url = construct_url(team, game_type, country, period)
     logging.debug(f"Scraping URL: {url}")
@@ -473,7 +493,7 @@ async def scrape_team_stats_async(
                 f"{type(e).__name__}"
             )
             if attempt == MAX_RETRIES - 1:
-                log_failed_url(url)
+                log_failed_url(url, logs_dir)
                 return None
             await asyncio.sleep(BASE_DELAY)
     
@@ -484,25 +504,33 @@ async def scrape_with_progress(
     team: str,
     data: Dict,
     game_type: str,
-    period: int
+    period: int,
+    db_path: str,
+    logs_dir: Optional[str] = None,
+    force_update: bool = False,
+    check_exists_func: Optional[Callable] = None
 ) -> Optional[Dict]:
-    if not needs_scraping(team, data['country'], data['api_id']):
+    if not force_update and not needs_scraping(team, data['country'], data['api_id'], db_path, check_exists_func):
         progress['skipped'] += 1
         progress['completed'] += 1
+        logging.debug(f"Skipping {team} as it was recently scraped")
         return None
         
-    result = await scrape_team_stats_async(session, team, game_type, data['country'], data['api_id'], period)
+    result = await scrape_team_stats_async(session, team, game_type, data['country'], data['api_id'], period, logs_dir)
     update_progress(result is not None, team)
-    save_checkpoint()
+    save_checkpoint(logs_dir)
     return result
 
 async def scrape_all_teams_async(
     teams: Dict,
     periods: List[int] = [10],
+    db_path: str = 'statarea_stats.db',
+    logs_dir: Optional[str] = None,
     force_update: bool = False,
-    check_exists_func = None,
-    db_path='statarea_stats.db'
+    check_exists_func: Optional[Callable] = None
 ):
+    logging.info(f"Starting scrape for {len(teams)} teams with database: {db_path}")
+    
     progress['total'] = len(teams) * len(periods) * 2
     progress['completed'] = 0
     progress['successful'] = 0
@@ -511,21 +539,15 @@ async def scrape_all_teams_async(
     
     connector = aiohttp.TCPConnector(limit=MAX_CONCURRENT_REQUESTS)
     async with aiohttp.ClientSession(connector=connector) as session:
-        tasks = []
-        
-        for team, data in teams.items():
-            # Check if we should skip this team
-            if not force_update and check_exists_func and check_exists_func(team, data['country']):
-                progress['skipped'] += 1
-                progress['completed'] += 1
-                logger.info(f"Skipping {team} - data is recent enough")
-                continue
-                
-            for period in periods:
-                for game_type in ['host', 'guest']:
-                    tasks.append(
-                        scrape_with_progress(session, team, data, game_type, period)
-                    )
+        tasks = [
+            scrape_with_progress(
+                session, team, data, game_type, period, 
+                db_path, logs_dir, force_update, check_exists_func
+            )
+            for team, data in teams.items()
+            for period in periods
+            for game_type in ['host', 'guest']
+        ]
         
         results = await tqdm_asyncio.gather(
             *tasks,
@@ -535,73 +557,99 @@ async def scrape_all_teams_async(
         
         for result in results:
             if result:
-                save_to_database(result)
+                save_to_database(result, db_path)
         
-        logger.info(
+        logging.info(
             f"Completed! Success: {progress['successful']} | "
             f"Failed: {progress['failed']} | "
             f"Skipped: {progress['skipped']}"
         )
+        
+        return {
+            "success": progress['failed'] == 0,
+            "total_teams": len(teams),
+            "completed": progress['completed'],
+            "successful": progress['successful'],
+            "failed": progress['failed'],
+            "skipped": progress['skipped']
+        }
+
+def run_scraper(
+    team_count: Optional[int] = None, 
+    periods: List[int] = [10],
+    db_path: str = 'statarea_stats.db',
+    force_update: bool = False
+):
+    """Run scraper synchronously"""
+    selected_teams = dict(islice(TEAM_DATA.items(), team_count)) if team_count else TEAM_DATA
+    return asyncio.run(scrape_all_teams_async(
+        selected_teams, periods, db_path, force_update=force_update
+    ))
 
 async def run_scraper_async(
     team_count: Optional[int] = None, 
     periods: List[int] = [10],
+    db_path: str = 'statarea_stats.db',
+    logs_dir: Optional[str] = None,
     force_update: bool = False,
-    check_exists_func = None,
-    db_path='statarea_stats.db',
-    logs_dir=None
-) -> None:
+    check_exists_func: Optional[Callable] = None
+):
     """
-    Async version of run_scraper with additional control parameters.
+    Run scraper asynchronously with optional path for database and logs
     
     Args:
-        team_count: Optional number of teams to process. If None, process all teams.
-        periods: List of periods (5, 10, or 15 matches) to scrape for each team.
-        force_update: If True, update all teams regardless of existing data.
-        check_exists_func: Optional function to check if team data needs updating.
+        team_count: Optional limit on number of teams to scrape
+        periods: List of periods to scrape (5, 10, or 15)
         db_path: Path to SQLite database file
         logs_dir: Directory for log files
+        force_update: Whether to update all teams regardless of last scrape time
+        check_exists_func: Optional function to check if team needs scraping
+        
+    Returns:
+        Dict with scraping results
     """
-    # Set up logs directory for scraper-specific logs
-    if logs_dir:
-        failed_log = os.path.join(logs_dir, 'failed_urls.log')
-        progress_file = os.path.join(logs_dir, 'progress_checkpoint.json')
-    else:
-        failed_log = 'failed_urls.log'
-        progress_file = 'progress_checkpoint.json'
+    # Configure logging
+    setup_logging(logs_dir)
     
-    # Initialize database with custom path
+    # Set Windows async policy if needed
+    if platform.system() == 'Windows':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    
+    # Initialize database
     if not initialize_database(db_path):
         logging.error(f"Failed to initialize database at {db_path}")
-        return
+        return {
+            "success": False,
+            "error": "Database initialization failed"
+        }
     
+    # Select teams to scrape
     selected_teams = dict(islice(TEAM_DATA.items(), team_count)) if team_count else TEAM_DATA
-    await scrape_all_teams_async(
+    logging.info(f"Selected {len(selected_teams)} teams for scraping")
+    
+    # Run scraper
+    return await scrape_all_teams_async(
         selected_teams, 
-        periods=periods,
-        force_update=force_update,
-        check_exists_func=check_exists_func,
-        db_path=db_path
+        periods, 
+        db_path, 
+        logs_dir, 
+        force_update,
+        check_exists_func
     )
 
-# Keep the original run_scraper for backwards compatibility
-def run_scraper(team_count: Optional[int] = None, periods: List[int] = [10]):
-    """Synchronous wrapper for run_scraper_async"""
-    if not asyncio.get_event_loop().is_running():
-        asyncio.run(run_scraper_async(team_count, periods))
-    else:
-        raise RuntimeError("Cannot call run_scraper from within an async context. Use run_scraper_async instead.")
-
+# ======================
 # Main Execution
+# ======================
 if __name__ == "__main__":
     if platform.system() == 'Windows':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     
+    # Configure default logging
+    setup_logging()
+    
     # Initialize database first
     if not initialize_database():
         exit(1)
-    
- 
     
     # Once working, uncomment to run for all teams:
     run_scraper(periods=[5, 10, 15])

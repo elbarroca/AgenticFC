@@ -121,11 +121,18 @@ def extract_daily_games(date_str: str, output_path: Optional[str] = None) -> Dic
         class CustomStatAreaDBManager(StatAreaDBManager):
             """Override the StatAreaDBManager to use the correct database path"""
             
+            def __init__(self):
+                """Initialize with the correct database path."""
+                logger.info(f"Initializing CustomStatAreaDBManager with database path: {STATAREA_DB_PATH}")
+                super().__init__(db_path=STATAREA_DB_PATH)
+            
             @contextmanager
             def get_db_connection(self):
                 """Get a connection to the StatArea SQLite database with the correct path."""
                 conn = None
                 try:
+                    # Log the database path for debugging
+                    logger.info(f"Connecting to StatArea database at: {STATAREA_DB_PATH}")
                     conn = sqlite3.connect(
                         STATAREA_DB_PATH,  # Use the path from get_all_data.py
                         timeout=30,  # SQLITE_TIMEOUT
@@ -158,7 +165,31 @@ def extract_daily_games(date_str: str, output_path: Optional[str] = None) -> Dic
         
         # Initialize our custom extractor
         logger.info(f"Using database path: {STATAREA_DB_PATH}")
+        
+        # Check if the database file exists
+        if not os.path.exists(STATAREA_DB_PATH):
+            logger.error(f"Database file not found at path: {STATAREA_DB_PATH}")
+            return {
+                "success": False,
+                "error": f"StatArea database file not found at {STATAREA_DB_PATH}"
+            }
+        else:
+            logger.info(f"Database file found with size: {os.path.getsize(STATAREA_DB_PATH)} bytes")
+        
         extractor = CustomDailyGameExtractor(use_mongo=True)
+        
+        # Check the database connection and list some teams for debugging
+        try:
+            teams = extractor.statarea_db.list_all_teams()
+            if teams:
+                logger.info(f"Successfully connected to database and found {len(teams)} teams")
+                sample_teams = teams[:5]
+                for team in sample_teams:
+                    logger.info(f"Sample team: {team['name']} (ID: {team['id']}, Country: {team['country']})")
+            else:
+                logger.warning("Connected to database but found no teams")
+        except Exception as e:
+            logger.error(f"Error listing teams from database: {e}")
         
         # Extract games data
         games_data = extractor.extract_games_for_date(date_str)
@@ -279,10 +310,31 @@ async def get_data(target_date: Optional[datetime] = None, force_reprocess: bool
             logger.info("✅ Statarea database initialized")
             
             # Step 3: Run Statarea scraper with skip logic
-            logger.info("--- Running Statarea scraper ---")
+            logger.info(f"--- Running Statarea scraper with DB path: {STATAREA_DB_PATH} ---")
+            
+            # Check if database has teams
+            has_teams = False
+            try:
+                with sqlite3.connect(STATAREA_DB_PATH) as conn:
+                    cursor = conn.cursor()
+                    cursor.execute("SELECT COUNT(*) FROM teams")
+                    team_count = cursor.fetchone()[0]
+                    has_teams = team_count > 0
+                    logger.info(f"Database has {team_count} teams")
+            except Exception as e:
+                logger.error(f"Error checking team count: {e}")
+            
+            # Always force update if database is empty
+            should_force_update = force_reprocess or not has_teams
+            team_limit = None if has_teams else 20  # Limit to 20 teams if DB is empty
+            
+            if not has_teams:
+                logger.warning("⚠️ Database is empty, forcing update of 20 teams to populate it")
+            
             await run_scraper_async(
+                team_count=team_limit,
                 periods=[5, 10, 15],
-                force_update=force_reprocess,
+                force_update=should_force_update,
                 check_exists_func=check_statarea_needs_update,
                 db_path=STATAREA_DB_PATH,
                 logs_dir=LOGS_DIR

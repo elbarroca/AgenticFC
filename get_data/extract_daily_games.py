@@ -26,14 +26,21 @@ logger = logging.getLogger(__name__)
 
 # Constants
 SQLITE_TIMEOUT = 30  # seconds
-SQLITE_DB_PATH = 'get_data/statarea/statarea_stats.db'
+SQLITE_DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'database', 'statarea_stats.db')
 OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'daily_games')
 
 class StatAreaDBManager:
     """Manages access to the StatArea SQLite database."""
     
-    def __init__(self):
-        """Initialize the StatArea database manager and ensure tables exist."""
+    def __init__(self, db_path=None):
+        """
+        Initialize the StatArea database manager and ensure tables exist.
+        
+        Args:
+            db_path: Optional custom path to the database file
+        """
+        self.db_path = db_path or SQLITE_DB_PATH
+        logger.info(f"StatArea database path set to: {self.db_path}")
         self._initialize_database()
     
     def _initialize_database(self):
@@ -121,7 +128,7 @@ class StatAreaDBManager:
         conn = None
         try:
             conn = sqlite3.connect(
-                SQLITE_DB_PATH,
+                self.db_path,  # Use instance variable instead of constant
                 timeout=SQLITE_TIMEOUT,
                 check_same_thread=False
             )
@@ -146,8 +153,22 @@ class StatAreaDBManager:
         team_data = {"id": team_id, "stats": {}}
         
         try:
+            # First print the database path for debugging
+            logger.info(f"Retrieving team stats for ID {team_id} from database: {self.db_path}")
+            
             with self.get_db_connection() as conn:
                 cursor = conn.cursor()
+                
+                # Count total teams for debugging
+                cursor.execute("SELECT COUNT(*) FROM teams")
+                total_teams = cursor.fetchone()[0]
+                logger.info(f"Total teams in StatArea database: {total_teams}")
+                
+                # Show sample team IDs for debugging
+                cursor.execute("SELECT id, name, country FROM teams LIMIT 5")
+                sample_teams = cursor.fetchall()
+                teams_str = ", ".join([f"{t[0]}({t[1]})" for t in sample_teams])
+                logger.info(f"Sample teams in database: {teams_str}")
                 
                 # Get team basic info
                 cursor.execute(
@@ -157,11 +178,25 @@ class StatAreaDBManager:
                 team_info = cursor.fetchone()
                 if not team_info:
                     logger.warning(f"No team found with ID {team_id} in StatArea database")
+                    # Try to find team by partial ID match for debugging
+                    cursor.execute("SELECT id, name, country FROM teams WHERE id LIKE ?", (f"%{team_id}%",))
+                    similar_ids = cursor.fetchall()
+                    if similar_ids:
+                        logger.info(f"Found similar IDs: {similar_ids}")
+                    
+                    # Try to find teams with similar names
+                    cursor.execute("SELECT id, name, country FROM teams WHERE name LIKE ?", (f"%{team_id}%",))
+                    similar_names = cursor.fetchall()
+                    if similar_names:
+                        logger.info(f"Found teams with similar names: {similar_names}")
+                        
                     return team_data
                 
                 team_data["name"] = team_info[0]
                 team_data["country"] = team_info[1]
                 team_data["last_scraped"] = team_info[2]
+                
+                logger.info(f"Found team {team_info[0]} (ID: {team_id}) from {team_info[1]}, last scraped: {team_info[2]}")
                 
                 # Get general statistics
                 cursor.execute("""
@@ -172,6 +207,9 @@ class StatAreaDBManager:
                 """, (team_id,))
                 
                 general_stats = cursor.fetchall()
+                general_count = len(general_stats)
+                logger.info(f"Found {general_count} general stats records for team ID {team_id}")
+                
                 for game_type, period, stat_name, stat_value in general_stats:
                     key = f"{game_type}_{period}"
                     if key not in team_data["stats"]:
@@ -187,6 +225,9 @@ class StatAreaDBManager:
                 """, (team_id,))
                 
                 bet_stats = cursor.fetchall()
+                bet_count = len(bet_stats)
+                logger.info(f"Found {bet_count} betting stats records for team ID {team_id}")
+                
                 for game_type, period, category, stat_name, stat_value in bet_stats:
                     key = f"{game_type}_{period}"
                     if key not in team_data["stats"]:
@@ -207,6 +248,9 @@ class StatAreaDBManager:
                 
                 matches = []
                 match_history = cursor.fetchall()
+                match_count = len(match_history)
+                logger.info(f"Found {match_count} match history records for team ID {team_id}")
+                
                 for match_date, competition, opponent, team_goals, opponent_goals, result, venue in match_history:
                     matches.append({
                         "date": match_date,
@@ -220,12 +264,41 @@ class StatAreaDBManager:
                 
                 team_data["match_history"] = matches
                 
+                # If we didn't find any data, log a warning
+                if general_count == 0 and bet_count == 0 and match_count == 0:
+                    logger.warning(f"Team ID {team_id} exists in database but has no stats data")
+                
                 return team_data
                 
         except sqlite3.Error as e:
             logger.error(f"Error fetching team stats for {team_id}: {str(e)}")
             return team_data
+    
+    def list_all_teams(self) -> List[Dict[str, Any]]:
+        """
+        Get a list of all teams in the StatArea database.
         
+        Returns:
+            List of team dictionaries with id, name and country
+        """
+        teams = []
+        try:
+            with self.get_db_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT id, name, country, last_scraped FROM teams")
+                for row in cursor.fetchall():
+                    teams.append({
+                        "id": row[0],
+                        "name": row[1],
+                        "country": row[2],
+                        "last_scraped": row[3]
+                    })
+                logger.info(f"Found {len(teams)} teams in StatArea database")
+                return teams
+        except sqlite3.Error as e:
+            logger.error(f"Error listing teams: {str(e)}")
+            return []
+    
     def save_summary_file(self, data: Dict[str, Any], output_file: Optional[str] = None):
         """
         Save a summary of all extracted data to a JSON file.
@@ -496,17 +569,167 @@ class DailyGameExtractor:
         Args:
             match_data: Match data to enrich with StatArea team data
         """
+        # First print all mapped IDs for debugging
+        if "home_team" in match_data and "id" in match_data["home_team"] and "away_team" in match_data and "id" in match_data["away_team"]:
+            home_id = str(match_data["home_team"]["id"])
+            away_id = str(match_data["away_team"]["id"])
+            home_name = match_data["home_team"].get("name", "")
+            away_name = match_data["away_team"].get("name", "")
+            home_statarea_id = match_data["home_team"].get("statarea_id", "unknown")
+            away_statarea_id = match_data["away_team"].get("statarea_id", "unknown")
+            
+            logger.info(f"Match: {home_name} vs {away_name}")
+            logger.info(f"Home team: MongoDB ID={home_id}, StatArea ID={home_statarea_id}")
+            logger.info(f"Away team: MongoDB ID={away_id}, StatArea ID={away_statarea_id}")
+            
+            # Verify the mappings against the TEAM_ID_MAPPING dictionary
+            home_found = False
+            away_found = False
+            for team_name, mapping in TEAM_ID_MAPPING.items():
+                if mapping.get("mongodb_id") == home_id:
+                    expected_id = mapping.get("statarea_id")
+                    home_found = True
+                    if expected_id != home_statarea_id:
+                        logger.warning(f"Home team statarea_id mismatch: expected {expected_id}, got {home_statarea_id}")
+                    break
+            
+            for team_name, mapping in TEAM_ID_MAPPING.items():
+                if mapping.get("mongodb_id") == away_id:
+                    expected_id = mapping.get("statarea_id")
+                    away_found = True
+                    if expected_id != away_statarea_id:
+                        logger.warning(f"Away team statarea_id mismatch: expected {expected_id}, got {away_statarea_id}")
+                    break
+                    
+            if not home_found:
+                logger.warning(f"Home team with MongoDB ID {home_id} not found in TEAM_ID_MAPPING")
+            if not away_found:
+                logger.warning(f"Away team with MongoDB ID {away_id} not found in TEAM_ID_MAPPING")
+        
         # Add StatArea data for home team if we have a valid ID
         if "home_team" in match_data and "statarea_id" in match_data["home_team"] and match_data["home_team"]["statarea_id"] != "unknown":
             home_statarea_id = match_data["home_team"]["statarea_id"]
+            home_team_name = match_data["home_team"].get("name", "")
+            
+            logger.info(f"Fetching StatArea data for home team: {home_team_name} (ID: {home_statarea_id})")
+            
+            # First check if team exists in database
+            team_exists = self._check_team_exists_in_db(home_statarea_id)
+            if not team_exists:
+                logger.warning(f"Home team ID {home_statarea_id} ('{home_team_name}') not found in StatArea database")
+                # Try to find by team name
+                alt_id = self._find_team_by_name(home_team_name)
+                if alt_id:
+                    logger.info(f"Found alternative ID {alt_id} for '{home_team_name}' by name lookup")
+                    home_statarea_id = alt_id
+                    match_data["home_team"]["statarea_id"] = alt_id
+                    match_data["home_team"]["statarea_id_by_name"] = True
+            
+            # Get team stats with potentially updated ID
             home_statarea_data = self.statarea_db.get_team_stats(home_statarea_id)
+            
+            # Verify data quality
+            stats_populated = bool(home_statarea_data.get("stats") and any(home_statarea_data["stats"].values()))
+            history_populated = bool(home_statarea_data.get("match_history"))
+            
+            if stats_populated and history_populated:
+                logger.info(f"Retrieved complete StatArea data for home team {home_team_name}")
+            elif stats_populated or history_populated:
+                logger.warning(f"Retrieved partial StatArea data for home team {home_team_name}")
+            else:
+                logger.warning(f"Retrieved empty StatArea data for home team {home_team_name}")
+                
             match_data["home_team"]["statarea_data"] = home_statarea_data
         
         # Add StatArea data for away team if we have a valid ID
         if "away_team" in match_data and "statarea_id" in match_data["away_team"] and match_data["away_team"]["statarea_id"] != "unknown":
             away_statarea_id = match_data["away_team"]["statarea_id"]
+            away_team_name = match_data["away_team"].get("name", "")
+            
+            logger.info(f"Fetching StatArea data for away team: {away_team_name} (ID: {away_statarea_id})")
+            
+            # First check if team exists in database
+            team_exists = self._check_team_exists_in_db(away_statarea_id)
+            if not team_exists:
+                logger.warning(f"Away team ID {away_statarea_id} ('{away_team_name}') not found in StatArea database")
+                # Try to find by team name
+                alt_id = self._find_team_by_name(away_team_name)
+                if alt_id:
+                    logger.info(f"Found alternative ID {alt_id} for '{away_team_name}' by name lookup")
+                    away_statarea_id = alt_id
+                    match_data["away_team"]["statarea_id"] = alt_id
+                    match_data["away_team"]["statarea_id_by_name"] = True
+            
+            # Get team stats with potentially updated ID
             away_statarea_data = self.statarea_db.get_team_stats(away_statarea_id)
+            
+            # Verify data quality
+            stats_populated = bool(away_statarea_data.get("stats") and any(away_statarea_data["stats"].values()))
+            history_populated = bool(away_statarea_data.get("match_history"))
+            
+            if stats_populated and history_populated:
+                logger.info(f"Retrieved complete StatArea data for away team {away_team_name}")
+            elif stats_populated or history_populated:
+                logger.warning(f"Retrieved partial StatArea data for away team {away_team_name}")
+            else:
+                logger.warning(f"Retrieved empty StatArea data for away team {away_team_name}")
+                
             match_data["away_team"]["statarea_data"] = away_statarea_data
+    
+    def _check_team_exists_in_db(self, team_id: str) -> bool:
+        """
+        Check if a team exists in the StatArea database.
+        
+        Args:
+            team_id: StatArea team ID
+            
+        Returns:
+            True if team exists, False otherwise
+        """
+        try:
+            with self.statarea_db.get_db_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT COUNT(*) FROM teams WHERE id = ?", (team_id,))
+                count = cursor.fetchone()[0]
+                return count > 0
+        except sqlite3.Error as e:
+            logger.error(f"Error checking if team {team_id} exists: {str(e)}")
+            return False
+    
+    def _find_team_by_name(self, team_name: str) -> Optional[str]:
+        """
+        Find a team ID by name in the StatArea database.
+        
+        Args:
+            team_name: Team name to search for
+            
+        Returns:
+            Team ID if found, None otherwise
+        """
+        try:
+            with self.statarea_db.get_db_connection() as conn:
+                cursor = conn.cursor()
+                # Try exact match first
+                cursor.execute("SELECT id FROM teams WHERE name = ?", (team_name,))
+                result = cursor.fetchone()
+                if result:
+                    return result[0]
+                
+                # Try LIKE match
+                cursor.execute("SELECT id, name FROM teams WHERE name LIKE ?", (f"%{team_name}%",))
+                results = cursor.fetchall()
+                if results:
+                    # Log possible matches
+                    logger.info(f"Found {len(results)} possible matches for '{team_name}':")
+                    for team_id, name in results:
+                        logger.info(f"  - {name} (ID: {team_id})")
+                    # Return the first match
+                    return results[0][0]
+                
+                return None
+        except sqlite3.Error as e:
+            logger.error(f"Error finding team by name '{team_name}': {str(e)}")
+            return None
     
     def _remove_none_values(self, data):
         """
@@ -593,10 +816,29 @@ class DailyGameExtractor:
         # --- Process StatArea Data ---
         statarea_data_raw = team_info.get("statarea_data") # This was added earlier
         statarea_analysis = {}
+        statarea_data_status = "missing"
+        
         if statarea_data_raw and isinstance(statarea_data_raw, dict):
+            # Check if we have any actual stats data in the statarea data
+            has_stats = bool(statarea_data_raw.get("stats") and any(statarea_data_raw["stats"].values()))
+            has_match_history = bool(statarea_data_raw.get("match_history"))
+            
+            # Set status based on data quality
+            if has_stats and has_match_history:
+                statarea_data_status = "complete"
+            elif has_stats or has_match_history:
+                statarea_data_status = "partial"
+            else:
+                statarea_data_status = "empty"
+                
             # Keep the ID and last_scraped info
             statarea_analysis["statarea_id"] = statarea_data_raw.get("id")
             statarea_analysis["last_scraped"] = statarea_data_raw.get("last_scraped")
+            statarea_analysis["status"] = statarea_data_status
+            
+            # Include if the ID was found by name lookup instead of direct mapping
+            if team_info.get("statarea_id_by_name"):
+                statarea_analysis["id_by_name_lookup"] = True
             
             # Include ALL the raw StatArea stats without filtering
             statarea_analysis["raw_stats"] = statarea_data_raw.get("stats", {})
@@ -619,6 +861,12 @@ class DailyGameExtractor:
                     }
                     # Remove None values from this specific period analysis
                     statarea_analysis[analysis_key] = {k: v for k, v in statarea_analysis[analysis_key].items() if v is not None}
+        else:
+            # Include information about missing data
+            statarea_id = team_info.get("statarea_id", "unknown")
+            statarea_analysis["statarea_id"] = statarea_id
+            statarea_analysis["status"] = statarea_data_status
+            statarea_analysis["error"] = f"No StatArea data found for ID: {statarea_id}"
 
 
         # --- Final Team Structure ---

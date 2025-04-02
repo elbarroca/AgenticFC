@@ -211,9 +211,9 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "211",
         "country": "Portugal"
     },
-    # Benfica B | 211 | 229
+    # Benfica B | 229 | 229
     "Benfica B": {
-        "statarea_id": "211",
+        "statarea_id": "229",
         "mongodb_id": "229",
         "country": "Portugal"
     },
@@ -727,9 +727,9 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "2596",
         "country": "Romania"
     },
-    # Feirense | 231 | 213
+    # Feirense | 213 | 213
     "Feirense": {
-        "statarea_id": "231",
+        "statarea_id": "213",
         "mongodb_id": "213",
         "country": "Portugal"
     },
