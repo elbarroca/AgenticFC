@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 # Constants
 SQLITE_TIMEOUT = 30  # seconds
 SQLITE_DB_PATH = 'get_data/statarea/statarea_stats.db'
-OUTPUT_DIR = 'daily_games'
+OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'daily_games')
 
 class StatAreaDBManager:
     """Manages access to the StatArea SQLite database."""
