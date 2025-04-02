@@ -3,8 +3,8 @@
 ## Scraper Improvements
 - [x] Map Statera IDs to API Football IDs (e.g. Vilafranquense)
 - [x] Scrape full website data including last 15 match results
-- [ ] Add team standings data (Ultimos 15 dias , com quem jogou , e os resultados)
-- [ ] Ter um unico file , onde uma vez corrido ( o file ), buscar a DATA TODA , de certas partidas ( api + Scraper ) , com base no @data_fetcher + Scraper , para deps so chamar um file e uma funcao e termos codigo optiimizado
+- [?] Add team standings data (Ultimos 15 dias , com quem jogou , e os resultados)
+- [X] Ter um unico file , onde uma vez corrido ( o file ), buscar a DATA TODA , de certas partidas ( api + Scraper ) , com base no @data_fetcher + Scraper , para deps so chamar um file e uma funcao e termos codigo optiimizado
 
 ## Scorer Enhancement 
 
