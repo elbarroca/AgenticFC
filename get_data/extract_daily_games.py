@@ -301,49 +301,73 @@ class StatAreaDBManager:
     
     def save_summary_file(self, data: Dict[str, Any], output_file: Optional[str] = None):
         """
-        Save a summary of all extracted data to a JSON file.
-        
-        Args:
-            data: Extracted game data
-            output_file: Output file path (default: games_summary_YYYY-MM-DD.json)
+        Save a summary of all extracted data to a JSON file in each league directory.
         """
-        if not output_file:
-            date_str = data.get("date", self.get_current_date_str())
-            output_file = f"games_summary_{date_str}.json"
+        # Group games by league
+        games_by_league = {}
         
-        # Create a simplified summary with just the most essential information
-        summary = {
-            "date": data.get("date"),
-            "total_games": data.get("total_games"),
-            "games": []
-        }
-        
-        for game in data.get("games", []):
-            summary["games"].append({
-                "fixture_id": game.get("fixture_id"),
+        for raw_game in data.get("games", []):
+            cleaned_game = self._clean_final_game_data(raw_game)
+            league_info = cleaned_game.get("league", {})
+            league_name = league_info.get("name", "UnknownLeague")
+            league_country = league_info.get("country", "")
+            
+            # Create league key
+            league_dir_name = self._sanitize_filename(f"{league_name}_{league_country}" if league_country else league_name)
+            
+            if league_dir_name not in games_by_league:
+                games_by_league[league_dir_name] = {
+                    "league_info": league_info,
+                    "games": []
+                }
+            
+            # Add game to league group
+            fixture_info = cleaned_game.get("fixture_info", {})
+            home_team_info = cleaned_game.get("teams", {}).get("home", {})
+            away_team_info = cleaned_game.get("teams", {}).get("away", {})
+            
+            games_by_league[league_dir_name]["games"].append({
+                "fixture_id": fixture_info.get("id"),
+                "kickoff_time": fixture_info.get("date"),
                 "home_team": {
-                    "id": game.get("home_team", {}).get("id"),
-                    "name": game.get("home_team", {}).get("name"),
-                    "statarea_id": game.get("home_team", {}).get("statarea_id")
+                    "id": home_team_info.get("id"),
+                    "name": home_team_info.get("name"),
+                    "statarea_id": home_team_info.get("statarea_analysis", {}).get("statarea_id")
                 },
                 "away_team": {
-                    "id": game.get("away_team", {}).get("id"),
-                    "name": game.get("away_team", {}).get("name"),
-                    "statarea_id": game.get("away_team", {}).get("statarea_id")
-                },
-                "league": {
-                    "id": game.get("league", {}).get("id"),
-                    "name": game.get("league", {}).get("name"),
-                    "country": game.get("league", {}).get("country")
-                },
-                "kickoff_time": game.get("match_info", {}).get("date"),
-                "file": f"{data.get('date')}_{self._sanitize_filename(game.get('home_team', {}).get('name', 'Home'))}_vs_{self._sanitize_filename(game.get('away_team', {}).get('name', 'Away'))}_{game.get('fixture_id')}.json"
+                    "id": away_team_info.get("id"),
+                    "name": away_team_info.get("name"),
+                    "statarea_id": away_team_info.get("statarea_analysis", {}).get("statarea_id")
+                }
             })
         
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(summary, f, indent=2, ensure_ascii=False)
+        # Save summary file for each league
+        date_str = data.get("date", self.get_current_date_str())
         
-        logger.info(f"Saved summary data to {output_file}")
+        for league_dir_name, league_data in games_by_league.items():
+            league_dir_path = os.path.join(OUTPUT_DIR, league_dir_name)
+            
+            # Create league directory if it doesn't exist
+            if not os.path.exists(league_dir_path):
+                os.makedirs(league_dir_path)
+            
+            # Create summary file
+            summary_filename = f"games_summary_{date_str}.json"
+            summary_file_path = os.path.join(league_dir_path, summary_filename)
+            
+            summary = {
+                "date": date_str,
+                "league": league_data["league_info"],
+                "total_games": len(league_data["games"]),
+                "games": league_data["games"]
+            }
+            
+            try:
+                with open(summary_file_path, 'w', encoding='utf-8') as f:
+                    json.dump(summary, f, indent=2, ensure_ascii=False)
+                logger.info(f"Saved summary for {league_dir_name} to {summary_file_path}")
+            except Exception as e:
+                logger.error(f"Failed to save summary for {league_dir_name} to {summary_file_path}: {e}")
 
 
 class DailyGameExtractor:
@@ -353,6 +377,7 @@ class DailyGameExtractor:
         """Initialize the extractor with database connections."""
         self.statarea_db = StatAreaDBManager()
         self.mongo_db = None
+        self.league_standings_map = {} # Added to store standings { (league_id, season): standings_data }
         if use_mongo:
             try:
                 self.mongo_db = MongoDBManager()
@@ -442,6 +467,13 @@ class DailyGameExtractor:
             "total_games": len(detailed_games)
         }
         
+        # Save standings files after processing all games
+        if self.mongo_db and self.league_standings_map:
+             self._save_standings_files(date_str)
+
+        # Clear the standings map for the next potential run
+        self.league_standings_map = {}
+            
         if mongodb_connection_error:
             result["mongodb_error"] = mongodb_connection_error
             
@@ -464,17 +496,86 @@ class DailyGameExtractor:
         self._add_statarea_id_mappings(match_data)
         self._add_statarea_team_data(match_data)
         
-        # Add standings if needed
-        if "league_standings" not in match_data and "standings" not in match_data:
-            league_id = match_data.get("league", {}).get("id")
-            season = match_data.get("league", {}).get("season")
-            
-            if league_id and season:
-                standings = self.mongo_db.get_league_standings(league_id, season)
-                if standings:
-                    match_data["standings"] = standings
+        # Add correct league ID and season extraction - modified code here
+        # Look in multiple possible locations for league ID and season
+        league_id = None
+        season = None
         
-        return match_data  # Return the enriched data, cleaning will happen during save
+        # Check direct league object
+        if "league" in match_data:
+            league_obj = match_data.get("league", {})
+            league_id = league_obj.get("id")
+            season = league_obj.get("season")
+        
+        # If not found, check fixture_info -> league
+        if (not league_id or not season) and "fixture_info" in match_data:
+            fixture_info = match_data.get("fixture_info", {})
+            if "league" in fixture_info:
+                league_obj = fixture_info.get("league", {})
+                league_id = league_obj.get("id")
+                season = league_obj.get("season")
+        
+        # If still not found, check league_id field directly
+        if not league_id:
+            league_id = match_data.get("league_id")
+        
+        # If season still not found, try to use current year
+        if not season:
+            season = match_data.get("season")
+            if not season:
+                # Default to current year if all else fails
+                from datetime import datetime
+                season = datetime.now().year
+        
+        # Log the extracted values for debugging
+        logger.info(f"Extracted league ID: {league_id}, season: {season} for match data")
+        
+        # Only proceed if we have valid league ID and season
+        if league_id and season:
+            league_key = (league_id, season)
+            
+            if league_key not in self.league_standings_map:
+                # Check if standings are already in the match data
+                existing_standings = match_data.get("standings")
+                if not existing_standings:
+                    existing_standings = match_data.get("standings_snapshot")
+                
+                if existing_standings:
+                    logger.info(f"Using existing standings snapshot for league {league_id}, season {season}")
+                    # Ensure it has the necessary league info for saving later
+                    if "league" not in existing_standings:
+                        existing_standings["league"] = match_data.get("league", {})
+                    self.league_standings_map[league_key] = existing_standings
+                elif self.mongo_db:
+                    # Try to fetch standings from MongoDB directly using league ID
+                    logger.info(f"Fetching standings for league {league_id}, season {season}")
+                    standings = self.mongo_db.get_league_standings(league_id, season)
+                    if standings:
+                        # Store fetched standings in the map
+                        self.league_standings_map[league_key] = standings
+                        logger.info(f"✅ Successfully stored standings for league {league_id}, season {season}")
+                    else:
+                        # Try to fetch from current date if latest not found
+                        current_date = match_data.get("date", self.get_current_date_str())
+                        logger.info(f"Trying to fetch standings for date {current_date}")
+                        standings = self.mongo_db.get_standings_data(current_date, league_id, season)
+                        if standings:
+                            self.league_standings_map[league_key] = standings
+                            logger.info(f"✅ Successfully stored standings for league {league_id} using current date")
+                        else:
+                            logger.warning(f"Could not fetch standings for league {league_id}, season {season}")
+            else:
+                 logger.debug(f"Standings for league {league_id}, season {season} already processed.")
+        else:
+            logger.warning(f"Missing league ID ({league_id}) or season ({season}) for match, can't fetch standings")
+
+        # Remove standings from the game data itself before returning
+        if "standings" in match_data:
+            del match_data["standings"]
+        if "standings_snapshot" in match_data:
+            del match_data["standings_snapshot"]
+        
+        return match_data
     
     def _add_statarea_id_mappings(self, match_data: Dict[str, Any]):
         """
@@ -746,7 +847,7 @@ class DailyGameExtractor:
         else:
             return data
 
-    def _process_team(self, team_data_full_match: Dict[str, Any], team_key: str, league_standings: Any):
+    def _process_team(self, team_data_full_match: Dict[str, Any], team_key: str):
         """
         Processes team data from the full match document, prioritizing MongoDB stats
         and adding unique StatArea insights.
@@ -754,7 +855,6 @@ class DailyGameExtractor:
         Args:
             team_data_full_match: The full match data dictionary from MongoDB.
             team_key: 'home_team' or 'away_team'.
-            league_standings: The fetched league standings data.
 
         Returns:
             Processed team dictionary or None if team data is missing.
@@ -769,21 +869,6 @@ class DailyGameExtractor:
         # Extract team details
         team_id = team_info.get("id")
         team_name = team_info.get("name")
-
-        # Get standing info for this team if available
-        team_standing = None
-        if league_standings:
-            standings_list = league_standings if isinstance(league_standings, list) else league_standings.get("standings", [])
-            # Ensure standings_list is a list before iterating
-            if isinstance(standings_list, list):
-                for group in standings_list:
-                     # Ensure group is a list before iterating
-                    if isinstance(group, list):
-                        for team_standing_entry in group:
-                            if isinstance(team_standing_entry, dict) and team_standing_entry.get("team", {}).get("id") == team_id:
-                                team_standing = team_standing_entry
-                                break
-                    if team_standing: break # Found it
 
         # --- Organize MongoDB Stats ---
         mongodb_stats_processed = {}
@@ -878,7 +963,6 @@ class DailyGameExtractor:
             # Coach/Formation might be in the main team object OR under lineups
             "coach": team_info.get("coach") or team_info.get("lineups", [{}])[0].get("coach"), # Check lineups too
             "formation": team_info.get("formation") or team_info.get("lineups", [{}])[0].get("formation"), # Check lineups too
-            "standing": team_standing,
             "mongodb_stats": self._remove_none_values(mongodb_stats_processed), # Cleaned MongoDB core stats
             "statarea_analysis": self._remove_none_values(statarea_analysis) # Cleaned unique StatArea insights
         }
@@ -911,23 +995,21 @@ class DailyGameExtractor:
         standings_data = game_data.get("standings", game_data.get("standings_snapshot", {}))
 
         cleaned["league"] = {
-            "id": league_info.get("id") or standings_data.get("league", {}).get("id") or game_data.get("league_id"),
-            "name": league_info.get("name") or standings_data.get("league", {}).get("name") or game_data.get("league_name"),
-            "country": league_info.get("country") or standings_data.get("league", {}).get("country"),
-            "logo": league_info.get("logo") or standings_data.get("league", {}).get("logo"),
-            "flag": league_info.get("flag") or standings_data.get("league", {}).get("flag"),
-            "season": league_info.get("season") or standings_data.get("league", {}).get("season") or standings_data.get("season"),
+            "id": league_info.get("id") or game_data.get("league_id"), # Simplified: Get ID from league info or game_data
+            "name": league_info.get("name") or game_data.get("league_name"), # Simplified
+            "country": league_info.get("country"), # Simplified
+            "logo": league_info.get("logo"), # Simplified
+            "flag": league_info.get("flag"), # Simplified
+            "season": league_info.get("season") or game_data.get("season"), # Simplified
             "round": league_info.get("round"), # May not be in standings object
             "statarea_id": league_info.get("statarea_id"), # Added earlier
-            # Include the actual standings data, preferring the more detailed one
-            "standings": standings_data.get("standings")
         }
 
         # 3. Teams Info (Use the updated _process_team)
         # Pass the full game_data so _process_team can access team_stats keys
         cleaned["teams"] = {
-            "home": self._process_team(game_data, "home_team", cleaned["league"].get("standings")),
-            "away": self._process_team(game_data, "away_team", cleaned["league"].get("standings")),
+            "home": self._process_team(game_data, "home_team"), # Removed standings arg
+            "away": self._process_team(game_data, "away_team"), # Removed standings arg
         }
 
         # 4. Score and Goals (from MongoDB top level)
@@ -959,11 +1041,6 @@ class DailyGameExtractor:
             # Other potential fields from the example
              "h2h_prediction_details": pred_content.get("h2h"), # Might contain form/att/def stats used for prediction h2h part
              "winning_odds": predictions_raw.get("winning_odds"), # Example field
-             # Add others as identified from your specific MongoDB structure
-             # "league_position": predictions_raw.get("league_position"), # Example
-             # "attacks": predictions_raw.get("attacks"),             # Example
-             # "defenses": predictions_raw.get("defenses"),           # Example
-             # "poisson_distribution": predictions_raw.get("poisson_distribution") # Example
         }
 
         # 7. H2H Data (Prioritize from MongoDB predictions.h2h)
@@ -994,15 +1071,12 @@ class DailyGameExtractor:
                     "name": h2h_home.get("name"),
                     "logo": h2h_home.get("logo"),
                     "winner": h2h_home.get("winner"),
-                    # Add statarea ID if mapped earlier, but maybe not essential here
-                    # "statarea_id": h2h_home.get("statarea_id")
                 },
                 "away_team": {
                     "id": h2h_away.get("id"),
                     "name": h2h_away.get("name"),
                     "logo": h2h_away.get("logo"),
                     "winner": h2h_away.get("winner"),
-                    # "statarea_id": h2h_away.get("statarea_id")
                 },
                 "score": {
                     "home": h2h_goals.get("home"),
@@ -1018,293 +1092,155 @@ class DailyGameExtractor:
             })
         cleaned["h2h"] = h2h_list
 
-        # 8. Final Cleanup & Parameter Summary
+        # 8. Final Cleanup
         cleaned = self._remove_none_values(cleaned)
-        # Regenerate summary based on the *new* structure
-        parameter_counts = self._count_parameters_by_category(cleaned) # Needs update to reflect new structure
-        cleaned["parameter_summary"] = parameter_counts
 
         return cleaned
 
-    def _count_parameters_by_category(self, data_dict: Dict[str, Any]) -> Dict[str, List[str]]:
-        """
-        Counts parameters by category in the *cleaned* data structure.
-        Needs adjustment to match the new structure from _clean_final_game_data.
-        """
-        categories = {
-            "fixture": [],
-            "league": [],
-            "team_shared": [], # Basic team info like id, name, logo
-            "home_standing": [],
-            "away_standing": [],
-            "home_mongodb_stats": [],
-            "away_mongodb_stats": [],
-            "home_statarea_analysis": [],
-            "away_statarea_analysis": [],
-            "score_goals": [],
-            "predictions": [],
-            "h2h": [],
-            "events": [],
-            "lineups": [],
-            "match_stats": [],
-            "other": []
-        }
-
-        # Extract fixture info parameters
-        if "fixture_info" in data_dict:
-            self._extract_parameters(data_dict["fixture_info"], "fixture", categories["fixture"])
-
-        # Extract league parameters (excluding standings list itself)
-        if "league" in data_dict:
-            league_data = data_dict["league"]
-            for key in league_data.keys():
-                if key != "standings":
-                    categories["league"].append(f"league.{key}")
-            if league_data.get("standings"):
-                 categories["league"].append("league.standings_present")
-
-
-        # Extract score/goals parameters
-        if "score" in data_dict:
-             self._extract_parameters(data_dict["score"], "score", categories["score_goals"])
-        if "goals" in data_dict:
-             self._extract_parameters(data_dict["goals"], "goals", categories["score_goals"])
-
-
-        # --- Team Data ---
-        home_team = data_dict.get("teams", {}).get("home")
-        away_team = data_dict.get("teams", {}).get("away")
-
-        # Home Team
-        if home_team:
-            # Basic Info + Shared Keys
-            for key in home_team.keys():
-                 if key not in ["standing", "mongodb_stats", "statarea_analysis"]:
-                    categories["team_shared"].append(f"team.{key}") # Add shared keys once
-            # Standing
-            if "standing" in home_team:
-                self._extract_parameters(home_team["standing"], "home.standing", categories["home_standing"])
-            # MongoDB Stats
-            if "mongodb_stats" in home_team:
-                self._extract_parameters(home_team["mongodb_stats"], "home.mongodb_stats", categories["home_mongodb_stats"])
-            # StatArea Analysis
-            if "statarea_analysis" in home_team:
-                self._extract_parameters(home_team["statarea_analysis"], "home.statarea_analysis", categories["home_statarea_analysis"])
-
-        # Away Team (only non-shared keys)
-        if away_team:
-             # Standing
-            if "standing" in away_team:
-                self._extract_parameters(away_team["standing"], "away.standing", categories["away_standing"])
-            # MongoDB Stats
-            if "mongodb_stats" in away_team:
-                self._extract_parameters(away_team["mongodb_stats"], "away.mongodb_stats", categories["away_mongodb_stats"])
-            # StatArea Analysis
-            if "statarea_analysis" in away_team:
-                self._extract_parameters(away_team["statarea_analysis"], "away.statarea_analysis", categories["away_statarea_analysis"])
-
-        # Remove duplicates from shared keys
-        categories["team_shared"] = sorted(list(set(categories["team_shared"])))
-
-
-        # Extract prediction parameters
-        if "predictions" in data_dict:
-             self._extract_parameters(data_dict["predictions"], "predictions", categories["predictions"])
-
-        # Count H2H parameters (just the count + keys of first entry)
-        if "h2h" in data_dict and data_dict["h2h"]:
-            categories["h2h"].append(f"h2h.count: {len(data_dict['h2h'])}")
-            self._extract_parameters(data_dict['h2h'][0], "h2h_entry", categories["h2h"]) # Keys from first match
-
-        # Count events parameters (count + keys of first entry)
-        if "events" in data_dict and data_dict["events"]:
-            categories["events"].append(f"events.count: {len(data_dict['events'])}")
-            self._extract_parameters(data_dict['events'][0], "event_entry", categories["events"])
-
-        # Count lineups parameters (count + keys of first entry)
-        if "lineups" in data_dict and data_dict["lineups"]:
-            categories["lineups"].append(f"lineups.count: {len(data_dict['lineups'])}")
-            self._extract_parameters(data_dict['lineups'][0], "lineup_entry", categories["lineups"])
-
-        # Count match stats parameters (count + keys of first entry)
-        if "statistics" in data_dict and data_dict["statistics"]:
-            categories["match_stats"].append(f"match_stats.count: {len(data_dict['statistics'])}")
-            self._extract_parameters(data_dict['statistics'][0], "match_stat_entry", categories["match_stats"])
-
-
-        # Return only non-empty categories
-        return {k: sorted(list(set(v))) for k, v in categories.items() if v}
-
-    # Make sure _extract_parameters handles non-dict values gracefully in recursion base case
-    def _extract_parameters(self, data, prefix, param_list):
-        """
-        Helper method to recursively extract parameters from nested dictionaries/lists.
-        """
-        if isinstance(data, dict):
-            for key, value in data.items():
-                param_name = f"{prefix}.{key}"
-                if isinstance(value, (dict, list)):
-                    # Recurse for nested structures
-                    self._extract_parameters(value, param_name, param_list)
-                else:
-                    # Add the parameter name for simple values
-                    param_list.append(param_name)
-        elif isinstance(data, list):
-             # If it's a list, maybe just indicate its presence or process the first item as sample
-            if data:
-                 # Example: Process first item to get structure keys
-                 self._extract_parameters(data[0], f"{prefix}[0]", param_list)
-        # Base case: If it's not a dict or list, do nothing (already handled by caller)
-
-
     def save_individual_game_file(self, game_data: Dict[str, Any]):
         """
-        Save cleaned game data to an individual JSON file named after the teams.
+        Save cleaned game data to an individual JSON file in the league-specific directory.
 
         Args:
             game_data: Raw game data after initial processing and enrichment
         """
-        # Create directory if it doesn't exist
-        if not os.path.exists(OUTPUT_DIR):
-            os.makedirs(OUTPUT_DIR)
+        # Clean the data before determining the filename components
+        cleaned_data = self._clean_final_game_data(game_data)
 
-        # --- Get necessary info for filename ---
-        # Need to access potentially cleaned data OR the original enriched data
-        # Let's clean FIRST, then get names/ids for the filename from cleaned data
+        # Get league info for directory name
+        league_info = cleaned_data.get("league", {})
+        league_name = league_info.get("name", "UnknownLeague")
+        league_country = league_info.get("country", "")
+        
+        # Use standardized league name
+        standardized_league_name = self._standardize_league_name(league_name, league_country)
+        league_dir_name = self._sanitize_filename(standardized_league_name)
+        league_dir_path = os.path.join(OUTPUT_DIR, league_dir_name)
 
-        # Clean the data *before* determining the filename components
-        cleaned_data = self._clean_final_game_data(game_data) # Perform cleaning
+        # Create league directory if it doesn't exist
+        if not os.path.exists(league_dir_path):
+            os.makedirs(league_dir_path)
 
-        # --- Determine filename components from CLEANED data ---
+        # Get team and fixture info for filename
         home_team_info = cleaned_data.get("teams", {}).get("home", {})
         away_team_info = cleaned_data.get("teams", {}).get("away", {})
         fixture_info = cleaned_data.get("fixture_info", {})
 
+        # Get team names and sanitize for filename
         home_team_name = home_team_info.get("name", "UnknownHome")
         away_team_name = away_team_info.get("name", "UnknownAway")
         home_team_file_part = self._sanitize_filename(home_team_name)
         away_team_file_part = self._sanitize_filename(away_team_name)
 
+        # Get date and fixture ID
         date_str = fixture_info.get("date", self.get_current_date_str())
-        if date_str and isinstance(date_str, str):
-            date_part = date_str.split('T')[0]
-        else:
-            date_part = self.get_current_date_str()
-
+        date_part = date_str.split('T')[0] if date_str and isinstance(date_str, str) else self.get_current_date_str()
         fixture_id = fixture_info.get("id", "unknown_fixture")
 
         # Create filename
         filename = f"{date_part}_{home_team_file_part}_vs_{away_team_file_part}_{fixture_id}.json"
-        # Ensure OUTPUT_DIR is defined correctly
-        output_dir = OUTPUT_DIR # Make sure this constant is accessible or passed
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        file_path = os.path.join(output_dir, filename)
+        file_path = os.path.join(league_dir_path, filename)
 
-
-        # Save the CLEANED game data to file
+        # Save the cleaned game data to file
         try:
             cleaned_data = self._convert_mongodb_types(cleaned_data)
             with open(file_path, 'w', encoding='utf-8') as f:
-                # Use a custom encoder if you encounter non-serializable types (like $numberInt)
-                # Or ensure data is converted before this step
                 json.dump(cleaned_data, f, indent=2, ensure_ascii=False)
             logger.info(f"Saved cleaned game data to {file_path}")
         except TypeError as e:
-             logger.error(f"Error saving JSON data to {file_path}: {e}. Check for non-serializable types.")
-             # Consider logging problematic part of cleaned_data if possible
+            logger.error(f"Error saving JSON data to {file_path}: {e}. Check for non-serializable types.")
         except Exception as e:
-             logger.error(f"An unexpected error occurred saving {file_path}: {e}")
+            logger.error(f"An unexpected error occurred saving {file_path}: {e}")
 
-
-    def save_summary_file(self, data: Dict[str, Any], output_file: Optional[str] = None):
-        """
-        Save a summary of all extracted data to a JSON file.
-        Uses the *cleaned* data for consistency.
-
-        Args:
-            data: The dictionary returned by extract_games_for_date, containing raw game entries.
-            output_file: Output file path (default: games_summary_YYYY-MM-DD.json)
-        """
-        # ... (output_file determination logic) ...
-
-        summary = {
-            "date": data.get("date"),
-            "total_games": data.get("total_games"),
-            "games": []
-        }
-
-        for raw_game in data.get("games", []):
-            # Clean each game *first* to get consistent info for the summary
-            cleaned_game = self._clean_final_game_data(raw_game) # Clean the game data
-
-            # --- Extract info from CLEANED data ---
-            fixture_info = cleaned_game.get("fixture_info", {})
-            league_info = cleaned_game.get("league", {})
-            home_team_info = cleaned_game.get("teams", {}).get("home", {})
-            away_team_info = cleaned_game.get("teams", {}).get("away", {})
-
-            # Construct filename based on cleaned data (same logic as save_individual_game_file)
-            home_name = home_team_info.get("name", "UnknownHome")
-            away_name = away_team_info.get("name", "UnknownAway")
-            home_file_part = self._sanitize_filename(home_name)
-            away_file_part = self._sanitize_filename(away_name)
-            fixture_id = fixture_info.get("id", "unknown_fixture")
-            date_str = fixture_info.get("date", self.get_current_date_str())
-            date_part = date_str.split('T')[0] if date_str and isinstance(date_str, str) else self.get_current_date_str()
-            filename = f"{date_part}_{home_file_part}_vs_{away_file_part}_{fixture_id}.json"
-
-
-            summary["games"].append({
-                "fixture_id": fixture_id,
-                "kickoff_time": fixture_info.get("date"), # Use cleaned kickoff time
-                "league": {
-                    "id": league_info.get("id"),
-                    "name": league_info.get("name"),
-                    "country": league_info.get("country")
-                },
-                "home_team": {
-                    "id": home_team_info.get("id"),
-                    "name": home_name,
-                    "statarea_id": home_team_info.get("statarea_analysis", {}).get("statarea_id") # Get from analysis section
-                },
-                "away_team": {
-                    "id": away_team_info.get("id"),
-                    "name": away_name,
-                    "statarea_id": away_team_info.get("statarea_analysis", {}).get("statarea_id") # Get from analysis section
-                },
-                "file": filename # Use the constructed filename
-            })
-
-        # ... (saving logic with error handling) ...
-        try:
-            # Ensure OUTPUT_DIR is handled correctly if summary is saved elsewhere
-            output_dir = os.path.dirname(output_file) if output_file else "."
-            if output_dir and not os.path.exists(output_dir):
-                 os.makedirs(output_dir)
-                 
-            actual_output_file = output_file if output_file else f"games_summary_{data.get('date', self.get_current_date_str())}.json"
-
-            with open(actual_output_file, 'w', encoding='utf-8') as f:
-                json.dump(summary, f, indent=2, ensure_ascii=False)
-            logger.info(f"Saved summary data to {actual_output_file}")
-        except TypeError as e:
-             logger.error(f"Error saving JSON summary data to {actual_output_file}: {e}. Check for non-serializable types.")
-        except Exception as e:
-             logger.error(f"An unexpected error occurred saving summary {actual_output_file}: {e}")
+    def _save_standings_files(self, date_str: str):
+        """Saves league standings to their respective league directories."""
+        logger.info(f"Saving standings for {len(self.league_standings_map)} leagues...")
+        
+        for (league_id, season), standings_data in self.league_standings_map.items():
+            if not standings_data:
+                logger.warning(f"Skipping league {league_id} season {season} due to missing standings data.")
+                continue
+            
+            # Get league info
+            league_info = {}
+            standings_array = []
+            
+            if "league" in standings_data:
+                league_info = standings_data.get("league", {})
+            elif "standings_api_response" in standings_data and standings_data["standings_api_response"]:
+                api_response = standings_data["standings_api_response"][0] if isinstance(standings_data["standings_api_response"], list) else {}
+                if "league" in api_response:
+                    league_info = api_response.get("league", {})
+            
+            # Get standings data
+            if "standings" in standings_data:
+                standings_array = standings_data.get("standings", [])
+            elif "standings_api_response" in standings_data and standings_data["standings_api_response"]:
+                api_response = standings_data["standings_api_response"][0] if isinstance(standings_data["standings_api_response"], list) else {}
+                if "league" in api_response and "standings" in api_response["league"]:
+                    standings_array = api_response["league"].get("standings", [])
+            
+            # Create league directory name
+            league_name = league_info.get("name", f"League_{league_id}")
+            league_country = league_info.get("country", "")
+            league_dir_name = self._sanitize_filename(f"{league_name}_{league_country}" if league_country else league_name)
+            league_dir_path = os.path.join(OUTPUT_DIR, league_dir_name)
+            
+            # Create league directory if it doesn't exist
+            if not os.path.exists(league_dir_path):
+                os.makedirs(league_dir_path)
+            
+            # Create standings file in league directory
+            standings_filename = f"{date_str}_standings.json"
+            standings_file_path = os.path.join(league_dir_path, standings_filename)
+            
+            # Prepare standings data
+            standings_data = {
+                "league_info": league_info,
+                "standings": standings_array,
+                "date": date_str,
+                "season": season
+            }
+            
+            # Save standings to file
+            try:
+                with open(standings_file_path, 'w', encoding='utf-8') as f:
+                    json.dump(standings_data, f, indent=2, ensure_ascii=False)
+                logger.info(f"Saved standings for {league_name} to {standings_file_path}")
+            except Exception as e:
+                logger.error(f"Failed to save standings for {league_name} to {standings_file_path}: {e}")
 
     def _sanitize_filename(self, name: str) -> str:
         """
-        Sanitize a string to be used as part of a filename.
+        Sanitize a string to be used as a filename or directory name.
+        Handles special cases for certain leagues to ensure consistent naming.
         
         Args:
             name: String to sanitize
             
         Returns:
-            Sanitized string
+            Sanitized string safe for use in filenames
         """
-        # Remove special characters and replace spaces with underscores
-        return re.sub(r'[^\w\s-]', '', name).strip().replace(' ', '_')
+        # Special cases for league directory names
+        special_cases = {
+            'Eredivisie_2_Netherlands': 'Eerste_Divisie_Netherlands',
+            'Super_Lig_Turkey': 'Süper_Lig_Turkey',
+            'Süper_Lig_Turkey': 'Süper_Lig_Turkey',  # Both spellings map to same
+            'Liga_I_Romania': 'Liga_1_Romania',
+            'Liga_1_Romania': 'Liga_1_Romania',  # Both spellings map to same
+        }
+        
+        # First sanitize the string as before
+        sanitized = re.sub(r'[^\w\s-]', '', name)
+        sanitized = re.sub(r'[-\s]+', '_', sanitized)
+        sanitized = sanitized.strip('_')
+        
+        # Check if this is one of our special cases
+        for pattern, replacement in special_cases.items():
+            if sanitized.lower() == pattern.lower():
+                return replacement
+            
+        return sanitized
 
     def _convert_mongodb_types(self, data):
         """Convert MongoDB specific types to standard Python types."""
@@ -1317,42 +1253,105 @@ class DailyGameExtractor:
             return [self._convert_mongodb_types(item) for item in data]
         return data
 
-
-def main():
-    """Main function to extract game data for a specific day."""
-    import argparse
-    parser = argparse.ArgumentParser(description='Extract game data from MongoDB and StatArea for a specific day')
-    parser.add_argument('--date', type=str, help='Date in YYYY-MM-DD format (default: today)')
-    parser.add_argument('--output', type=str, help='Output summary file path')
-    parser.add_argument('--no-mongo', action='store_true', help='Skip MongoDB and use StatArea DB only')
-    args = parser.parse_args()
-    
-    try:
-        # Initialize extractor
-        extractor = DailyGameExtractor(use_mongo=not args.no_mongo)
+    def save_summary_file(self, data: Dict[str, Any], output_file: Optional[str] = None):
+        """
+        Save a summary of all extracted data to a JSON file in each league directory.
+        """
+        # Group games by league
+        games_by_league = {}
         
-        # Extract data
-        data = extractor.extract_games_for_date(args.date)
-        
-        if data['total_games'] > 0:
-            # Save summary file
-            extractor.save_summary_file(data, args.output)
+        for raw_game in data.get("games", []):
+            cleaned_game = self._clean_final_game_data(raw_game)
+            league_info = cleaned_game.get("league", {})
+            league_name = league_info.get("name", "UnknownLeague")
+            league_country = league_info.get("country", "")
             
-            print(f"Successfully extracted {data['total_games']} games for {data['date']}")
-            print(f"Individual game files saved to the '{OUTPUT_DIR}' directory")
-        else:
-            print(f"No games extracted for {data['date']}")
+            # Create league key
+            league_dir_name = self._sanitize_filename(f"{league_name}_{league_country}" if league_country else league_name)
+            
+            if league_dir_name not in games_by_league:
+                games_by_league[league_dir_name] = {
+                    "league_info": league_info,
+                    "games": []
+                }
+            
+            # Add game to league group
+            fixture_info = cleaned_game.get("fixture_info", {})
+            home_team_info = cleaned_game.get("teams", {}).get("home", {})
+            away_team_info = cleaned_game.get("teams", {}).get("away", {})
+            
+            games_by_league[league_dir_name]["games"].append({
+                "fixture_id": fixture_info.get("id"),
+                "kickoff_time": fixture_info.get("date"),
+                "home_team": {
+                    "id": home_team_info.get("id"),
+                    "name": home_team_info.get("name"),
+                    "statarea_id": home_team_info.get("statarea_analysis", {}).get("statarea_id")
+                },
+                "away_team": {
+                    "id": away_team_info.get("id"),
+                    "name": away_team_info.get("name"),
+                    "statarea_id": away_team_info.get("statarea_analysis", {}).get("statarea_id")
+                }
+            })
         
-    except Exception as e:
-        logger.error(f"Error extracting game data: {e}")
-        raise
-    finally:
-        # Close MongoDB connection if it exists
-        if extractor.mongo_db:
+        # Save summary file for each league
+        date_str = data.get("date", self.get_current_date_str())
+        
+        for league_dir_name, league_data in games_by_league.items():
+            league_dir_path = os.path.join(OUTPUT_DIR, league_dir_name)
+            
+            # Create league directory if it doesn't exist
+            if not os.path.exists(league_dir_path):
+                os.makedirs(league_dir_path)
+            
+            # Create summary file
+            summary_filename = f"games_summary_{date_str}.json"
+            summary_file_path = os.path.join(league_dir_path, summary_filename)
+            
+            summary = {
+                "date": date_str,
+                "league": league_data["league_info"],
+                "total_games": len(league_data["games"]),
+                "games": league_data["games"]
+            }
+            
             try:
-                extractor.mongo_db.close_connection()
-            except:
-                pass  # Ignore errors during cleanup
+                with open(summary_file_path, 'w', encoding='utf-8') as f:
+                    json.dump(summary, f, indent=2, ensure_ascii=False)
+                logger.info(f"Saved summary for {league_dir_name} to {summary_file_path}")
+            except Exception as e:
+                logger.error(f"Failed to save summary for {league_dir_name} to {summary_file_path}: {e}")
 
-if __name__ == "__main__":
-    main()
+    def _standardize_league_name(self, league_name: str, country: str) -> str:
+        """
+        Standardize league names for consistent directory naming.
+        
+        Args:
+            league_name: Original league name
+            country: Country name
+            
+        Returns:
+            Standardized league name with country
+        """
+        # Create the full name (league_country format)
+        full_name = f"{league_name}_{country}" if country else league_name
+        
+        # Define mappings for standardization
+        standardization_map = {
+            'eredivisie 2': 'Eerste_Divisie',
+            'eredivisie2': 'Eerste_Divisie',
+            'super lig': 'Süper_Lig',
+            'super-lig': 'Süper_Lig',
+            'liga i': 'Liga_1',
+            'liga-i': 'Liga_1',
+        }
+        
+        # Check for matches in standardization map
+        lower_name = league_name.lower()
+        for pattern, replacement in standardization_map.items():
+            if pattern in lower_name:
+                return f"{replacement}_{country}" if country else replacement
+            
+        return full_name
+

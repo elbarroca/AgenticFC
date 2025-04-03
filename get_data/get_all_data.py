@@ -15,6 +15,7 @@ sys.path.append(parent_dir)
 # API Football imports
 from api_football.data_fetcher import fetch_all_data
 from api_football.db_mongo import db_manager
+from api_football.api_manager import api_manager
 
 # Statarea imports
 from statarea.statarea_async_scraper import run_scraper_async, initialize_database
@@ -131,11 +132,10 @@ def extract_daily_games(date_str: str, output_path: Optional[str] = None) -> Dic
                 """Get a connection to the StatArea SQLite database with the correct path."""
                 conn = None
                 try:
-                    # Log the database path for debugging
                     logger.info(f"Connecting to StatArea database at: {STATAREA_DB_PATH}")
                     conn = sqlite3.connect(
-                        STATAREA_DB_PATH,  # Use the path from get_all_data.py
-                        timeout=30,  # SQLITE_TIMEOUT
+                        STATAREA_DB_PATH,
+                        timeout=30,
                         check_same_thread=False
                     )
                     yield conn
@@ -146,64 +146,16 @@ def extract_daily_games(date_str: str, output_path: Optional[str] = None) -> Dic
                     if conn:
                         conn.close()
         
-        # Custom DailyGameExtractor that uses our custom StatAreaDBManager
-        class CustomDailyGameExtractor(DailyGameExtractor):
-            """Override the DailyGameExtractor to use our custom StatAreaDBManager"""
-            
-            def __init__(self, use_mongo=True):
-                """Initialize with the custom database manager."""
-                self.statarea_db = CustomStatAreaDBManager()
-                self.mongo_db = None
-                if use_mongo:
-                    try:
-                        from get_data.api_football.db_mongo import MongoDBManager
-                        self.mongo_db = MongoDBManager()
-                        logger.info("MongoDB connection successful")
-                    except Exception as e:
-                        logger.error(f"Failed to connect to MongoDB: {e}")
-                        logger.warning("Continuing with StatArea DB only")
-        
-        # Initialize our custom extractor
-        logger.info(f"Using database path: {STATAREA_DB_PATH}")
-        
-        # Check if the database file exists
-        if not os.path.exists(STATAREA_DB_PATH):
-            logger.error(f"Database file not found at path: {STATAREA_DB_PATH}")
-            return {
-                "success": False,
-                "error": f"StatArea database file not found at {STATAREA_DB_PATH}"
-            }
-        else:
-            logger.info(f"Database file found with size: {os.path.getsize(STATAREA_DB_PATH)} bytes")
-        
-        extractor = CustomDailyGameExtractor(use_mongo=True)
-        
-        # Check the database connection and list some teams for debugging
-        try:
-            teams = extractor.statarea_db.list_all_teams()
-            if teams:
-                logger.info(f"Successfully connected to database and found {len(teams)} teams")
-                sample_teams = teams[:5]
-                for team in sample_teams:
-                    logger.info(f"Sample team: {team['name']} (ID: {team['id']}, Country: {team['country']})")
-            else:
-                logger.warning("Connected to database but found no teams")
-        except Exception as e:
-            logger.error(f"Error listing teams from database: {e}")
+        # Initialize extractor
+        extractor = DailyGameExtractor(use_mongo=True)
         
         # Extract games data
         games_data = extractor.extract_games_for_date(date_str)
         
-        # Generate output filename if not provided
-        if not output_path:
-            output_path = os.path.join(OUTPUT_DIR, f"games_summary_{date_str}.json")
-            
         # Save summary file if games were found
         if games_data['total_games'] > 0:
             extractor.save_summary_file(games_data, output_path)
             logger.info(f"✅ Successfully extracted {games_data['total_games']} games for {date_str}")
-            logger.info(f"✅ Games summary saved to {output_path}")
-            logger.info(f"✅ Individual game files saved to the '{OUTPUT_DIR}' directory")
             
             result = {
                 "success": True,
@@ -230,7 +182,7 @@ def extract_daily_games(date_str: str, output_path: Optional[str] = None) -> Dic
             try:
                 extractor.mongo_db.close_connection()
             except:
-                pass  # Ignore errors during cleanup
+                pass
                 
     return result
 
@@ -271,6 +223,14 @@ async def get_data(target_date: Optional[datetime] = None, force_reprocess: bool
     # Step 1: Check and fetch API-Football data
     try:
         logger.info("--- Checking API-Football data ---")
+        
+        # Ensure API manager is initialized first
+        try:
+            api_manager.ensure_initialized()
+            logger.info("API Manager initialized successfully")
+        except Exception as api_init_error:
+            logger.error(f"Failed to initialize API Manager: {api_init_error}")
+            # Continue anyway, fetch_all_data will try to initialize again
         
         if force_reprocess or check_api_football_needs_update(date_str):
             logger.info("Fetching API-Football data...")

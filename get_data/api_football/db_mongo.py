@@ -297,6 +297,45 @@ class MongoDBManager:
             logger.error(f"Error retrieving standings for league {league_id}, season {season}: {e}")
             return None
 
+    def get_league_standings(self, league_id: str, season: int) -> Optional[Dict[str, Any]]:
+        """
+        Get the most recent standings data for a specific league and season.
+        This method searches through recent collections to find the latest standings.
+        
+        Args:
+            league_id: The ID of the league
+            season: The season year
+            
+        Returns:
+            Optional[Dict[str, Any]]: The most recent standings data for the league, or None if not found
+        """
+        try:
+            # Get all month collections
+            db = self._client['games']
+            collections = sorted(
+                [coll for coll in db.list_collection_names() if coll.startswith('month_standings_')],
+                reverse=True  # Sort in reverse order to check most recent first
+            )
+            
+            for collection_name in collections:
+                collection = db[collection_name]
+                # Search for any standings document for this league and season
+                query = {
+                    "_id": {"$regex": f"^day_\\d+_league_{league_id}_season_{season}$"}
+                }
+                standings = collection.find_one(query, sort=[("_id", -1)])  # Get most recent
+                
+                if standings:
+                    logger.info(f"Found standings for league {league_id} in collection {collection_name}")
+                    return standings
+            
+            logger.warning(f"No standings found for league {league_id}, season {season} in any collection")
+            return None
+            
+        except Exception as e:
+            logger.error(f"Error getting league standings for league {league_id}, season {season}: {e}")
+            return None
+
     # --- Odds Methods ---
     
     def save_odds_data(self, date_str: str, fixture_id: str, odds_payload: Dict[str, Any]):

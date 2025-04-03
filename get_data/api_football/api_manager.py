@@ -205,9 +205,12 @@ class APIManager:
 
     def get_active_api_key(self) -> Tuple[str, Dict[str, str]]:
         """Get the current active API key and headers with improved management."""
+        # Ensure we have API keys
         if not self.api_keys:
-            raise ValueError("No API keys available. Call initialize() first.")
-            
+            self.initialize()
+            if not self.api_keys:
+                raise ValueError("No API keys available. Check environment variables or hardcoded keys.")
+        
         current_key = self.api_keys[self._current_key_index]
         current_time = time.time()
         
@@ -350,5 +353,10 @@ class APIManager:
             logger.error(f"Failed to set API manager: {str(e)}")
             raise ValueError(f"Could not set API manager: {str(e)}")
 
+    def ensure_initialized(self):
+        """Ensure the API manager is initialized with keys."""
+        if not self.api_keys:
+            self.initialize()
+            
 # Create a singleton instance
 api_manager = APIManager() 
