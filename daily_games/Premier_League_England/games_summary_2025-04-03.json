@@ -1,0 +1,24 @@
+{
+  "date": "2025-04-03",
+  "league": {
+    "id": "39",
+    "name": "Premier League (England)"
+  },
+  "total_games": 1,
+  "games": [
+    {
+      "fixture_id": "1208318",
+      "kickoff_time": "2025-04-03T19:00:00+00:00",
+      "home_team": {
+        "id": "49",
+        "name": "Chelsea",
+        "statarea_id": "49"
+      },
+      "away_team": {
+        "id": "47",
+        "name": "Tottenham",
+        "statarea_id": "47"
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@
 
 ## Scorer Enhancement 
 
-- [ ] Create specialized file scorer for:
+- [X] Create specialized file scorer for probabilities:
   - Goal scoring patterns (acime/abaixo de x)
   - Clean sheet probability ( ambas marcam )
   - Win/draw/loss likelihood ( ganha/empata)
