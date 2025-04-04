@@ -15,5 +15,18 @@
 
 - [ ] Improve output format and readability
 
+-----
+- ligas -> ( double check ligas -> IDS)
+- melhorar o scorer ()
+- funcao para ranker todas as selctions de todos os jogos -> Usar ML Model ( levy process , random tree forest ) , para calcular as melhores multiple bets 
+*https://github.com/kochlisGit/ProphitBet-Soccer-Bets-Predictor , https://huggingface.co/Nickel5HF/podos_soccer_model"
+----
+
+- https://github.com/kochlisGit/ProphitBet-Soccer-Bets-Predictor
+- https://huggingface.co/Nickel5HF/podos_soccer_model
+- https://github.com/Ziggaman/Soccer-Match-Prediction
+- https://github.com/SebastianRokholt/Soccer-Predictions
+
+
 https://www.figma.com/board/0f9pGDxoybnJhLNXUIMezx/Agentic.FC?node-id=0-1&t=lOTYCNgqk0Cg3SEO-1
 
