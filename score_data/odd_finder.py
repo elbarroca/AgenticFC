@@ -6,19 +6,21 @@ import logging
 import glob
 from decimal import Decimal, ROUND_HALF_UP
 from datetime import datetime, date
-import sys # Added to modify path for import
+import sys
+
 # Ensure the db_mongo import path is correct relative to this script's location
+script_dir_for_import = os.path.dirname(os.path.abspath(__file__))
+project_root_for_import = os.path.abspath(os.path.join(script_dir_for_import, '..'))
+get_data_dir_for_import = os.path.join(project_root_for_import, 'get_data', 'api_football')
+
+# Add project root to sys.path if not already present
+if project_root_for_import not in sys.path:
+    sys.path.insert(0, project_root_for_import)
+
 try:
-    from get_data.api_football.db_mongo import MongoDBManager, db_manager, logger
-except ImportError:
-    # If the first import fails, adjust sys.path based on the script's location
-    script_dir_for_import = os.path.dirname(os.path.abspath(__file__))
-    project_root_for_import = os.path.abspath(os.path.join(script_dir_for_import)) # Assume script is in root
-    get_data_dir_for_import = os.path.join(project_root_for_import, 'get_data', 'api_football')
-    if get_data_dir_for_import not in sys.path:
-        sys.path.insert(0, project_root_for_import) # Add project root to path for imports like get_data.api_football...
-    # Retry import
-    from get_data.api_football.db_mongo import MongoDBManager, db_manager, logger
+    from get_data.api_football.db_mongo import db_manager, logger
+except ImportError as e:
+    print(f"Error importing db_manager: {e}")
 
 # --- Define project_root based on script location ---
 # Assumes odd_finder.py is directly in the project root directory (e.g., AgenticFC888)
