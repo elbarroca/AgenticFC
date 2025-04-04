@@ -29,13 +29,13 @@ class GameScraper:
             # Top 5 Leagues
              "39": {"name": "Premier League", "tier": 1, "country": "England"},          # England's top division
              "135": {"name": "Serie A", "tier": 1, "country": "Italy"},                 # Italy's top division
-            "78": {"name": "Bundesliga", "tier": 1, "country": "Germany"},             # Germany's top division
+             "78": {"name": "Bundesliga", "tier": 1, "country": "Germany"},             # Germany's top division
              "61": {"name": "Ligue 1", "tier": 1, "country": "France"},                 # France's top division
              "140": {"name": "La Liga", "tier": 1, "country": "Spain"},                 # Spain's top division
             
             # Secondary Leagues
              "40": {"name": "Championship", "tier": 2, "country": "England"},           # England's second division
-            "136": {"name": "Serie B", "tier": 2, "country": "Italy"},                # Italy's second division
+             "136": {"name": "Serie B", "tier": 2, "country": "Italy"},                # Italy's second division
              "79": {"name": "2. Bundesliga", "tier": 2, "country": "Germany"},         # Germany's second division
              "62": {"name": "Ligue 2", "tier": 2, "country": "France"},                # France's second division
              "141": {"name": "Segunda División", "tier": 2, "country": "Spain"},        # Spain's second division
@@ -43,14 +43,15 @@ class GameScraper:
             # Other Major European Leagues
              "88": {"name": "Eredivisie", "tier": 1, "country": "Netherlands"},        # Netherlands' top division
              "95": {"name": "Segunda Liga", "tier": 2, "country": "Portugal"},         # Portugal's second division
-            "203": {"name": "Super Lig", "tier": 1, "country": "Turkey"},            # Turkey's top division
+             "203": {"name": "Super Lig", "tier": 1, "country": "Turkey"},            # Turkey's top division
              "179": {"name": "Premiership", "tier": 1, "country": "Scotland"},        # Scotland's top division
-
              "144": {"name": "Jupiler Pro League", "tier": 1, "country": "Belgium"},  # Belgium's top division
              "89": {"name": "Eredivisie 2", "tier": 2, "country": "Netherlands"},     # Netherlands' second division
              "94": {"name": "Primeira Liga", "tier": 1, "country": "Portugal"},       # Portugal's top division
              "106": {"name": "Ekstraklasa", "tier": 1, "country": "Poland"},         # Poland's Ekstraklasa league
              "210": {"name": "HNL", "tier": 1, "country": "Croatia"},                # Croatia's HNL league
+             "218": {"name": "Austria Bundesliga", "tier": 1, "country": "Austria"}, # Austria's top division
+             "207": {"name": "Super League", "tier": 1, "country": "Switzerland"},   # Switzerland's top division
             
             # Nordic Leagues
              "113": {"name": "Allsvenskan", "tier": 1, "country": "Sweden"},         # Sweden's top division
@@ -61,9 +62,13 @@ class GameScraper:
              "283": {"name": "Liga 1", "tier": 1, "country": "Romania"},             # Romania's top division
              "392": {"name": "First League", "tier": 1, "country": "Montenegro"},    # Montenegro's top division
              "364": {"name": "A Lyga", "tier": 1, "country": "Lithuania"},           # Lithuania's top division
-
-             "289": {"name": "1st Division", "tier": 1, "country": "South-Africa"}, # South-Africa's top division
-            
+             "333": {"name": "Premier League", "tier": 1, "country": "Ukraine"},     # Ukraine's top division
+             "345": {"name": "Czech Liga", "tier": 1, "country": "Czech Republic"},  # Czech Republic's top division
+             "197": {"name": "Grecian Football League", "tier": 1, "country": "Greece"},# Greece's top division
+             "286": {"name": "SuperLiga", "tier": 1, "country": "Serbia"},          # Serbia's top division
+             "318": {"name": "1. Division", "tier": 1, "country": "Cyprus"},        # Cyprus' top division
+             "271": {"name": "NB I", "tier": 1, "country": "Hungary"},             # Hungary's top division
+                         
             # European Competitions
              "2": {"name": "UEFA Champions League", "tier": 1, "country": "Europe"},         # Europe's premier club competition
              "3": {"name": "UEFA Europa League", "tier": 1, "country": "Europe"},            # Europe's secondary club competition
