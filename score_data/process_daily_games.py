@@ -9,7 +9,7 @@ class EnhancedSoccerMatchProcessor:
     and improved structure for analytics and modeling.
     """
     
-    def __init__(self, input_dir: str = "daily_games", output_dir: str = "processed_matches"):
+    def __init__(self, input_dir: str = "daily_output/daily_games", output_dir: str = "daily_output/processed_matches"):
         """Initialize with input and output directories."""
         self.input_dir = input_dir
         self.output_dir = output_dir
@@ -27,6 +27,52 @@ class EnhancedSoccerMatchProcessor:
             except ValueError:
                 return value
         return value
+    
+    def load_standings_data(self, league_id: str) -> Dict[str, Any]:
+        """Load standings data for a specific league."""
+        standings_path = os.path.join(self.input_dir, f"standings.json")
+        if os.path.exists(standings_path):
+            with open(standings_path, 'r') as f:
+                all_standings = json.load(f)
+                # Find the specific league standings
+                for league_standings in all_standings:
+                    if str(league_standings.get("league_id")) == str(league_id):
+                        return league_standings
+        return {}
+
+    def extract_team_standing_metrics(self, standings_data: Dict[str, Any], team_id: str) -> Dict[str, Any]:
+        """Extract standing metrics for a specific team."""
+        if not standings_data or "standings" not in standings_data:
+            return {}
+            
+        for team in standings_data.get("standings", []):
+            if str(team.get("team_id")) == str(team_id):
+                return {
+                    "position": team.get("position"),
+                    "points": team.get("points"),
+                    "games_played": team.get("games_played"),
+                    "goal_diff": team.get("goal_diff"),
+                    "form_streak": team.get("form"),
+                    "home_performance": {
+                        "wins": team.get("home_wins"),
+                        "draws": team.get("home_draws"),
+                        "losses": team.get("home_losses"),
+                        "goals_for": team.get("home_goals_for"),
+                        "goals_against": team.get("home_goals_against")
+                    },
+                    "away_performance": {
+                        "wins": team.get("away_wins"),
+                        "draws": team.get("away_draws"),
+                        "losses": team.get("away_losses"),
+                        "goals_for": team.get("away_goals_for"),
+                        "goals_against": team.get("away_goals_against")
+                    },
+                    "position_trend": team.get("position_diff", 0),
+                    "is_relegation_zone": team.get("position", 0) >= 16,
+                    "is_promotion_zone": team.get("position", 0) <= 4
+                }
+        return {}
+
     
     def calculate_form_points(self, form_string: Optional[str] = None, 
                               wins: Optional[int] = None, 
@@ -613,7 +659,6 @@ class EnhancedSoccerMatchProcessor:
             
             # --- Goal Timing from mongodb_stats ---
             if goals_for.get("minute"):
-                # ... (keep existing extraction logic for overall goal timing) ...
                  stats["goal_timing_mongodb"] = {
                     "scored": {k: {
                         "total": v.get("total"),
@@ -1078,7 +1123,6 @@ class EnhancedSoccerMatchProcessor:
                     # Ignore if market_odd is not a valid number
                     continue
 
-        # TODO: Extend this logic to handle combined probabilities if corresponding market odds are available and mapped
 
         if not value_bets and market_odds: # Check if odds were present but no value found
              return [{"info": f"No significant value bets found (edge > {min_edge_threshold:.0%})."}]
@@ -1399,139 +1443,132 @@ class EnhancedSoccerMatchProcessor:
         Returns:
             Dictionary with predictability score (0-10) and reasoning text.
         """
-        score = 5.0 # Start with a neutral score
-        reasons = []
-        max_score_contribution = 1.0 # Max contribution per check
-        min_score_contribution = -1.0 # Min contribution per check
-
-        # --- Metric Access Helpers ---
-        def get_statarea_metric(stats, venue, interval, metric_key, default=None):
-            try:
-                return stats["statarea_analysis"][venue][f"last_{interval}_games"][metric_key]
-            except KeyError:
-                return default
-
-        def get_h2h_metric(h2h, metric_key, default=None):
-             try:
-                 return h2h["summary"][metric_key]
-             except KeyError:
-                 return default
-
-        def get_poisson_prob(metrics, prob_key, default=None):
-            try:
-                return metrics["predictions"]["outcome_probabilities"]["basic_probabilities"][prob_key]
-            except KeyError:
-                 return default
-
-        # --- Comparisons ---
-
-        # 1. Recent Form (Statarea 5/15 games) vs. H2H Form
-        home_ppg_5 = get_statarea_metric(home_stats, "home", 5, "form", {}).get("points_per_match")
-        away_ppg_5 = get_statarea_metric(away_stats, "away", 5, "form", {}).get("points_per_match")
-        home_ppg_15 = get_statarea_metric(home_stats, "home", 15, "form", {}).get("points_per_match")
-        away_ppg_15 = get_statarea_metric(away_stats, "away", 15, "form", {}).get("points_per_match")
-        h2h_home_win_pct = get_h2h_metric(h2h_stats, "home_team_win_pct")
-        h2h_away_win_pct = get_h2h_metric(h2h_stats, "away_team_win_pct")
-
-        if all(v is not None for v in [home_ppg_15, away_ppg_15, h2h_home_win_pct, h2h_away_win_pct]):
-            recent_home_adv = home_ppg_15 > away_ppg_15
-            h2h_home_adv = h2h_home_win_pct > h2h_away_win_pct
-            if recent_home_adv == h2h_home_adv:
-                score += max_score_contribution * 0.5 # Smaller contribution
-                reasons.append("Recent form trend aligns with H2H historical advantage.")
-            else:
-                score += min_score_contribution * 0.5
-                reasons.append("Recent form trend conflicts with H2H historical advantage.")
+        score = 5.0  # Baseline score
+        confidence_factors = []
+        risk_factors = []
+        key_insights = []
         
-        # 2. Goal Averages (Statarea 15) vs. H2H Averages
-        home_avg_scored_15 = get_statarea_metric(home_stats, "home", 15, "avg_goals_scored")
-        away_avg_scored_15 = get_statarea_metric(away_stats, "away", 15, "avg_goals_scored")
-        h2h_home_avg = get_h2h_metric(h2h_stats, "home_team_goals_per_match")
-        h2h_away_avg = get_h2h_metric(h2h_stats, "away_team_goals_per_match")
-
-        if all(v is not None for v in [home_avg_scored_15, away_avg_scored_15, h2h_home_avg, h2h_away_avg]):
-            # Compare scoring difference consistency
-            diff_15 = abs(home_avg_scored_15 - away_avg_scored_15)
-            diff_h2h = abs(h2h_home_avg - h2h_away_avg)
-            if abs(diff_15 - diff_h2h) < 0.5: # If goal difference pattern is similar
-                score += max_score_contribution * 0.75
-                reasons.append("Recent goal scoring averages (last 15) show similar patterns to H2H averages.")
-            else:
-                score += min_score_contribution * 0.75
-                reasons.append("Recent goal scoring averages (last 15) differ significantly from H2H averages.")
+        # --- Standing-based factors ---
+        home_standing = home_stats.get("standings", {})
+        away_standing = away_stats.get("standings", {})
+        
+        if home_standing and away_standing:
+            # Position gap influence
+            position_gap = abs(home_standing.get("position", 0) - away_standing.get("position", 0))
+            if position_gap > 8:
+                score += 0.8
+                confidence_factors.append(f"Large table gap ({position_gap} positions)")
+            
+            # Relegation/promotion pressure
+            if home_standing.get("is_relegation_zone"):
+                score -= 0.5
+                risk_factors.append("Home team fighting relegation")
+                key_insights.append("Home team may be more desperate for points")
+            if away_standing.get("is_relegation_zone"):
+                score -= 0.5
+                risk_factors.append("Away team fighting relegation")
+            
+            # Form based on league position trend
+            home_trending_up = home_standing.get("position_trend", 0) < 0
+            away_trending_up = away_standing.get("position_trend", 0) < 0
+            if home_trending_up and not away_trending_up:
+                score += 0.5
+                confidence_factors.append("Home team on upward trajectory in standings")
+            elif away_trending_up and not home_trending_up:
+                score += 0.5
+                confidence_factors.append("Away team on upward trajectory in standings")
+        
+        # --- Match history analysis ---
+        home_last_5 = home_stats.get("recent_form_statarea", {}).get("last_5_games", {}).get("summary", {})
+        away_last_5 = away_stats.get("recent_form_statarea", {}).get("last_5_games", {}).get("summary", {})
+        
+        if home_last_5 and away_last_5:
+            # Form consistency (points per game variation)
+            home_ppg_5 = home_last_5.get("points_per_match", 0)
+            home_current_streak = home_last_5.get("current_streak", {})
+            
+            if home_current_streak.get("type") == "win" and home_current_streak.get("count", 0) >= 3:
+                score += 0.7
+                confidence_factors.append(f"Home team on {home_current_streak.get('count')}-match win streak")
+                key_insights.append("Home team in winning momentum")
+            
+            away_ppg_5 = away_last_5.get("points_per_match", 0)
+            away_current_streak = away_last_5.get("current_streak", {})
+            
+            if away_current_streak.get("type") == "win" and away_current_streak.get("count", 0) >= 2:
+                score -= 0.6
+                risk_factors.append(f"Away team on {away_current_streak.get('count')}-match win streak")
+                key_insights.append("Away team bringing strong form")
+            
+            # Goal consistency
+            home_avg_goals = home_last_5.get("avg_goals_scored", 0)
+            away_avg_goals = away_last_5.get("avg_goals_scored", 0)
+            
+            if home_avg_goals > 1.5 and home_last_5.get("goals_scored", 0) >= 5:
+                confidence_factors.append("Home team scoring consistently")
+            if away_avg_goals > 1.5 and away_last_5.get("goals_scored", 0) >= 5:
+                risk_factors.append("Away team scoring consistently")
+        
+        # --- H2H Relevance ---
+        if h2h_stats and h2h_stats.get("summary"):
+            h2h_summary = h2h_stats.get("summary", {})
+            home_dominance = h2h_summary.get("home_team_win_pct", 0) > 0.6
+            away_dominance = h2h_summary.get("away_team_win_pct", 0) > 0.4
+            
+            if home_dominance and not away_dominance:
+                score += 0.8
+                confidence_factors.append("Home team historically dominant in H2H")
+                key_insights.append("Strong H2H record favors home team")
+            elif away_dominance:
+                score -= 0.8
+                risk_factors.append("Away team performs well in H2H matches")
+                key_insights.append("Away team historically causes problems in this fixture")
+            
+            # Consistent H2H pattern
+            if h2h_summary.get("btts_pct", 0) > 0.7:
+                key_insights.append("High chance of both teams scoring based on H2H history")
+            if h2h_summary.get("over_2_5_pct", 0) > 0.7:
+                key_insights.append("H2H matches consistently produce over 2.5 goals")
+        
+        # --- Poisson Model Confidence ---
+        poisson_probs = match_metrics.get("predictions", {}).get("outcome_probabilities", {}).get("basic_probabilities", {})
+        if poisson_probs:
+            # Check if there's a strong prediction (>65%)
+            highest_prob = max(poisson_probs.get("home_win", 0), poisson_probs.get("draw", 0), poisson_probs.get("away_win", 0))
+            if highest_prob > 0.65:
+                score += 0.6
+                confidence_factors.append(f"Strong statistical prediction ({highest_prob:.0%})")
                 
-        # 3. Poisson Predictions vs. Statarea Probabilities (15 games)
-        poisson_home_win = get_poisson_prob(match_metrics, "home_win")
-        poisson_away_win = get_poisson_prob(match_metrics, "away_win")
-        statarea_home_win = get_statarea_metric(home_stats, "home", 15, "outcome_probabilities_1x2", {}).get("win")
-        statarea_away_win = get_statarea_metric(away_stats, "away", 15, "outcome_probabilities_1x2", {}).get("win") # Note: this is away team's win prob when playing away
-
-        if all(v is not None for v in [poisson_home_win, poisson_away_win, statarea_home_win, statarea_away_win]):
-            poisson_favors_home = poisson_home_win > poisson_away_win
-            # Statarea comparison is tricky - compare home team's win prob at home vs away team's win prob away
-            statarea_favors_home = statarea_home_win > statarea_away_win 
-            if poisson_favors_home == statarea_favors_home:
-                 score += max_score_contribution
-                 reasons.append("Poisson model outcome prediction aligns with Statarea's 15-game outcome probabilities.")
-            else:
-                 score += min_score_contribution
-                 reasons.append("Poisson model outcome prediction conflicts with Statarea's 15-game outcome probabilities.")
-
-        # 4. Over/Under 2.5 Goals Consistency (Poisson vs Statarea 15)
-        poisson_over_25 = get_poisson_prob(match_metrics, "over_2.5")
-        # Use average of home/away statarea O/U pct
-        home_over_25_pct = get_statarea_metric(home_stats, "home", 15, "over_2_5_pct")
-        away_over_25_pct = get_statarea_metric(away_stats, "away", 15, "over_2_5_pct")
+                if highest_prob == poisson_probs.get("home_win"):
+                    key_insights.append("Statistical models strongly favor home win")
+                elif highest_prob == poisson_probs.get("away_win"):
+                    key_insights.append("Statistical models strongly favor away win")
+                else:
+                    key_insights.append("Statistical models strongly favor draw")
         
-        if all(v is not None for v in [poisson_over_25, home_over_25_pct, away_over_25_pct]):
-            statarea_avg_over_25 = (home_over_25_pct + away_over_25_pct) / 2
-            if abs(poisson_over_25 - statarea_avg_over_25) < 0.15: # Threshold for agreement
-                score += max_score_contribution
-                reasons.append("Poisson Over/Under 2.5 prediction aligns well with Statarea's historical O/U rate.")
-            else:
-                score += min_score_contribution
-                reasons.append("Poisson Over/Under 2.5 prediction differs significantly from Statarea's historical O/U rate.")
-
-        # 5. BTTS Consistency (Poisson vs Statarea 15)
-        poisson_btts = get_poisson_prob(match_metrics, "btts_yes")
-        home_btts_pct = get_statarea_metric(home_stats, "home", 15, "btts_pct")
-        away_btts_pct = get_statarea_metric(away_stats, "away", 15, "btts_pct")
-
-        if all(v is not None for v in [poisson_btts, home_btts_pct, away_btts_pct]):
-             statarea_avg_btts = (home_btts_pct + away_btts_pct) / 2
-             if abs(poisson_btts - statarea_avg_btts) < 0.15: # Threshold for agreement
-                 score += max_score_contribution
-                 reasons.append("Poisson BTTS prediction aligns well with Statarea's historical BTTS rate.")
-             else:
-                 score += min_score_contribution
-                 reasons.append("Poisson BTTS prediction differs significantly from Statarea's historical BTTS rate.")
-                 
-        # 6. Recent Volatility (Std Dev of recent results could be added here if match results were stored)
-        # Placeholder: Check if recent form (last 5) is very different from longer term (last 15)
-        if home_ppg_5 is not None and home_ppg_15 is not None:
-            if abs(home_ppg_5 - home_ppg_15) > 0.75: # Significant change in recent form points
-                 score -= 0.5 # Reduce score slightly for volatility
-                 reasons.append("Home team shows significant change between short-term and longer-term form.")
-        if away_ppg_5 is not None and away_ppg_15 is not None:
-            if abs(away_ppg_5 - away_ppg_15) > 0.75:
-                 score -= 0.5
-                 reasons.append("Away team shows significant change between short-term and longer-term form.")
-
-
-        # Normalize score to 0-10 range
+        # --- Additional Context Factors ---
+        # Home advantage factor (partially account for crowd, travel, etc.)
+        home_venue_advantage = home_stats.get("performance_overall_mongodb", {}).get("home", {}).get("points_per_game", 0) - \
+                              home_stats.get("performance_overall_mongodb", {}).get("away", {}).get("points_per_game", 0)
+        if home_venue_advantage > 0.7:
+            score += 0.4
+            confidence_factors.append("Strong home venue advantage")
+            key_insights.append("Home team performs significantly better at home")
+        
+        # Normalize score to 0-10 range and round to 1 decimal
         final_score = max(0, min(10, round(score, 1)))
         
-        # Generate final reason text
-        if not reasons:
-            reason_text = "Insufficient comparative data to reliably assess predictability."
-        elif final_score >= 7.5:
-            reason_text = f"High predictability ({final_score}/10). Key indicators generally align. Reasons: " + " ".join(reasons)
-        elif final_score <= 3.5:
-            reason_text = f"Low predictability ({final_score}/10). Conflicting signals across metrics. Reasons: " + " ".join(reasons)
-        else:
-            reason_text = f"Moderate predictability ({final_score}/10). Some alignment, some conflicts. Reasons: " + " ".join(reasons)
-
-        return {"score": final_score, "reason": reason_text}
+        # Generate actionable betting insight based on score and factors
+        betting_insight = self._generate_betting_insight(final_score, confidence_factors, risk_factors, 
+                                                      poisson_probs, match_metrics, key_insights)
+        
+        return {
+            "score": final_score,
+            "confidence_factors": confidence_factors,
+            "risk_factors": risk_factors,
+            "key_insights": key_insights,
+            "betting_insight": betting_insight
+        }
     
     def process_match_advanced(self, file_path: str) -> Dict[str, Any]:
         """
@@ -1644,15 +1681,91 @@ class EnhancedSoccerMatchProcessor:
         
         print(f"Processed {success_count}/{match_count} matches successfully")
 
+    def _generate_betting_insight(self, predictability_score: float, confidence_factors: List[str], 
+                             risk_factors: List[str], poisson_probs: Dict, 
+                             match_metrics: Dict, key_insights: List[str]) -> str:
+        """Generate actionable betting insights based on predictability analysis."""
+        
+        # Get predicted outcome and probabilities
+        home_win = poisson_probs.get("home_win", 0)
+        draw = poisson_probs.get("draw", 0)
+        away_win = poisson_probs.get("away_win", 0)
+        btts_yes = poisson_probs.get("btts_yes", 0)
+        over_25 = poisson_probs.get("over_2.5", 0)
+        
+        outcome_label = "home win" if home_win > max(draw, away_win) else \
+                       "draw" if draw > away_win else "away win"
+        
+        # Recommended bet based on predictability score
+        if predictability_score >= 7.5:
+            confidence = "high confidence"
+            if len(confidence_factors) > len(risk_factors) + 2:
+                bet_approach = f"Consider stronger stakes on {outcome_label}"
+                if over_25 > 0.6:
+                    bet_approach += f" and Over 2.5 goals ({over_25:.0%})"
+                elif btts_yes > 0.65:
+                    bet_approach += f" with Both Teams To Score ({btts_yes:.0%})"
+            else:
+                bet_approach = f"Moderate stake on {outcome_label}"
+        
+        elif predictability_score >= 5.5:
+            confidence = "moderate confidence"
+            bet_approach = "Consider smaller stakes or alternative markets"
+            if btts_yes > 0.6:
+                bet_approach += f" like Both Teams To Score ({btts_yes:.0%})"
+            elif over_25 > 0.6:
+                bet_approach += f" like Over 2.5 goals ({over_25:.0%})"
+        
+        else:
+            confidence = "low confidence"
+            bet_approach = "Consider avoiding this match or very minimal stakes"
+            if len(risk_factors) > 2:
+                bet_approach += ". Multiple unpredictable factors in play."
+        
+        # Create final insight
+        main_insight = f"Match predictability: {confidence} ({predictability_score}/10). {bet_approach}."
+        
+        # Add most critical insight if available
+        if key_insights:
+            main_insight += f" Key insight: {key_insights[0]}"
+        
+        return main_insight
+
+    def weighted_prediction_system(self, home_team_stats, away_team_stats, h2h_stats, standings_data):
+        # Base weights
+        weights = {
+            "recent_form": 0.35,       # Recent performance (last 5-10 games)
+            "league_position": 0.20,   # Standings data
+            "h2h_history": 0.20,       # Head-to-head record
+            "statistical_model": 0.25  # Current Poisson/xG calculations
+        }
+        
+        # Calculate weighted scores for each market (1X2, O/U, BTTS)
+        markets = {}
+        
+        # For each market, calculate weighted prediction
+        for market in ["1X2", "over_under", "btts"]:
+            markets[market] = {
+                "prediction": self.calculate_weighted_market(
+                    market, home_team_stats, away_team_stats, 
+                    h2h_stats, standings_data, weights
+                ),
+                "reasoning": self.generate_market_reasoning(
+                    market, home_team_stats, away_team_stats, h2h_stats
+                )
+            }
+        
+        return {
+            "weighted_predictions": markets,
+            "confidence_rating": self.calculate_confidence(markets),
+            "key_factors": self.extract_key_factors(home_team_stats, away_team_stats)
+        }
+
+  
 
 # Run the enhanced processor
 if __name__ == "__main__":
-    processor = EnhancedSoccerMatchProcessor(
-        input_dir="daily_games",
-        output_dir="processed_matches"
-    )
-    
-    # Process all match files with advanced analytics
+    processor = EnhancedSoccerMatchProcessor()
     processor.process_all_matches_advanced()
     
     print("Enhanced match processing completed!")

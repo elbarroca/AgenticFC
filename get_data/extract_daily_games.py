@@ -12,7 +12,6 @@ import time
 # Import MongoDB manager from existing code
 try:
     from get_data.api_football.db_mongo import MongoDBManager
-    # Import ID mappings for teams and leagues
     from get_data.db_ids.team_id_mappings import TEAM_ID_MAPPING
     from get_data.db_ids.league_id_mappings import LEAGUE_ID_MAPPING
 except ImportError as e:
@@ -27,7 +26,7 @@ logger = logging.getLogger(__name__)
 # Constants
 SQLITE_TIMEOUT = 30  # seconds
 SQLITE_DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'database', 'statarea_stats.db')
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'daily_games')
+OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'daily_output', 'daily_games')
 
 class StatAreaDBManager:
     """Manages access to the StatArea SQLite database."""
@@ -1111,10 +1110,10 @@ class DailyGameExtractor:
         league_info = cleaned_data.get("league", {})
         league_name = league_info.get("name", "UnknownLeague")
         league_country = league_info.get("country", "")
-        
-        # Use standardized league name
+
+        # Use standardized league name for the directory
         standardized_league_name = self._standardize_league_name(league_name, league_country)
-        league_dir_name = self._sanitize_filename(standardized_league_name)
+        league_dir_name = self._sanitize_filename(standardized_league_name) # Sanitize the *standardized* name
         league_dir_path = os.path.join(OUTPUT_DIR, league_dir_name)
 
         # Create league directory if it doesn't exist
@@ -1155,23 +1154,23 @@ class DailyGameExtractor:
     def _save_standings_files(self, date_str: str):
         """Saves league standings to their respective league directories."""
         logger.info(f"Saving standings for {len(self.league_standings_map)} leagues...")
-        
+
         for (league_id, season), standings_data in self.league_standings_map.items():
             if not standings_data:
                 logger.warning(f"Skipping league {league_id} season {season} due to missing standings data.")
                 continue
-            
+
             # Get league info
             league_info = {}
             standings_array = []
-            
+
             if "league" in standings_data:
                 league_info = standings_data.get("league", {})
             elif "standings_api_response" in standings_data and standings_data["standings_api_response"]:
                 api_response = standings_data["standings_api_response"][0] if isinstance(standings_data["standings_api_response"], list) else {}
                 if "league" in api_response:
                     league_info = api_response.get("league", {})
-            
+
             # Get standings data
             if "standings" in standings_data:
                 standings_array = standings_data.get("standings", [])
@@ -1179,67 +1178,58 @@ class DailyGameExtractor:
                 api_response = standings_data["standings_api_response"][0] if isinstance(standings_data["standings_api_response"], list) else {}
                 if "league" in api_response and "standings" in api_response["league"]:
                     standings_array = api_response["league"].get("standings", [])
-            
-            # Create league directory name
+
+            # Create league directory name using standardization
             league_name = league_info.get("name", f"League_{league_id}")
             league_country = league_info.get("country", "")
-            league_dir_name = self._sanitize_filename(f"{league_name}_{league_country}" if league_country else league_name)
+            standardized_league_name = self._standardize_league_name(league_name, league_country)
+            league_dir_name = self._sanitize_filename(standardized_league_name) # Sanitize the *standardized* name
             league_dir_path = os.path.join(OUTPUT_DIR, league_dir_name)
-            
+
             # Create league directory if it doesn't exist
             if not os.path.exists(league_dir_path):
                 os.makedirs(league_dir_path)
-            
+
             # Create standings file in league directory
             standings_filename = f"{date_str}_standings.json"
             standings_file_path = os.path.join(league_dir_path, standings_filename)
-            
+
             # Prepare standings data
-            standings_data = {
+            standings_data_to_save = { # Renamed variable to avoid conflict
                 "league_info": league_info,
                 "standings": standings_array,
                 "date": date_str,
                 "season": season
             }
-            
+
             # Save standings to file
             try:
                 with open(standings_file_path, 'w', encoding='utf-8') as f:
-                    json.dump(standings_data, f, indent=2, ensure_ascii=False)
-                logger.info(f"Saved standings for {league_name} to {standings_file_path}")
+                    json.dump(standings_data_to_save, f, indent=2, ensure_ascii=False)
+                logger.info(f"Saved standings for {league_name} ({standardized_league_name}) to {standings_file_path}")
             except Exception as e:
-                logger.error(f"Failed to save standings for {league_name} to {standings_file_path}: {e}")
+                logger.error(f"Failed to save standings for {league_name} ({standardized_league_name}) to {standings_file_path}: {e}")
 
     def _sanitize_filename(self, name: str) -> str:
         """
         Sanitize a string to be used as a filename or directory name.
-        Handles special cases for certain leagues to ensure consistent naming.
-        
+        Removes unsafe characters and replaces spaces/hyphens with underscores.
+
         Args:
             name: String to sanitize
-            
+
         Returns:
             Sanitized string safe for use in filenames
         """
-        # Special cases for league directory names
-        special_cases = {
-            'Eredivisie_2_Netherlands': 'Eerste_Divisie_Netherlands',
-            'Super_Lig_Turkey': 'Süper_Lig_Turkey',
-            'Süper_Lig_Turkey': 'Süper_Lig_Turkey',  # Both spellings map to same
-            'Liga_I_Romania': 'Liga_1_Romania',
-            'Liga_1_Romania': 'Liga_1_Romania',  # Both spellings map to same
-        }
-        
-        # First sanitize the string as before
+        # Remove characters that are not alphanumeric, underscore, hyphen, or space
         sanitized = re.sub(r'[^\w\s-]', '', name)
+        # Replace sequences of hyphens or spaces with a single underscore
         sanitized = re.sub(r'[-\s]+', '_', sanitized)
+        # Remove leading/trailing underscores
         sanitized = sanitized.strip('_')
-        
-        # Check if this is one of our special cases
-        for pattern, replacement in special_cases.items():
-            if sanitized.lower() == pattern.lower():
-                return replacement
-            
+        # Ensure it's not empty
+        if not sanitized:
+            return "invalid_name"
         return sanitized
 
     def _convert_mongodb_types(self, data):
@@ -1259,99 +1249,132 @@ class DailyGameExtractor:
         """
         # Group games by league
         games_by_league = {}
-        
+
         for raw_game in data.get("games", []):
-            cleaned_game = self._clean_final_game_data(raw_game)
-            league_info = cleaned_game.get("league", {})
+            # It's better to clean the game data once first
+            cleaned_game_for_summary = self._clean_final_game_data(raw_game) # Use cleaned data
+            league_info = cleaned_game_for_summary.get("league", {})
             league_name = league_info.get("name", "UnknownLeague")
             league_country = league_info.get("country", "")
-            
-            # Create league key
-            league_dir_name = self._sanitize_filename(f"{league_name}_{league_country}" if league_country else league_name)
-            
+
+            # Create standardized league key for grouping and directory naming
+            standardized_league_name = self._standardize_league_name(league_name, league_country)
+            league_dir_name = self._sanitize_filename(standardized_league_name) # Sanitize the *standardized* name
+
             if league_dir_name not in games_by_league:
                 games_by_league[league_dir_name] = {
-                    "league_info": league_info,
+                    "league_info": league_info, # Store original info for the summary file content
+                    "standardized_name": standardized_league_name, # Store standardized name used for dir
                     "games": []
                 }
-            
-            # Add game to league group
-            fixture_info = cleaned_game.get("fixture_info", {})
-            home_team_info = cleaned_game.get("teams", {}).get("home", {})
-            away_team_info = cleaned_game.get("teams", {}).get("away", {})
-            
+
+            # Add game to league group using cleaned data
+            fixture_info = cleaned_game_for_summary.get("fixture_info", {})
+            home_team_info = cleaned_game_for_summary.get("teams", {}).get("home", {})
+            away_team_info = cleaned_game_for_summary.get("teams", {}).get("away", {})
+
+            # Extract StatArea ID from the correct location in cleaned data
+            home_statarea_id = home_team_info.get("statarea_analysis", {}).get("statarea_id")
+            away_statarea_id = away_team_info.get("statarea_analysis", {}).get("statarea_id")
+
             games_by_league[league_dir_name]["games"].append({
                 "fixture_id": fixture_info.get("id"),
                 "kickoff_time": fixture_info.get("date"),
                 "home_team": {
                     "id": home_team_info.get("id"),
                     "name": home_team_info.get("name"),
-                    "statarea_id": home_team_info.get("statarea_analysis", {}).get("statarea_id")
+                    "statarea_id": home_statarea_id # Use extracted ID
                 },
                 "away_team": {
                     "id": away_team_info.get("id"),
                     "name": away_team_info.get("name"),
-                    "statarea_id": away_team_info.get("statarea_analysis", {}).get("statarea_id")
+                    "statarea_id": away_statarea_id # Use extracted ID
                 }
             })
-        
+
         # Save summary file for each league
         date_str = data.get("date", self.get_current_date_str())
-        
+
         for league_dir_name, league_data in games_by_league.items():
+            # Use the derived league_dir_name for the path
             league_dir_path = os.path.join(OUTPUT_DIR, league_dir_name)
-            
+
             # Create league directory if it doesn't exist
             if not os.path.exists(league_dir_path):
                 os.makedirs(league_dir_path)
-            
+
             # Create summary file
             summary_filename = f"games_summary_{date_str}.json"
             summary_file_path = os.path.join(league_dir_path, summary_filename)
-            
+
             summary = {
                 "date": date_str,
-                "league": league_data["league_info"],
+                "league": league_data["league_info"], # Use original league info here
+                "standardized_directory_name": league_data["standardized_name"],
                 "total_games": len(league_data["games"]),
                 "games": league_data["games"]
             }
-            
+
             try:
                 with open(summary_file_path, 'w', encoding='utf-8') as f:
                     json.dump(summary, f, indent=2, ensure_ascii=False)
-                logger.info(f"Saved summary for {league_dir_name} to {summary_file_path}")
+                logger.info(f"Saved summary for {league_data['league_info'].get('name')} ({league_dir_name}) to {summary_file_path}")
             except Exception as e:
-                logger.error(f"Failed to save summary for {league_dir_name} to {summary_file_path}: {e}")
+                logger.error(f"Failed to save summary for {league_data['league_info'].get('name')} ({league_dir_name}) to {summary_file_path}: {e}")
 
     def _standardize_league_name(self, league_name: str, country: str) -> str:
         """
         Standardize league names for consistent directory naming.
-        
+        Combines league name and country, then applies specific known standardizations.
+
         Args:
             league_name: Original league name
             country: Country name
-            
+
         Returns:
-            Standardized league name with country
+            Standardized league name string (e.g., Süper_Lig_Turkey)
         """
-        # Create the full name (league_country format)
-        full_name = f"{league_name}_{country}" if country else league_name
-        
-        # Define mappings for standardization
-        standardization_map = {
-            'eredivisie 2': 'Eerste_Divisie',
-            'eredivisie2': 'Eerste_Divisie',
-            'super lig': 'Süper_Lig',
-            'super-lig': 'Süper_Lig',
-            'liga i': 'Liga_1',
-            'liga-i': 'Liga_1',
-        }
-        
-        # Check for matches in standardization map
+        # Combine name and country for initial check, handling missing country
+        base_name = f"{league_name}_{country}" if country else league_name
         lower_name = league_name.lower()
-        for pattern, replacement in standardization_map.items():
-            if pattern in lower_name:
-                return f"{replacement}_{country}" if country else replacement
-            
-        return full_name
+        lower_country = country.lower()
+
+        # Define mappings for standardization (Pattern: Standard Name)
+        # Use lower case for matching patterns
+        standardization_map = {
+             # Netherlands Eerste Divisie (ID 89)
+            ('eredivisie 2', 'netherlands'): 'Eerste_Divisie_Netherlands',
+            ('eerste divisie', 'netherlands'): 'Eerste_Divisie_Netherlands', # Ensure target name is also mapped
+
+             # Turkey Süper Lig (ID 203)
+            ('super lig', 'turkey'): 'Süper_Lig_Turkey',
+            ('süper lig', 'turkey'): 'Süper_Lig_Turkey', # Ensure target name is also mapped
+
+             # Romania Liga 1 (ID 283)
+            ('liga 1', 'romania'): 'Liga_1_Romania',
+            ('liga i', 'romania'): 'Liga_1_Romania',
+
+            # Add other potential cases if needed
+            # ('league name pattern', 'country pattern'): 'Standard_Name_Country',
+        }
+
+        # Check for matches in standardization map using (lower_name, lower_country)
+        # First check for country-specific matches
+        if country:
+            for (pattern_name, pattern_country), replacement in standardization_map.items():
+                if pattern_name in lower_name and pattern_country == lower_country:
+                    logger.debug(f"Standardizing '{base_name}' to '{replacement}' based on name and country match.")
+                    return replacement
+
+        # Fallback: Check name patterns without country if no country-specific match found
+        # (Less common, but might be useful for international leagues or missing country data)
+        # Example: ('champions league', ''): 'UEFA_Champions_League'
+        # Add specific patterns here if needed
+
+        # If no specific standardization rule matched, return the combined name/country
+        logger.debug(f"No specific standardization rule found for '{base_name}'. Using default combined name.")
+        # Basic cleanup for the default case before returning
+        default_standardized = re.sub(r'[^\w\s-]', '', base_name)
+        default_standardized = re.sub(r'[-\s]+', '_', default_standardized).strip('_')
+        return default_standardized if default_standardized else "Unknown_League"
 

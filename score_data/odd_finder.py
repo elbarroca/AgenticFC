@@ -30,7 +30,7 @@ project_root = script_dir # Project root is the directory containing odd_finder.
 # project_root = os.path.abspath(os.path.join(script_dir, '..'))
 
 # --- Target the main processed_matches directory ---
-PROCESSED_MATCHES_PARENT_DIR = os.path.join(project_root, "processed_matches")
+PROCESSED_MATCHES_PARENT_DIR = os.path.join(project_root, "daily_output", "processed_matches")
 BOOKMAKER_NAME = "Bet365" # Or specify which bookmaker's odds to use
 # OUTPUT_DIR removed as we write back to original files
 
