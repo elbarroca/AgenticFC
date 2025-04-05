@@ -24,9 +24,15 @@ Basicamente : Raw Data -> Data Calculada -> correr permutacoes das estatisticas 
 ----
 
 - https://github.com/kochlisGit/ProphitBet-Soccer-Bets-Predictor
-- https://huggingface.co/Nickel5HF/podos_soccer_model
+- https://huggingface.co/Nickel5HF/podos_soccer_model ( implemented )
 - https://github.com/Ziggaman/Soccer-Match-Prediction
 - https://github.com/SebastianRokholt/Soccer-Predictions
+--
+https://github.com/ratloop/MatchOutcomeAI
+https://github.com/aziztitu/football-match-predictor
+
+updtaed 4m - https://huggingface.co/AmjadKha/FootballerModel
+
 
 
 https://www.figma.com/board/0f9pGDxoybnJhLNXUIMezx/Agentic.FC?node-id=0-1&t=lOTYCNgqk0Cg3SEO-1
