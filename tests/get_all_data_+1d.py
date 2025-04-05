@@ -31,7 +31,7 @@ async def get_tomorrow_games():
     """
     try:
         # Calculate tomorrow's date
-        tomorrow = datetime.now() + timedelta(days=1)
+        tomorrow = datetime.now() + timedelta(days=-1)
         logger.info(f"Fetching data for: {tomorrow.strftime('%Y-%m-%d')}")
 
         # Get all required data

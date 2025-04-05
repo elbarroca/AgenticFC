@@ -1,24 +1,25 @@
 # To-Do List
 
-## Scraper Improvements
-- [x] Map Statera IDs to API Football IDs (e.g. Vilafranquense)
-- [x] Scrape full website data including last 15 match results
-- [?] Add team standings data (Ultimos 15 dias , com quem jogou , e os resultados)
-- [X] Ter um unico file , onde uma vez corrido ( o file ), buscar a DATA TODA , de certas partidas ( api + Scraper ) , com base no @data_fetcher + Scraper , para deps so chamar um file e uma funcao e termos codigo optiimizado
+## - [X] Scraper Improvements -> Done
 
-## Scorer Enhancement 
+- [ ] Quando se corre o "get_all_data.py" -> ligas como o da 2*liha holandesa , turca e romena , cria o standing..json num folder e os jogos noutro 
 
-- [X] Create specialized file scorer for probabilities:
-  - Goal scoring patterns (acime/abaixo de x)
-  - Clean sheet probability ( ambas marcam )
-  - Win/draw/loss likelihood ( ganha/empata)
+## Data Analysis Improvements
 
-- [ ] Improve output format and readability
+- [ ] melhorar o calculator (match_analysis_calculator) , Goal = Ter um file com metrcias , e detalhe 
 
------
-- [X] ligas -> ( double check ligas -> IDS)
-- [ ] melhorar o scorer ()
-- [ ] funcao para ranker todas as selctions de todos os jogos -> Usar ML Model ( levy process , random tree forest ) , para calcular as melhores multiple bets 
+Exemplo :usando as metricas (media de golos , forma , etc ), ter o maior numero de DATA , Parametrizada e destilada (saber quantos jogos em casa ganhou dos 15 , contra os que tao em qual lugar ,com base nas estatisticas , nos ultimos 15 jogos qual das estatisitcas teve mais confiabilidade " ambas marcam?" , "abaixo de 2.5?",)
+
+Basicamente : Raw Data -> Data Calculada -> correr permutacoes das estatisticas nos ultimos 15 jogos -> Output : Json complreto com parametros com o maior numero de detalhe de granularidade.
+======================
+
+- [ ] com base no output do "match_probability_calculator" . Trabalhar no match_analysis_reasoning 
+
+ match_analysis_reasoning -> com base na parametrizacao dos dados de ambas equipas por jogo, correr um ficheiro de "reasoning" com simulacoes . Basicamente, uma vez a data paremtrizada , o goal 'e atribuir uma "weigthed formula" onde tentamos calcular o seguinte :
+
+ Output do match_probability_calculator ( data parametrizada ) -> Identificar os segmentos relevantes (momentum + estatisticas relevantes destildas de ambas as equipas) -> correr um script das melhores bets E correr um monte carlo simulation , e com base nos 2 outputs, vai haver data correlacionada (as bets que ambos scrips recomendam = data coerente e provbavel de acontecer ) -> Output (Depois com base nas selecoes , correr o odd_finder.py ( que ja ta feito ) com base no output)
+
+
 *https://github.com/kochlisGit/ProphitBet-Soccer-Bets-Predictor , https://huggingface.co/Nickel5HF/podos_soccer_model"
 ----
 
