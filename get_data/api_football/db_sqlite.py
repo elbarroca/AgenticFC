@@ -583,6 +583,29 @@ class SQLiteDBManager:
         except Exception as e:
             logger.error(f"Error checking fixture details existence: {str(e)}")
             return False
+
+    def check_odds_exist(self, fixture_id: int) -> bool:
+        """
+        Check if odds data exist in the database for a specific fixture.
+
+        Args:
+            fixture_id: The fixture ID
+
+        Returns:
+            bool: True if exists
+        """
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute("SELECT 1 FROM odds WHERE fixture_id = ?", (fixture_id,))
+            exists = cursor.fetchone() is not None
+            if exists:
+                logger.debug(f"Odds found in DB for fixture {fixture_id}")
+            else:
+                logger.debug(f"No odds found in DB for fixture {fixture_id}")
+            return exists
+        except Exception as e:
+            logger.error(f"Error checking odds existence for fixture {fixture_id}: {str(e)}")
+            return False
             
     def close(self):
         """Close the database connection"""
