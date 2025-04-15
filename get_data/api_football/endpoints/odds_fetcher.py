@@ -45,7 +45,7 @@ class OddsFetcher:
         self.bet365_id = "8"  # Bet365 bookmaker ID
         self.rate_limiter = RateLimiter(calls_per_minute=20)
         # Use provided api_manager or fall back to global instance
-        from api_football.api_manager import api_manager as global_api_manager
+        from get_data.api_football.endpoints.api_manager import api_manager as global_api_manager
         self.api_manager = api_manager or global_api_manager
         logger.info("OddsFetcher initialized")
         
@@ -290,7 +290,7 @@ async def main():
     
     try:
         # Initialize required services if running standalone
-        from api_football.api_manager import api_manager
+        from get_data.api_football.endpoints.api_manager import api_manager
         api_manager.initialize()
         
         odds_fetcher = OddsFetcher()

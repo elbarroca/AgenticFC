@@ -4,7 +4,7 @@ from typing import Optional, Dict, Any
 import asyncio
 
 from get_data.api_football.endpoints.game_scraper import GameScraper
-from get_data.api_football.api_manager import api_manager
+from get_data.api_football.endpoints.api_manager import api_manager
 from get_data.api_football.endpoints.match_processor import MatchProcessor
 from get_data.api_football.endpoints.odds_fetcher import OddsFetcher
 from get_data.api_football.db_mongo import db_manager

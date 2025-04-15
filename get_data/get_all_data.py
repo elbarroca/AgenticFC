@@ -15,7 +15,7 @@ sys.path.append(parent_dir)
 # API Football imports
 from api_football.data_fetcher import fetch_all_data
 from api_football.db_mongo import db_manager
-from api_football.api_manager import api_manager
+from get_data.api_football.endpoints.api_manager import api_manager
 
 # Statarea imports
 from statarea.statarea_async_scraper import run_scraper_async, initialize_database
