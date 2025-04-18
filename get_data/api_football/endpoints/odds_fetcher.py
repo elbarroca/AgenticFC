@@ -1,7 +1,7 @@
 import sys
 import time
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Tuple, Any
 import asyncio
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 project_root = str(Path(__file__).resolve().parent.parent.parent.parent)
 sys.path.insert(0, project_root)
 
-from api_football.db_mongo import db_manager # Import the DB manager
+from get_data.api_football.db_mongo import db_manager # Import the DB manager
 
 def parse_args():
     """Parse command line arguments."""
@@ -176,32 +176,119 @@ class OddsFetcher:
             # Prepare the odds payload
             odds_payload = {
                 "fixture_id": str(fixture_id),
-                "date": date_str,
+                "match_date_str": date_str,
                 "bookmakers": raw_odds_response,
-                "fetched_at": datetime.now().isoformat()
+                "retrieved_at_utc": datetime.now(timezone.utc)
             }
             
             # Save to the dedicated odds collection
             odds_saved = db_manager.save_odds_data(date_str, fixture_id, odds_payload)
             
             if not odds_saved:
-                logger.error(f"Failed to save odds data for fixture {fixture_id}")
+                logger.error(f"Failed to save odds data for fixture {fixture_id} via DB Manager")
                 return False
                 
-            # Update the match document with a reference to odds data
-            match_data = db_manager.get_match_data(date_str, fixture_id)
+            # Update the match document with a reference flag/timestamp
+            match_data = db_manager.get_match_data(str(fixture_id))
             if match_data:
-                # Add just a reference flag indicating odds are available
-                match_data["has_odds"] = True
-                match_data["odds_updated_at"] = datetime.now().isoformat()
-                
-                # Save the updated match data
-                db_manager.save_match_data(date_str, fixture_id, match_data)
-                
+                update_fields = {
+                    "has_odds": True,
+                    "odds_processed_at_utc": datetime.now(timezone.utc)
+                 }
+                # Save the updated match data using the main save method
+                match_data.update(update_fields)
+                match_save_success = db_manager.save_match_data(match_data)
+                if not match_save_success:
+                     logger.warning(f"Failed to update match document {fixture_id} with odds flag.")
+                     # Continue anyway, as odds are saved in their collection
+            else:
+                 logger.warning(f"Match data not found for {fixture_id} when trying to update odds flag.")
+
             return True
         except Exception as e:
-            logger.error(f"Error saving odds data: {str(e)}")
+            logger.error(f"Error saving odds data or updating match for fixture {fixture_id}: {str(e)}", exc_info=True)
             return False
+
+    async def process_fixtures_odds(self, fixture_ids: list[int], force_reprocess: bool = False) -> Dict[str, Any]:
+        """
+        Processes a list of fixture IDs, fetching and saving odds to the 'odds' collection.
+
+        Args:
+            fixture_ids: A list of integer fixture IDs to process.
+            force_reprocess: If True, re-fetches and updates odds even if they exist.
+
+        Returns:
+            A dictionary containing processing statistics.
+        """
+        processed_count = 0
+        skipped_count = 0
+        failed_fixtures = []
+
+        logger.info(f"Starting odds processing for {len(fixture_ids)} fixtures.")
+
+        for fixture_id_int in fixture_ids:
+            fixture_id = str(fixture_id_int) # Use string ID internally
+            try:
+                # Check if odds already exist
+                existing_odds = db_manager.get_odds_data(fixture_id)
+                if existing_odds and not force_reprocess:
+                    logger.info(f"Odds already exist for fixture {fixture_id} and force_reprocess=False. Skipping.")
+                    skipped_count += 1
+                    continue
+
+                # Fetch the corresponding match data to get the date string
+                # This is needed for saving odds with the correct date context
+                match_data = db_manager.get_match_data(fixture_id)
+                if not match_data:
+                    logger.warning(f"Match data not found for fixture {fixture_id}. Cannot determine date for odds. Skipping.")
+                    failed_fixtures.append(fixture_id)
+                    continue
+                date_str = match_data.get("date_str")
+                if not date_str:
+                    logger.warning(f"Match data for fixture {fixture_id} missing 'date_str'. Skipping odds fetch.")
+                    failed_fixtures.append(fixture_id)
+                    continue
+
+                # Fetch odds from API
+                logger.info(f"Fetching odds for fixture {fixture_id} (Date: {date_str})...")
+                odds_response = await self.fetch_odds(fixture_id)
+
+                if odds_response.get("errors") or not odds_response.get("response"):
+                    # Handle API errors or empty responses
+                    error_msg = odds_response.get('errors', ['No response data'])
+                    # Check if the error indicates odds are not available (e.g., specific message or empty response)
+                    # API might return empty response if odds aren't posted yet, which isn't strictly a failure
+                    if not odds_response.get("response"):
+                        logger.warning(f"No odds data returned by API for fixture {fixture_id}. Might be too early or not offered.")
+                        # Decide whether to count this as skipped or failed. Let's skip.
+                        skipped_count += 1
+                    else:
+                        logger.error(f"API error fetching odds for fixture {fixture_id}: {error_msg}")
+                        failed_fixtures.append(fixture_id)
+                    continue
+
+                # Get the raw response list (contains bookmaker data)
+                raw_odds_list = odds_response.get("response", [])
+
+                # Save the odds data using the helper method
+                # Pass the raw list, let the save method structure the payload
+                if await self._save_odds_data(date_str, fixture_id, raw_odds_list):
+                    logger.info(f"Successfully fetched and saved odds for fixture {fixture_id}")
+                    processed_count += 1
+                else:
+                    logger.error(f"Failed during saving process for odds of fixture {fixture_id}")
+                    failed_fixtures.append(fixture_id)
+
+            except Exception as e:
+                logger.error(f"Unexpected error processing odds for fixture ID {fixture_id_int}: {e}", exc_info=True)
+                failed_fixtures.append(str(fixture_id_int)) # Add to failed list
+
+        logger.info(f"Finished odds processing. Processed: {processed_count}, Skipped: {skipped_count}, Failed: {len(failed_fixtures)}")
+        return {
+            "processed_count": processed_count,
+            "skipped_count": skipped_count,
+            "failed_fixtures": failed_fixtures
+        }
 
     async def process_daily_report(self, date_str: str) -> Dict[str, Any]:
         """

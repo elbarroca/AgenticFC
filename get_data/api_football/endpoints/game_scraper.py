@@ -1,11 +1,17 @@
 import os
+import sys
 import requests
-from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Dict, List
+from datetime import datetime
+from typing import Dict
 import logging
-from .api_manager import api_manager
-from ..db_mongo import db_manager
+from pathlib import Path
+
+# Add the project root to the Python path
+project_root = str(Path(__file__).resolve().parent.parent.parent.parent)
+sys.path.insert(0, project_root)
+
+from get_data.api_football.endpoints.api_manager import api_manager
+from get_data.api_football.db_mongo import db_manager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -60,8 +66,8 @@ class GameScraper:
             
             # Eastern European Leagues
              "283": {"name": "Liga 1", "tier": 1, "country": "Romania"},             # Romania's top division
-             "392": {"name": "First League", "tier": 1, "country": "Montenegro"},    # Montenegro's top division
-             "364": {"name": "A Lyga", "tier": 1, "country": "Lithuania"},           # Lithuania's top division
+             #"392": {"name": "First League", "tier": 1, "country": "Montenegro"},    # Montenegro's top division
+             #"364": {"name": "A Lyga", "tier": 1, "country": "Lithuania"},           # Lithuania's top division
              "333": {"name": "Premier League", "tier": 1, "country": "Ukraine"},     # Ukraine's top division
              "345": {"name": "Czech Liga", "tier": 1, "country": "Czech Republic"},  # Czech Republic's top division
              "197": {"name": "Grecian Football League", "tier": 1, "country": "Greece"},# Greece's top division
@@ -201,7 +207,6 @@ class GameScraper:
         db_manager.save_standings_data(date_str, league_id, season, optimized_standings)
         
         return optimized_standings
-
     def get_games(self, date: datetime) -> Dict:
         """Get games for a specific date and save in the optimized structure."""
         try:
@@ -283,8 +288,13 @@ class GameScraper:
                 
                 # Prepare detailed match data for the matches collection
                 fixture_id = str(match["fixture"]["id"])
+                # Extract date in YYYY-MM-DD format from fixture date
+                match_date_str = match["fixture"]["date"].split("T")[0] if match["fixture"]["date"] else api_date
                 
                 detailed_match = {
+                    "_id": fixture_id,
+                    "fixture_id": fixture_id,  # Add this for consistency
+                    "date_str": match_date_str,  # Add the date_str field
                     "league_id": league_id,
                     "league_name": league_name,
                     "home_team": {
@@ -313,7 +323,7 @@ class GameScraper:
                 }
                 
                 # Save detailed match data
-                db_manager.save_match_data(api_date, fixture_id, detailed_match)
+                db_manager.save_match_data(detailed_match)
             
             # Print summary
             if organized_data["total_matches"] > 0:

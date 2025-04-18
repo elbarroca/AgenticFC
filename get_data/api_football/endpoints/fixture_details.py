@@ -1,10 +1,10 @@
 import os
 import requests
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from typing import Dict,Any, Optional
 import logging
-from get_data.api_football.db_sqlite import db_manager
 from get_data.api_football.endpoints.api_manager import api_manager
+from get_data.api_football.db_mongo import MongoDBManager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -23,7 +23,7 @@ class FixtureDetailsFetcher:
             logger.warning("API_FOOTBALL_KEY environment variable not set, using API manager")
             
         self.api_manager = api_manager
-        self.db = db_manager
+        self.db = MongoDBManager()
         
         logger.info("FixtureDetailsFetcher initialized successfully")
 
