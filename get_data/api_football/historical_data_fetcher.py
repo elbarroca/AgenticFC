@@ -578,7 +578,7 @@ async def main_fetch_pipeline(target_seasons: List[int]):
 
 if __name__ == "__main__":
     # --- Configuration for the run ---
-    TARGET_SEASONS = [2023, 2022, 2021, 2020] # Example: Last 4 full seasons
+    TARGET_SEASONS = [2024, 2023, 2022, 2021, 2020, 2019] # Seasons from 2024 to 2019
 
     logger.info(f"Selected Target Seasons: {TARGET_SEASONS}")
     logger.info(f"Processing teams from TEAM_ID_MAPPING (ensure db_ids/team_id_mappings.py exists and is importable)")
