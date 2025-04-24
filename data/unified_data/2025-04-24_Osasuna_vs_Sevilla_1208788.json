@@ -1,0 +1,1965 @@
+{
+  "fixture_id": 1208788,
+  "date": "2025-04-24",
+  "fixture_meta": {
+    "id": 1208788,
+    "date": "2025-04-24T17:00:00+00:00",
+    "timestamp": 1745514000,
+    "referee": "Adrian Cordero Vega, Spain",
+    "venue": {
+      "name": "Estadio El Sadar",
+      "city": "Iruñea"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "error": "City not found"
+    }
+  },
+  "team_a": {
+    "team_id": 727,
+    "name": "Osasuna",
+    "logo": "https://media.api-sports.io/football/teams/727.png",
+    "statarea_id": 727,
+    "is_home": true,
+    "engineered_features": {
+      "source": "statarea",
+      "games_analyzed": 15,
+      "overall_stats": {
+        "avg_scored": 1.8,
+        "avg_conceded": 1.4666666666666666,
+        "win_rate": 0.4666666666666667,
+        "draw_rate": 0.3333333333333333,
+        "loss_rate": 0.2,
+        "btts_rate": 0.8666666666666667,
+        "clean_sheet_rate": 0.13333333333333333,
+        "failed_to_score_rate": 0.0,
+        "over_1_5_rate": 0.8666666666666667,
+        "over_2_5_rate": 0.7333333333333333,
+        "over_3_5_rate": 0.3333333333333333,
+        "form_string": "WLDDWDLDDWLWWWW",
+        "form_rating": 0.5777777777777777
+      },
+      "home_stats": {
+        "avg_scored": 1.8,
+        "avg_conceded": 1.4666666666666666,
+        "win_rate": 0.4666666666666667,
+        "draw_rate": 0.3333333333333333,
+        "loss_rate": 0.2,
+        "btts_rate": 0.8666666666666667,
+        "clean_sheet_rate": 0.13333333333333333,
+        "failed_to_score_rate": 0.0,
+        "over_1_5_rate": 0.8666666666666667,
+        "over_2_5_rate": 0.7333333333333333,
+        "over_3_5_rate": 0.3333333333333333,
+        "form_string": "WLDDWDLDDWLWWWW",
+        "form_rating": 0.5777777777777777
+      },
+      "rolling_stats": {
+        "overall_l5": {
+          "form_string": "WLDDW",
+          "form_rating": 0.5333333333333333,
+          "matches": [
+            "W 2-1 vs Girona (home)",
+            "L 1-2 vs Getafe (home)",
+            "D 3-3 vs Valencia (home)",
+            "D 1-1 vs Real Madrid (home)",
+            "W 2-1 vs Real Sociedad (home)"
+          ]
+        },
+        "home_l3": {
+          "form_string": "WLD",
+          "form_rating": 0.4444444444444444,
+          "avg_scored": 2.0,
+          "avg_conceded": 2.0,
+          "matches": [
+            "W 2-1 vs Girona",
+            "L 1-2 vs Getafe",
+            "D 3-3 vs Valencia"
+          ]
+        }
+      },
+      "performance_by_result": {
+        "win": {
+          "matches": 7,
+          "avg_scored": 2.142857142857143,
+          "avg_conceded": 1.0,
+          "avg_scoreline": "2.14 - 1.00"
+        },
+        "draw": {
+          "matches": 5,
+          "avg_scored": 1.8,
+          "avg_conceded": 1.8,
+          "avg_scoreline": "1.80 - 1.80"
+        },
+        "loss": {
+          "matches": 3,
+          "avg_scored": 1.0,
+          "avg_conceded": 2.0,
+          "avg_scoreline": "1.00 - 2.00"
+        }
+      },
+      "probability_stats": {
+        "win_home_prob": 0.4666666666666667,
+        "win_or_draw_home_prob": 0.8
+      },
+      "processor_goal_timing_stats": {
+        "proc_goals_scored_0-15_pct": 0.05128205128205128,
+        "proc_goals_scored_16-30_pct": 0.23076923076923078,
+        "proc_goals_scored_31-45_pct": 0.20512820512820512,
+        "proc_goals_scored_46-60_pct": 0.2564102564102564,
+        "proc_goals_scored_61-75_pct": 0.1282051282051282,
+        "proc_goals_scored_76-90_pct": 0.05128205128205128,
+        "proc_goals_scored_91-105_pct": 0.05128205128205128,
+        "proc_goals_conceded_0-15_pct": 0.10869565217391304,
+        "proc_goals_conceded_16-30_pct": 0.10869565217391304,
+        "proc_goals_conceded_31-45_pct": 0.15217391304347827,
+        "proc_goals_conceded_46-60_pct": 0.15217391304347827,
+        "proc_goals_conceded_61-75_pct": 0.2391304347826087,
+        "proc_goals_conceded_76-90_pct": 0.15217391304347827,
+        "proc_goals_conceded_91-105_pct": 0.10869565217391304
+      }
+    },
+    "raw_data": {
+      "match_processor": {
+        "league": {
+          "id": 140,
+          "name": "La Liga",
+          "country": "Spain",
+          "logo": "https://media.api-sports.io/football/leagues/140.png",
+          "flag": "https://media.api-sports.io/flags/es.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 727,
+          "name": "Osasuna",
+          "logo": "https://media.api-sports.io/football/teams/727.png"
+        },
+        "form": "DWLWLWDWDLWWLDDDDLLDDWDDLDLLDDWW",
+        "fixtures": {
+          "played": {
+            "home": 16,
+            "away": 16,
+            "total": 32
+          },
+          "wins": {
+            "home": 7,
+            "away": 2,
+            "total": 9
+          },
+          "draws": {
+            "home": 6,
+            "away": 8,
+            "total": 14
+          },
+          "losses": {
+            "home": 3,
+            "away": 6,
+            "total": 9
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 28,
+              "away": 11,
+              "total": 39
+            },
+            "average": {
+              "home": 1.8,
+              "away": 0.7,
+              "total": 1.2
+            },
+            "minute": {
+              "0-15": {
+                "total": 2,
+                "percentage": 0.0526
+              },
+              "16-30": {
+                "total": 9,
+                "percentage": 0.2368
+              },
+              "31-45": {
+                "total": 8,
+                "percentage": 0.21050000000000002
+              },
+              "46-60": {
+                "total": 10,
+                "percentage": 0.2632
+              },
+              "61-75": {
+                "total": 5,
+                "percentage": 0.1316
+              },
+              "76-90": {
+                "total": 2,
+                "percentage": 0.0526
+              },
+              "91-105": {
+                "total": 2,
+                "percentage": 0.0526
+              }
+            },
+            "under_over": {
+              "0.5": {
+                "over": 24,
+                "under": 8
+              },
+              "1.5": {
+                "over": 10,
+                "under": 22
+              },
+              "2.5": {
+                "over": 4,
+                "under": 28
+              },
+              "3.5": {
+                "over": 1,
+                "under": 31
+              },
+              "4.5": {
+                "over": 0,
+                "under": 32
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 23,
+              "away": 23,
+              "total": 46
+            },
+            "average": {
+              "home": 1.4,
+              "away": 1.4,
+              "total": 1.4
+            },
+            "minute": {
+              "0-15": {
+                "total": 5,
+                "percentage": 0.10640000000000001
+              },
+              "16-30": {
+                "total": 5,
+                "percentage": 0.10640000000000001
+              },
+              "31-45": {
+                "total": 7,
+                "percentage": 0.1489
+              },
+              "46-60": {
+                "total": 7,
+                "percentage": 0.1489
+              },
+              "61-75": {
+                "total": 11,
+                "percentage": 0.23399999999999999
+              },
+              "76-90": {
+                "total": 7,
+                "percentage": 0.1489
+              },
+              "91-105": {
+                "total": 5,
+                "percentage": 0.10640000000000001
+              }
+            },
+            "under_over": {
+              "0.5": {
+                "over": 26,
+                "under": 6
+              },
+              "1.5": {
+                "over": 13,
+                "under": 19
+              },
+              "2.5": {
+                "over": 5,
+                "under": 27
+              },
+              "3.5": {
+                "over": 2,
+                "under": 30
+              },
+              "4.5": {
+                "over": 0,
+                "under": 32
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 2,
+            "draws": 4,
+            "losses": 2
+          },
+          "wins": {
+            "home": "4-2",
+            "away": "0-2"
+          },
+          "losses": {
+            "home": "1-2",
+            "away": "4-0"
+          },
+          "goals": {
+            "for": {
+              "home": 4,
+              "away": 3
+            },
+            "against": {
+              "home": 3,
+              "away": 4
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 2,
+          "away": 4,
+          "total": 6
+        },
+        "failed_to_score": {
+          "home": 0,
+          "away": 8,
+          "total": 8
+        },
+        "penalty": {
+          "scored": {
+            "total": 8,
+            "percentage": 1.0
+          },
+          "missed": {
+            "total": 0,
+            "percentage": 0.0
+          },
+          "total": 8
+        },
+        "lineups": [
+          {
+            "formation": "4-3-3",
+            "played": 14
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 6
+          },
+          {
+            "formation": "5-3-2",
+            "played": 5
+          },
+          {
+            "formation": "4-2-3-1",
+            "played": 4
+          },
+          {
+            "formation": "4-4-2",
+            "played": 2
+          },
+          {
+            "formation": "5-4-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 2,
+              "percentage": 0.026000000000000002
+            },
+            "16-30": {
+              "total": 7,
+              "percentage": 0.0909
+            },
+            "31-45": {
+              "total": 10,
+              "percentage": 0.12990000000000002
+            },
+            "46-60": {
+              "total": 11,
+              "percentage": 0.1429
+            },
+            "61-75": {
+              "total": 15,
+              "percentage": 0.1948
+            },
+            "76-90": {
+              "total": 22,
+              "percentage": 0.2857
+            },
+            "91-105": {
+              "total": 9,
+              "percentage": 0.11689999999999999
+            },
+            "": {
+              "total": 1,
+              "percentage": 0.013000000000000001
+            }
+          }
+        },
+        "predictions": {
+          "id": 727,
+          "name": "Osasuna",
+          "logo": "https://media.api-sports.io/football/teams/727.png",
+          "last_5": {
+            "played": 5,
+            "form": 0.53,
+            "att": 0.55,
+            "def": 0.36,
+            "goals": {
+              "for": {
+                "total": 6,
+                "average": 1.2
+              },
+              "against": {
+                "total": 7,
+                "average": 1.4
+              }
+            }
+          },
+          "league": {
+            "form": "DWLWLWDWDLWWLDDDDLLDDWDDLDLLDDWW",
+            "fixtures": {
+              "played": {
+                "home": 16,
+                "away": 16,
+                "total": 32
+              },
+              "wins": {
+                "home": 7,
+                "away": 2,
+                "total": 9
+              },
+              "draws": {
+                "home": 6,
+                "away": 8,
+                "total": 14
+              },
+              "losses": {
+                "home": 3,
+                "away": 6,
+                "total": 9
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 28,
+                  "away": 11,
+                  "total": 39
+                },
+                "average": {
+                  "home": 1.8,
+                  "away": 0.7,
+                  "total": 1.2
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 2,
+                    "percentage": 0.0526
+                  },
+                  "16-30": {
+                    "total": 9,
+                    "percentage": 0.2368
+                  },
+                  "31-45": {
+                    "total": 8,
+                    "percentage": 0.21050000000000002
+                  },
+                  "46-60": {
+                    "total": 10,
+                    "percentage": 0.2632
+                  },
+                  "61-75": {
+                    "total": 5,
+                    "percentage": 0.1316
+                  },
+                  "76-90": {
+                    "total": 2,
+                    "percentage": 0.0526
+                  },
+                  "91-105": {
+                    "total": 2,
+                    "percentage": 0.0526
+                  }
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 24,
+                    "under": 8
+                  },
+                  "1.5": {
+                    "over": 10,
+                    "under": 22
+                  },
+                  "2.5": {
+                    "over": 4,
+                    "under": 28
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 31
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 32
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 23,
+                  "away": 23,
+                  "total": 46
+                },
+                "average": {
+                  "home": 1.4,
+                  "away": 1.4,
+                  "total": 1.4
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 5,
+                    "percentage": 0.10640000000000001
+                  },
+                  "16-30": {
+                    "total": 5,
+                    "percentage": 0.10640000000000001
+                  },
+                  "31-45": {
+                    "total": 7,
+                    "percentage": 0.1489
+                  },
+                  "46-60": {
+                    "total": 7,
+                    "percentage": 0.1489
+                  },
+                  "61-75": {
+                    "total": 11,
+                    "percentage": 0.23399999999999999
+                  },
+                  "76-90": {
+                    "total": 7,
+                    "percentage": 0.1489
+                  },
+                  "91-105": {
+                    "total": 5,
+                    "percentage": 0.10640000000000001
+                  }
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 26,
+                    "under": 6
+                  },
+                  "1.5": {
+                    "over": 13,
+                    "under": 19
+                  },
+                  "2.5": {
+                    "over": 5,
+                    "under": 27
+                  },
+                  "3.5": {
+                    "over": 2,
+                    "under": 30
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 32
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 2,
+                "draws": 4,
+                "losses": 2
+              },
+              "wins": {
+                "home": "4-2",
+                "away": "0-2"
+              },
+              "losses": {
+                "home": "1-2",
+                "away": "4-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 4,
+                  "away": 3
+                },
+                "against": {
+                  "home": 3,
+                  "away": 4
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 2,
+              "away": 4,
+              "total": 6
+            },
+            "failed_to_score": {
+              "home": 0,
+              "away": 8,
+              "total": 8
+            },
+            "penalty": {
+              "scored": {
+                "total": 8,
+                "percentage": 1.0
+              },
+              "missed": {
+                "total": 0,
+                "percentage": 0.0
+              },
+              "total": 8
+            },
+            "lineups": [
+              {
+                "formation": "4-3-3",
+                "played": 14
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 6
+              },
+              {
+                "formation": "5-3-2",
+                "played": 5
+              },
+              {
+                "formation": "4-2-3-1",
+                "played": 4
+              },
+              {
+                "formation": "4-4-2",
+                "played": 2
+              },
+              {
+                "formation": "5-4-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 2,
+                  "percentage": 0.026000000000000002
+                },
+                "16-30": {
+                  "total": 7,
+                  "percentage": 0.0909
+                },
+                "31-45": {
+                  "total": 10,
+                  "percentage": 0.12990000000000002
+                },
+                "46-60": {
+                  "total": 11,
+                  "percentage": 0.1429
+                },
+                "61-75": {
+                  "total": 15,
+                  "percentage": 0.1948
+                },
+                "76-90": {
+                  "total": 22,
+                  "percentage": 0.2857
+                },
+                "91-105": {
+                  "total": 9,
+                  "percentage": 0.11689999999999999
+                },
+                "": {
+                  "total": 1,
+                  "percentage": 0.013000000000000001
+                }
+              }
+            }
+          }
+        }
+      },
+      "statarea_stats": {
+        "team": "Osasuna",
+        "country": "Spain",
+        "api_id": 727,
+        "game_type": "host",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:45:34.962216",
+        "scrape_date_utc": "2025-04-22T17:45:34.962000",
+        "content_hash": "3ff59785bb58bad9e70b9f4e35ed3770",
+        "general_statistics": {
+          "number of osasuna wins": 7,
+          "number of osasuna draws": 5,
+          "number of osasuna losses": 3,
+          "Average goals_scored per match": 1.8,
+          "Average goals_conceded per match": 1.47,
+          "Chance to score goal next match": 1.0,
+          "Chance to conceded goal next match": 0.87,
+          "Number of clean_sheets matches": 2,
+          "failed_to_score matches": 0,
+          "over 2.5 goals in": 11,
+          "under 2.5 goals in": 4,
+          "Time without scored goal": "11 min.",
+          "Time without conceded goal": "0 min."
+        },
+        "team_bet_statistics": {
+          "1 x 2": {
+            "Osasuna": 0.47,
+            "draw": 0.33,
+            "opponent": 0.2
+          },
+          "halftime 1 x 2": {
+            "Osasuna": 0.53,
+            "draw": 0.2,
+            "opponent": 0.27
+          },
+          "second half 1 x 2": {
+            "Osasuna": 0.33,
+            "draw": 0.4,
+            "opponent": 0.27
+          },
+          "Over/under 1.5 for all goals in matches": {
+            "over": 0.87,
+            "under": 0.13
+          },
+          "over/under 1.5 goals for osasuna only": {
+            "over": 0.53,
+            "under": 0.47
+          },
+          "Over/under 2.5 for all goals in matches": {
+            "over": 0.73,
+            "under": 0.27
+          },
+          "over/under 2.5 goals for osasuna only": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "Over/under 3.5 for all goals in matches": {
+            "over": 0.33,
+            "under": 0.67
+          },
+          "over/under 3.5 goals for osasuna only": {
+            "over": 0.07,
+            "under": 0.93
+          },
+          "Goal bands": {
+            "0-1": 0.13,
+            "2-3": 0.53,
+            "4+": 0.33
+          },
+          "Team to score": {
+            "both": 0.87,
+            "only one": 0.13,
+            "neither": 0.0
+          },
+          "Odd/even goals in matches": {
+            "odd": 0.6,
+            "even": 0.4
+          },
+          "All goals in matches": {
+            "0-15 min.": 0.1,
+            "16-30 min.": 0.18,
+            "31-45 min.": 0.2,
+            "46-60 min.": 0.16,
+            "61-75 min.": 0.18,
+            "76-90 min.": 0.16
+          },
+          "Osasuna goals only": {
+            "0-15 min.": 0.04,
+            "16-30 min.": 0.26,
+            "31-45 min.": 0.26,
+            "46-60 min.": 0.22,
+            "61-75 min.": 0.15,
+            "76-90 min.": 0.07
+          },
+          "Time of first goal in matches": {
+            "0-10 min.": 0.2,
+            "11-20 min.": 0.33,
+            "21-30 min.": 0.13,
+            "31-40 min.": 0.2,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.0
+          },
+          "time of first osasuna goal": {
+            "0-10 min.": 0.07,
+            "11-20 min.": 0.13,
+            "21-30 min.": 0.2,
+            "31-40 min.": 0.2,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.33,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.0
+          },
+          "First goal in matches": {
+            "Osasuna": 0.67,
+            "opponent": 0.33,
+            "without goal": 0.0
+          },
+          "win after 15 minutes": {
+            "Osasuna": 0.07,
+            "opponent": 0.27,
+            "draw": 0.67
+          },
+          "win after 30 minutes": {
+            "Osasuna": 0.27,
+            "opponent": 0.27,
+            "draw": 0.47
+          },
+          "win after 45 minutes": {
+            "Osasuna": 0.53,
+            "opponent": 0.27,
+            "draw": 0.2
+          },
+          "win after 60 minutes": {
+            "Osasuna": 0.6,
+            "opponent": 0.0,
+            "draw": 0.4
+          },
+          "win after 75 minutes": {
+            "Osasuna": 0.6,
+            "opponent": 0.2,
+            "draw": 0.2
+          },
+          "win after 90 minutes": {
+            "Osasuna": 0.47,
+            "opponent": 0.2,
+            "draw": 0.33
+          },
+          "Goal difference in match": {
+            "0-1 goal": 0.93,
+            "2-3 goals": 0.07,
+            "4+ goals": 0.0
+          },
+          "Half with most goals": {
+            "first half": 0.47,
+            "second half": 0.2,
+            "tie": 0.33
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-13",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Girona",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-16",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Getafe",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-02",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Valencia",
+            "team_goals": 3,
+            "opponent_goals": 3,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-15",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Real Madrid",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-02",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Real Sociedad",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-19",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Rayo Vallecano",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-21",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Athletic Club",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-08",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Deportivo Alaves",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-24",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Villarreal",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-02",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Valladolid",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-10-19",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Betis",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-09-28",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Barcelona",
+            "team_goals": 4,
+            "opponent_goals": 2,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-09-21",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Las Palmas",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-09-01",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Celta Vigo",
+            "team_goals": 3,
+            "opponent_goals": 2,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-08-24",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Mallorca",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:49:03.997000"
+      }
+    }
+  },
+  "team_b": {
+    "team_id": 536,
+    "name": "Sevilla",
+    "logo": "https://media.api-sports.io/football/teams/536.png",
+    "statarea_id": 536,
+    "is_home": false,
+    "engineered_features": {
+      "source": "statarea",
+      "games_analyzed": 15,
+      "overall_stats": {
+        "avg_scored": 1.6,
+        "avg_conceded": 1.6,
+        "win_rate": 0.4,
+        "draw_rate": 0.13333333333333333,
+        "loss_rate": 0.4666666666666667,
+        "btts_rate": 0.5333333333333333,
+        "clean_sheet_rate": 0.3333333333333333,
+        "failed_to_score_rate": 0.2,
+        "over_1_5_rate": 0.7333333333333333,
+        "over_2_5_rate": 0.6,
+        "over_3_5_rate": 0.4,
+        "form_string": "LLWDWDWLLLWLWWL",
+        "form_rating": 0.4444444444444444
+      },
+      "away_stats": {
+        "avg_scored": 1.6,
+        "avg_conceded": 1.6,
+        "win_rate": 0.4,
+        "draw_rate": 0.13333333333333333,
+        "loss_rate": 0.4666666666666667,
+        "btts_rate": 0.5333333333333333,
+        "clean_sheet_rate": 0.3333333333333333,
+        "failed_to_score_rate": 0.2,
+        "over_1_5_rate": 0.7333333333333333,
+        "over_2_5_rate": 0.6,
+        "over_3_5_rate": 0.4,
+        "form_string": "LLWDWDWLLLWLWWL",
+        "form_rating": 0.4444444444444444
+      },
+      "rolling_stats": {
+        "overall_l5": {
+          "form_string": "LLWDW",
+          "form_rating": 0.4666666666666667,
+          "matches": [
+            "L 0-1 vs Valencia (away)",
+            "L 1-2 vs Betis (away)",
+            "W 1-0 vs Real Sociedad (away)",
+            "D 1-1 vs Rayo Vallecano (away)",
+            "W 4-0 vs Valladolid (away)"
+          ]
+        },
+        "away_l3": {
+          "form_string": "LLW",
+          "form_rating": 0.3333333333333333,
+          "avg_scored": 0.6666666666666666,
+          "avg_conceded": 1.0,
+          "matches": [
+            "L 0-1 vs Valencia",
+            "L 1-2 vs Betis",
+            "W 1-0 vs Real Sociedad"
+          ]
+        }
+      },
+      "performance_by_result": {
+        "win": {
+          "matches": 6,
+          "avg_scored": 2.5,
+          "avg_conceded": 0.3333333333333333,
+          "avg_scoreline": "2.50 - 0.33"
+        },
+        "draw": {
+          "matches": 2,
+          "avg_scored": 0.5,
+          "avg_conceded": 0.5,
+          "avg_scoreline": "0.50 - 0.50"
+        },
+        "loss": {
+          "matches": 7,
+          "avg_scored": 1.1428571428571428,
+          "avg_conceded": 3.0,
+          "avg_scoreline": "1.14 - 3.00"
+        }
+      },
+      "probability_stats": {
+        "win_away_prob": 0.4,
+        "win_or_draw_away_prob": 0.5333333333333333
+      },
+      "processor_goal_timing_stats": {
+        "proc_goals_scored_0-15_pct": 0.14285714285714285,
+        "proc_goals_scored_16-30_pct": 0.11428571428571428,
+        "proc_goals_scored_31-45_pct": 0.11428571428571428,
+        "proc_goals_scored_46-60_pct": 0.2,
+        "proc_goals_scored_61-75_pct": 0.14285714285714285,
+        "proc_goals_scored_76-90_pct": 0.2,
+        "proc_goals_scored_91-105_pct": 0.02857142857142857,
+        "proc_goals_conceded_0-15_pct": 0.11627906976744186,
+        "proc_goals_conceded_16-30_pct": 0.16279069767441862,
+        "proc_goals_conceded_31-45_pct": 0.16279069767441862,
+        "proc_goals_conceded_46-60_pct": 0.20930232558139536,
+        "proc_goals_conceded_61-75_pct": 0.13953488372093023,
+        "proc_goals_conceded_76-90_pct": 0.13953488372093023,
+        "proc_goals_conceded_91-105_pct": 0.11627906976744186
+      }
+    },
+    "raw_data": {
+      "match_processor": {
+        "league": {
+          "id": 140,
+          "name": "La Liga",
+          "country": "Spain",
+          "logo": "https://media.api-sports.io/football/leagues/140.png",
+          "flag": "https://media.api-sports.io/flags/es.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 536,
+          "name": "Sevilla",
+          "logo": "https://media.api-sports.io/football/teams/536.png"
+        },
+        "form": "DLDLWLWDWLWLLWDLWLDWDDLWDDWLLLLD",
+        "fixtures": {
+          "played": {
+            "home": 16,
+            "away": 16,
+            "total": 32
+          },
+          "wins": {
+            "home": 5,
+            "away": 4,
+            "total": 9
+          },
+          "draws": {
+            "home": 5,
+            "away": 5,
+            "total": 10
+          },
+          "losses": {
+            "home": 6,
+            "away": 7,
+            "total": 13
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 14,
+              "away": 21,
+              "total": 35
+            },
+            "average": {
+              "home": 0.9,
+              "away": 1.3,
+              "total": 1.1
+            },
+            "minute": {
+              "0-15": {
+                "total": 5,
+                "percentage": 0.1515
+              },
+              "16-30": {
+                "total": 4,
+                "percentage": 0.12119999999999999
+              },
+              "31-45": {
+                "total": 4,
+                "percentage": 0.12119999999999999
+              },
+              "46-60": {
+                "total": 7,
+                "percentage": 0.2121
+              },
+              "61-75": {
+                "total": 5,
+                "percentage": 0.1515
+              },
+              "76-90": {
+                "total": 7,
+                "percentage": 0.2121
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.030299999999999997
+              }
+            },
+            "under_over": {
+              "0.5": {
+                "over": 25,
+                "under": 7
+              },
+              "1.5": {
+                "over": 7,
+                "under": 25
+              },
+              "2.5": {
+                "over": 2,
+                "under": 30
+              },
+              "3.5": {
+                "over": 1,
+                "under": 31
+              },
+              "4.5": {
+                "over": 0,
+                "under": 32
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 19,
+              "away": 24,
+              "total": 43
+            },
+            "average": {
+              "home": 1.2,
+              "away": 1.5,
+              "total": 1.3
+            },
+            "minute": {
+              "0-15": {
+                "total": 5,
+                "percentage": 0.11109999999999999
+              },
+              "16-30": {
+                "total": 7,
+                "percentage": 0.15560000000000002
+              },
+              "31-45": {
+                "total": 7,
+                "percentage": 0.15560000000000002
+              },
+              "46-60": {
+                "total": 9,
+                "percentage": 0.2
+              },
+              "61-75": {
+                "total": 6,
+                "percentage": 0.1333
+              },
+              "76-90": {
+                "total": 6,
+                "percentage": 0.1333
+              },
+              "91-105": {
+                "total": 5,
+                "percentage": 0.11109999999999999
+              }
+            },
+            "under_over": {
+              "0.5": {
+                "over": 23,
+                "under": 9
+              },
+              "1.5": {
+                "over": 11,
+                "under": 21
+              },
+              "2.5": {
+                "over": 4,
+                "under": 28
+              },
+              "3.5": {
+                "over": 4,
+                "under": 28
+              },
+              "4.5": {
+                "over": 1,
+                "under": 31
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 1,
+            "draws": 2,
+            "losses": 4
+          },
+          "wins": {
+            "home": "2-1",
+            "away": "0-4"
+          },
+          "losses": {
+            "home": "1-4",
+            "away": "5-1"
+          },
+          "goals": {
+            "for": {
+              "home": 2,
+              "away": 4
+            },
+            "against": {
+              "home": 4,
+              "away": 5
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 4,
+          "away": 5,
+          "total": 9
+        },
+        "failed_to_score": {
+          "home": 3,
+          "away": 4,
+          "total": 7
+        },
+        "penalty": {
+          "scored": {
+            "total": 1,
+            "percentage": 0.5
+          },
+          "missed": {
+            "total": 1,
+            "percentage": 0.5
+          },
+          "total": 2
+        },
+        "lineups": [
+          {
+            "formation": "4-2-3-1",
+            "played": 18
+          },
+          {
+            "formation": "4-3-3",
+            "played": 11
+          },
+          {
+            "formation": "3-4-3",
+            "played": 1
+          },
+          {
+            "formation": "4-4-2",
+            "played": 1
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 4,
+              "percentage": 0.0482
+            },
+            "16-30": {
+              "total": 6,
+              "percentage": 0.0723
+            },
+            "31-45": {
+              "total": 5,
+              "percentage": 0.0602
+            },
+            "46-60": {
+              "total": 16,
+              "percentage": 0.1928
+            },
+            "61-75": {
+              "total": 11,
+              "percentage": 0.1325
+            },
+            "76-90": {
+              "total": 21,
+              "percentage": 0.253
+            },
+            "91-105": {
+              "total": 19,
+              "percentage": 0.2289
+            },
+            "": {
+              "total": 1,
+              "percentage": 0.012
+            }
+          },
+          "red": {
+            "76-90": {
+              "total": 5,
+              "percentage": 1.0
+            }
+          }
+        },
+        "predictions": {
+          "id": 536,
+          "name": "Sevilla",
+          "logo": "https://media.api-sports.io/football/teams/536.png",
+          "last_5": {
+            "played": 5,
+            "form": 0.07,
+            "att": 0.27,
+            "def": 0.36,
+            "goals": {
+              "for": {
+                "total": 3,
+                "average": 0.6
+              },
+              "against": {
+                "total": 7,
+                "average": 1.4
+              }
+            }
+          },
+          "league": {
+            "form": "DLDLWLWDWLWLLWDLWLDWDDLWDDWLLLLD",
+            "fixtures": {
+              "played": {
+                "home": 16,
+                "away": 16,
+                "total": 32
+              },
+              "wins": {
+                "home": 5,
+                "away": 4,
+                "total": 9
+              },
+              "draws": {
+                "home": 5,
+                "away": 5,
+                "total": 10
+              },
+              "losses": {
+                "home": 6,
+                "away": 7,
+                "total": 13
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 14,
+                  "away": 21,
+                  "total": 35
+                },
+                "average": {
+                  "home": 0.9,
+                  "away": 1.3,
+                  "total": 1.1
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 5,
+                    "percentage": 0.1515
+                  },
+                  "16-30": {
+                    "total": 4,
+                    "percentage": 0.12119999999999999
+                  },
+                  "31-45": {
+                    "total": 4,
+                    "percentage": 0.12119999999999999
+                  },
+                  "46-60": {
+                    "total": 7,
+                    "percentage": 0.2121
+                  },
+                  "61-75": {
+                    "total": 5,
+                    "percentage": 0.1515
+                  },
+                  "76-90": {
+                    "total": 7,
+                    "percentage": 0.2121
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.030299999999999997
+                  }
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 25,
+                    "under": 7
+                  },
+                  "1.5": {
+                    "over": 7,
+                    "under": 25
+                  },
+                  "2.5": {
+                    "over": 2,
+                    "under": 30
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 31
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 32
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 19,
+                  "away": 24,
+                  "total": 43
+                },
+                "average": {
+                  "home": 1.2,
+                  "away": 1.5,
+                  "total": 1.3
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 5,
+                    "percentage": 0.11109999999999999
+                  },
+                  "16-30": {
+                    "total": 7,
+                    "percentage": 0.15560000000000002
+                  },
+                  "31-45": {
+                    "total": 7,
+                    "percentage": 0.15560000000000002
+                  },
+                  "46-60": {
+                    "total": 9,
+                    "percentage": 0.2
+                  },
+                  "61-75": {
+                    "total": 6,
+                    "percentage": 0.1333
+                  },
+                  "76-90": {
+                    "total": 6,
+                    "percentage": 0.1333
+                  },
+                  "91-105": {
+                    "total": 5,
+                    "percentage": 0.11109999999999999
+                  }
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 23,
+                    "under": 9
+                  },
+                  "1.5": {
+                    "over": 11,
+                    "under": 21
+                  },
+                  "2.5": {
+                    "over": 4,
+                    "under": 28
+                  },
+                  "3.5": {
+                    "over": 4,
+                    "under": 28
+                  },
+                  "4.5": {
+                    "over": 1,
+                    "under": 31
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 1,
+                "draws": 2,
+                "losses": 4
+              },
+              "wins": {
+                "home": "2-1",
+                "away": "0-4"
+              },
+              "losses": {
+                "home": "1-4",
+                "away": "5-1"
+              },
+              "goals": {
+                "for": {
+                  "home": 2,
+                  "away": 4
+                },
+                "against": {
+                  "home": 4,
+                  "away": 5
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 4,
+              "away": 5,
+              "total": 9
+            },
+            "failed_to_score": {
+              "home": 3,
+              "away": 4,
+              "total": 7
+            },
+            "penalty": {
+              "scored": {
+                "total": 1,
+                "percentage": 0.5
+              },
+              "missed": {
+                "total": 1,
+                "percentage": 0.5
+              },
+              "total": 2
+            },
+            "lineups": [
+              {
+                "formation": "4-2-3-1",
+                "played": 18
+              },
+              {
+                "formation": "4-3-3",
+                "played": 11
+              },
+              {
+                "formation": "3-4-3",
+                "played": 1
+              },
+              {
+                "formation": "4-4-2",
+                "played": 1
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 4,
+                  "percentage": 0.0482
+                },
+                "16-30": {
+                  "total": 6,
+                  "percentage": 0.0723
+                },
+                "31-45": {
+                  "total": 5,
+                  "percentage": 0.0602
+                },
+                "46-60": {
+                  "total": 16,
+                  "percentage": 0.1928
+                },
+                "61-75": {
+                  "total": 11,
+                  "percentage": 0.1325
+                },
+                "76-90": {
+                  "total": 21,
+                  "percentage": 0.253
+                },
+                "91-105": {
+                  "total": 19,
+                  "percentage": 0.2289
+                },
+                "": {
+                  "total": 1,
+                  "percentage": 0.012
+                }
+              },
+              "red": {
+                "76-90": {
+                  "total": 5,
+                  "percentage": 1.0
+                }
+              }
+            }
+          }
+        }
+      },
+      "statarea_stats": {
+        "team": "Sevilla",
+        "country": "Spain",
+        "api_id": 536,
+        "game_type": "guest",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:46:56.166342",
+        "scrape_date_utc": "2025-04-22T17:46:56.166000",
+        "content_hash": "8be74a8d0caa97c570ea2a2a1a723c98",
+        "general_statistics": {
+          "number of sevilla wins": 6,
+          "number of sevilla draws": 2,
+          "number of sevilla losses": 7,
+          "Average goals_scored per match": 1.6,
+          "Average goals_conceded per match": 1.6,
+          "Chance to score goal next match": 0.8,
+          "Chance to conceded goal next match": 0.67,
+          "Number of clean_sheets matches": 5,
+          "failed_to_score matches": 3,
+          "over 2.5 goals in": 9,
+          "under 2.5 goals in": 6,
+          "Time without scored goal": "163 min.",
+          "Time without conceded goal": "45 min."
+        },
+        "team_bet_statistics": {
+          "1 x 2": {
+            "Sevilla": 0.4,
+            "draw": 0.13,
+            "opponent": 0.47
+          },
+          "halftime 1 x 2": {
+            "Sevilla": 0.4,
+            "draw": 0.27,
+            "opponent": 0.33
+          },
+          "second half 1 x 2": {
+            "Sevilla": 0.33,
+            "draw": 0.4,
+            "opponent": 0.27
+          },
+          "Over/under 1.5 for all goals in matches": {
+            "over": 0.73,
+            "under": 0.27
+          },
+          "over/under 1.5 goals for sevilla only": {
+            "over": 0.47,
+            "under": 0.53
+          },
+          "Over/under 2.5 for all goals in matches": {
+            "over": 0.6,
+            "under": 0.4
+          },
+          "over/under 2.5 goals for sevilla only": {
+            "over": 0.27,
+            "under": 0.73
+          },
+          "Over/under 3.5 for all goals in matches": {
+            "over": 0.4,
+            "under": 0.6
+          },
+          "over/under 3.5 goals for sevilla only": {
+            "over": 0.07,
+            "under": 0.93
+          },
+          "Goal bands": {
+            "0-1": 0.27,
+            "2-3": 0.33,
+            "4+": 0.4
+          },
+          "Team to score": {
+            "both": 0.53,
+            "only one": 0.4,
+            "neither": 0.07
+          },
+          "Odd/even goals in matches": {
+            "odd": 0.53,
+            "even": 0.47
+          },
+          "All goals in matches": {
+            "0-15 min.": 0.1,
+            "16-30 min.": 0.15,
+            "31-45 min.": 0.21,
+            "46-60 min.": 0.17,
+            "61-75 min.": 0.08,
+            "76-90 min.": 0.29
+          },
+          "Sevilla goals only": {
+            "0-15 min.": 0.13,
+            "16-30 min.": 0.13,
+            "31-45 min.": 0.21,
+            "46-60 min.": 0.17,
+            "61-75 min.": 0.13,
+            "76-90 min.": 0.25
+          },
+          "Time of first goal in matches": {
+            "0-10 min.": 0.27,
+            "11-20 min.": 0.13,
+            "21-30 min.": 0.13,
+            "31-40 min.": 0.13,
+            "41-50 min.": 0.13,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.07,
+            "without goal": 0.07
+          },
+          "time of first sevilla goal": {
+            "0-10 min.": 0.13,
+            "11-20 min.": 0.2,
+            "21-30 min.": 0.07,
+            "31-40 min.": 0.13,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.13,
+            "without goal": 0.2
+          },
+          "First goal in matches": {
+            "Sevilla": 0.47,
+            "opponent": 0.47,
+            "without goal": 0.07
+          },
+          "win after 15 minutes": {
+            "Sevilla": 0.13,
+            "opponent": 0.07,
+            "draw": 0.8
+          },
+          "win after 30 minutes": {
+            "Sevilla": 0.27,
+            "opponent": 0.13,
+            "draw": 0.6
+          },
+          "win after 45 minutes": {
+            "Sevilla": 0.4,
+            "opponent": 0.33,
+            "draw": 0.27
+          },
+          "win after 60 minutes": {
+            "Sevilla": 0.4,
+            "opponent": 0.4,
+            "draw": 0.2
+          },
+          "win after 75 minutes": {
+            "Sevilla": 0.4,
+            "opponent": 0.4,
+            "draw": 0.2
+          },
+          "win after 90 minutes": {
+            "Sevilla": 0.4,
+            "opponent": 0.47,
+            "draw": 0.13
+          },
+          "Goal difference in match": {
+            "0-1 goal": 0.53,
+            "2-3 goals": 0.33,
+            "4+ goals": 0.13
+          },
+          "Half with most goals": {
+            "first half": 0.47,
+            "second half": 0.4,
+            "tie": 0.13
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-11",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Valencia",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-30",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Betis",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-09",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Real Sociedad",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-01",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Rayo Vallecano",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-16",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Valladolid",
+            "team_goals": 4,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-01",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Getafe",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-18",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Girona",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-04",
+            "competition": "Spain - Fa Cup 2024/2025",
+            "opponent": "Almeria",
+            "team_goals": 1,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-22",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Real Madrid",
+            "team_goals": 2,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-08",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Atletico Madrid",
+            "team_goals": 3,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-05",
+            "competition": "Spain - Fa Cup 2024/2025",
+            "opponent": "UE Olot",
+            "team_goals": 3,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-09",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Leganes",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-30",
+            "competition": "Spain - Fa Cup 2024/2025",
+            "opponent": "Las Rozas",
+            "team_goals": 3,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-25",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Espanyol",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-20",
+            "competition": "Spain - Laliga 2024/2025",
+            "opponent": "Barcelona",
+            "team_goals": 1,
+            "opponent_goals": 5,
+            "result": "loss",
+            "venue": "away"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:49:30.679000"
+      }
+    }
+  }
+}

@@ -736,7 +736,7 @@ class MongoDBManager:
 
     def verify_collection_integrity(self):
         """Verify all collections exist and none are unexpectedly empty"""
-        expected_collections = ['matches', 'standings', 'odds', 'team_season_fixtures', 'statarea_stats']
+        expected_collections = ['matches', 'standings', 'odds', 'team_season_fixtures', 'statarea_stats', 'match_processor'] # Added match_processor
         missing_collections = []
         
         for coll_name in expected_collections:
@@ -747,6 +747,7 @@ class MongoDBManager:
         if missing_collections:
             logger.error(f"Missing collections: {missing_collections}")
             return False
+        logger.info(f"Verified collections exist: {expected_collections}")
         return True
 
     def save_daily_games(self, date_str: str, daily_payload: Dict[str, Any]) -> bool:
@@ -826,6 +827,111 @@ class MongoDBManager:
         except Exception as e:
             logger.error(f"Error checking match processor data existence for fixture {fixture_id}: {e}")
             return False
+
+    def get_previous_matches_for_team(self, team_id: int, date_before_timestamp: int, limit: int = 15) -> List[Dict[str, Any]]:
+        """
+        Retrieves the N most recent matches for a team played before a specific timestamp.
+
+        Args:
+            team_id: The ID of the team.
+            date_before_timestamp: The Unix timestamp of the current game. Find matches before this time.
+            limit: Maximum number of previous matches to return.
+
+        Returns:
+            A list of match data dictionaries, sorted by date descending.
+        """
+        if not self._initialized or self._matches_collection is None:
+            logger.error("MongoDBManager not initialized or matches_collection is None. Cannot fetch previous matches.")
+            return []
+
+        try:
+            # Ensure team_id is integer
+            team_id_int = int(team_id)
+            # Ensure timestamp is integer
+            ts_int = int(date_before_timestamp)
+
+            query = {
+                "$and": [
+                    # Use the correct timestamp field from the 'matches' collection structure
+                    {"match_info.timestamp": {"$lt": ts_int}},
+                    {"$or": [
+                        # Use the correct team ID fields from the 'matches' collection structure
+                        {"home_team.id": team_id_int},
+                        {"away_team.id": team_id_int}
+                    ]}
+                ]
+            }
+
+            # Sort by timestamp descending to get the most recent matches first
+            sort_order = [("match_info.timestamp", -1)]
+
+            cursor = self._matches_collection.find(query).sort(sort_order).limit(limit)
+            previous_matches = list(cursor)
+
+            logger.debug(f"Found {len(previous_matches)} previous matches for team ID {team_id_int} before timestamp {ts_int}.")
+            return previous_matches
+
+        except ValueError as ve:
+             logger.error(f"Invalid input for get_previous_matches_for_team: team_id={team_id}, timestamp={date_before_timestamp}. Error: {ve}")
+             return []
+        except Exception as e:
+            logger.error(f"Error retrieving previous matches for team ID {team_id} from MongoDB: {e}", exc_info=True)
+            return []
+
+    def get_latest_statarea_data(self, api_id: str, game_type: str, period: int) -> Optional[Dict[str, Any]]:
+        """
+        Retrieves the most recent StatArea data document for a specific team, game type, and period.
+        """
+        if not self._initialized or self._statarea_collection is None:
+            logger.error("MongoDBManager not initialized. Cannot retrieve latest StatArea data.")
+            return None
+
+        try:
+            query = {
+                "api_id": api_id,
+                "game_type": game_type,
+                "period": period
+            }
+            
+            # Find the most recent document based on scrape date
+            sort_order = [("scrape_date_utc", -1)]
+
+            document = self._statarea_collection.find_one(
+                query,
+                sort=sort_order,
+                # Optionally exclude fields like _id if not needed in the final output
+                # projection={"_id": 0} 
+            )
+
+            if document:
+                # Remove internal _id before returning if desired
+                if "_id" in document:
+                    del document["_id"]
+                logger.debug(f"Retrieved latest StatArea data for team ID {api_id} ({game_type}, period {period}) scraped at {document.get('scrape_date_utc')}.")
+                return document
+            else:
+                logger.debug(f"No StatArea data found for team ID {api_id} ({game_type}, period {period}).")
+                return None
+
+        except Exception as e:
+            logger.error(f"Error retrieving latest StatArea data for team ID {api_id}: {e}", exc_info=True)
+            return None
+
+    def get_match_processor_data(self, fixture_id: str) -> Optional[Dict[str, Any]]:
+        """Retrieves data from the 'match_processor' collection for a specific fixture ID."""
+        if not self._initialized or self._match_processor_collection is None:
+            logger.error("Cannot get match processor data: DB not initialized.")
+            return None
+        try:
+            # Assuming fixture_id is the _id in the match_processor collection
+            data = self._match_processor_collection.find_one({"_id": str(fixture_id)})
+            if data and "_id" in data:
+                del data["_id"] # Remove internal _id if not needed
+            logger.debug(f"Retrieved match processor data for fixture {fixture_id}. Found: {'Yes' if data else 'No'}")
+            return data
+        except Exception as e:
+            logger.error(f"Error retrieving match processor data for fixture {fixture_id}: {e}")
+            return None
 
 
 # Singleton instance (initialization happens on first call)
