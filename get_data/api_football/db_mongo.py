@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from pymongo.results import UpdateResult # Import UpdateResult for type hinting
+import certifi # <<< Add import for certifi
 
 logger = logging.getLogger(__name__)
 
@@ -33,12 +34,19 @@ class MongoDBManager:
     def __init__(self, db_name="agenticfc"):
         if hasattr(self, '_initialized') and self._initialized:
             # Prevent re-initialization if already initialized
-            if self._db and self._db.name == db_name:
+            if self._db is not None and self._db.name == db_name:
                  logger.debug(f"MongoDBManager already initialized with database: {db_name}")
                  return
             else:
-                 logger.warning(f"Re-initializing MongoDBManager with different DB: {db_name}. Closing previous connection.")
+                 # If initialized but db name is different, or if self._db is None when it shouldn't be
+                 logger.warning(f"Re-initializing MongoDBManager (existing db: {self._db.name if self._db is not None else 'None'}, requested: {db_name}). Closing previous connection.")
                  self._reset_state() # Reset before re-initializing with new DB
+
+        # Ensure we proceed only if not already initialized correctly for this db_name
+        if hasattr(self, '_initialized') and self._initialized:
+             # This case should ideally not be reached if the return above worked, but added as safeguard
+             logger.debug(f"Initialization skipped after reset check for DB: {db_name}")
+             return
 
         script_dir = Path(__file__).resolve().parent
         project_root = script_dir.parent.parent
@@ -48,11 +56,16 @@ class MongoDBManager:
         if not loaded:
              logger.warning(f".env file not found or not loaded from {dotenv_path}. Ensure it exists in the project root.")
 
+        # Get MongoDB URI from environment variable
         mongo_uri = os.getenv("MONGO_URI")
-
         if not mongo_uri:
-            logger.error("MONGO_URI environment variable not set or not found in .env.")
-            raise ValueError("MONGO_URI environment variable not set or not found in .env.")
+            logger.error("MONGO_URI environment variable not set or not found in .env")
+            raise ValueError("MONGO_URI environment variable is required")
+        logger.info("Using MONGO_URI from environment variable")
+        
+        if not mongo_uri:
+             logger.error("MONGO_URI is not set (neither env var nor hardcoded).")
+             raise ValueError("MONGO_URI is not set.")
         else:
              # Basic obfuscation for logging
              uri_parts = mongo_uri.split('@')
@@ -64,7 +77,7 @@ class MongoDBManager:
                       logged_uri = f"{creds_part[0].split('://')[-1]}@******" # Mask potentially username only part
              else: # Handle URI without credentials part
                   logged_uri = mongo_uri # Log as is if no '@' sign
-             logger.info(f"Found MONGO_URI: {logged_uri}")
+             logger.info(f"Attempting connection with MONGO_URI: {logged_uri}")
 
 
         retry_count = 0
@@ -74,7 +87,14 @@ class MongoDBManager:
             try:
                 retry_count += 1
                 logger.info(f"Attempting to connect to MongoDB (attempt {retry_count}/{self._max_retries})...")
-                self._client = MongoClient(mongo_uri, serverSelectionTimeoutMS=10000, appname="AgenticFC") # Added appname
+                # >>> Try changing tls to False if server doesn't use SSL <<<
+                self._client = MongoClient(
+                    mongo_uri,
+                    serverSelectionTimeoutMS=10000, # Keep timeout
+                    appname="AgenticFC",           # Keep appname
+                    tls=False,                      # Explicitly disable TLS
+                    # tlsCAFile=certifi.where() # <<< Comment out or remove if tls=False
+                )
                 # The ismaster command is cheap and does not require auth.
                 self._client.admin.command('ping') # Use ping instead of ismaster for modern MongoDB
                 logger.info(f"Successfully connected to MongoDB server")

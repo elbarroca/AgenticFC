@@ -4,6 +4,8 @@ from typing import Optional, Dict, Any, List
 import asyncio
 import sys
 from pathlib import Path
+from pymongo import MongoClient
+from pymongo.server_api import ServerApi
 
 # Add project root to system path
 project_root = str(Path(__file__).resolve().parent.parent.parent.parent) # Assuming project root is 4 levels up
@@ -18,6 +20,16 @@ from api_football.db_mongo import db_manager
 from api_football.statarea_async_scraper import run_scraper_async
 
 logger = logging.getLogger(__name__)
+
+# Configure MongoDB with larger timeouts and connection pool
+# client = MongoClient( # <<< REMOVE THIS BLOCK - Connection handled by db_manager
+#     "mongodb://Agenticfc888:admin888@74.50.127.165:27017/admin",
+#     serverSelectionTimeoutMS=30000,
+#     connectTimeoutMS=30000,
+#     socketTimeoutMS=60000,
+#     maxPoolSize=50,
+#     server_api=ServerApi('1')
+# )
 
 async def fetch_workflow_data(target_date: Optional[datetime] = None, force_reprocess: bool = False) -> Dict[str, Any]:
     """
