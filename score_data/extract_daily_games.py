@@ -5,15 +5,21 @@ import json
 from typing import Dict, List, Any, Optional, Union, Tuple
 import re
 import sys
+from pathlib import Path
+
+# Add project root to system path
+project_root = str(Path(__file__).resolve().parent.parent) # Assuming project root is 2 levels up
+sys.path.insert(0, project_root)
+
 import time
 import requests
 from dotenv import load_dotenv
 
 # Import MongoDB manager from existing code
 try:
-    from api_football.db_mongo import MongoDBManager
-    from api_football.db_ids.team_id_mappings import TEAM_ID_MAPPING
-    from api_football.db_ids.league_id_mappings import LEAGUE_ID_MAPPING
+    from get_data.api_football.db_mongo import MongoDBManager
+    from get_data.api_football.db_ids.team_id_mappings import TEAM_ID_MAPPING
+    from get_data.api_football.db_ids.league_id_mappings import LEAGUE_ID_MAPPING
 except ImportError as e:
     print(f"Error importing required modules: {e}")
     sys.exit(1)
@@ -658,7 +664,8 @@ class DailyGameExtractor:
             processor_data=self._normalize_values_recursively(self._sanitize_keys_recursively(home_processor_data)),
             statarea_data=self._normalize_values_recursively(self._sanitize_keys_recursively(home_statarea_data)),
             previous_matches=[self._normalize_values_recursively(self._sanitize_keys_recursively(m)) for m in home_previous_matches],
-            standings_info=home_standings_sanitized
+            standings_info=home_standings_sanitized,
+            current_game_timestamp=current_game_timestamp
         )
 
         away_eng_features = self._generate_engineered_features(
@@ -668,7 +675,8 @@ class DailyGameExtractor:
             processor_data=self._normalize_values_recursively(self._sanitize_keys_recursively(away_processor_data)),
             statarea_data=self._normalize_values_recursively(self._sanitize_keys_recursively(away_statarea_data)),
             previous_matches=[self._normalize_values_recursively(self._sanitize_keys_recursively(m)) for m in away_previous_matches],
-            standings_info=away_standings_sanitized
+            standings_info=away_standings_sanitized,
+            current_game_timestamp=current_game_timestamp
         )
         
         # --- 5b. Flatten Engineered Features for Model Input ---
@@ -854,11 +862,12 @@ class DailyGameExtractor:
                                       statarea_data: Optional[Dict[str, Any]],
                                       previous_matches: List[Dict[str, Any]],
                                       standings_info: Optional[Dict[str, Any]],
+                                      current_game_timestamp: Optional[int] = None,
                                       form_pattern: Optional[str] = None) -> Dict[str, Any]:
         """
         Generate comprehensive engineered features for a team, including basic ID info, league, weather,
         prioritizing StatArea history and including relevant standings information directly.
-        Includes relevant info from the processor_data snapshot.
+        Includes relevant info from the processor_data snapshot. Adds Elo rating retrieval.
 
         Args:
             team_basic_info: Basic team info (id, name, logo, statarea_id).
@@ -868,6 +877,8 @@ class DailyGameExtractor:
             statarea_data: Data from StatArea (already sanitized and normalized), can be None.
             previous_matches: Previous matches from 'matches' collection (fallback history).
             standings_info: Dictionary containing standings data for this specific team (already normalized/sanitized).
+            # ADD current_game_timestamp argument documentation
+            current_game_timestamp: Timestamp of the game for fetching point-in-time Elo.
             form_pattern: Optional explicit form string pattern (for specific analysis).
 
         Returns:
@@ -882,6 +893,42 @@ class DailyGameExtractor:
         features["team_name"] = team_basic_info.get("name")
         # features["team_logo"] = team_basic_info.get("logo") # Logo likely not needed for model
         features["team_statarea_id"] = team_basic_info.get("statarea_id")
+
+        # --- Fetch PRE-CALCULATED Elo Rating ---
+        # Assumes an external process calculates and stores Elo ratings historically.
+        # This function FETCHE S the relevant rating just before the match.
+        elo_rating = None
+        if team_id and current_game_timestamp and self.mongo_db:
+             # Verify the MongoDBManager method exists
+             if not hasattr(self.mongo_db, 'get_elo_rating'):
+                 logger.warning(f"MongoDBManager does not have a 'get_elo_rating' method. Cannot fetch Elo for team {team_id}.")
+                 features["elo_rating"] = None
+             else:
+                 try:
+                     # Fetch the pre-calculated Elo rating valid *before* this game's timestamp
+                     fetched_elo = self.mongo_db.get_elo_rating(team_id, current_game_timestamp)
+
+                     if fetched_elo is not None:
+                         # Attempt conversion to float, handle potential errors
+                         try:
+                             elo_rating = float(fetched_elo)
+                             logger.info(f"Fetched Elo rating for team {team_id} (timestamp {current_game_timestamp}): {elo_rating}")
+                             features["elo_rating"] = elo_rating
+                         except (ValueError, TypeError):
+                             logger.error(f"Fetched Elo rating for team {team_id} is not a valid number: {fetched_elo}. Setting Elo to None.")
+                             features["elo_rating"] = None
+                     else:
+                         logger.warning(f"No pre-calculated Elo rating found for team {team_id} before timestamp {current_game_timestamp}.")
+                         features["elo_rating"] = None # Explicitly set None if not found by the DB method
+
+                 except Exception as e:
+                     logger.error(f"Error fetching Elo for team {team_id} from DB: {e}", exc_info=True)
+                     features["elo_rating"] = None
+        else:
+             if not team_id: logger.debug("Cannot fetch Elo: Missing team_id.")
+             if not current_game_timestamp: logger.debug("Cannot fetch Elo: Missing current_game_timestamp.")
+             if not self.mongo_db: logger.debug("Cannot fetch Elo: Missing MongoDB connection.")
+             features["elo_rating"] = None # Set None if prerequisites missing
 
         # --- Add Base League & Round Info ---
         features["base_league_id"] = league_info.get("id") # Renamed to avoid clash

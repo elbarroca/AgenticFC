@@ -3,7 +3,6 @@
 import json
 import os
 import logging
-import glob
 from decimal import Decimal, ROUND_HALF_UP
 from datetime import datetime, date
 import sys
@@ -23,15 +22,10 @@ except ImportError as e:
     print(f"Error importing db_manager: {e}")
 
 # --- Define project_root based on script location ---
-# Assumes odd_finder.py is directly in the project root directory (e.g., AgenticFC888)
 script_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = script_dir # Project root is the directory containing odd_finder.py
-# If odd_finder.py were in a subdirectory like 'scripts', you'd use:
-# project_root = os.path.abspath(os.path.join(script_dir, '..'))
+# Correct project_root: Go up one level from the script's directory (score_data)
+project_root = os.path.abspath(os.path.join(script_dir, '..'))
 
-# --- Target the main processed_matches directory ---
-PROCESSED_MATCHES_PARENT_DIR = os.path.join(project_root, "daily_output", "processed_matches")
-BOOKMAKER_NAME = "Bet365" # Or specify which bookmaker's odds to use
 # OUTPUT_DIR removed as we write back to original files
 
 # Configure logging
@@ -45,6 +39,10 @@ if not logger.handlers:
     logger.addHandler(handler)
 # Optional: Propagate messages to the db_manager's logger handlers if desired
 # logger.propagate = True
+
+# --- Target the specific input/output file ---
+INPUT_OUTPUT_FILE = os.path.join(project_root, "data", "output", "batch_prediction_results.json")
+BOOKMAKER_NAME = "Bet365" # Or specify which bookmaker's odds to use
 
 def get_fixture_id_from_filename(filename):
     """Extracts fixture ID from the JSON filename."""
@@ -92,9 +90,11 @@ def get_odds_from_db(fixture_id, match_date_simple, bookmaker_name): # Added mat
     if not fixture_id:
         logger.error("Error: No fixture ID provided for DB lookup.")
         return None
+    # Date is needed for logging/potential internal logic in db_manager, but not passed directly based on TypeError
     if not match_date_simple:
-        logger.error(f"Error: No valid match date provided for fixture {fixture_id}. Cannot determine odds collection.")
-        return None
+        logger.error(f"Error: No valid match date provided for fixture {fixture_id}. Cannot determine odds collection context.")
+        # We might still attempt the lookup if the manager doesn't strictly need the date passed here
+        # return None # Removed this early exit, let the db_manager handle it
 
     try:
         fixture_id_int = int(fixture_id)
@@ -105,8 +105,11 @@ def get_odds_from_db(fixture_id, match_date_simple, bookmaker_name): # Added mat
     odds_data = None
     try:
         # Use db_manager to get the specific odds document using its get_odds_data method
-        # This method handles getting the correct monthly collection based on date
-        odds_data = db_manager.get_odds_data(match_date_simple, str(fixture_id_int))
+        # This method handles getting the correct monthly collection based on date (comment implies internal handling)
+        # --- MODIFIED CALL: Pass only fixture_id based on TypeError ---
+        logger.debug(f"Calling db_manager.get_odds_data with fixture_id: {fixture_id_int} (Date context: {match_date_simple})")
+        odds_data = db_manager.get_odds_data(str(fixture_id_int))
+        # --- END MODIFICATION ---
 
         if not odds_data:
             # db_manager.get_odds_data already logs errors, so just a confirmation here
@@ -180,7 +183,10 @@ def calculate_implied_probability(odds_string):
 
 def find_matching_odds(prediction_bet, prediction_type, odds_list):
     """
-    Finds the matching odds for a given prediction. Includes enhanced logging.
+    Finds the matching odds for a given prediction (simple or combined).
+    Includes enhanced logging.
+    Handles simple types and combined selections from 'top_n_combined_selections'.
+    Recognizes H/D/A abbreviations for Match Winner.
     """
     logger.debug(f"Attempting to find odds for prediction: '{prediction_bet}' (Type: {prediction_type})") # Log input
 
@@ -188,8 +194,9 @@ def find_matching_odds(prediction_bet, prediction_type, odds_list):
         logger.warning("Odds list is empty, cannot find match.")
         return None
 
-    market_map = {
-        # Simple Outcomes
+    # --- Define Market Mappings ---
+    # Simple markets (as before)
+    market_map_simple = {
         "Over 0.5 Goals": {"market_name": "Goals Over/Under", "value_prefix": "Over ", "value_suffix": ""},
         "Over 1.5 Goals": {"market_name": "Goals Over/Under", "value_prefix": "Over ", "value_suffix": ""},
         "Over 2.5 Goals": {"market_name": "Goals Over/Under", "value_prefix": "Over ", "value_suffix": ""},
@@ -208,72 +215,283 @@ def find_matching_odds(prediction_bet, prediction_type, odds_list):
         "Home or Draw": {"market_name": "Double Chance", "value_prefix": "Home/Draw", "value_suffix": ""},
         "Away or Draw": {"market_name": "Double Chance", "value_prefix": "Draw/Away", "value_suffix": ""},
         "No Draw (Home or Away Win)": {"market_name": "Double Chance", "value_prefix": "Home/Away", "value_suffix": ""},
+        # Abbreviations
+        "O0.5": {"market_name": "Goals Over/Under", "value_prefix": "Over 0.5", "value_suffix": ""},
+        "O1.5": {"market_name": "Goals Over/Under", "value_prefix": "Over 1.5", "value_suffix": ""},
+        "O2.5": {"market_name": "Goals Over/Under", "value_prefix": "Over 2.5", "value_suffix": ""},
+        "O3.5": {"market_name": "Goals Over/Under", "value_prefix": "Over 3.5", "value_suffix": ""},
+        "O4.5": {"market_name": "Goals Over/Under", "value_prefix": "Over 4.5", "value_suffix": ""},
+        "U0.5": {"market_name": "Goals Over/Under", "value_prefix": "Under 0.5", "value_suffix": ""},
+        "U1.5": {"market_name": "Goals Over/Under", "value_prefix": "Under 1.5", "value_suffix": ""},
+        "U2.5": {"market_name": "Goals Over/Under", "value_prefix": "Under 2.5", "value_suffix": ""},
+        "U3.5": {"market_name": "Goals Over/Under", "value_prefix": "Under 3.5", "value_suffix": ""},
+        "U4.5": {"market_name": "Goals Over/Under", "value_prefix": "Under 4.5", "value_suffix": ""},
+        "1": {"market_name": "Match Winner", "value_prefix": "Home", "value_suffix": ""},
+        "X": {"market_name": "Match Winner", "value_prefix": "Draw", "value_suffix": ""},
+        "2": {"market_name": "Match Winner", "value_prefix": "Away", "value_suffix": ""},
+        "1X": {"market_name": "Double Chance", "value_prefix": "Home/Draw", "value_suffix": ""},
+        "X2": {"market_name": "Double Chance", "value_prefix": "Draw/Away", "value_suffix": ""},
+        "12": {"market_name": "Double Chance", "value_prefix": "Home/Away", "value_suffix": ""},
+        # Added H/D/A mappings
+        "H": {"market_name": "Match Winner", "value_prefix": "Home", "value_suffix": ""},
+        "D": {"market_name": "Match Winner", "value_prefix": "Draw", "value_suffix": ""},
+        "A": {"market_name": "Match Winner", "value_prefix": "Away", "value_suffix": ""},
     }
 
-    simple_bet_part = prediction_bet.split(" & ")[0].split(" + ")[0]
-    norm_prediction_bet = simple_bet_part.replace(" Goals", "")
-    logger.debug(f"  Normalized prediction part: '{norm_prediction_bet}'")
+    # Combined markets (Add more as needed based on Bet365 actual names)
+    # These are guesses - **VERIFY AGAINST ACTUAL DB DATA**
+    market_map_combined = {
+        "Match Result and Both Teams To Score": "Results/Both Teams Score", # Updated to match DB example
+        "Double Chance and Total Goals": "Double Chance / Total Goals", # Example Bet365 name
+        "Match Result and Total Goals": "Result/Total Goals", # Updated to match DB example
+        "Both Teams To Score and Total Goals": "Total Goals/Both Teams To Score" # Updated to match DB example
+        # --- Potential Alternative Names (Add if needed based on DB data) ---
+        # "Match Result and Total Goals": "Result / Total Goals",
+        # "Both Teams To Score and Total Goals": "BTTS / Total Goals",
+    }
 
-    mapping = market_map.get(simple_bet_part)
-    if not mapping:
-         parts = norm_prediction_bet.split(' ')
-         if len(parts) == 2 and parts[0] in ["Over", "Under"]:
-             simplified_bet_key = f"{parts[0]} {parts[1]} Goals"
-             logger.debug(f"  Trying simplified key: '{simplified_bet_key}'")
-             mapping = market_map.get(simplified_bet_key)
+    # --- Parsing Logic ---
+    target_market_name = None
+    target_value = None
+    is_combined = " and " in prediction_bet
 
-    if not mapping:
-        logger.debug(f"  Trying original prediction key: '{prediction_bet}'")
-        mapping = market_map.get(prediction_bet)
+    if not is_combined:
+        # Handle Simple Bets (including normalized O/U, 1X2, HDA)
+        simple_bet_part = prediction_bet.split(" + ")[0] # Handle potential future combo markers
+        mapping = market_map_simple.get(simple_bet_part)
 
-    if not mapping:
-        logger.warning(f"No mapping found for prediction: '{prediction_bet}' (tried '{simple_bet_part}')") # Keep as warning
-        return None
+        if not mapping:
+            # Try normalizing "Over X.Y Goals" format if primary lookup fails
+            norm_prediction_bet = simple_bet_part.replace(" Goals", "")
+            parts = norm_prediction_bet.split(' ')
+            if len(parts) == 2 and parts[0] in ["Over", "Under"]:
+                simplified_bet_key = f"{parts[0]} {parts[1]} Goals"
+                logger.debug(f"  Trying simplified key: '{simplified_bet_key}'")
+                mapping = market_map_simple.get(simplified_bet_key)
 
-    target_market_name = mapping["market_name"]
-    target_value = mapping["value_prefix"] # Initial value from map
-    logger.debug(f"  Mapping found: Market='{target_market_name}', Initial Value='{target_value}'")
+        if not mapping:
+            # Check if it's a simple bet that might appear in combined selections (like 'U4.5')
+            # This is needed because process_combined_selections calls this function too.
+            logger.debug(f"No simple mapping found for prediction: '{prediction_bet}', checking common simple types...")
+            if simple_bet_part.startswith('O') or simple_bet_part.startswith('U'):
+                 ou_market_map = { # Simplified map just for O/U lookup here
+                     "O0.5": ("Goals Over/Under", "Over 0.5"), "O1.5": ("Goals Over/Under", "Over 1.5"),
+                     "O2.5": ("Goals Over/Under", "Over 2.5"), "O3.5": ("Goals Over/Under", "Over 3.5"),
+                     "O4.5": ("Goals Over/Under", "Over 4.5"),
+                     "U0.5": ("Goals Over/Under", "Under 0.5"), "U1.5": ("Goals Over/Under", "Under 1.5"),
+                     "U2.5": ("Goals Over/Under", "Under 2.5"), "U3.5": ("Goals Over/Under", "Under 3.5"),
+                     "U4.5": ("Goals Over/Under", "Under 4.5"),
+                 }
+                 market_val = ou_market_map.get(simple_bet_part)
+                 if market_val:
+                     target_market_name, target_value = market_val
+                     logger.debug(f"  Mapped simple bet '{simple_bet_part}' to Market='{target_market_name}', Value='{target_value}'")
+                 else:
+                     logger.warning(f"Could not map simple O/U prediction: '{prediction_bet}'")
+                     return None
+            elif simple_bet_part in ["1","X","2","1X","X2","12", "H", "D", "A"]: # Added H/D/A here
+                 market_val_map = {
+                     "1": ("Match Winner", "Home"), "X": ("Match Winner", "Draw"), "2": ("Match Winner", "Away"),
+                     "1X": ("Double Chance", "Home/Draw"), "X2": ("Double Chance", "Draw/Away"), "12": ("Double Chance", "Home/Away"),
+                     "H": ("Match Winner", "Home"), "D": ("Match Winner", "Draw"), "A": ("Match Winner", "Away"), # Added H/D/A
+                 }
+                 market_val = market_val_map.get(simple_bet_part)
+                 if market_val:
+                      target_market_name, target_value = market_val
+                      logger.debug(f"  Mapped simple bet '{simple_bet_part}' to Market='{target_market_name}', Value='{target_value}'")
+                 else:
+                      # This case should ideally not be reached if the map is correct
+                      logger.warning(f"Could not map simple 1X2/DC/HDA prediction: '{prediction_bet}'")
+                      return None
+            elif simple_bet_part in ["BTTS Yes", "BTTS No"]:
+                 market_val_map = {
+                     "BTTS Yes": ("Both Teams Score", "Yes"), "BTTS No": ("Both Teams Score", "No")
+                 }
+                 market_val = market_val_map.get(simple_bet_part)
+                 if market_val:
+                     target_market_name, target_value = market_val
+                     logger.debug(f"  Mapped simple bet '{simple_bet_part}' to Market='{target_market_name}', Value='{target_value}'")
+                 else:
+                      logger.warning(f"Could not map simple BTTS prediction: '{prediction_bet}'")
+                      return None
+            else:
+                 logger.warning(f"No simple mapping found for prediction: '{prediction_bet}'")
+                 return None
 
 
-    # --- Adjust target_value based on specific prediction details ---
-    if target_market_name == "Goals Over/Under":
-        parts = norm_prediction_bet.split(' ') # e.g., norm_prediction_bet = "Over 2.5"
-        if len(parts) == 2:
-             target_value = f"{parts[0]} {parts[1]}" # Reconstruct "Over 2.5"
-             logger.debug(f"  Adjusted target value for O/U: '{target_value}'")
+        # If mapping was found via market_map_simple earlier
+        if not target_market_name: # Only if not already set by the direct O/U, 1X2 etc. lookup above
+             target_market_name = mapping["market_name"]
+             target_value = mapping["value_prefix"] # Start with the prefix
 
-    # Explicit overrides based on the simple part (might refine target_value again)
-    if simple_bet_part == "Home Win": target_value = "Home"
-    if simple_bet_part == "Away Win": target_value = "Away"
-    if simple_bet_part == "Draw": target_value = "Draw" # Added Draw explicit override for clarity
-    if simple_bet_part == "BTTS Yes": target_value = "Yes"
-    if simple_bet_part == "BTTS No": target_value = "No"
-    if simple_bet_part == "Home or Draw": target_value = "Home/Draw" # Added DC overrides
-    if simple_bet_part == "Away or Draw": target_value = "Draw/Away"
-    if simple_bet_part == "No Draw (Home or Away Win)": target_value = "Home/Away"
+             # Refine target_value based on market type
+             if target_market_name == "Goals Over/Under":
+                  # Ensure format like "Over 2.5" or "Under 1.5"
+                  ou_parts = simple_bet_part.split(" ")
+                  if len(ou_parts) >= 2: # e.g. O2.5 -> Over 2.5 or Over 2.5 Goals -> Over 2.5
+                      # Rebuild from normalized key if needed e.g. O2.5
+                      norm_key = ou_parts[0] if len(ou_parts[0]) > 1 else f"{ou_parts[0]}{ou_parts[1]}" # e.g. O2.5
+                      if norm_key.startswith('O'):
+                           target_value = f"Over {norm_key[1:]}"
+                      elif norm_key.startswith('U'):
+                           target_value = f"Under {norm_key[1:]}"
+                      else: # Handle "Over 2.5" case
+                          target_value = f"{ou_parts[0]} {ou_parts[1]}"
 
-    logger.debug(f"  Final target: Market='{target_market_name}', Value='{target_value}'")
 
+             elif target_market_name == "Match Winner":
+                  # Covers "Home Win", "Draw", "Away Win", "1", "X", "2", "H", "D", "A" from map
+                  if simple_bet_part in ["Home Win", "1", "H"]: target_value = "Home"
+                  elif simple_bet_part in ["Away Win", "2", "A"]: target_value = "Away"
+                  elif simple_bet_part in ["Draw", "X", "D"]: target_value = "Draw"
+             elif target_market_name == "Both Teams Score":
+                  if simple_bet_part == "BTTS Yes": target_value = "Yes"
+                  elif simple_bet_part == "BTTS No": target_value = "No"
+             elif target_market_name == "Double Chance":
+                  if simple_bet_part in ["Home or Draw", "1X"]: target_value = "Home/Draw"
+                  elif simple_bet_part in ["Away or Draw", "X2"]: target_value = "Draw/Away"
+                  elif simple_bet_part in ["No Draw (Home or Away Win)", "12"]: target_value = "Home/Away"
+
+        logger.debug(f"  Simple Mapping Result: Target Market='{target_market_name}', Target Value='{target_value}'")
+
+    else:
+        # Handle Combined Bets
+        parts = [p.strip() for p in prediction_bet.split(" and ")]
+        if len(parts) != 2:
+            logger.warning(f"Cannot parse combined bet with != 2 parts: '{prediction_bet}'")
+            return None
+
+        part1, part2 = parts
+        logger.debug(f"  Parsing combined bet: Part1='{part1}', Part2='{part2}'")
+
+        # Define helper maps here to avoid scope issues if defined within cases
+        # Updated result_map to include H/D/A
+        result_map = {"1": "Home", "X": "Draw", "2": "Away", "H": "Home", "D": "Draw", "A": "Away", "Home Win": "Home", "Draw": "Draw", "Away Win": "Away"}
+        btts_map = {"BTTS Yes": "Yes", "BTTS No": "No"}
+        dc_map = {"1X": "Home/Draw", "X2": "Draw/Away", "12": "Home/Away"}
+        ou_map = { # Maps normalized input like U3.5 to Bet365 value like Under 3.5
+             "O0.5": "Over 0.5", "O1.5": "Over 1.5", "O2.5": "Over 2.5", "O3.5": "Over 3.5", "O4.5": "Over 4.5",
+             "U0.5": "Under 0.5", "U1.5": "Under 1.5", "U2.5": "Under 2.5", "U3.5": "Under 3.5", "U4.5": "Under 4.5"
+        }
+
+        # --- Determine Combined Market and Value (Needs refinement based on actual data) ---
+
+        # Case 1: Result & BTTS (e.g., "A and BTTS Yes", "H and BTTS No")
+        if (part1 in result_map and part2 in btts_map) or (part2 in result_map and part1 in btts_map):
+            # Use the DB market name directly based on example data
+            target_market_name = "Results/Both Teams Score"
+            res_part = result_map[part1] if part1 in result_map else result_map[part2]
+            btts_part = btts_map[part1] if part1 in btts_map else btts_map[part2]
+            target_value = f"{res_part}/{btts_part}" # Bet365 uses "Home/Yes" etc. ** VERIFY **
+            logger.debug(f"  Combined Mapping (Result/BTTS): Market='{target_market_name}', Value='{target_value}'")
+
+        # Case 2: Double Chance & O/U (e.g., "12 and U3.5", "X2 and O1.5")
+        elif (part1 in dc_map and part2 in ou_map) or (part2 in dc_map and part1 in ou_map):
+            target_market_name = market_map_combined.get("Double Chance and Total Goals") # Keep guessed name for now
+            dc_part = dc_map[part1] if part1 in dc_map else dc_map[part2]
+            ou_part_key = part1 if part1 in ou_map else part2
+            ou_value_part = ou_map[ou_part_key] # e.g., "Under 3.5"
+            # Bet365 format might be like "Home/Draw & Over 2.5" - ** VERIFY **
+            target_value = f"{dc_part} / {ou_value_part}"
+            logger.debug(f"  Combined Mapping (DC/O-U): Market='{target_market_name}', Value='{target_value}'")
+
+        # Case 3: BTTS & O/U (e.g., "BTTS Yes and O2.5", "BTTS No and U3.5")
+        elif (part1 in btts_map and part2 in ou_map) or (part2 in btts_map and part1 in ou_map):
+            # Use the DB market name directly based on example data
+            target_market_name = "Total Goals/Both Teams To Score"
+            btts_part = btts_map[part1] if part1 in btts_map else btts_map[part2]
+            ou_part_key = part1 if part1 in ou_map else part2
+            ou_value_part = ou_map[ou_part_key] # e.g., "Over 2.5"
+            # Bet365 uses "o/yes 2.5" format - ** VERIFY / ADJUST **
+            # Constructing based on pattern: needs verification
+            o_u_prefix = "o" if ou_part_key.startswith("O") else "u"
+            btts_suffix = "yes" if btts_part == "Yes" else "no"
+            ou_number = ou_part_key[1:] # e.g. "2.5"
+            target_value = f"{o_u_prefix}/{btts_suffix} {ou_number}"
+            logger.debug(f"  Combined Mapping (BTTS/O-U): Market='{target_market_name}', Value='{target_value}'")
+
+        # Case 4: Result & O/U (e.g., "H and O2.5", "X and U1.5")
+        elif (part1 in result_map and part2 in ou_map) or (part2 in result_map and part1 in ou_map):
+            # Use the DB market name directly based on example data
+            target_market_name = "Result/Total Goals"
+            res_part = result_map[part1] if part1 in result_map else result_map[part2]
+            ou_part_key = part1 if part1 in ou_map else part2
+            ou_value_part = ou_map[ou_part_key] # e.g., "Under 1.5"
+            # Bet365 uses "Home/Under 2.5" etc. ** VERIFY **
+            target_value = f"{res_part}/{ou_value_part}"
+            logger.debug(f"  Combined Mapping (Result/O-U): Market='{target_market_name}', Value='{target_value}'")
+
+
+        if not target_market_name or not target_value:
+            logger.warning(f"Could not determine combined market mapping for '{prediction_bet}'")
+            # Attempt fallback: Check if the DB market name *is* the prediction string (sometimes happens)
+            logger.debug(f"    Attempting direct market name match for '{prediction_bet}'")
+            target_market_name = prediction_bet
+            target_value = prediction_bet # Value is often same as market name for simple combined representations
+            # Let the search loop below try this fallback
+
+    # --- Search in Odds List ---
+    if not target_market_name:
+         logger.warning(f"Target market name could not be determined for '{prediction_bet}'")
+         return None
+
+    # --- Refined Search Logic ---
+    found_odd = None
+    attempted_direct_match = (target_market_name == prediction_bet and target_value == prediction_bet) # Flag if using fallback
 
     for market in odds_list:
         if not isinstance(market, dict): continue
         market_name_from_db = market.get("name")
-        # logger.debug(f"    Checking DB market: '{market_name_from_db}'") # Can be noisy, enable if needed
-        if market_name_from_db == target_market_name:
-            logger.debug(f"    Found matching market in DB: '{target_market_name}'")
-            for value_odd_pair in market.get("values", []):
-                 if not isinstance(value_odd_pair, dict): continue
-                 value_from_db = value_odd_pair.get("value")
-                 # logger.debug(f"      Checking DB value: '{value_from_db}'") # Can be noisy
-                 if value_from_db == target_value:
-                    odd_found = value_odd_pair.get("odd")
-                    logger.info(f"    SUCCESS: Found matching odd for '{target_market_name}' - '{target_value}': {odd_found}") # Changed level to INFO for success
-                    return odd_found
-            logger.warning(f"    Market '{target_market_name}' found, but value '{target_value}' not in its values.")
-            return None # Value not found within the correct market
+        if not market_name_from_db: continue
 
-    logger.warning(f"  Market '{target_market_name}' not found in the provided odds list for this fixture.")
-    return None
+        # Normalize names for comparison (lowercase, remove spaces, slashes)
+        # Example: "Result/Total Goals" -> "resulttotalgoals"
+        norm_target_market = ''.join(filter(str.isalnum, target_market_name.lower()))
+        norm_db_market = ''.join(filter(str.isalnum, market_name_from_db.lower()))
+
+        # Check if normalized market names match
+        if norm_target_market == norm_db_market:
+            logger.debug(f"    Found potentially matching market in DB: '{market_name_from_db}' (Target: '{target_market_name}')")
+            for value_odd_pair in market.get("values", []):
+                if not isinstance(value_odd_pair, dict): continue
+                value_from_db = value_odd_pair.get("value")
+                if not value_from_db: continue
+
+                # Normalize values for comparison
+                # Example: "Home/Over 2.5" -> "homeover25"
+                # Example: "o/yes 2.5" -> "oyes25"
+                norm_target_val = ''.join(filter(str.isalnum, target_value.lower().replace('.', '')))
+                norm_db_val = ''.join(filter(str.isalnum, value_from_db.lower().replace('.', '')))
+
+                # Special handling for "Total Goals/Both Teams To Score" values like "o/yes 2.5"
+                if market_name_from_db == "Total Goals/Both Teams To Score":
+                     # Target was constructed as "o/yes 2.5", DB is "o/yes 2.5" -> normalization works
+                     pass # Normalization should handle this
+
+                # Standard comparison
+                if norm_db_val == norm_target_val:
+                    odd_found = value_odd_pair.get("odd")
+                    logger.info(f"    SUCCESS: Found matching odd for '{market_name_from_db}' - '{value_from_db}': {odd_found}")
+                    found_odd = odd_found
+                    break # Exit inner loop once value is found
+            # If we found the odd, exit the outer market loop as well
+            if found_odd is not None:
+                break
+            else:
+                # If market name matched but value didn't, log warning
+                logger.warning(f"    Market '{market_name_from_db}' matched target '{target_market_name}', but target value '{target_value}' (normalized: '{norm_target_val}') not found in its values.")
+                # Continue searching other markets in case of duplicate market names? Unlikely but possible.
+                # For now, assume market names are unique enough. If value not found here, it's likely not present.
+
+    # If after checking all markets, we haven't found the odd
+    if found_odd is None:
+        if attempted_direct_match:
+             logger.warning(f"  Target market '{target_market_name}' (fallback attempt) not found or value not matched in the provided odds list.")
+        else:
+             logger.warning(f"  Target market '{target_market_name}' not found or value '{target_value}' not matched in the provided odds list.")
+        return None
+    else:
+         return found_odd # Return the successfully found odd
 
 def get_context_stats(processed_data, bet_name):
     """Extracts relevant context stats based on the bet name."""
@@ -468,34 +686,337 @@ def find_matched_bets(processed_data, odds_list):
 
     return matched_bets
 
+def process_combined_selections(processed_data, odds_list):
+    """
+    Processes the 'top_n_combined_selections', finds odds, calculates metrics,
+    and updates the list in-place within processed_data.
+    If a direct combined odd isn't found, attempts to calculate one by
+    multiplying the odds of the individual components (less accurate approach).
+    """
+    if not processed_data:
+        logger.error("Cannot process combined selections: processed_data is None.")
+        return processed_data
+
+    # Locate the 'top_n_combined_selections' list
+    combined_selections = None
+    match_analysis_data = processed_data.get("match_analysis")
+    if isinstance(match_analysis_data, dict):
+        combined_selections = match_analysis_data.get("top_n_combined_selections")
+    if combined_selections is None: # Fallback to top-level
+         combined_selections = processed_data.get("top_n_combined_selections")
+
+    fixture_id_log = processed_data.get('fixture_id') or processed_data.get('match_info', {}).get('id', 'N/A')
+
+    if not combined_selections or not isinstance(combined_selections, list):
+        logger.debug(f"No 'top_n_combined_selections' list found or list is empty for fixture {fixture_id_log}.")
+        return processed_data # Return unchanged (no modifications needed)
+
+    if not odds_list:
+        logger.warning(f"Odds list is empty for fixture {fixture_id_log}. Cannot add odds to combined selections.")
+        # Clear existing target fields if present, ensuring only these are touched
+        for selection_dict in combined_selections:
+             if isinstance(selection_dict, dict):
+                 selection_dict.pop("odd", None)
+                 selection_dict.pop("implied_prob", None)
+                 selection_dict.pop("edge", None)
+                 selection_dict.pop("value_ratio", None)
+                 selection_dict.pop("odd_source", None) # Remove calculation source flag
+        return processed_data # Return unchanged (except potential clearing)
+
+    logger.debug(f"Processing {len(combined_selections)} combined selections for odds in fixture {fixture_id_log}...")
+    quantize_edge = Decimal('0.001')
+    quantize_ratio = Decimal('0.001')
+    quantize_odds = Decimal('0.01') # Standard for odds
+    quantize_prob = Decimal('0.0001') # Precision for probabilities
+
+    updated_count = 0
+    for selection_dict in combined_selections: # Iterate through the list to modify dicts in place
+        if not isinstance(selection_dict, dict): continue
+
+        bet_name = selection_dict.get("selection")
+        predicted_prob_raw = selection_dict.get("probability") # Should be Decimal from load
+
+        # --- Clear previous calculation source ---
+        selection_dict.pop("odd_source", None)
+
+        if not bet_name or predicted_prob_raw is None:
+            logger.warning(f"Skipping combined selection due to missing 'selection' or 'probability': {selection_dict}")
+            continue
+
+        # Ensure predicted_prob is Decimal
+        predicted_prob = None
+        try:
+            # It should already be Decimal if loaded correctly, but handle str just in case
+            if isinstance(predicted_prob_raw, str):
+                if '%' in predicted_prob_raw:
+                     predicted_prob = parse_probability_string(predicted_prob_raw)
+                else:
+                     predicted_prob = Decimal(predicted_prob_raw)
+            elif isinstance(predicted_prob_raw, (Decimal, float, int)):
+                 predicted_prob = Decimal(predicted_prob_raw)
+            else:
+                raise TypeError(f"Unexpected type for probability: {type(predicted_prob_raw)}")
+
+            if predicted_prob is None: raise ValueError("Probability became None after conversion attempt")
+            predicted_prob = predicted_prob.quantize(quantize_prob, ROUND_HALF_UP) # Ensure consistent precision
+
+        except Exception as e:
+            logger.error(f"Could not ensure predicted probability '{predicted_prob_raw}' is Decimal for selection '{bet_name}'. Skipping. Error: {e}")
+            # Clear fields if conversion fails
+            selection_dict.pop("odd", None); selection_dict.pop("implied_prob", None); selection_dict.pop("edge", None); selection_dict.pop("value_ratio", None); selection_dict.pop("odd_source", None)
+            continue
+
+        # --- Find Odds ---
+        # Attempt 1: Find the direct combined odd
+        odds_str = find_matching_odds(bet_name, "Combined", odds_list)
+        odd_source = "Direct Match" if odds_str is not None else None
+
+        # Attempt 2: If direct combined odd not found, try calculating from individual parts
+        if odds_str is None and " and " in bet_name:
+             logger.debug(f"Direct odd not found for '{bet_name}'. Attempting calculation from individual parts.")
+             parts = [p.strip() for p in bet_name.split(" and ")]
+             if len(parts) == 2:
+                 part1, part2 = parts
+                 odd_str1 = find_matching_odds(part1, "Simple", odds_list) # Treat parts as simple bets
+                 odd_str2 = find_matching_odds(part2, "Simple", odds_list)
+
+                 if odd_str1 is not None and odd_str2 is not None:
+                     try:
+                         odd1 = Decimal(str(odd_str1))
+                         odd2 = Decimal(str(odd_str2))
+                         calculated_odd = (odd1 * odd2) # Multiply odds
+                         odds_str = str(calculated_odd) # Use the calculated odd string
+                         odd_source = f"Calculated ({odd1:.2f} * {odd2:.2f})"
+                         logger.info(f"  Calculated combined odd for '{bet_name}': {calculated_odd:.2f} (from {part1} @ {odd1:.2f} and {part2} @ {odd2:.2f})")
+                     except Exception as calc_e:
+                         logger.error(f"Error calculating combined odd for '{bet_name}' from parts '{part1}'({odd_str1}) and '{part2}'({odd_str2}): {calc_e}")
+                         odds_str = None # Calculation failed
+                         odd_source = "Calculation Error"
+                 else:
+                     logger.warning(f"Could not find individual odds for both parts of '{bet_name}' ({part1}: {odd_str1}, {part2}: {odd_str2}). Cannot calculate combined odd.")
+                     odd_source = "Missing Individual Odds"
+             else:
+                 logger.warning(f"Cannot parse '{bet_name}' into two parts for individual calculation.")
+                 odd_source = "Parsing Error"
+
+
+        # --- Process if odd was found (either directly or calculated) ---
+        if odds_str is None:
+            logger.debug(f"No matching or calculable odds found for selection: '{bet_name}'. Status: {odd_source or 'Not Found'}")
+            # Remove old values if they exist - only touch these keys
+            selection_dict.pop("odd", None); selection_dict.pop("implied_prob", None); selection_dict.pop("edge", None); selection_dict.pop("value_ratio", None); selection_dict.pop("odd_source", None)
+            continue
+
+        # --- Calculate Metrics ---
+        implied_prob = calculate_implied_probability(odds_str)
+        if implied_prob is None:
+            logger.warning(f"Could not calculate implied probability from odd '{odds_str}' (Source: {odd_source}) for bet '{bet_name}'. Skipping metrics.")
+            # Store odd even if implied prob fails, but clear others
+            try:
+                 selection_dict["odd"] = Decimal(str(odds_str)).quantize(quantize_odds, ROUND_HALF_UP)
+                 selection_dict["odd_source"] = odd_source # Store source info
+            except Exception:
+                 selection_dict.pop("odd", None)
+                 selection_dict.pop("odd_source", None)
+            selection_dict.pop("implied_prob", None); selection_dict.pop("edge", None); selection_dict.pop("value_ratio", None)
+            continue
+
+        try:
+            odds_decimal = Decimal(str(odds_str)).quantize(quantize_odds, ROUND_HALF_UP)
+            implied_prob_quant = implied_prob.quantize(quantize_prob, ROUND_HALF_UP)
+            edge = (predicted_prob - implied_prob).quantize(quantize_edge, ROUND_HALF_UP)
+            value_ratio = (predicted_prob / implied_prob).quantize(quantize_ratio, ROUND_HALF_UP) if implied_prob > 0 else Decimal('Infinity')
+
+            # --- Update the dictionary IN PLACE ---
+            selection_dict["odd"] = odds_decimal
+            selection_dict["implied_prob"] = implied_prob_quant
+            selection_dict["edge"] = edge
+            selection_dict["value_ratio"] = value_ratio
+            selection_dict["odd_source"] = odd_source # Indicate how odd was obtained
+            # --- End Update ---
+
+            updated_count += 1
+            logger.debug(f"Metrics updated for '{bet_name}' using odd {odds_decimal} (Source: {odd_source}). Edge: {edge:.3f}")
+
+        except Exception as e:
+            logger.error(f"Error calculating metrics for selection '{bet_name}' with odd '{odds_str}': {e}")
+            # Clear fields on calculation error
+            selection_dict.pop("odd", None); selection_dict.pop("implied_prob", None); selection_dict.pop("edge", None); selection_dict.pop("value_ratio", None); selection_dict.pop("odd_source", None)
+            continue
+
+    if updated_count > 0:
+         logger.info(f"Added/Updated odds/metrics for {updated_count} combined selections in fixture {fixture_id_log}.")
+
+    # Return the SAME dictionary object that was passed in, now potentially modified
+    return processed_data
+
 def convert_decimals_to_strings(data):
-    """Recursively convert Decimal objects and format numbers for JSON."""
+    """Recursively convert Decimal objects and format numbers for JSON serialization."""
     if isinstance(data, list):
         return [convert_decimals_to_strings(item) for item in data]
     elif isinstance(data, dict):
         return {k: convert_decimals_to_strings(v) for k, v in data.items()}
     elif isinstance(data, Decimal):
-         # Consistent formatting for Decimals
-         return f"{data:.4f}" # Use 4 decimal places for all Decimals
+        if data.is_infinite():
+            return 'Infinity'
+        # Use appropriate precision based on value (simple heuristic)
+        if data.is_nan(): return 'NaN' # Handle NaN just in case
+        abs_data = data.copy_abs()
+        if abs_data == 0: return "0.0000"
+        if abs_data > 100: # Large number, likely not needing high precision
+            return f"{data:.2f}"
+        elif abs_data >= Decimal('1.0'): # Odds or ratios > 1
+             return f"{data.quantize(Decimal('0.01'), ROUND_HALF_UP):.2f}"
+        elif abs_data > Decimal('0.000001'): # Probabilities, edges, small ratios
+            return f"{data.quantize(Decimal('0.0001'), ROUND_HALF_UP):.4f}"
+        else: # Very small numbers, maybe use scientific notation or fixed small value
+             return f"{data:.4E}" # Example: Scientific notation
     elif isinstance(data, float):
-         # Format floats (like original predictability score or context stats)
-         # Check if it can be represented as int with .0
-         if data == int(data):
-              return f"{data:.1f}" # e.g., 9.0
-         else:
-              return f"{data:.3f}" # e.g., 9.200 or 0.733
+         # Format floats nicely
+         if data.is_integer(): return f"{data:.1f}"
+         if abs(data) < 1 and abs(data) > 1e-4 : return f"{data:.4f}"
+         elif abs(data) < 10: return f"{data:.3f}"
+         else: return f"{data:.2f}"
     elif isinstance(data, (int, str, bool)) or data is None:
-         return data # Keep ints, strings, bools, None as is
+        return data
+    elif isinstance(data, (datetime, date)): # Handle dates/datetimes if they appear
+        return data.isoformat()
     else:
-        # Fallback for other types
+        # Fallback for other types (shouldn't happen often with JSON load)
+        # logger.warning(f"Converting unexpected type {type(data)} to string: {str(data)}")
         return str(data)
 
+# --- Function to load the single batch file ---
+def load_batch_prediction_data(filepath):
+    """Loads the entire batch prediction JSON data from a file."""
+    try:
+        with open(filepath, 'r') as f:
+            data = json.load(f, parse_float=Decimal) # Use Decimal for precision
+        logger.info(f"Successfully loaded batch data from {filepath}")
+        if isinstance(data, list):
+            return data, "list"
+        elif isinstance(data, dict):
+             first_key = next(iter(data), None)
+             if first_key and isinstance(data[first_key], dict) and \
+                (data[first_key].get('fixture_id') or data[first_key].get('match_info') or data[first_key].get('fixture')): # Added 'fixture' check
+                 return data, "dict"
+             else:
+                 logger.error(f"Input file {filepath} is a dictionary, but values don't look like valid match data.")
+                 return None, None
+        else:
+            logger.error(f"Input file {filepath} does not contain a list or a recognized dictionary structure.")
+            return None, None
+    except FileNotFoundError:
+        logger.error(f"Error: Input file not found at {filepath}")
+        return None, None
+    except json.JSONDecodeError as e:
+        logger.error(f"Error: Could not decode JSON from {filepath}: {e}")
+        return None, None
+    except Exception as e:
+        logger.error(f"Unexpected error loading {filepath}: {e}")
+        return None, None
+
+# --- Function to extract date (Further Revised Search Logic) ---
+def get_match_date_simple(match_data):
+    """
+    Extracts and formats the match date from match data.
+    Searches common keys, specific nested paths, and finally the filename in 'file_path'.
+    """
+    date_str = None
+    date_source = "N/A" # Keep track of where the date was found
+    fixture_id_log = match_data.get('fixture_id', 'N/A') # Default to N/A
+
+    # Try to get a better fixture ID for logging if available
+    potential_id_paths = [['fixture_id'], ['id'], ['match_info', 'id'], ['fixture', 'id']]
+    for path in potential_id_paths:
+        temp_data = match_data
+        try:
+            for key in path: temp_data = temp_data[key]
+            if temp_data is not None:
+                fixture_id_log = temp_data
+                break
+        except (TypeError, KeyError, IndexError): continue
+
+    logger.debug(f"--- Finding date for fixture {fixture_id_log} ---")
+
+    # Define potential paths to the date string
+    potential_date_paths = [
+        (['date'], "top-level 'date'"),
+        (['match_date'], "top-level 'match_date'"),
+        (['fixture_date'], "top-level 'fixture_date'"),
+        (['match_info', 'date'], "'match_info.date'"),
+        (['match_info', 'match_date'], "'match_info.match_date'"),
+        (['fixture', 'date'], "'fixture.date'"),
+        (['bookmakers', 0, 'fixture', 'date'], "'bookmakers[0].fixture.date'")
+    ]
+
+    # 1. Try finding the date string using the defined paths
+    for path, source_desc in potential_date_paths:
+        temp_data = match_data
+        found = True
+        try:
+            for key in path:
+                if isinstance(temp_data, dict): temp_data = temp_data.get(key)
+                elif isinstance(temp_data, list) and isinstance(key, int) and len(temp_data) > key: temp_data = temp_data[key]
+                else: found = False; break
+            if found and temp_data is not None:
+                date_str = str(temp_data) # Ensure it's a string
+                date_source = source_desc
+                logger.debug(f"  Found potential date '{date_str}' from source: {date_source}")
+                break # Date found, exit search loop
+        except (TypeError, IndexError, KeyError):
+            continue # Path invalid or doesn't exist
+
+    # 2. --- Fallback to extracting date from file_path ---
+    if date_str is None:
+        logger.debug("  Date not found via direct keys, attempting fallback from 'file_path'.")
+        file_path = match_data.get('file_path')
+        if isinstance(file_path, str):
+            try:
+                filename = os.path.basename(file_path)
+                date_part = filename.split('_')[0]
+                datetime.strptime(date_part, '%Y-%m-%d') # Validate format YYYY-MM-DD
+                date_str = date_part # Use the extracted date string
+                date_source = f"file_path extraction ('{filename}')"
+                logger.debug(f"  SUCCESS: Found date '{date_str}' from {date_source}")
+            except (IndexError, ValueError, TypeError) as e:
+                logger.warning(f"  FAILED: Could not extract valid date from file_path '{file_path}'. Error: {e}")
+                date_str = None # Ensure it remains None if extraction fails
+        else:
+            logger.debug(f"  SKIPPED: 'file_path' key missing or not a string ('{type(file_path)}').")
+
+    # 3. --- Try parsing the found date string (if any) ---
+    if date_str:
+        try:
+            # Try parsing ISO format first
+            date_obj = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+            formatted_date = date_obj.strftime('%Y-%m-%d')
+            logger.debug(f"  Successfully parsed date '{date_str}' (source: {date_source}) -> {formatted_date}")
+            return formatted_date
+        except ValueError:
+            try:
+                # Fallback to parsing just YYYY-MM-DD
+                date_obj = datetime.strptime(date_str.split('T')[0], '%Y-%m-%d')
+                formatted_date = date_obj.strftime('%Y-%m-%d')
+                logger.debug(f"  Successfully parsed date '{date_str}' (source: {date_source}) -> {formatted_date} (using YYYY-MM-DD parse)")
+                return formatted_date
+            except ValueError:
+                logger.error(f"  FAILED PARSING: Could not parse potential date string '{date_str}' (found via {date_source}) for fixture {fixture_id_log}")
+                return None # Parsing failed even though we found a string
+    else:
+        # This log means neither direct key search nor file_path extraction yielded a date string
+        logger.warning(f"Could not find a recognizable date key/value OR extract from file_path for fixture {fixture_id_log}")
+        return None
 
 # --- Main Execution ---
 if __name__ == "__main__":
     # --- Argument Parsing ---
     import argparse
-    parser = argparse.ArgumentParser(description="Finds bets with predicted probability > 0.61, matches odds, adds context/score, and appends to original JSON.")
+    parser = argparse.ArgumentParser(description="Processes combined selections in a batch prediction file, adds odds and value metrics.")
+    parser.add_argument('--input', type=str, default=INPUT_OUTPUT_FILE,
+                        help=f'Path to the input/output JSON file (default: {INPUT_OUTPUT_FILE})')
+    parser.add_argument('--bookmaker', type=str, default=BOOKMAKER_NAME,
+                        help=f'Name of the bookmaker to fetch odds for (default: {BOOKMAKER_NAME})')
     parser.add_argument('--debug', action='store_true', help='Enable debug logging')
     args = parser.parse_args()
 
@@ -504,116 +1025,146 @@ if __name__ == "__main__":
         logging.getLogger('get_data.api_football.db_mongo').setLevel(logging.DEBUG)
         logger.info("--- Debug logging enabled ---")
 
-    # --- Initial Setup ---
+    input_filepath = args.input
+    bookmaker = args.bookmaker
+
     logger.info(f"Using MongoDB instance provided by db_manager.")
-    logger.info(f"Using Bookmaker: {BOOKMAKER_NAME}")
-    logger.info(f"Scanning for matches in: {PROCESSED_MATCHES_PARENT_DIR}")
+    logger.info(f"Using Bookmaker: {bookmaker}")
+    logger.info(f"Processing input file: {input_filepath}")
 
-    if not os.path.isdir(PROCESSED_MATCHES_PARENT_DIR):
-         logger.error(f"Processed matches parent directory not found: {PROCESSED_MATCHES_PARENT_DIR}")
-         # Attempt to use current working directory's processed_matches as fallback
-         fallback_dir = os.path.join(os.getcwd(), "processed_matches")
-         logger.warning(f"Attempting fallback directory: {fallback_dir}")
-         if os.path.isdir(fallback_dir):
-              PROCESSED_MATCHES_PARENT_DIR = fallback_dir
-              logger.info(f"Using fallback directory: {PROCESSED_MATCHES_PARENT_DIR}")
-         else:
-              logger.error("Fallback directory also not found. Exiting.")
-              sys.exit(1) # Use sys.exit
+    if not os.path.exists(input_filepath):
+         logger.error(f"Input file not found: {input_filepath}")
+         sys.exit(1)
 
-    # --- File Processing Loop ---
-    search_pattern = os.path.join(PROCESSED_MATCHES_PARENT_DIR, '**', '*.json')
-    json_files = glob.glob(search_pattern, recursive=True)
-    json_files = [f for f in json_files if '_vs_' in os.path.basename(f)]
+    # --- Load the entire batch data ---
+    batch_data, data_format = load_batch_prediction_data(input_filepath)
+    if batch_data is None:
+         logger.error("Failed to load or parse batch data. Exiting.")
+         sys.exit(1)
 
-    if not json_files:
-        logger.warning(f"No processed match JSON files found recursively in {PROCESSED_MATCHES_PARENT_DIR}")
-
-    processed_count = 0
-    files_updated_count = 0
-    total_matched_bets_count = 0
+    # --- Processing Loop ---
+    processed_matches = 0
+    matches_with_updates = 0
     error_count = 0
+    if data_format == "dict": updated_data = {}
 
-    for json_file_path in json_files:
-        relative_path = os.path.relpath(json_file_path, PROCESSED_MATCHES_PARENT_DIR)
-        logger.debug(f"\n--- Processing: {relative_path} ---")
-        processed_count += 1
+    match_iterator = None
+    if data_format == "list": match_iterator = enumerate(batch_data)
+    elif data_format == "dict": match_iterator = batch_data.items()
+
+    for key_or_index, match_data in match_iterator:
+        processed_matches += 1
         fixture_id = None
+        fixture_id_source_key = None
+
+        # --- Find Fixture ID (Revised Logic) ---
+        potential_id_paths = [
+            ['fixture_id'], ['fixtureId'], ['id'], # Common top-level keys
+            ['match_info', 'id'], # Inside 'match_info'
+            ['fixture', 'id'] # Inside 'fixture'
+        ]
+        if data_format == "list":
+            for path in potential_id_paths:
+                 temp_data = match_data
+                 found_id = True
+                 try:
+                     for key in path:
+                         temp_data = temp_data.get(key)
+                         if temp_data is None: found_id = False; break
+                     if found_id and temp_data is not None:
+                         fixture_id = temp_data
+                         logger.debug(f"Found fixture ID {fixture_id} using path {path} in list item {key_or_index+1}")
+                         break
+                 except (TypeError, KeyError):
+                     continue # Path doesn't exist or is invalid type
+
+        elif data_format == "dict":
+             fixture_id = key_or_index # Key is the primary ID
+             fixture_id_source_key = key_or_index
+             # Verify against internal ID
+             internal_id = None
+             for path in potential_id_paths:
+                 temp_data = match_data
+                 found_id = True
+                 try:
+                     for key in path:
+                         temp_data = temp_data.get(key)
+                         if temp_data is None: found_id = False; break
+                     if found_id and temp_data is not None:
+                         internal_id = temp_data
+                         break
+                 except (TypeError, KeyError):
+                     continue
+             if internal_id and str(internal_id) != str(fixture_id):
+                  logger.warning(f"Dict key '{fixture_id}' differs from internal ID '{internal_id}' found at path {path}. Using key '{fixture_id}'.")
+        # --- End Fixture ID Finding ---
+
+        display_id = f"fixture {fixture_id}" if fixture_id else f"entry {key_or_index+1 if isinstance(key_or_index, int) else key_or_index}"
+
+        if not fixture_id:
+            logger.warning(f"Skipping {display_id}: Failed to find fixture ID in expected locations.")
+            if data_format == "dict": updated_data[fixture_id_source_key] = match_data
+            error_count += 1
+            continue
+
+        logger.debug(f"\n--- Processing {display_id} ---")
+        match_date_simple = get_match_date_simple(match_data) # Use the MOST refined date finder
+        if not match_date_simple:
+            logger.warning(f"Skipping {display_id}: Could not determine valid date for odds lookup.")
+            if data_format == "dict": updated_data[fixture_id_source_key] = match_data
+            error_count += 1
+            continue
+
+        # --- Try getting odds and processing ---
         try:
-            fixture_id = get_fixture_id_from_filename(os.path.basename(json_file_path))
-            if not fixture_id:
-                logger.warning(f"Skipping file (no fixture ID): {relative_path}")
-                continue
+            odds_list = get_odds_from_db(str(fixture_id), match_date_simple, bookmaker)
 
-            # Load data *once*
-            processed_data, match_date_simple = load_processed_match_data(json_file_path)
-            if not processed_data:
-                logger.error(f"Failed to load processed data from {json_file_path}. Skipping.")
-                continue
-            if not match_date_simple:
-                 logger.warning(f"Skipping fixture {fixture_id} due to missing/invalid date in {json_file_path}")
-                 continue
+            selections_before = json.dumps(
+                 match_data.get("match_analysis", {}).get("top_n_combined_selections") or
+                 match_data.get("top_n_combined_selections", []), default=str
+            )
+            processed_match_data = process_combined_selections(match_data, odds_list) # Modifies match_data in place
+            selections_after = json.dumps(
+                 processed_match_data.get("match_analysis", {}).get("top_n_combined_selections") or
+                 processed_match_data.get("top_n_combined_selections", []), default=str
+            )
 
-            odds_list = get_odds_from_db(fixture_id, match_date_simple, BOOKMAKER_NAME)
-            if not odds_list:
-                logger.debug(f"Could not retrieve odds for fixture {fixture_id} on {match_date_simple}. Skipping analysis for this file.")
-                continue
+            if selections_before != selections_after:
+                 logger.info(f"Updates applied to {display_id}.") # Changed log level to INFO for updates
+                 matches_with_updates += 1
 
-            # Find bets, including context and score
-            matched_bets_for_file = find_matched_bets(processed_data, odds_list)
-
-            if matched_bets_for_file:
-                # Sort by new weighted score, then probability
-                matched_bets_for_file.sort(key=lambda x: (x['score'], x['predicted_prob']), reverse=True)
-                total_matched_bets_count += len(matched_bets_for_file)
-
-                # Convert all Decimals (and format floats) for JSON compatibility
-                serializable_matches = convert_decimals_to_strings(matched_bets_for_file)
-
-                # Add/Update the sorted, serializable list in the loaded data
-                processed_data["matched_odds_info"] = serializable_matches # Use the same key
-
-                # Write the updated data back
-                try:
-                    with open(json_file_path, 'w') as f:
-                        json.dump(processed_data, f, indent=4)
-                    logger.info(f"Successfully updated {len(matched_bets_for_file)} matched bets in: {relative_path}")
-                    files_updated_count += 1
-                except Exception as write_error:
-                    logger.error(f"Error writing updated data back to {relative_path}: {write_error}")
-                    error_count += 1
-            else:
-                # If no bets met threshold, potentially remove old key if it exists
-                if "matched_odds_info" in processed_data:
-                    logger.debug(f"Removing previous 'matched_odds_info' as no bets met threshold for fixture {fixture_id} in {relative_path}")
-                    del processed_data["matched_odds_info"]
-                    try:
-                        with open(json_file_path, 'w') as f:
-                           json.dump(processed_data, f, indent=4)
-                        # Optionally log this removal, maybe at DEBUG level
-                    except Exception as write_error:
-                       logger.error(f"Error writing updated data (removing key) back to {relative_path}: {write_error}")
-                       error_count += 1
-                else:
-                    logger.debug(f"No bets met >0.61 threshold for fixture {fixture_id} in {relative_path}")
-
+            if data_format == "dict":
+                 updated_data[fixture_id_source_key] = processed_match_data
 
         except Exception as e:
-             logger.error(f"Unhandled error processing file {relative_path} (Fixture: {fixture_id}): {e}")
+             logger.error(f"Unhandled error during processing loop for {display_id}: {e}")
              import traceback
              traceback.print_exc()
+             if data_format == "dict": updated_data[fixture_id_source_key] = match_data
              error_count += 1
+             continue # Skip to next match on error
+
+    # --- Determine final data to write ---
+    final_data_to_write = batch_data if data_format == "list" else updated_data
+
+    # --- Serialize and Write Back ---
+    logger.info(f"Preparing to write updated data back to {input_filepath}...")
+    try:
+        serializable_data = convert_decimals_to_strings(final_data_to_write) # Convert Decimals right before writing
+        with open(input_filepath, 'w') as f:
+            json.dump(serializable_data, f, indent=4, ensure_ascii=False)
+        logger.info(f"Successfully updated data written back to: {input_filepath}")
+    except Exception as write_error:
+        logger.error(f"Error writing updated data back to {input_filepath}: {write_error}")
+        error_count += 1
 
     # --- Final Summary ---
     logger.info("\n" + "="*50)
     logger.info("--- Processing Summary ---")
-    logger.info(f"Total files scanned: {processed_count}")
-    logger.info(f"Files successfully updated with matched odds info: {files_updated_count}")
-    logger.info(f"Total matched bets found (>0.61 Prob) across all files: {total_matched_bets_count}")
-    logger.info(f"Files skipped or failed during processing: {processed_count - files_updated_count}") # Includes skips and errors
-    logger.info(f"Explicit error count during processing: {error_count}")
+    logger.info(f"Total matches processed from file: {processed_matches}")
+    logger.info(f"Matches with updated combined selection odds/metrics: {matches_with_updates}")
+    logger.info(f"Errors encountered during processing/writing: {error_count}")
     logger.info("="*50)
-
 
     # --- Close DB Connection ---
     try:
