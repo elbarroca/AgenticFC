@@ -1118,6 +1118,10 @@ def process_fixture_json(json_file_path: str) -> Optional[Dict[str, Any]]:
         "home_team": home_team_name,
         "away_team": away_team_name,
         "file_path": json_file_path,
+        # --- Add raw data for downstream use ---
+        "fixture_meta": safe_get(fixture_data, ['fixture_meta'], {}), # Include fixture metadata (date, time, etc.)
+        "raw_data": safe_get(fixture_data, ['raw_data'], {}),       # Include raw team/match data (logos, detailed stats)
+        # --- Existing keys ---
         "mc_probs": None,
         "mc_score_probs": None, # Make sure MC function returns this
         "lambdas_original": (None, None),

@@ -993,7 +993,6 @@ class DailyGameExtractor:
             venue_context = statarea_data.get("game_type")
             history_analysis = self._analyze_match_history(statarea_history, team_id, source="statarea", venue_context=venue_context)
         else:
-            # Fallback...
             if previous_matches and isinstance(previous_matches, list) and len(previous_matches) > 0:
                 logger.info(f"Analyzing 'matches' collection history ({len(previous_matches)} games) for team {team_id} (StatArea history missing)")
                 matches_to_analyze = [m.get("data", m) for m in previous_matches]
