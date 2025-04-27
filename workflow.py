@@ -12,7 +12,7 @@ EXTRACT_DAILY_GAMES_SCRIPT = os.path.join(BASE_DIR, "score_data", "extract_daily
 PREDICT_GAMES_SCRIPT = os.path.join(BASE_DIR, "score_data", "predict_games.py")
 PAPER_GENERATOR_SCRIPT = os.path.join(BASE_DIR, "score_data", "paper_generator.py") # Added Paper Generator
 # Future Odds Matcher Script:
-# ODDS_MATCHER_SCRIPT = os.path.join(BASE_DIR, "analyze_data", "match_odds.py") # Example path
+ODDS_MATCHER_SCRIPT = os.path.join(BASE_DIR, "analyze_data", "match_odds.py") # Example path
 
 LOG_FILE = os.path.join(BASE_DIR, "logs", "workflow.log")
 
@@ -93,15 +93,15 @@ def main_workflow():
 
     # Step 4: Generate Betting Papers
     if success:
-        logger.info("\nStep 4: Generating Betting Papers...")
-        if not run_script(PAPER_GENERATOR_SCRIPT, "Paper Generator"):
+        logger.info("\nStep 4: Generating Odds Matcher ...")
+        if not run_script(ODDS_MATCHER_SCRIPT, "Odds Matcher"):
             success = False
 
-    # Step 5: Match Predictions to Market Odds (Placeholder) - Renumbered
+    # Step 5: Run Game Predictions
     if success:
-        logger.info("\nStep 5: Match Predictions to Market Odds (Future Implementation)...")
-        logger.info("Skipping odds matching step - requires implementation.")
-
+        logger.info("\nStep 5: Running Game Predictions...")
+        if not run_script(PREDICT_GAMES_SCRIPT, "Predict Games"):
+            success = False
 
     logger.info("\n=============================================")
     if success:
