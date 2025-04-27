@@ -1,0 +1,1843 @@
+{
+  "fixture_id": 1208353,
+  "match_date": "2025-04-27",
+  "league": {
+    "id": "None",
+    "statarea_id": "unknown"
+  },
+  "engineered_features": {
+    "home": {
+      "team_id": 35,
+      "team_name": "Bournemouth",
+      "team_statarea_id": 35,
+      "base_league_id": "None",
+      "proc_league_id": 39,
+      "proc_league_name": "Premier League",
+      "proc_league_country": "England",
+      "proc_league_season": 2024,
+      "proc_team_id": 35,
+      "proc_team_name": "Bournemouth",
+      "weather_temp_celsius": 17.64,
+      "weather_temp_feels_like_celsius": 17.03,
+      "weather_pressure_hpa": 1026,
+      "weather_humidity_pct": 60,
+      "weather_wind_speed_mps": 2.06,
+      "weather_wind_direction_deg": 300,
+      "weather_cloud_coverage_pct": 20,
+      "weather_description": "few clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "host",
+      "hist_home_matches_played": 15,
+      "hist_home_average_goals_scored": 1.667,
+      "hist_home_average_goals_conceded": 1.2,
+      "hist_home_win_rate": 0.467,
+      "hist_home_draw_rate": 0.133,
+      "hist_home_loss_rate": 0.4,
+      "hist_home_both_teams_scored_rate": 0.533,
+      "hist_home_clean_sheet_rate": 0.333,
+      "hist_home_failed_to_score_rate": 0.2,
+      "hist_home_average_goal_difference": 0.467,
+      "hist_home_over_0_5_goals_rate": 0.933,
+      "hist_home_over_1_5_goals_rate": 0.667,
+      "hist_home_over_2_5_goals_rate": 0.533,
+      "hist_home_over_3_5_goals_rate": 0.2,
+      "hist_home_over_4_5_goals_rate": 0.2,
+      "hist_home_form_string": "WLLLWLLWWWDDWLW",
+      "hist_home_form_rating_points_pct": 0.511,
+      "hist_overall_l5_form_string": "WLLLW",
+      "hist_overall_l5_form_rating_points_pct": 0.4,
+      "hist_home_l3_form_string": "WLL",
+      "hist_home_l3_form_rating_points_pct": 0.333,
+      "hist_home_l3_avg_scored": 1.0,
+      "hist_home_l3_avg_conceded": 1.333,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "W 1-0 vs Fulham (home)",
+          "L 1-2 vs Ipswich (home)",
+          "L 1-2 vs Manchester City (home)",
+          "L 1-2 vs Brentford (home)",
+          "W 5-4 vs Wolves (home)"
+        ],
+        "home_l3_matches": [
+          "W 1-0 vs Fulham",
+          "L 1-2 vs Ipswich",
+          "L 1-2 vs Manchester City"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 7,
+      "hist_perf_by_result_win_avg_scored": 2.857,
+      "hist_perf_by_result_win_avg_conceded": 0.857,
+      "hist_perf_by_result_draw_matches": 2,
+      "hist_perf_by_result_draw_avg_scored": 0.5,
+      "hist_perf_by_result_draw_avg_conceded": 0.5,
+      "hist_perf_by_result_loss_matches": 6,
+      "hist_perf_by_result_loss_avg_scored": 0.667,
+      "hist_perf_by_result_loss_avg_conceded": 1.833,
+      "standings_league_rank": 10,
+      "standings_league_points": 49,
+      "standings_goals_difference": 12,
+      "standings_form_string": "DWDLL",
+      "standings_group_name": "Premier League",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 7,
+          "proc_goals_scored_min_0_15_pct": 0.1346,
+          "proc_goals_scored_min_16_30_count": 6,
+          "proc_goals_scored_min_16_30_pct": 0.1154,
+          "proc_goals_scored_min_31_45_count": 6,
+          "proc_goals_scored_min_31_45_pct": 0.1154,
+          "proc_goals_scored_min_46_60_count": 4,
+          "proc_goals_scored_min_46_60_pct": 0.0769,
+          "proc_goals_scored_min_61_75_count": 10,
+          "proc_goals_scored_min_61_75_pct": 0.1923,
+          "proc_goals_scored_min_76_90_count": 10,
+          "proc_goals_scored_min_76_90_pct": 0.1923,
+          "proc_goals_scored_min_91_105_count": 8,
+          "proc_goals_scored_min_91_105_pct": 0.1538
+        },
+        "card_stats": {
+          "yellow_avg": 2.545,
+          "red_avg": 0.03
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.8571,
+          "proc_penalty_missed_pct": 0.1429,
+          "proc_penalty_total_taken": 7
+        }
+      }
+    },
+    "away": {
+      "team_id": 33,
+      "team_name": "Manchester United",
+      "team_statarea_id": "unknown",
+      "base_league_id": "None",
+      "proc_league_id": 39,
+      "proc_league_name": "Premier League",
+      "proc_league_country": "England",
+      "proc_league_season": 2024,
+      "proc_team_id": 33,
+      "proc_team_name": "Manchester United",
+      "weather_temp_celsius": 17.64,
+      "weather_temp_feels_like_celsius": 17.03,
+      "weather_pressure_hpa": 1026,
+      "weather_humidity_pct": 60,
+      "weather_wind_speed_mps": 2.06,
+      "weather_wind_direction_deg": 300,
+      "weather_cloud_coverage_pct": 20,
+      "weather_description": "few clouds",
+      "weather_condition_main": "Clouds",
+      "standings_league_rank": 15,
+      "standings_league_points": 38,
+      "standings_goals_difference": -8,
+      "standings_form_string": "LLDLW",
+      "standings_group_name": "Premier League",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 1,
+          "proc_goals_scored_min_0_15_pct": 0.0263,
+          "proc_goals_scored_min_16_30_count": 5,
+          "proc_goals_scored_min_16_30_pct": 0.1316,
+          "proc_goals_scored_min_31_45_count": 6,
+          "proc_goals_scored_min_31_45_pct": 0.1579,
+          "proc_goals_scored_min_46_60_count": 6,
+          "proc_goals_scored_min_46_60_pct": 0.1579,
+          "proc_goals_scored_min_61_75_count": 6,
+          "proc_goals_scored_min_61_75_pct": 0.1579,
+          "proc_goals_scored_min_76_90_count": 11,
+          "proc_goals_scored_min_76_90_pct": 0.2895,
+          "proc_goals_scored_min_91_105_count": 2,
+          "proc_goals_scored_min_91_105_pct": 0.0526
+        },
+        "card_stats": {
+          "yellow_avg": 2.242,
+          "red_avg": 0.091
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 1.0,
+          "proc_penalty_missed_pct": 0.0,
+          "proc_penalty_total_taken": 3
+        }
+      }
+    }
+  },
+  "model_input_features": {
+    "eng_h_team_id": 35.0,
+    "eng_h_team_statarea_id": 35.0,
+    "eng_h_proc_league_id": 39.0,
+    "eng_h_proc_league_season": 2024.0,
+    "eng_h_proc_team_id": 35.0,
+    "eng_h_weather_temp_celsius": 17.64,
+    "eng_h_weather_temp_feels_like_celsius": 17.03,
+    "eng_h_weather_pressure_hpa": 1026.0,
+    "eng_h_weather_humidity_pct": 60.0,
+    "eng_h_weather_wind_speed_mps": 2.06,
+    "eng_h_weather_wind_direction_deg": 300.0,
+    "eng_h_weather_cloud_coverage_pct": 20.0,
+    "eng_h_weather_condition_main": "Clouds",
+    "eng_h_match_history_source": "statarea",
+    "eng_h_match_history_games_analyzed": 15.0,
+    "eng_h_match_history_venue_context": "host",
+    "eng_h_hist_home_matches_played": 15.0,
+    "eng_h_hist_home_average_goals_scored": 1.667,
+    "eng_h_hist_home_average_goals_conceded": 1.2,
+    "eng_h_hist_home_win_rate": 0.467,
+    "eng_h_hist_home_draw_rate": 0.133,
+    "eng_h_hist_home_loss_rate": 0.4,
+    "eng_h_hist_home_both_teams_scored_rate": 0.533,
+    "eng_h_hist_home_clean_sheet_rate": 0.333,
+    "eng_h_hist_home_failed_to_score_rate": 0.2,
+    "eng_h_hist_home_average_goal_difference": 0.467,
+    "eng_h_hist_home_over_0_5_goals_rate": 0.933,
+    "eng_h_hist_home_over_1_5_goals_rate": 0.667,
+    "eng_h_hist_home_over_2_5_goals_rate": 0.533,
+    "eng_h_hist_home_over_3_5_goals_rate": 0.2,
+    "eng_h_hist_home_over_4_5_goals_rate": 0.2,
+    "eng_h_hist_home_form_rating_points_pct": 0.511,
+    "eng_h_hist_overall_l5_form_rating_points_pct": 0.4,
+    "eng_h_hist_home_l3_form_rating_points_pct": 0.333,
+    "eng_h_hist_home_l3_avg_scored": 1.0,
+    "eng_h_hist_home_l3_avg_conceded": 1.333,
+    "eng_h_hist_perf_by_result_win_matches": 7.0,
+    "eng_h_hist_perf_by_result_win_avg_scored": 2.857,
+    "eng_h_hist_perf_by_result_win_avg_conceded": 0.857,
+    "eng_h_hist_perf_by_result_draw_matches": 2.0,
+    "eng_h_hist_perf_by_result_draw_avg_scored": 0.5,
+    "eng_h_hist_perf_by_result_draw_avg_conceded": 0.5,
+    "eng_h_hist_perf_by_result_loss_matches": 6.0,
+    "eng_h_hist_perf_by_result_loss_avg_scored": 0.667,
+    "eng_h_hist_perf_by_result_loss_avg_conceded": 1.833,
+    "eng_h_standings_league_rank": 10.0,
+    "eng_h_standings_league_points": 49.0,
+    "eng_h_standings_goals_difference": 12.0,
+    "eng_a_team_id": 33.0,
+    "eng_a_proc_league_id": 39.0,
+    "eng_a_proc_league_season": 2024.0,
+    "eng_a_proc_team_id": 33.0,
+    "eng_a_weather_temp_celsius": 17.64,
+    "eng_a_weather_temp_feels_like_celsius": 17.03,
+    "eng_a_weather_pressure_hpa": 1026.0,
+    "eng_a_weather_humidity_pct": 60.0,
+    "eng_a_weather_wind_speed_mps": 2.06,
+    "eng_a_weather_wind_direction_deg": 300.0,
+    "eng_a_weather_cloud_coverage_pct": 20.0,
+    "eng_a_weather_condition_main": "Clouds",
+    "eng_a_standings_league_rank": 15.0,
+    "eng_a_standings_league_points": 38.0,
+    "eng_a_standings_goals_difference": -8.0,
+    "eng_diff_weather_temp_celsius": 0.0,
+    "eng_ratio_weather_temp_celsius": 1.0,
+    "eng_diff_weather_humidity_pct": 0.0,
+    "eng_ratio_weather_humidity_pct": 1.0,
+    "eng_diff_proc_team_id": 2.0,
+    "eng_ratio_proc_team_id": 1.0606060606060606,
+    "eng_diff_proc_league_season": 0.0,
+    "eng_ratio_proc_league_season": 1.0,
+    "eng_diff_team_id": 2.0,
+    "eng_ratio_team_id": 1.0606060606060606,
+    "eng_diff_weather_temp_feels_like_celsius": 0.0,
+    "eng_ratio_weather_temp_feels_like_celsius": 1.0,
+    "eng_diff_standings_goals_difference": 20.0,
+    "eng_ratio_standings_goals_difference": -1.5,
+    "eng_diff_weather_wind_speed_mps": 0.0,
+    "eng_ratio_weather_wind_speed_mps": 1.0,
+    "eng_diff_weather_pressure_hpa": 0.0,
+    "eng_ratio_weather_pressure_hpa": 1.0,
+    "eng_diff_weather_condition_main": -999.0,
+    "eng_ratio_weather_condition_main": -999.0,
+    "eng_diff_standings_league_rank": -5.0,
+    "eng_ratio_standings_league_rank": 0.6666666666666666,
+    "eng_diff_standings_league_points": 11.0,
+    "eng_ratio_standings_league_points": 1.2894736842105263,
+    "eng_diff_weather_cloud_coverage_pct": 0.0,
+    "eng_ratio_weather_cloud_coverage_pct": 1.0,
+    "eng_diff_weather_wind_direction_deg": 0.0,
+    "eng_ratio_weather_wind_direction_deg": 1.0,
+    "eng_diff_proc_league_id": 0.0,
+    "eng_ratio_proc_league_id": 1.0
+  },
+  "fixture_meta": {
+    "id": 1208353,
+    "date_utc": "2025-04-27T13:00:00+00:00",
+    "timestamp_utc": 1745758800,
+    "referee": "P. Bankes",
+    "venue": {
+      "name": "Vitality Stadium",
+      "city": "Bournemouth, Dorset"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "coord": {
+        "lon": -1.8795,
+        "lat": 50.7205
+      },
+      "weather": [
+        {
+          "id": 801,
+          "main": "Clouds",
+          "description": "few clouds",
+          "icon": "02d"
+        }
+      ],
+      "base": "stations",
+      "main": {
+        "temperature": 17.64,
+        "temperature_feels_like": 17.03,
+        "temperature_min": 16.93,
+        "temperature_max": 18.77,
+        "air_pressure": 1026,
+        "humidity": 60,
+        "pressure_sea_level": 1026,
+        "pressure_ground_level": 1024
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed_mps": 2.06,
+        "direction_degrees": 300
+      },
+      "clouds": {
+        "coverage_percentage": 20
+      },
+      "dt": 1745751016,
+      "sys": {
+        "type": 1,
+        "id": 1401,
+        "country": "GB",
+        "sunrise": 1745729334,
+        "sunset": 1745781667
+      },
+      "timezone": 3600,
+      "id": 2655095,
+      "name": "Bournemouth",
+      "cod": 200,
+      "summary": "Clouds: few clouds, Temp: 17.64°C"
+    }
+  },
+  "raw_data": {
+    "home": {
+      "basic_info": {
+        "id": 35,
+        "name": "Bournemouth",
+        "logo": "https://media.api-sports.io/football/teams/35.png",
+        "statarea_id": 35
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 39,
+          "name": "Premier League",
+          "country": "England",
+          "logo": "https://media.api-sports.io/football/leagues/39.png",
+          "flag": "https://media.api-sports.io/flags/gb-eng.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 35,
+          "name": "Bournemouth",
+          "logo": "https://media.api-sports.io/football/teams/35.png"
+        },
+        "form_string": "DDWLLWLWDWLLWWWDWDDWDWWLWLLDLLDWD",
+        "fixtures": {
+          "played": {
+            "home": 16,
+            "away": 17,
+            "total": 33
+          },
+          "wins": {
+            "home": 7,
+            "away": 6,
+            "total": 13
+          },
+          "draws": {
+            "home": 3,
+            "away": 7,
+            "total": 10
+          },
+          "losses": {
+            "home": 6,
+            "away": 4,
+            "total": 10
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 20,
+              "away": 32,
+              "total": 52
+            },
+            "average": {
+              "home": 1.3,
+              "away": 1.9,
+              "total": 1.6
+            },
+            "minute": {
+              "0-15": {
+                "total": 7,
+                "percentage": 0.1373
+              },
+              "16-30": {
+                "total": 6,
+                "percentage": 0.1176
+              },
+              "31-45": {
+                "total": 6,
+                "percentage": 0.1176
+              },
+              "46-60": {
+                "total": 4,
+                "percentage": 0.0784
+              },
+              "61-75": {
+                "total": 10,
+                "percentage": 0.1961
+              },
+              "76-90": {
+                "total": 10,
+                "percentage": 0.1961
+              },
+              "91-105": {
+                "total": 8,
+                "percentage": 0.15689999999999998
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 26,
+                "under": 7
+              },
+              "1.5": {
+                "over": 15,
+                "under": 18
+              },
+              "2.5": {
+                "over": 7,
+                "under": 26
+              },
+              "3.5": {
+                "over": 3,
+                "under": 30
+              },
+              "4.5": {
+                "over": 1,
+                "under": 32
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 14,
+              "away": 26,
+              "total": 40
+            },
+            "average": {
+              "home": 0.9,
+              "away": 1.5,
+              "total": 1.2
+            },
+            "minute": {
+              "0-15": {
+                "total": 4,
+                "percentage": 0.09759999999999999
+              },
+              "16-30": {
+                "total": 10,
+                "percentage": 0.2439
+              },
+              "31-45": {
+                "total": 4,
+                "percentage": 0.09759999999999999
+              },
+              "46-60": {
+                "total": 7,
+                "percentage": 0.1707
+              },
+              "61-75": {
+                "total": 9,
+                "percentage": 0.2195
+              },
+              "76-90": {
+                "total": 6,
+                "percentage": 0.1463
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.024399999999999998
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 25,
+                "under": 8
+              },
+              "1.5": {
+                "over": 13,
+                "under": 20
+              },
+              "2.5": {
+                "over": 2,
+                "under": 31
+              },
+              "3.5": {
+                "over": 0,
+                "under": 33
+              },
+              "4.5": {
+                "over": 0,
+                "under": 33
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 3,
+            "draws": 2,
+            "losses": 2
+          },
+          "wins": {
+            "home": "5-0",
+            "away": "1-4"
+          },
+          "losses": {
+            "home": "0-2",
+            "away": "3-0"
+          },
+          "goals": {
+            "for": {
+              "home": 5,
+              "away": 4
+            },
+            "against": {
+              "home": 2,
+              "away": 3
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 6,
+          "away": 2,
+          "total": 8
+        },
+        "failed_to_score": {
+          "home": 4,
+          "away": 3,
+          "total": 7
+        },
+        "penalty": {
+          "scored": {
+            "total": 6,
+            "percentage": 0.8571
+          },
+          "missed": {
+            "total": 1,
+            "percentage": 0.1429
+          },
+          "total": 7
+        },
+        "lineups": [
+          {
+            "formation": "4-2-3-1",
+            "played": 33
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 8,
+              "percentage": 0.09519999999999999
+            },
+            "16-30": {
+              "total": 7,
+              "percentage": 0.0833
+            },
+            "31-45": {
+              "total": 11,
+              "percentage": 0.131
+            },
+            "46-60": {
+              "total": 17,
+              "percentage": 0.2024
+            },
+            "61-75": {
+              "total": 9,
+              "percentage": 0.10710000000000001
+            },
+            "76-90": {
+              "total": 22,
+              "percentage": 0.2619
+            },
+            "91-105": {
+              "total": 10,
+              "percentage": 0.11900000000000001
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {
+              "total": 1,
+              "percentage": 1.0
+            },
+            "46-60": {},
+            "61-75": {},
+            "76-90": {},
+            "91-105": {},
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 35,
+          "name": "Bournemouth",
+          "logo": "https://media.api-sports.io/football/teams/35.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.33,
+            "att": 0.42,
+            "def": 0.5,
+            "goals": {
+              "for": {
+                "total": 5,
+                "average": 1.0
+              },
+              "against": {
+                "total": 6,
+                "average": 1.2
+              }
+            }
+          },
+          "league": {
+            "form_string": "DDWLLWLWDWLLWWWDWDDWDWWLWLLDLLDWD",
+            "fixtures": {
+              "played": {
+                "home": 16,
+                "away": 17,
+                "total": 33
+              },
+              "wins": {
+                "home": 7,
+                "away": 6,
+                "total": 13
+              },
+              "draws": {
+                "home": 3,
+                "away": 7,
+                "total": 10
+              },
+              "losses": {
+                "home": 6,
+                "away": 4,
+                "total": 10
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 20,
+                  "away": 32,
+                  "total": 52
+                },
+                "average": {
+                  "home": 1.3,
+                  "away": 1.9,
+                  "total": 1.6
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 7,
+                    "percentage": 0.1373
+                  },
+                  "16-30": {
+                    "total": 6,
+                    "percentage": 0.1176
+                  },
+                  "31-45": {
+                    "total": 6,
+                    "percentage": 0.1176
+                  },
+                  "46-60": {
+                    "total": 4,
+                    "percentage": 0.0784
+                  },
+                  "61-75": {
+                    "total": 10,
+                    "percentage": 0.1961
+                  },
+                  "76-90": {
+                    "total": 10,
+                    "percentage": 0.1961
+                  },
+                  "91-105": {
+                    "total": 8,
+                    "percentage": 0.15689999999999998
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 26,
+                    "under": 7
+                  },
+                  "1.5": {
+                    "over": 15,
+                    "under": 18
+                  },
+                  "2.5": {
+                    "over": 7,
+                    "under": 26
+                  },
+                  "3.5": {
+                    "over": 3,
+                    "under": 30
+                  },
+                  "4.5": {
+                    "over": 1,
+                    "under": 32
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 14,
+                  "away": 26,
+                  "total": 40
+                },
+                "average": {
+                  "home": 0.9,
+                  "away": 1.5,
+                  "total": 1.2
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 4,
+                    "percentage": 0.09759999999999999
+                  },
+                  "16-30": {
+                    "total": 10,
+                    "percentage": 0.2439
+                  },
+                  "31-45": {
+                    "total": 4,
+                    "percentage": 0.09759999999999999
+                  },
+                  "46-60": {
+                    "total": 7,
+                    "percentage": 0.1707
+                  },
+                  "61-75": {
+                    "total": 9,
+                    "percentage": 0.2195
+                  },
+                  "76-90": {
+                    "total": 6,
+                    "percentage": 0.1463
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.024399999999999998
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 25,
+                    "under": 8
+                  },
+                  "1.5": {
+                    "over": 13,
+                    "under": 20
+                  },
+                  "2.5": {
+                    "over": 2,
+                    "under": 31
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 33
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 33
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 3,
+                "draws": 2,
+                "losses": 2
+              },
+              "wins": {
+                "home": "5-0",
+                "away": "1-4"
+              },
+              "losses": {
+                "home": "0-2",
+                "away": "3-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 5,
+                  "away": 4
+                },
+                "against": {
+                  "home": 2,
+                  "away": 3
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 6,
+              "away": 2,
+              "total": 8
+            },
+            "failed_to_score": {
+              "home": 4,
+              "away": 3,
+              "total": 7
+            },
+            "penalty": {
+              "scored": {
+                "total": 6,
+                "percentage": 0.8571
+              },
+              "missed": {
+                "total": 1,
+                "percentage": 0.1429
+              },
+              "total": 7
+            },
+            "lineups": [
+              {
+                "formation": "4-2-3-1",
+                "played": 33
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 8,
+                  "percentage": 0.09519999999999999
+                },
+                "16-30": {
+                  "total": 7,
+                  "percentage": 0.0833
+                },
+                "31-45": {
+                  "total": 11,
+                  "percentage": 0.131
+                },
+                "46-60": {
+                  "total": 17,
+                  "percentage": 0.2024
+                },
+                "61-75": {
+                  "total": 9,
+                  "percentage": 0.10710000000000001
+                },
+                "76-90": {
+                  "total": 22,
+                  "percentage": 0.2619
+                },
+                "91-105": {
+                  "total": 10,
+                  "percentage": 0.11900000000000001
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {
+                  "total": 1,
+                  "percentage": 1.0
+                },
+                "46-60": {},
+                "61-75": {},
+                "76-90": {},
+                "91-105": {},
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "Bournemouth",
+        "country": "England",
+        "api_id": 35,
+        "game_type": "host",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:46:46.534884",
+        "scrape_date_utc": "2025-04-22T17:46:46.534000",
+        "content_hash": "0d8a556fb9b505eb6bbbc2bcf93eaf31",
+        "general_statistics": {
+          "number of bournemouth wins": 6,
+          "number of bournemouth draws": 3,
+          "number of bournemouth losses": 6,
+          "Average goals_scored per match": 1.4,
+          "Average goals_conceded per match": 1,
+          "Chance to score goal next match": 0.8,
+          "Chance to conceded goal next match": 0.67,
+          "Number of clean_sheets matches": 5,
+          "failed_to_score matches": 3,
+          "over 2.5 goals in": 7,
+          "under 2.5 goals in": 8,
+          "Time without scored goal": "89 min.",
+          "Time without conceded goal": "120 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "Bournemouth": 0.4,
+            "draw": 0.2,
+            "opponent": 0.4
+          },
+          "halftime bet_1x2_probabilities": {
+            "Bournemouth": 0.47,
+            "draw": 0.27,
+            "opponent": 0.27
+          },
+          "second half bet_1x2_probabilities": {
+            "Bournemouth": 0.2,
+            "draw": 0.53,
+            "opponent": 0.27
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.67,
+            "under": 0.33
+          },
+          "over/under 1.5 goals for bournemouth only": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.47,
+            "under": 0.53
+          },
+          "over/under 2.5 goals for bournemouth only": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "over/under 3.5 goals for bournemouth only": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.33,
+            "2-3": 0.53,
+            "4+": 0.13
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.53,
+            "only one": 0.4,
+            "neither": 0.07
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.67,
+            "even": 0.33
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.14,
+            "16-30 min.": 0.19,
+            "31-45 min.": 0.11,
+            "46-60 min.": 0.17,
+            "61-75 min.": 0.17,
+            "76-90 min.": 0.22
+          },
+          "Bournemouth goals only": {
+            "0-15 min.": 0.14,
+            "16-30 min.": 0.24,
+            "31-45 min.": 0.1,
+            "46-60 min.": 0.1,
+            "61-75 min.": 0.14,
+            "76-90 min.": 0.29
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.27,
+            "11-20 min.": 0.2,
+            "21-30 min.": 0.2,
+            "31-40 min.": 0.13,
+            "41-50 min.": 0.0,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.07,
+            "81-90 min.": 0.07,
+            "without goal": 0.07
+          },
+          "time of first bournemouth goal": {
+            "0-10 min.": 0.2,
+            "11-20 min.": 0.13,
+            "21-30 min.": 0.2,
+            "31-40 min.": 0.0,
+            "41-50 min.": 0.0,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.07,
+            "81-90 min.": 0.13,
+            "without goal": 0.2
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "Bournemouth": 0.53,
+            "opponent": 0.4,
+            "without goal": 0.07
+          },
+          "win after 15 minutes": {
+            "Bournemouth": 0.2,
+            "opponent": 0.13,
+            "draw": 0.67
+          },
+          "win after 30 minutes": {
+            "Bournemouth": 0.4,
+            "opponent": 0.13,
+            "draw": 0.47
+          },
+          "bet_halftime_result_probabilities": {
+            "Bournemouth": 0.47,
+            "opponent": 0.27,
+            "draw": 0.27
+          },
+          "win after 60 minutes": {
+            "Bournemouth": 0.33,
+            "opponent": 0.27,
+            "draw": 0.4
+          },
+          "win after 75 minutes": {
+            "Bournemouth": 0.33,
+            "opponent": 0.4,
+            "draw": 0.27
+          },
+          "bet_fulltime_result_probabilities": {
+            "Bournemouth": 0.4,
+            "opponent": 0.4,
+            "draw": 0.2
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.8,
+            "2-3 goals": 0.07,
+            "4+ goals": 0.13
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.4,
+            "second half": 0.4,
+            "tie": 0.2
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-14",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Fulham",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-04-02",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Ipswich",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-30",
+            "competition": "England - Fa Cup 2024/2025",
+            "opponent": "Manchester City",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-15",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Brentford",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-01",
+            "competition": "England - Fa Cup 2024/2025",
+            "opponent": "Wolves",
+            "team_goals": 5,
+            "opponent_goals": 4,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-22",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Wolves",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-01",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Liverpool",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-25",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Nottingham Forest",
+            "team_goals": 5,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-11",
+            "competition": "England - Fa Cup 2024/2025",
+            "opponent": "West Brom",
+            "team_goals": 5,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-04",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Everton",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-26",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Crystal Palace",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-16",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "West Ham",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-05",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Tottenham",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-23",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Brighton",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-02",
+            "competition": "England - Premier League 2024/2025",
+            "opponent": "Manchester City",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:47:43.643000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 10,
+        "team": {
+          "id": 35,
+          "name": "Bournemouth",
+          "logo": "https://media.api-sports.io/football/teams/35.png"
+        },
+        "league_points": 49,
+        "goals_difference": 12,
+        "group": "Premier League",
+        "form_string": "DWDLL",
+        "status": "same",
+        "coverage_percentage": {
+          "played": 33,
+          "win": 13,
+          "draw": 10,
+          "loss": 10,
+          "goals": {
+            "for": 52,
+            "against": 40
+          }
+        },
+        "home": {
+          "played": 16,
+          "win": 7,
+          "draw": 3,
+          "loss": 6,
+          "goals": {
+            "for": 20,
+            "against": 14
+          }
+        },
+        "away": {
+          "played": 17,
+          "win": 6,
+          "draw": 7,
+          "loss": 4,
+          "goals": {
+            "for": 32,
+            "against": 26
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    },
+    "away": {
+      "basic_info": {
+        "id": 33,
+        "name": "Manchester United",
+        "logo": "https://media.api-sports.io/football/teams/33.png",
+        "statarea_id": "unknown"
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 39,
+          "name": "Premier League",
+          "country": "England",
+          "logo": "https://media.api-sports.io/football/leagues/39.png",
+          "flag": "https://media.api-sports.io/flags/gb-eng.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 33,
+          "name": "Manchester United",
+          "logo": "https://media.api-sports.io/football/teams/33.png"
+        },
+        "form_string": "WLLWDLDWLDWDWLLWLLLDWLWLLDWDWLDLL",
+        "fixtures": {
+          "played": {
+            "home": 17,
+            "away": 16,
+            "total": 33
+          },
+          "wins": {
+            "home": 6,
+            "away": 4,
+            "total": 10
+          },
+          "draws": {
+            "home": 3,
+            "away": 5,
+            "total": 8
+          },
+          "losses": {
+            "home": 8,
+            "away": 7,
+            "total": 15
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 21,
+              "away": 17,
+              "total": 38
+            },
+            "average": {
+              "home": 1.2,
+              "away": 1.1,
+              "total": 1.2
+            },
+            "minute": {
+              "0-15": {
+                "total": 1,
+                "percentage": 0.027000000000000003
+              },
+              "16-30": {
+                "total": 5,
+                "percentage": 0.1351
+              },
+              "31-45": {
+                "total": 6,
+                "percentage": 0.16219999999999998
+              },
+              "46-60": {
+                "total": 6,
+                "percentage": 0.16219999999999998
+              },
+              "61-75": {
+                "total": 6,
+                "percentage": 0.16219999999999998
+              },
+              "76-90": {
+                "total": 11,
+                "percentage": 0.2973
+              },
+              "91-105": {
+                "total": 2,
+                "percentage": 0.0541
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 20,
+                "under": 13
+              },
+              "1.5": {
+                "over": 11,
+                "under": 22
+              },
+              "2.5": {
+                "over": 6,
+                "under": 27
+              },
+              "3.5": {
+                "over": 1,
+                "under": 32
+              },
+              "4.5": {
+                "over": 0,
+                "under": 33
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 26,
+              "away": 20,
+              "total": 46
+            },
+            "average": {
+              "home": 1.5,
+              "away": 1.3,
+              "total": 1.4
+            },
+            "minute": {
+              "0-15": {
+                "total": 7,
+                "percentage": 0.1489
+              },
+              "16-30": {
+                "total": 5,
+                "percentage": 0.10640000000000001
+              },
+              "31-45": {
+                "total": 7,
+                "percentage": 0.1489
+              },
+              "46-60": {
+                "total": 11,
+                "percentage": 0.23399999999999999
+              },
+              "61-75": {
+                "total": 9,
+                "percentage": 0.19149999999999998
+              },
+              "76-90": {
+                "total": 5,
+                "percentage": 0.10640000000000001
+              },
+              "91-105": {
+                "total": 3,
+                "percentage": 0.0638
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 24,
+                "under": 9
+              },
+              "1.5": {
+                "over": 15,
+                "under": 18
+              },
+              "2.5": {
+                "over": 6,
+                "under": 27
+              },
+              "3.5": {
+                "over": 1,
+                "under": 32
+              },
+              "4.5": {
+                "over": 0,
+                "under": 33
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 1,
+            "draws": 1,
+            "losses": 3
+          },
+          "wins": {
+            "home": "4-0",
+            "away": "0-3"
+          },
+          "losses": {
+            "home": "0-3",
+            "away": "4-1"
+          },
+          "goals": {
+            "for": {
+              "home": 4,
+              "away": 3
+            },
+            "against": {
+              "home": 3,
+              "away": 4
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 4,
+          "away": 5,
+          "total": 9
+        },
+        "failed_to_score": {
+          "home": 7,
+          "away": 6,
+          "total": 13
+        },
+        "penalty": {
+          "scored": {
+            "total": 3,
+            "percentage": 1.0
+          },
+          "missed": {
+            "total": 0,
+            "percentage": 0.0
+          },
+          "total": 3
+        },
+        "lineups": [
+          {
+            "formation": "3-4-2-1",
+            "played": 20
+          },
+          {
+            "formation": "4-2-3-1",
+            "played": 11
+          },
+          {
+            "formation": "3-4-3",
+            "played": 2
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 2,
+              "percentage": 0.027000000000000003
+            },
+            "16-30": {
+              "total": 6,
+              "percentage": 0.08109999999999999
+            },
+            "31-45": {
+              "total": 14,
+              "percentage": 0.1892
+            },
+            "46-60": {
+              "total": 20,
+              "percentage": 0.2703
+            },
+            "61-75": {
+              "total": 17,
+              "percentage": 0.2297
+            },
+            "76-90": {
+              "total": 11,
+              "percentage": 0.14859999999999998
+            },
+            "91-105": {
+              "total": 4,
+              "percentage": 0.0541
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {
+              "total": 2,
+              "percentage": 0.6667000000000001
+            },
+            "46-60": {
+              "total": 1,
+              "percentage": 0.3333
+            },
+            "61-75": {},
+            "76-90": {},
+            "91-105": {},
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 33,
+          "name": "Manchester United",
+          "logo": "https://media.api-sports.io/football/teams/33.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.27,
+            "att": 0.33,
+            "def": 0.5,
+            "goals": {
+              "for": {
+                "total": 4,
+                "average": 0.8
+              },
+              "against": {
+                "total": 6,
+                "average": 1.2
+              }
+            }
+          },
+          "league": {
+            "form_string": "WLLWDLDWLDWDWLLWLLLDWLWLLDWDWLDLL",
+            "fixtures": {
+              "played": {
+                "home": 17,
+                "away": 16,
+                "total": 33
+              },
+              "wins": {
+                "home": 6,
+                "away": 4,
+                "total": 10
+              },
+              "draws": {
+                "home": 3,
+                "away": 5,
+                "total": 8
+              },
+              "losses": {
+                "home": 8,
+                "away": 7,
+                "total": 15
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 21,
+                  "away": 17,
+                  "total": 38
+                },
+                "average": {
+                  "home": 1.2,
+                  "away": 1.1,
+                  "total": 1.2
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 1,
+                    "percentage": 0.027000000000000003
+                  },
+                  "16-30": {
+                    "total": 5,
+                    "percentage": 0.1351
+                  },
+                  "31-45": {
+                    "total": 6,
+                    "percentage": 0.16219999999999998
+                  },
+                  "46-60": {
+                    "total": 6,
+                    "percentage": 0.16219999999999998
+                  },
+                  "61-75": {
+                    "total": 6,
+                    "percentage": 0.16219999999999998
+                  },
+                  "76-90": {
+                    "total": 11,
+                    "percentage": 0.2973
+                  },
+                  "91-105": {
+                    "total": 2,
+                    "percentage": 0.0541
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 20,
+                    "under": 13
+                  },
+                  "1.5": {
+                    "over": 11,
+                    "under": 22
+                  },
+                  "2.5": {
+                    "over": 6,
+                    "under": 27
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 32
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 33
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 26,
+                  "away": 20,
+                  "total": 46
+                },
+                "average": {
+                  "home": 1.5,
+                  "away": 1.3,
+                  "total": 1.4
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 7,
+                    "percentage": 0.1489
+                  },
+                  "16-30": {
+                    "total": 5,
+                    "percentage": 0.10640000000000001
+                  },
+                  "31-45": {
+                    "total": 7,
+                    "percentage": 0.1489
+                  },
+                  "46-60": {
+                    "total": 11,
+                    "percentage": 0.23399999999999999
+                  },
+                  "61-75": {
+                    "total": 9,
+                    "percentage": 0.19149999999999998
+                  },
+                  "76-90": {
+                    "total": 5,
+                    "percentage": 0.10640000000000001
+                  },
+                  "91-105": {
+                    "total": 3,
+                    "percentage": 0.0638
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 24,
+                    "under": 9
+                  },
+                  "1.5": {
+                    "over": 15,
+                    "under": 18
+                  },
+                  "2.5": {
+                    "over": 6,
+                    "under": 27
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 32
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 33
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 1,
+                "draws": 1,
+                "losses": 3
+              },
+              "wins": {
+                "home": "4-0",
+                "away": "0-3"
+              },
+              "losses": {
+                "home": "0-3",
+                "away": "4-1"
+              },
+              "goals": {
+                "for": {
+                  "home": 4,
+                  "away": 3
+                },
+                "against": {
+                  "home": 3,
+                  "away": 4
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 4,
+              "away": 5,
+              "total": 9
+            },
+            "failed_to_score": {
+              "home": 7,
+              "away": 6,
+              "total": 13
+            },
+            "penalty": {
+              "scored": {
+                "total": 3,
+                "percentage": 1.0
+              },
+              "missed": {
+                "total": 0,
+                "percentage": 0.0
+              },
+              "total": 3
+            },
+            "lineups": [
+              {
+                "formation": "3-4-2-1",
+                "played": 20
+              },
+              {
+                "formation": "4-2-3-1",
+                "played": 11
+              },
+              {
+                "formation": "3-4-3",
+                "played": 2
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 2,
+                  "percentage": 0.027000000000000003
+                },
+                "16-30": {
+                  "total": 6,
+                  "percentage": 0.08109999999999999
+                },
+                "31-45": {
+                  "total": 14,
+                  "percentage": 0.1892
+                },
+                "46-60": {
+                  "total": 20,
+                  "percentage": 0.2703
+                },
+                "61-75": {
+                  "total": 17,
+                  "percentage": 0.2297
+                },
+                "76-90": {
+                  "total": 11,
+                  "percentage": 0.14859999999999998
+                },
+                "91-105": {
+                  "total": 4,
+                  "percentage": 0.0541
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {
+                  "total": 2,
+                  "percentage": 0.6667000000000001
+                },
+                "46-60": {
+                  "total": 1,
+                  "percentage": 0.3333
+                },
+                "61-75": {},
+                "76-90": {},
+                "91-105": {},
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {},
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 15,
+        "team": {
+          "id": 33,
+          "name": "Manchester United",
+          "logo": "https://media.api-sports.io/football/teams/33.png"
+        },
+        "league_points": 38,
+        "goals_difference": -8,
+        "group": "Premier League",
+        "form_string": "LLDLW",
+        "status": "same",
+        "coverage_percentage": {
+          "played": 33,
+          "win": 10,
+          "draw": 8,
+          "loss": 15,
+          "goals": {
+            "for": 38,
+            "against": 46
+          }
+        },
+        "home": {
+          "played": 17,
+          "win": 6,
+          "draw": 3,
+          "loss": 8,
+          "goals": {
+            "for": 21,
+            "against": 26
+          }
+        },
+        "away": {
+          "played": 16,
+          "win": 4,
+          "draw": 5,
+          "loss": 7,
+          "goals": {
+            "for": 17,
+            "against": 20
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    }
+  },
+  "goals": {}
+}

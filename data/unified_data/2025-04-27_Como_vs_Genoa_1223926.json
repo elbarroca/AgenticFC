@@ -1,0 +1,2356 @@
+{
+  "fixture_id": 1223926,
+  "match_date": "2025-04-27",
+  "league": {
+    "id": "None",
+    "statarea_id": "unknown"
+  },
+  "engineered_features": {
+    "home": {
+      "team_id": 895,
+      "team_name": "Como",
+      "team_statarea_id": 895,
+      "base_league_id": "None",
+      "proc_league_id": 135,
+      "proc_league_name": "Serie A",
+      "proc_league_country": "Italy",
+      "proc_league_season": 2024,
+      "proc_team_id": 895,
+      "proc_team_name": "Como",
+      "weather_temp_celsius": 18.56,
+      "weather_temp_feels_like_celsius": 18.27,
+      "weather_pressure_hpa": 1021,
+      "weather_humidity_pct": 69,
+      "weather_wind_speed_mps": 1.78,
+      "weather_wind_direction_deg": 246,
+      "weather_cloud_coverage_pct": 100,
+      "weather_description": "overcast clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "host",
+      "hist_home_matches_played": 15,
+      "hist_home_average_goals_scored": 1.467,
+      "hist_home_average_goals_conceded": 1.4,
+      "hist_home_win_rate": 0.4,
+      "hist_home_draw_rate": 0.267,
+      "hist_home_loss_rate": 0.333,
+      "hist_home_both_teams_scored_rate": 0.733,
+      "hist_home_clean_sheet_rate": 0.2,
+      "hist_home_failed_to_score_rate": 0.067,
+      "hist_home_average_goal_difference": 0.067,
+      "hist_home_over_0_5_goals_rate": 1.0,
+      "hist_home_over_1_5_goals_rate": 0.933,
+      "hist_home_over_2_5_goals_rate": 0.467,
+      "hist_home_over_3_5_goals_rate": 0.2,
+      "hist_home_over_4_5_goals_rate": 0.2,
+      "hist_home_form_string": "WDDWLLWLWWDLLDW",
+      "hist_home_form_rating_points_pct": 0.489,
+      "hist_overall_l5_form_string": "WDDWL",
+      "hist_overall_l5_form_rating_points_pct": 0.533,
+      "hist_home_l3_form_string": "WDD",
+      "hist_home_l3_form_rating_points_pct": 0.556,
+      "hist_home_l3_avg_scored": 1.0,
+      "hist_home_l3_avg_conceded": 0.667,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "W 1-0 vs Torino (home)",
+          "D 1-1 vs Empoli (home)",
+          "D 1-1 vs Unione Venezia (home)",
+          "W 2-1 vs Napoli (home)",
+          "L 1-2 vs Juventus (home)"
+        ],
+        "home_l3_matches": [
+          "W 1-0 vs Torino",
+          "D 1-1 vs Empoli",
+          "D 1-1 vs Unione Venezia"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 6,
+      "hist_perf_by_result_win_avg_scored": 2.333,
+      "hist_perf_by_result_win_avg_conceded": 0.667,
+      "hist_perf_by_result_draw_matches": 4,
+      "hist_perf_by_result_draw_avg_scored": 1.0,
+      "hist_perf_by_result_draw_avg_conceded": 1.0,
+      "hist_perf_by_result_loss_matches": 5,
+      "hist_perf_by_result_loss_avg_scored": 0.8,
+      "hist_perf_by_result_loss_avg_conceded": 2.6,
+      "standings_league_rank": 12,
+      "standings_league_points": 39,
+      "standings_goals_difference": -5,
+      "standings_form_string": "WWWDL",
+      "standings_group_name": "Serie A",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 1,
+          "proc_goals_scored_min_0_15_pct": 0.0233,
+          "proc_goals_scored_min_16_30_count": 3,
+          "proc_goals_scored_min_16_30_pct": 0.0698,
+          "proc_goals_scored_min_31_45_count": 11,
+          "proc_goals_scored_min_31_45_pct": 0.2558,
+          "proc_goals_scored_min_46_60_count": 11,
+          "proc_goals_scored_min_46_60_pct": 0.2558,
+          "proc_goals_scored_min_61_75_count": 4,
+          "proc_goals_scored_min_61_75_pct": 0.093,
+          "proc_goals_scored_min_76_90_count": 5,
+          "proc_goals_scored_min_76_90_pct": 0.1163,
+          "proc_goals_scored_min_91_105_count": 3,
+          "proc_goals_scored_min_91_105_pct": 0.0698
+        },
+        "card_stats": {
+          "yellow_avg": 2.394,
+          "red_avg": 0.182
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.0,
+          "proc_penalty_missed_pct": 1.0,
+          "proc_penalty_total_taken": 2
+        }
+      }
+    },
+    "away": {
+      "team_id": 495,
+      "team_name": "Genoa",
+      "team_statarea_id": 495,
+      "base_league_id": "None",
+      "proc_league_id": 135,
+      "proc_league_name": "Serie A",
+      "proc_league_country": "Italy",
+      "proc_league_season": 2024,
+      "proc_team_id": 495,
+      "proc_team_name": "Genoa",
+      "weather_temp_celsius": 18.56,
+      "weather_temp_feels_like_celsius": 18.27,
+      "weather_pressure_hpa": 1021,
+      "weather_humidity_pct": 69,
+      "weather_wind_speed_mps": 1.78,
+      "weather_wind_direction_deg": 246,
+      "weather_cloud_coverage_pct": 100,
+      "weather_description": "overcast clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "guest",
+      "hist_away_matches_played": 15,
+      "hist_away_average_goals_scored": 0.667,
+      "hist_away_average_goals_conceded": 1.333,
+      "hist_away_win_rate": 0.2,
+      "hist_away_draw_rate": 0.333,
+      "hist_away_loss_rate": 0.467,
+      "hist_away_both_teams_scored_rate": 0.4,
+      "hist_away_clean_sheet_rate": 0.333,
+      "hist_away_failed_to_score_rate": 0.467,
+      "hist_away_average_goal_difference": -0.667,
+      "hist_away_over_0_5_goals_rate": 0.8,
+      "hist_away_over_1_5_goals_rate": 0.6,
+      "hist_away_over_2_5_goals_rate": 0.333,
+      "hist_away_over_3_5_goals_rate": 0.133,
+      "hist_away_over_4_5_goals_rate": 0.067,
+      "hist_away_form_string": "DLDLDLLDWDWWLLL",
+      "hist_away_form_rating_points_pct": 0.311,
+      "hist_overall_l5_form_string": "DLDLD",
+      "hist_overall_l5_form_rating_points_pct": 0.2,
+      "hist_away_l3_form_string": "DLD",
+      "hist_away_l3_form_rating_points_pct": 0.222,
+      "hist_away_l3_avg_scored": 0.333,
+      "hist_away_l3_avg_conceded": 0.667,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "D 0-0 vs Verona (away)",
+          "L 0-1 vs Juventus (away)",
+          "D 1-1 vs Cagliari (away)",
+          "L 0-1 vs Inter (away)",
+          "D 1-1 vs Torino (away)"
+        ],
+        "away_l3_matches": [
+          "D 0-0 vs Verona",
+          "L 0-1 vs Juventus",
+          "D 1-1 vs Cagliari"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 3,
+      "hist_perf_by_result_win_avg_scored": 1.667,
+      "hist_perf_by_result_win_avg_conceded": 0.333,
+      "hist_perf_by_result_draw_matches": 5,
+      "hist_perf_by_result_draw_avg_scored": 0.4,
+      "hist_perf_by_result_draw_avg_conceded": 0.4,
+      "hist_perf_by_result_loss_matches": 7,
+      "hist_perf_by_result_loss_avg_scored": 0.429,
+      "hist_perf_by_result_loss_avg_conceded": 2.429,
+      "standings_league_rank": 13,
+      "standings_league_points": 39,
+      "standings_goals_difference": -11,
+      "standings_form_string": "LDWLW",
+      "standings_group_name": "Serie A",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 2,
+          "proc_goals_scored_min_0_15_pct": 0.069,
+          "proc_goals_scored_min_16_30_count": 2,
+          "proc_goals_scored_min_16_30_pct": 0.069,
+          "proc_goals_scored_min_31_45_count": 1,
+          "proc_goals_scored_min_31_45_pct": 0.0345,
+          "proc_goals_scored_min_46_60_count": 8,
+          "proc_goals_scored_min_46_60_pct": 0.2759,
+          "proc_goals_scored_min_61_75_count": 6,
+          "proc_goals_scored_min_61_75_pct": 0.2069,
+          "proc_goals_scored_min_76_90_count": 8,
+          "proc_goals_scored_min_76_90_pct": 0.2759,
+          "proc_goals_scored_min_91_105_count": 3,
+          "proc_goals_scored_min_91_105_pct": 0.1034
+        },
+        "card_stats": {
+          "yellow_avg": 1.97,
+          "red_avg": 0.03
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.0,
+          "proc_penalty_missed_pct": 1.0,
+          "proc_penalty_total_taken": 2
+        }
+      }
+    }
+  },
+  "model_input_features": {
+    "eng_h_team_id": 895.0,
+    "eng_h_team_statarea_id": 895.0,
+    "eng_h_proc_league_id": 135.0,
+    "eng_h_proc_league_season": 2024.0,
+    "eng_h_proc_team_id": 895.0,
+    "eng_h_weather_temp_celsius": 18.56,
+    "eng_h_weather_temp_feels_like_celsius": 18.27,
+    "eng_h_weather_pressure_hpa": 1021.0,
+    "eng_h_weather_humidity_pct": 69.0,
+    "eng_h_weather_wind_speed_mps": 1.78,
+    "eng_h_weather_wind_direction_deg": 246.0,
+    "eng_h_weather_cloud_coverage_pct": 100.0,
+    "eng_h_weather_condition_main": "Clouds",
+    "eng_h_match_history_source": "statarea",
+    "eng_h_match_history_games_analyzed": 15.0,
+    "eng_h_match_history_venue_context": "host",
+    "eng_h_hist_home_matches_played": 15.0,
+    "eng_h_hist_home_average_goals_scored": 1.467,
+    "eng_h_hist_home_average_goals_conceded": 1.4,
+    "eng_h_hist_home_win_rate": 0.4,
+    "eng_h_hist_home_draw_rate": 0.267,
+    "eng_h_hist_home_loss_rate": 0.333,
+    "eng_h_hist_home_both_teams_scored_rate": 0.733,
+    "eng_h_hist_home_clean_sheet_rate": 0.2,
+    "eng_h_hist_home_failed_to_score_rate": 0.067,
+    "eng_h_hist_home_average_goal_difference": 0.067,
+    "eng_h_hist_home_over_0_5_goals_rate": 1.0,
+    "eng_h_hist_home_over_1_5_goals_rate": 0.933,
+    "eng_h_hist_home_over_2_5_goals_rate": 0.467,
+    "eng_h_hist_home_over_3_5_goals_rate": 0.2,
+    "eng_h_hist_home_over_4_5_goals_rate": 0.2,
+    "eng_h_hist_home_form_rating_points_pct": 0.489,
+    "eng_h_hist_overall_l5_form_rating_points_pct": 0.533,
+    "eng_h_hist_home_l3_form_rating_points_pct": 0.556,
+    "eng_h_hist_home_l3_avg_scored": 1.0,
+    "eng_h_hist_home_l3_avg_conceded": 0.667,
+    "eng_h_hist_perf_by_result_win_matches": 6.0,
+    "eng_h_hist_perf_by_result_win_avg_scored": 2.333,
+    "eng_h_hist_perf_by_result_win_avg_conceded": 0.667,
+    "eng_h_hist_perf_by_result_draw_matches": 4.0,
+    "eng_h_hist_perf_by_result_draw_avg_scored": 1.0,
+    "eng_h_hist_perf_by_result_draw_avg_conceded": 1.0,
+    "eng_h_hist_perf_by_result_loss_matches": 5.0,
+    "eng_h_hist_perf_by_result_loss_avg_scored": 0.8,
+    "eng_h_hist_perf_by_result_loss_avg_conceded": 2.6,
+    "eng_h_standings_league_rank": 12.0,
+    "eng_h_standings_league_points": 39.0,
+    "eng_h_standings_goals_difference": -5.0,
+    "eng_a_team_id": 495.0,
+    "eng_a_team_statarea_id": 495.0,
+    "eng_a_proc_league_id": 135.0,
+    "eng_a_proc_league_season": 2024.0,
+    "eng_a_proc_team_id": 495.0,
+    "eng_a_weather_temp_celsius": 18.56,
+    "eng_a_weather_temp_feels_like_celsius": 18.27,
+    "eng_a_weather_pressure_hpa": 1021.0,
+    "eng_a_weather_humidity_pct": 69.0,
+    "eng_a_weather_wind_speed_mps": 1.78,
+    "eng_a_weather_wind_direction_deg": 246.0,
+    "eng_a_weather_cloud_coverage_pct": 100.0,
+    "eng_a_weather_condition_main": "Clouds",
+    "eng_a_match_history_source": "statarea",
+    "eng_a_match_history_games_analyzed": 15.0,
+    "eng_a_match_history_venue_context": "guest",
+    "eng_a_hist_away_matches_played": 15.0,
+    "eng_a_hist_away_average_goals_scored": 0.667,
+    "eng_a_hist_away_average_goals_conceded": 1.333,
+    "eng_a_hist_away_win_rate": 0.2,
+    "eng_a_hist_away_draw_rate": 0.333,
+    "eng_a_hist_away_loss_rate": 0.467,
+    "eng_a_hist_away_both_teams_scored_rate": 0.4,
+    "eng_a_hist_away_clean_sheet_rate": 0.333,
+    "eng_a_hist_away_failed_to_score_rate": 0.467,
+    "eng_a_hist_away_average_goal_difference": -0.667,
+    "eng_a_hist_away_over_0_5_goals_rate": 0.8,
+    "eng_a_hist_away_over_1_5_goals_rate": 0.6,
+    "eng_a_hist_away_over_2_5_goals_rate": 0.333,
+    "eng_a_hist_away_over_3_5_goals_rate": 0.133,
+    "eng_a_hist_away_over_4_5_goals_rate": 0.067,
+    "eng_a_hist_away_form_rating_points_pct": 0.311,
+    "eng_a_hist_overall_l5_form_rating_points_pct": 0.2,
+    "eng_a_hist_away_l3_form_rating_points_pct": 0.222,
+    "eng_a_hist_away_l3_avg_scored": 0.333,
+    "eng_a_hist_away_l3_avg_conceded": 0.667,
+    "eng_a_hist_perf_by_result_win_matches": 3.0,
+    "eng_a_hist_perf_by_result_win_avg_scored": 1.667,
+    "eng_a_hist_perf_by_result_win_avg_conceded": 0.333,
+    "eng_a_hist_perf_by_result_draw_matches": 5.0,
+    "eng_a_hist_perf_by_result_draw_avg_scored": 0.4,
+    "eng_a_hist_perf_by_result_draw_avg_conceded": 0.4,
+    "eng_a_hist_perf_by_result_loss_matches": 7.0,
+    "eng_a_hist_perf_by_result_loss_avg_scored": 0.429,
+    "eng_a_hist_perf_by_result_loss_avg_conceded": 2.429,
+    "eng_a_standings_league_rank": 13.0,
+    "eng_a_standings_league_points": 39.0,
+    "eng_a_standings_goals_difference": -11.0,
+    "eng_diff_weather_temp_celsius": 0.0,
+    "eng_ratio_weather_temp_celsius": 1.0,
+    "eng_diff_weather_humidity_pct": 0.0,
+    "eng_ratio_weather_humidity_pct": 1.0,
+    "eng_diff_proc_team_id": 400.0,
+    "eng_ratio_proc_team_id": 1.8080808080808082,
+    "eng_diff_proc_league_season": 0.0,
+    "eng_ratio_proc_league_season": 1.0,
+    "eng_diff_hist_perf_by_result_win_avg_conceded": 0.334,
+    "eng_ratio_hist_perf_by_result_win_avg_conceded": 2.003003003003003,
+    "eng_diff_match_history_games_analyzed": 0.0,
+    "eng_ratio_match_history_games_analyzed": 1.0,
+    "eng_diff_hist_perf_by_result_draw_avg_conceded": 0.6,
+    "eng_ratio_hist_perf_by_result_draw_avg_conceded": 2.5,
+    "eng_diff_team_id": 400.0,
+    "eng_ratio_team_id": 1.8080808080808082,
+    "eng_diff_match_history_venue_context": -999.0,
+    "eng_ratio_match_history_venue_context": -999.0,
+    "eng_diff_weather_temp_feels_like_celsius": 0.0,
+    "eng_ratio_weather_temp_feels_like_celsius": 1.0,
+    "eng_diff_standings_goals_difference": 6.0,
+    "eng_ratio_standings_goals_difference": 0.45454545454545453,
+    "eng_diff_hist_perf_by_result_draw_matches": -1.0,
+    "eng_ratio_hist_perf_by_result_draw_matches": 0.8,
+    "eng_diff_weather_wind_speed_mps": 0.0,
+    "eng_ratio_weather_wind_speed_mps": 1.0,
+    "eng_diff_hist_perf_by_result_loss_avg_conceded": 0.17100000000000026,
+    "eng_ratio_hist_perf_by_result_loss_avg_conceded": 1.070399341292713,
+    "eng_diff_weather_pressure_hpa": 0.0,
+    "eng_ratio_weather_pressure_hpa": 1.0,
+    "eng_diff_hist_perf_by_result_win_matches": 3.0,
+    "eng_ratio_hist_perf_by_result_win_matches": 2.0,
+    "eng_diff_weather_condition_main": -999.0,
+    "eng_ratio_weather_condition_main": -999.0,
+    "eng_diff_hist_perf_by_result_draw_avg_scored": 0.6,
+    "eng_ratio_hist_perf_by_result_draw_avg_scored": 2.5,
+    "eng_diff_hist_overall_l5_form_rating_points_pct": 0.333,
+    "eng_ratio_hist_overall_l5_form_rating_points_pct": 2.665,
+    "eng_diff_hist_perf_by_result_win_avg_scored": 0.6660000000000001,
+    "eng_ratio_hist_perf_by_result_win_avg_scored": 1.3995200959808038,
+    "eng_diff_hist_perf_by_result_loss_matches": -2.0,
+    "eng_ratio_hist_perf_by_result_loss_matches": 0.7142857142857143,
+    "eng_diff_hist_perf_by_result_loss_avg_scored": 0.37100000000000005,
+    "eng_ratio_hist_perf_by_result_loss_avg_scored": 1.864801864801865,
+    "eng_diff_standings_league_rank": -1.0,
+    "eng_ratio_standings_league_rank": 0.9230769230769231,
+    "eng_diff_standings_league_points": 0.0,
+    "eng_ratio_standings_league_points": 1.0,
+    "eng_diff_weather_cloud_coverage_pct": 0.0,
+    "eng_ratio_weather_cloud_coverage_pct": 1.0,
+    "eng_diff_match_history_source": -999.0,
+    "eng_ratio_match_history_source": -999.0,
+    "eng_diff_team_statarea_id": 400.0,
+    "eng_ratio_team_statarea_id": 1.8080808080808082,
+    "eng_diff_weather_wind_direction_deg": 0.0,
+    "eng_ratio_weather_wind_direction_deg": 1.0,
+    "eng_diff_proc_league_id": 0.0,
+    "eng_ratio_proc_league_id": 1.0
+  },
+  "fixture_meta": {
+    "id": 1223926,
+    "date_utc": "2025-04-27T10:30:00+00:00",
+    "timestamp_utc": 1745749800,
+    "referee": "Alberto Ruben Arena, Italy",
+    "venue": {
+      "name": "Stadio Giuseppe Sinigaglia",
+      "city": "Como"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "coord": {
+        "lon": 9.0874,
+        "lat": 45.81
+      },
+      "weather": [
+        {
+          "id": 804,
+          "main": "Clouds",
+          "description": "overcast clouds",
+          "icon": "04d"
+        }
+      ],
+      "base": "stations",
+      "main": {
+        "temperature": 18.56,
+        "temperature_feels_like": 18.27,
+        "temperature_min": 17.32,
+        "temperature_max": 19.37,
+        "air_pressure": 1021,
+        "humidity": 69,
+        "pressure_sea_level": 1021,
+        "pressure_ground_level": 970
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed_mps": 1.78,
+        "direction_degrees": 246,
+        "gust": 1.82
+      },
+      "clouds": {
+        "coverage_percentage": 100
+      },
+      "dt": 1745750998,
+      "sys": {
+        "type": 2,
+        "id": 2000304,
+        "country": "IT",
+        "sunrise": 1745727428,
+        "sunset": 1745778309
+      },
+      "timezone": 7200,
+      "id": 6542055,
+      "name": "Como",
+      "cod": 200,
+      "summary": "Clouds: overcast clouds, Temp: 18.56°C"
+    }
+  },
+  "raw_data": {
+    "home": {
+      "basic_info": {
+        "id": 895,
+        "name": "Como",
+        "logo": "https://media.api-sports.io/football/teams/895.png",
+        "statarea_id": 895
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 135,
+          "name": "Serie A",
+          "country": "Italy",
+          "logo": "https://media.api-sports.io/football/leagues/135.png",
+          "flag": "https://media.api-sports.io/flags/it.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 895,
+          "name": "Como",
+          "logo": "https://media.api-sports.io/football/teams/895.png"
+        },
+        "form_string": "LDLDWWLDLLLDLDDWLWDLWLLLWWLDLDWWW",
+        "fixtures": {
+          "played": {
+            "home": 16,
+            "away": 17,
+            "total": 33
+          },
+          "wins": {
+            "home": 6,
+            "away": 4,
+            "total": 10
+          },
+          "draws": {
+            "home": 5,
+            "away": 4,
+            "total": 9
+          },
+          "losses": {
+            "home": 5,
+            "away": 9,
+            "total": 14
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 24,
+              "away": 19,
+              "total": 43
+            },
+            "average": {
+              "home": 1.5,
+              "away": 1.1,
+              "total": 1.3
+            },
+            "minute": {
+              "0-15": {
+                "total": 1,
+                "percentage": 0.0263
+              },
+              "16-30": {
+                "total": 3,
+                "percentage": 0.0789
+              },
+              "31-45": {
+                "total": 11,
+                "percentage": 0.2895
+              },
+              "46-60": {
+                "total": 11,
+                "percentage": 0.2895
+              },
+              "61-75": {
+                "total": 4,
+                "percentage": 0.10529999999999999
+              },
+              "76-90": {
+                "total": 5,
+                "percentage": 0.1316
+              },
+              "91-105": {
+                "total": 3,
+                "percentage": 0.0789
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 26,
+                "under": 7
+              },
+              "1.5": {
+                "over": 11,
+                "under": 22
+              },
+              "2.5": {
+                "over": 5,
+                "under": 28
+              },
+              "3.5": {
+                "over": 1,
+                "under": 32
+              },
+              "4.5": {
+                "over": 0,
+                "under": 33
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 23,
+              "away": 25,
+              "total": 48
+            },
+            "average": {
+              "home": 1.4,
+              "away": 1.5,
+              "total": 1.5
+            },
+            "minute": {
+              "0-15": {
+                "total": 4,
+                "percentage": 0.0755
+              },
+              "16-30": {
+                "total": 8,
+                "percentage": 0.1509
+              },
+              "31-45": {
+                "total": 5,
+                "percentage": 0.0943
+              },
+              "46-60": {
+                "total": 11,
+                "percentage": 0.2075
+              },
+              "61-75": {
+                "total": 10,
+                "percentage": 0.1887
+              },
+              "76-90": {
+                "total": 7,
+                "percentage": 0.1321
+              },
+              "91-105": {
+                "total": 8,
+                "percentage": 0.1509
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 28,
+                "under": 5
+              },
+              "1.5": {
+                "over": 15,
+                "under": 18
+              },
+              "2.5": {
+                "over": 3,
+                "under": 30
+              },
+              "3.5": {
+                "over": 1,
+                "under": 32
+              },
+              "4.5": {
+                "over": 1,
+                "under": 32
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 2,
+            "draws": 2,
+            "losses": 3
+          },
+          "wins": {
+            "home": "4-1",
+            "away": "0-3"
+          },
+          "losses": {
+            "home": "1-5",
+            "away": "3-0"
+          },
+          "goals": {
+            "for": {
+              "home": 4,
+              "away": 3
+            },
+            "against": {
+              "home": 5,
+              "away": 3
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 3,
+          "away": 2,
+          "total": 5
+        },
+        "failed_to_score": {
+          "home": 1,
+          "away": 6,
+          "total": 7
+        },
+        "penalty": {
+          "scored": {
+            "total": 0,
+            "percentage": 0.0
+          },
+          "missed": {
+            "total": 2,
+            "percentage": 1.0
+          },
+          "total": 2
+        },
+        "lineups": [
+          {
+            "formation": "4-2-3-1",
+            "played": 22
+          },
+          {
+            "formation": "4-3-3",
+            "played": 4
+          },
+          {
+            "formation": "4-2-2-2",
+            "played": 2
+          },
+          {
+            "formation": "4-4-2",
+            "played": 1
+          },
+          {
+            "formation": "5-4-1",
+            "played": 1
+          },
+          {
+            "formation": "3-4-2-1",
+            "played": 1
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 1
+          },
+          {
+            "formation": "4-3-2-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 6,
+              "percentage": 0.0759
+            },
+            "16-30": {
+              "total": 7,
+              "percentage": 0.0886
+            },
+            "31-45": {
+              "total": 11,
+              "percentage": 0.1392
+            },
+            "46-60": {
+              "total": 14,
+              "percentage": 0.1772
+            },
+            "61-75": {
+              "total": 18,
+              "percentage": 0.2278
+            },
+            "76-90": {
+              "total": 18,
+              "percentage": 0.2278
+            },
+            "91-105": {
+              "total": 5,
+              "percentage": 0.0633
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {
+              "total": 1,
+              "percentage": 0.16670000000000001
+            },
+            "46-60": {
+              "total": 1,
+              "percentage": 0.16670000000000001
+            },
+            "61-75": {
+              "total": 2,
+              "percentage": 0.3333
+            },
+            "76-90": {},
+            "91-105": {
+              "total": 2,
+              "percentage": 0.3333
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 895,
+          "name": "Como",
+          "logo": "https://media.api-sports.io/football/teams/895.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.67,
+            "att": 1.0,
+            "def": 0.56,
+            "goals": {
+              "for": {
+                "total": 9,
+                "average": 1.8
+              },
+              "against": {
+                "total": 4,
+                "average": 0.8
+              }
+            }
+          },
+          "league": {
+            "form_string": "LDLDWWLDLLLDLDDWLWDLWLLLWWLDLDWWW",
+            "fixtures": {
+              "played": {
+                "home": 16,
+                "away": 17,
+                "total": 33
+              },
+              "wins": {
+                "home": 6,
+                "away": 4,
+                "total": 10
+              },
+              "draws": {
+                "home": 5,
+                "away": 4,
+                "total": 9
+              },
+              "losses": {
+                "home": 5,
+                "away": 9,
+                "total": 14
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 24,
+                  "away": 19,
+                  "total": 43
+                },
+                "average": {
+                  "home": 1.5,
+                  "away": 1.1,
+                  "total": 1.3
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 1,
+                    "percentage": 0.0263
+                  },
+                  "16-30": {
+                    "total": 3,
+                    "percentage": 0.0789
+                  },
+                  "31-45": {
+                    "total": 11,
+                    "percentage": 0.2895
+                  },
+                  "46-60": {
+                    "total": 11,
+                    "percentage": 0.2895
+                  },
+                  "61-75": {
+                    "total": 4,
+                    "percentage": 0.10529999999999999
+                  },
+                  "76-90": {
+                    "total": 5,
+                    "percentage": 0.1316
+                  },
+                  "91-105": {
+                    "total": 3,
+                    "percentage": 0.0789
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 26,
+                    "under": 7
+                  },
+                  "1.5": {
+                    "over": 11,
+                    "under": 22
+                  },
+                  "2.5": {
+                    "over": 5,
+                    "under": 28
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 32
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 33
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 23,
+                  "away": 25,
+                  "total": 48
+                },
+                "average": {
+                  "home": 1.4,
+                  "away": 1.5,
+                  "total": 1.5
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 4,
+                    "percentage": 0.0755
+                  },
+                  "16-30": {
+                    "total": 8,
+                    "percentage": 0.1509
+                  },
+                  "31-45": {
+                    "total": 5,
+                    "percentage": 0.0943
+                  },
+                  "46-60": {
+                    "total": 11,
+                    "percentage": 0.2075
+                  },
+                  "61-75": {
+                    "total": 10,
+                    "percentage": 0.1887
+                  },
+                  "76-90": {
+                    "total": 7,
+                    "percentage": 0.1321
+                  },
+                  "91-105": {
+                    "total": 8,
+                    "percentage": 0.1509
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 28,
+                    "under": 5
+                  },
+                  "1.5": {
+                    "over": 15,
+                    "under": 18
+                  },
+                  "2.5": {
+                    "over": 3,
+                    "under": 30
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 32
+                  },
+                  "4.5": {
+                    "over": 1,
+                    "under": 32
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 2,
+                "draws": 2,
+                "losses": 3
+              },
+              "wins": {
+                "home": "4-1",
+                "away": "0-3"
+              },
+              "losses": {
+                "home": "1-5",
+                "away": "3-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 4,
+                  "away": 3
+                },
+                "against": {
+                  "home": 5,
+                  "away": 3
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 3,
+              "away": 2,
+              "total": 5
+            },
+            "failed_to_score": {
+              "home": 1,
+              "away": 6,
+              "total": 7
+            },
+            "penalty": {
+              "scored": {
+                "total": 0,
+                "percentage": 0.0
+              },
+              "missed": {
+                "total": 2,
+                "percentage": 1.0
+              },
+              "total": 2
+            },
+            "lineups": [
+              {
+                "formation": "4-2-3-1",
+                "played": 22
+              },
+              {
+                "formation": "4-3-3",
+                "played": 4
+              },
+              {
+                "formation": "4-2-2-2",
+                "played": 2
+              },
+              {
+                "formation": "4-4-2",
+                "played": 1
+              },
+              {
+                "formation": "5-4-1",
+                "played": 1
+              },
+              {
+                "formation": "3-4-2-1",
+                "played": 1
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 1
+              },
+              {
+                "formation": "4-3-2-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 6,
+                  "percentage": 0.0759
+                },
+                "16-30": {
+                  "total": 7,
+                  "percentage": 0.0886
+                },
+                "31-45": {
+                  "total": 11,
+                  "percentage": 0.1392
+                },
+                "46-60": {
+                  "total": 14,
+                  "percentage": 0.1772
+                },
+                "61-75": {
+                  "total": 18,
+                  "percentage": 0.2278
+                },
+                "76-90": {
+                  "total": 18,
+                  "percentage": 0.2278
+                },
+                "91-105": {
+                  "total": 5,
+                  "percentage": 0.0633
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {
+                  "total": 1,
+                  "percentage": 0.16670000000000001
+                },
+                "46-60": {
+                  "total": 1,
+                  "percentage": 0.16670000000000001
+                },
+                "61-75": {
+                  "total": 2,
+                  "percentage": 0.3333
+                },
+                "76-90": {},
+                "91-105": {
+                  "total": 2,
+                  "percentage": 0.3333
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "Como",
+        "country": "Italy",
+        "api_id": 895,
+        "game_type": "host",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:45:57.319814",
+        "scrape_date_utc": "2025-04-22T17:45:57.319000",
+        "content_hash": "b012d91701ef3c39e3417b68cca89110",
+        "general_statistics": {
+          "number of como wins": 6,
+          "number of como draws": 4,
+          "number of como losses": 5,
+          "Average goals_scored per match": 1.47,
+          "Average goals_conceded per match": 1.4,
+          "Chance to score goal next match": 0.93,
+          "Chance to conceded goal next match": 0.8,
+          "Number of clean_sheets matches": 3,
+          "failed_to_score matches": 1,
+          "over 2.5 goals in": 7,
+          "under 2.5 goals in": 8,
+          "Time without scored goal": "52 min.",
+          "Time without conceded goal": "105 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "Como": 0.4,
+            "draw": 0.27,
+            "opponent": 0.33
+          },
+          "halftime bet_1x2_probabilities": {
+            "Como": 0.33,
+            "draw": 0.53,
+            "opponent": 0.13
+          },
+          "second half bet_1x2_probabilities": {
+            "Como": 0.27,
+            "draw": 0.33,
+            "opponent": 0.4
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.93,
+            "under": 0.07
+          },
+          "over/under 1.5 goals for como only": {
+            "over": 0.33,
+            "under": 0.67
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.47,
+            "under": 0.53
+          },
+          "over/under 2.5 goals for como only": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "over/under 3.5 goals for como only": {
+            "over": 0.07,
+            "under": 0.93
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.07,
+            "2-3": 0.73,
+            "4+": 0.2
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.73,
+            "only one": 0.27,
+            "neither": 0.0
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.47,
+            "even": 0.53
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.05,
+            "16-30 min.": 0.12,
+            "31-45 min.": 0.19,
+            "46-60 min.": 0.19,
+            "61-75 min.": 0.16,
+            "76-90 min.": 0.3
+          },
+          "Como goals only": {
+            "0-15 min.": 0.09,
+            "16-30 min.": 0.05,
+            "31-45 min.": 0.27,
+            "46-60 min.": 0.18,
+            "61-75 min.": 0.09,
+            "76-90 min.": 0.32
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.13,
+            "11-20 min.": 0.13,
+            "21-30 min.": 0.13,
+            "31-40 min.": 0.2,
+            "41-50 min.": 0.2,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.07,
+            "without goal": 0.0
+          },
+          "time of first como goal": {
+            "0-10 min.": 0.13,
+            "11-20 min.": 0.0,
+            "21-30 min.": 0.07,
+            "31-40 min.": 0.13,
+            "41-50 min.": 0.33,
+            "51-60 min.": 0.13,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.07,
+            "without goal": 0.07
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "Como": 0.73,
+            "opponent": 0.27,
+            "without goal": 0.0
+          },
+          "win after 15 minutes": {
+            "Como": 0.13,
+            "opponent": 0.0,
+            "draw": 0.87
+          },
+          "win after 30 minutes": {
+            "Como": 0.13,
+            "opponent": 0.2,
+            "draw": 0.67
+          },
+          "bet_halftime_result_probabilities": {
+            "Como": 0.33,
+            "opponent": 0.13,
+            "draw": 0.53
+          },
+          "win after 60 minutes": {
+            "Como": 0.33,
+            "opponent": 0.13,
+            "draw": 0.53
+          },
+          "win after 75 minutes": {
+            "Como": 0.33,
+            "opponent": 0.2,
+            "draw": 0.47
+          },
+          "bet_fulltime_result_probabilities": {
+            "Como": 0.4,
+            "opponent": 0.33,
+            "draw": 0.27
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.67,
+            "2-3 goals": 0.27,
+            "4+ goals": 0.07
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.4,
+            "second half": 0.33,
+            "tie": 0.27
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-13",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Torino",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-29",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Empoli",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-08",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Unione Venezia",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-23",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Napoli",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-07",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Juventus",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-25",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Atalanta",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-20",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Udinese",
+            "team_goals": 4,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-14",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "AC Milan",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-30",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Lecce",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-15",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Roma",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-30",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Monza",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-24",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Fiorentina",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-10-31",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Lazio",
+            "team_goals": 1,
+            "opponent_goals": 5,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-10-19",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Parma",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-09-29",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Verona",
+            "team_goals": 3,
+            "opponent_goals": 2,
+            "result": "win",
+            "venue": "home"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:47:56.475000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 12,
+        "team": {
+          "id": 895,
+          "name": "Como",
+          "logo": "https://media.api-sports.io/football/teams/895.png"
+        },
+        "league_points": 39,
+        "goals_difference": -5,
+        "group": "Serie A",
+        "form_string": "WWWDL",
+        "status": "same",
+        "coverage_percentage": {
+          "played": 33,
+          "win": 10,
+          "draw": 9,
+          "loss": 14,
+          "goals": {
+            "for": 43,
+            "against": 48
+          }
+        },
+        "home": {
+          "played": 16,
+          "win": 6,
+          "draw": 5,
+          "loss": 5,
+          "goals": {
+            "for": 24,
+            "against": 23
+          }
+        },
+        "away": {
+          "played": 17,
+          "win": 4,
+          "draw": 4,
+          "loss": 9,
+          "goals": {
+            "for": 19,
+            "against": 25
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    },
+    "away": {
+      "basic_info": {
+        "id": 495,
+        "name": "Genoa",
+        "logo": "https://media.api-sports.io/football/teams/495.png",
+        "statarea_id": 495
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 135,
+          "name": "Serie A",
+          "country": "Italy",
+          "logo": "https://media.api-sports.io/football/leagues/135.png",
+          "flag": "https://media.api-sports.io/flags/it.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 495,
+          "name": "Genoa",
+          "logo": "https://media.api-sports.io/football/teams/495.png"
+        },
+        "form_string": "DWLDLLLDLLWDDWDDLWDWLWLDWLDDWLWDL",
+        "fixtures": {
+          "played": {
+            "home": 17,
+            "away": 16,
+            "total": 33
+          },
+          "wins": {
+            "home": 5,
+            "away": 4,
+            "total": 9
+          },
+          "draws": {
+            "home": 7,
+            "away": 5,
+            "total": 12
+          },
+          "losses": {
+            "home": 5,
+            "away": 7,
+            "total": 12
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 18,
+              "away": 11,
+              "total": 29
+            },
+            "average": {
+              "home": 1.1,
+              "away": 0.7,
+              "total": 0.9
+            },
+            "minute": {
+              "0-15": {
+                "total": 2,
+                "percentage": 0.0667
+              },
+              "16-30": {
+                "total": 2,
+                "percentage": 0.0667
+              },
+              "31-45": {
+                "total": 1,
+                "percentage": 0.0333
+              },
+              "46-60": {
+                "total": 8,
+                "percentage": 0.2667
+              },
+              "61-75": {
+                "total": 6,
+                "percentage": 0.2
+              },
+              "76-90": {
+                "total": 8,
+                "percentage": 0.2667
+              },
+              "91-105": {
+                "total": 3,
+                "percentage": 0.1
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 21,
+                "under": 12
+              },
+              "1.5": {
+                "over": 8,
+                "under": 25
+              },
+              "2.5": {
+                "over": 0,
+                "under": 33
+              },
+              "3.5": {
+                "over": 0,
+                "under": 33
+              },
+              "4.5": {
+                "over": 0,
+                "under": 33
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 20,
+              "away": 20,
+              "total": 40
+            },
+            "average": {
+              "home": 1.2,
+              "away": 1.3,
+              "total": 1.2
+            },
+            "minute": {
+              "0-15": {
+                "total": 3,
+                "percentage": 0.07690000000000001
+              },
+              "16-30": {
+                "total": 9,
+                "percentage": 0.23079999999999998
+              },
+              "31-45": {
+                "total": 4,
+                "percentage": 0.1026
+              },
+              "46-60": {
+                "total": 7,
+                "percentage": 0.1795
+              },
+              "61-75": {
+                "total": 8,
+                "percentage": 0.2051
+              },
+              "76-90": {
+                "total": 7,
+                "percentage": 0.1795
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.0256
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 22,
+                "under": 11
+              },
+              "1.5": {
+                "over": 12,
+                "under": 21
+              },
+              "2.5": {
+                "over": 4,
+                "under": 29
+              },
+              "3.5": {
+                "over": 1,
+                "under": 32
+              },
+              "4.5": {
+                "over": 1,
+                "under": 32
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 1,
+            "draws": 2,
+            "losses": 3
+          },
+          "wins": {
+            "home": "2-0",
+            "away": "0-2"
+          },
+          "losses": {
+            "home": "0-3",
+            "away": "5-1"
+          },
+          "goals": {
+            "for": {
+              "home": 2,
+              "away": 2
+            },
+            "against": {
+              "home": 3,
+              "away": 5
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 5,
+          "away": 6,
+          "total": 11
+        },
+        "failed_to_score": {
+          "home": 5,
+          "away": 7,
+          "total": 12
+        },
+        "penalty": {
+          "scored": {
+            "total": 0,
+            "percentage": 0.0
+          },
+          "missed": {
+            "total": 2,
+            "percentage": 1.0
+          },
+          "total": 2
+        },
+        "lineups": [
+          {
+            "formation": "4-2-3-1",
+            "played": 12
+          },
+          {
+            "formation": "3-5-2",
+            "played": 10
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 3
+          },
+          {
+            "formation": "4-4-2",
+            "played": 3
+          },
+          {
+            "formation": "3-4-2-1",
+            "played": 3
+          },
+          {
+            "formation": "3-5-1-1",
+            "played": 1
+          },
+          {
+            "formation": "4-5-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 3,
+              "percentage": 0.0462
+            },
+            "16-30": {
+              "total": 9,
+              "percentage": 0.13849999999999998
+            },
+            "31-45": {
+              "total": 7,
+              "percentage": 0.10769999999999999
+            },
+            "46-60": {
+              "total": 11,
+              "percentage": 0.16920000000000002
+            },
+            "61-75": {
+              "total": 11,
+              "percentage": 0.16920000000000002
+            },
+            "76-90": {
+              "total": 16,
+              "percentage": 0.2462
+            },
+            "91-105": {
+              "total": 8,
+              "percentage": 0.1231
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {
+              "total": 1,
+              "percentage": 1.0
+            },
+            "31-45": {},
+            "46-60": {},
+            "61-75": {},
+            "76-90": {},
+            "91-105": {},
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 495,
+          "name": "Genoa",
+          "logo": "https://media.api-sports.io/football/teams/495.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.47,
+            "att": 0.33,
+            "def": 0.56,
+            "goals": {
+              "for": {
+                "total": 3,
+                "average": 0.6
+              },
+              "against": {
+                "total": 4,
+                "average": 0.8
+              }
+            }
+          },
+          "league": {
+            "form_string": "DWLDLLLDLLWDDWDDLWDWLWLDWLDDWLWDL",
+            "fixtures": {
+              "played": {
+                "home": 17,
+                "away": 16,
+                "total": 33
+              },
+              "wins": {
+                "home": 5,
+                "away": 4,
+                "total": 9
+              },
+              "draws": {
+                "home": 7,
+                "away": 5,
+                "total": 12
+              },
+              "losses": {
+                "home": 5,
+                "away": 7,
+                "total": 12
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 18,
+                  "away": 11,
+                  "total": 29
+                },
+                "average": {
+                  "home": 1.1,
+                  "away": 0.7,
+                  "total": 0.9
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 2,
+                    "percentage": 0.0667
+                  },
+                  "16-30": {
+                    "total": 2,
+                    "percentage": 0.0667
+                  },
+                  "31-45": {
+                    "total": 1,
+                    "percentage": 0.0333
+                  },
+                  "46-60": {
+                    "total": 8,
+                    "percentage": 0.2667
+                  },
+                  "61-75": {
+                    "total": 6,
+                    "percentage": 0.2
+                  },
+                  "76-90": {
+                    "total": 8,
+                    "percentage": 0.2667
+                  },
+                  "91-105": {
+                    "total": 3,
+                    "percentage": 0.1
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 21,
+                    "under": 12
+                  },
+                  "1.5": {
+                    "over": 8,
+                    "under": 25
+                  },
+                  "2.5": {
+                    "over": 0,
+                    "under": 33
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 33
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 33
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 20,
+                  "away": 20,
+                  "total": 40
+                },
+                "average": {
+                  "home": 1.2,
+                  "away": 1.3,
+                  "total": 1.2
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 3,
+                    "percentage": 0.07690000000000001
+                  },
+                  "16-30": {
+                    "total": 9,
+                    "percentage": 0.23079999999999998
+                  },
+                  "31-45": {
+                    "total": 4,
+                    "percentage": 0.1026
+                  },
+                  "46-60": {
+                    "total": 7,
+                    "percentage": 0.1795
+                  },
+                  "61-75": {
+                    "total": 8,
+                    "percentage": 0.2051
+                  },
+                  "76-90": {
+                    "total": 7,
+                    "percentage": 0.1795
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.0256
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 22,
+                    "under": 11
+                  },
+                  "1.5": {
+                    "over": 12,
+                    "under": 21
+                  },
+                  "2.5": {
+                    "over": 4,
+                    "under": 29
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 32
+                  },
+                  "4.5": {
+                    "over": 1,
+                    "under": 32
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 1,
+                "draws": 2,
+                "losses": 3
+              },
+              "wins": {
+                "home": "2-0",
+                "away": "0-2"
+              },
+              "losses": {
+                "home": "0-3",
+                "away": "5-1"
+              },
+              "goals": {
+                "for": {
+                  "home": 2,
+                  "away": 2
+                },
+                "against": {
+                  "home": 3,
+                  "away": 5
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 5,
+              "away": 6,
+              "total": 11
+            },
+            "failed_to_score": {
+              "home": 5,
+              "away": 7,
+              "total": 12
+            },
+            "penalty": {
+              "scored": {
+                "total": 0,
+                "percentage": 0.0
+              },
+              "missed": {
+                "total": 2,
+                "percentage": 1.0
+              },
+              "total": 2
+            },
+            "lineups": [
+              {
+                "formation": "4-2-3-1",
+                "played": 12
+              },
+              {
+                "formation": "3-5-2",
+                "played": 10
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 3
+              },
+              {
+                "formation": "4-4-2",
+                "played": 3
+              },
+              {
+                "formation": "3-4-2-1",
+                "played": 3
+              },
+              {
+                "formation": "3-5-1-1",
+                "played": 1
+              },
+              {
+                "formation": "4-5-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 3,
+                  "percentage": 0.0462
+                },
+                "16-30": {
+                  "total": 9,
+                  "percentage": 0.13849999999999998
+                },
+                "31-45": {
+                  "total": 7,
+                  "percentage": 0.10769999999999999
+                },
+                "46-60": {
+                  "total": 11,
+                  "percentage": 0.16920000000000002
+                },
+                "61-75": {
+                  "total": 11,
+                  "percentage": 0.16920000000000002
+                },
+                "76-90": {
+                  "total": 16,
+                  "percentage": 0.2462
+                },
+                "91-105": {
+                  "total": 8,
+                  "percentage": 0.1231
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {
+                  "total": 1,
+                  "percentage": 1.0
+                },
+                "31-45": {},
+                "46-60": {},
+                "61-75": {},
+                "76-90": {},
+                "91-105": {},
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "Genoa",
+        "country": "Italy",
+        "api_id": 495,
+        "game_type": "guest",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:46:07.621974",
+        "scrape_date_utc": "2025-04-22T17:46:07.621000",
+        "content_hash": "99fdebc62dda2dd8e107435f4c39a406",
+        "general_statistics": {
+          "number of genoa wins": 3,
+          "number of genoa draws": 5,
+          "number of genoa losses": 7,
+          "Average goals_scored per match": 0.67,
+          "Average goals_conceded per match": 1.33,
+          "Chance to score goal next match": 0.53,
+          "Chance to conceded goal next match": 0.67,
+          "Number of clean_sheets matches": 5,
+          "failed_to_score matches": 7,
+          "over 2.5 goals in": 5,
+          "under 2.5 goals in": 10,
+          "Time without scored goal": "223 min.",
+          "Time without conceded goal": "155 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "Genoa": 0.2,
+            "draw": 0.33,
+            "opponent": 0.47
+          },
+          "halftime bet_1x2_probabilities": {
+            "Genoa": 0.07,
+            "draw": 0.53,
+            "opponent": 0.4
+          },
+          "second half bet_1x2_probabilities": {
+            "Genoa": 0.4,
+            "draw": 0.27,
+            "opponent": 0.33
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.6,
+            "under": 0.4
+          },
+          "over/under 1.5 goals for genoa only": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.33,
+            "under": 0.67
+          },
+          "over/under 2.5 goals for genoa only": {
+            "over": 0.0,
+            "under": 1.0
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "over/under 3.5 goals for genoa only": {
+            "over": 0.0,
+            "under": 1.0
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.4,
+            "2-3": 0.47,
+            "4+": 0.13
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.4,
+            "only one": 0.4,
+            "neither": 0.2
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.4,
+            "even": 0.6
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.07,
+            "16-30 min.": 0.2,
+            "31-45 min.": 0.07,
+            "46-60 min.": 0.2,
+            "61-75 min.": 0.23,
+            "76-90 min.": 0.23
+          },
+          "Genoa goals only": {
+            "0-15 min.": 0.1,
+            "16-30 min.": 0.0,
+            "31-45 min.": 0.1,
+            "46-60 min.": 0.3,
+            "61-75 min.": 0.3,
+            "76-90 min.": 0.2
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.07,
+            "11-20 min.": 0.13,
+            "21-30 min.": 0.27,
+            "31-40 min.": 0.0,
+            "41-50 min.": 0.13,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.13,
+            "81-90 min.": 0.0,
+            "without goal": 0.2
+          },
+          "time of first genoa goal": {
+            "0-10 min.": 0.0,
+            "11-20 min.": 0.07,
+            "21-30 min.": 0.0,
+            "31-40 min.": 0.07,
+            "41-50 min.": 0.13,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.07,
+            "81-90 min.": 0.07,
+            "without goal": 0.47
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "Genoa": 0.2,
+            "opponent": 0.6,
+            "without goal": 0.2
+          },
+          "win after 15 minutes": {
+            "Genoa": 0.07,
+            "opponent": 0.07,
+            "draw": 0.87
+          },
+          "win after 30 minutes": {
+            "Genoa": 0.07,
+            "opponent": 0.4,
+            "draw": 0.53
+          },
+          "bet_halftime_result_probabilities": {
+            "Genoa": 0.07,
+            "opponent": 0.4,
+            "draw": 0.53
+          },
+          "win after 60 minutes": {
+            "Genoa": 0.13,
+            "opponent": 0.4,
+            "draw": 0.47
+          },
+          "win after 75 minutes": {
+            "Genoa": 0.13,
+            "opponent": 0.4,
+            "draw": 0.47
+          },
+          "bet_fulltime_result_probabilities": {
+            "Genoa": 0.2,
+            "opponent": 0.47,
+            "draw": 0.33
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.67,
+            "2-3 goals": 0.27,
+            "4+ goals": 0.07
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.47,
+            "second half": 0.2,
+            "tie": 0.33
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-13",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Verona",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-29",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Juventus",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-07",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Cagliari",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-22",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Inter",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-08",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Torino",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-02",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Fiorentina",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-17",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Roma",
+            "team_goals": 1,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-05",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Lecce",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-28",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Empoli",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-15",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "AC Milan",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-01",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Udinese",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-04",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Parma",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-27",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Lazio",
+            "team_goals": 0,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-05",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Atalanta",
+            "team_goals": 1,
+            "opponent_goals": 5,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-09-21",
+            "competition": "Italy - Serie A 2024/2025",
+            "opponent": "Unione Venezia",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:48:21.683000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 13,
+        "team": {
+          "id": 495,
+          "name": "Genoa",
+          "logo": "https://media.api-sports.io/football/teams/495.png"
+        },
+        "league_points": 39,
+        "goals_difference": -11,
+        "group": "Serie A",
+        "form_string": "LDWLW",
+        "status": "same",
+        "coverage_percentage": {
+          "played": 33,
+          "win": 9,
+          "draw": 12,
+          "loss": 12,
+          "goals": {
+            "for": 29,
+            "against": 40
+          }
+        },
+        "home": {
+          "played": 17,
+          "win": 5,
+          "draw": 7,
+          "loss": 5,
+          "goals": {
+            "for": 18,
+            "against": 20
+          }
+        },
+        "away": {
+          "played": 16,
+          "win": 4,
+          "draw": 5,
+          "loss": 7,
+          "goals": {
+            "for": 11,
+            "against": 20
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    }
+  },
+  "goals": {}
+}

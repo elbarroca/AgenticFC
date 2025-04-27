@@ -1,0 +1,1895 @@
+{
+  "fixture_id": 1238142,
+  "match_date": "2025-04-27",
+  "league": {
+    "id": "None",
+    "statarea_id": "unknown"
+  },
+  "engineered_features": {
+    "home": {
+      "team_id": 3588,
+      "team_name": "Eyüpspor",
+      "team_statarea_id": "unknown",
+      "base_league_id": "None",
+      "proc_league_id": 203,
+      "proc_league_name": "Süper Lig",
+      "proc_league_country": "Turkey",
+      "proc_league_season": 2024,
+      "proc_team_id": 3588,
+      "proc_team_name": "Eyüpspor",
+      "weather_temp_celsius": 14.73,
+      "weather_temp_feels_like_celsius": 13.64,
+      "weather_pressure_hpa": 1021,
+      "weather_humidity_pct": 53,
+      "weather_wind_speed_mps": 9.37,
+      "weather_wind_direction_deg": 52,
+      "weather_cloud_coverage_pct": 55,
+      "weather_precipitation_probability": 0,
+      "weather_description": "broken clouds",
+      "weather_condition_main": "Clouds",
+      "standings_league_rank": 5,
+      "standings_league_points": 50,
+      "standings_goals_difference": 15,
+      "standings_form_string": "LWWLD",
+      "standings_group_name": "Süper Lig",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 9,
+          "proc_goals_scored_min_0_15_pct": 0.1875,
+          "proc_goals_scored_min_16_30_count": 9,
+          "proc_goals_scored_min_16_30_pct": 0.1875,
+          "proc_goals_scored_min_31_45_count": 4,
+          "proc_goals_scored_min_31_45_pct": 0.0833,
+          "proc_goals_scored_min_46_60_count": 7,
+          "proc_goals_scored_min_46_60_pct": 0.1458,
+          "proc_goals_scored_min_61_75_count": 12,
+          "proc_goals_scored_min_61_75_pct": 0.25,
+          "proc_goals_scored_min_76_90_count": 7,
+          "proc_goals_scored_min_76_90_pct": 0.1458,
+          "proc_goals_scored_min_91_105_count": 1,
+          "proc_goals_scored_min_91_105_pct": 0.0208
+        },
+        "card_stats": {
+          "yellow_avg": 2.806,
+          "red_avg": 0.097
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.6667000000000001,
+          "proc_penalty_missed_pct": 0.3333,
+          "proc_penalty_total_taken": 6
+        }
+      }
+    },
+    "away": {
+      "team_id": 645,
+      "team_name": "Galatasaray",
+      "team_statarea_id": 645,
+      "base_league_id": "None",
+      "proc_league_id": 203,
+      "proc_league_name": "Süper Lig",
+      "proc_league_country": "Turkey",
+      "proc_league_season": 2024,
+      "proc_team_id": 645,
+      "proc_team_name": "Galatasaray",
+      "weather_temp_celsius": 14.73,
+      "weather_temp_feels_like_celsius": 13.64,
+      "weather_pressure_hpa": 1021,
+      "weather_humidity_pct": 53,
+      "weather_wind_speed_mps": 9.37,
+      "weather_wind_direction_deg": 52,
+      "weather_cloud_coverage_pct": 55,
+      "weather_precipitation_probability": 0,
+      "weather_description": "broken clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "guest",
+      "hist_away_matches_played": 15,
+      "hist_away_average_goals_scored": 2.133,
+      "hist_away_average_goals_conceded": 1.467,
+      "hist_away_win_rate": 0.6,
+      "hist_away_draw_rate": 0.133,
+      "hist_away_loss_rate": 0.267,
+      "hist_away_both_teams_scored_rate": 0.8,
+      "hist_away_clean_sheet_rate": 0.133,
+      "hist_away_failed_to_score_rate": 0.067,
+      "hist_away_average_goal_difference": 0.667,
+      "hist_away_over_0_5_goals_rate": 1.0,
+      "hist_away_over_1_5_goals_rate": 0.933,
+      "hist_away_over_2_5_goals_rate": 0.8,
+      "hist_away_over_3_5_goals_rate": 0.333,
+      "hist_away_over_4_5_goals_rate": 0.333,
+      "hist_away_form_string": "WWWLWDWLWWLDWWL",
+      "hist_away_form_rating_points_pct": 0.644,
+      "hist_overall_l5_form_string": "WWWLW",
+      "hist_overall_l5_form_rating_points_pct": 0.8,
+      "hist_away_l3_form_string": "WWW",
+      "hist_away_l3_form_rating_points_pct": 1.0,
+      "hist_away_l3_avg_scored": 3.0,
+      "hist_away_l3_avg_conceded": 0.667,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "W 5-1 vs Konyaspor (away)",
+          "W 2-0 vs Samsunspor (away)",
+          "W 2-1 vs Fenerbahce (away)",
+          "L 1-2 vs Besiktas (away)",
+          "W 2-1 vs Alanyaspor (away)"
+        ],
+        "away_l3_matches": [
+          "W 5-1 vs Konyaspor",
+          "W 2-0 vs Samsunspor",
+          "W 2-1 vs Fenerbahce"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 9,
+      "hist_perf_by_result_win_avg_scored": 2.778,
+      "hist_perf_by_result_win_avg_conceded": 0.778,
+      "hist_perf_by_result_draw_matches": 2,
+      "hist_perf_by_result_draw_avg_scored": 2.0,
+      "hist_perf_by_result_draw_avg_conceded": 2.0,
+      "hist_perf_by_result_loss_matches": 4,
+      "hist_perf_by_result_loss_avg_scored": 0.75,
+      "hist_perf_by_result_loss_avg_conceded": 2.75,
+      "standings_league_rank": 1,
+      "standings_league_points": 77,
+      "standings_goals_difference": 44,
+      "standings_form_string": "WWLWW",
+      "standings_group_name": "Süper Lig",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 13,
+          "proc_goals_scored_min_0_15_pct": 0.1831,
+          "proc_goals_scored_min_16_30_count": 11,
+          "proc_goals_scored_min_16_30_pct": 0.1549,
+          "proc_goals_scored_min_31_45_count": 8,
+          "proc_goals_scored_min_31_45_pct": 0.1127,
+          "proc_goals_scored_min_46_60_count": 18,
+          "proc_goals_scored_min_46_60_pct": 0.2535,
+          "proc_goals_scored_min_61_75_count": 8,
+          "proc_goals_scored_min_61_75_pct": 0.1127,
+          "proc_goals_scored_min_76_90_count": 8,
+          "proc_goals_scored_min_76_90_pct": 0.1127,
+          "proc_goals_scored_min_91_105_count": 1,
+          "proc_goals_scored_min_91_105_pct": 0.0141
+        },
+        "card_stats": {
+          "yellow_avg": 2.433,
+          "red_avg": 0.1
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.9091,
+          "proc_penalty_missed_pct": 0.0909,
+          "proc_penalty_total_taken": 11
+        }
+      }
+    }
+  },
+  "model_input_features": {
+    "eng_h_team_id": 3588.0,
+    "eng_h_proc_league_id": 203.0,
+    "eng_h_proc_league_season": 2024.0,
+    "eng_h_proc_team_id": 3588.0,
+    "eng_h_weather_temp_celsius": 14.73,
+    "eng_h_weather_temp_feels_like_celsius": 13.64,
+    "eng_h_weather_pressure_hpa": 1021.0,
+    "eng_h_weather_humidity_pct": 53.0,
+    "eng_h_weather_wind_speed_mps": 9.37,
+    "eng_h_weather_wind_direction_deg": 52.0,
+    "eng_h_weather_cloud_coverage_pct": 55.0,
+    "eng_h_weather_precipitation_probability": 0.0,
+    "eng_h_weather_condition_main": "Clouds",
+    "eng_h_standings_league_rank": 5.0,
+    "eng_h_standings_league_points": 50.0,
+    "eng_h_standings_goals_difference": 15.0,
+    "eng_a_team_id": 645.0,
+    "eng_a_team_statarea_id": 645.0,
+    "eng_a_proc_league_id": 203.0,
+    "eng_a_proc_league_season": 2024.0,
+    "eng_a_proc_team_id": 645.0,
+    "eng_a_weather_temp_celsius": 14.73,
+    "eng_a_weather_temp_feels_like_celsius": 13.64,
+    "eng_a_weather_pressure_hpa": 1021.0,
+    "eng_a_weather_humidity_pct": 53.0,
+    "eng_a_weather_wind_speed_mps": 9.37,
+    "eng_a_weather_wind_direction_deg": 52.0,
+    "eng_a_weather_cloud_coverage_pct": 55.0,
+    "eng_a_weather_precipitation_probability": 0.0,
+    "eng_a_weather_condition_main": "Clouds",
+    "eng_a_match_history_source": "statarea",
+    "eng_a_match_history_games_analyzed": 15.0,
+    "eng_a_match_history_venue_context": "guest",
+    "eng_a_hist_away_matches_played": 15.0,
+    "eng_a_hist_away_average_goals_scored": 2.133,
+    "eng_a_hist_away_average_goals_conceded": 1.467,
+    "eng_a_hist_away_win_rate": 0.6,
+    "eng_a_hist_away_draw_rate": 0.133,
+    "eng_a_hist_away_loss_rate": 0.267,
+    "eng_a_hist_away_both_teams_scored_rate": 0.8,
+    "eng_a_hist_away_clean_sheet_rate": 0.133,
+    "eng_a_hist_away_failed_to_score_rate": 0.067,
+    "eng_a_hist_away_average_goal_difference": 0.667,
+    "eng_a_hist_away_over_0_5_goals_rate": 1.0,
+    "eng_a_hist_away_over_1_5_goals_rate": 0.933,
+    "eng_a_hist_away_over_2_5_goals_rate": 0.8,
+    "eng_a_hist_away_over_3_5_goals_rate": 0.333,
+    "eng_a_hist_away_over_4_5_goals_rate": 0.333,
+    "eng_a_hist_away_form_rating_points_pct": 0.644,
+    "eng_a_hist_overall_l5_form_rating_points_pct": 0.8,
+    "eng_a_hist_away_l3_form_rating_points_pct": 1.0,
+    "eng_a_hist_away_l3_avg_scored": 3.0,
+    "eng_a_hist_away_l3_avg_conceded": 0.667,
+    "eng_a_hist_perf_by_result_win_matches": 9.0,
+    "eng_a_hist_perf_by_result_win_avg_scored": 2.778,
+    "eng_a_hist_perf_by_result_win_avg_conceded": 0.778,
+    "eng_a_hist_perf_by_result_draw_matches": 2.0,
+    "eng_a_hist_perf_by_result_draw_avg_scored": 2.0,
+    "eng_a_hist_perf_by_result_draw_avg_conceded": 2.0,
+    "eng_a_hist_perf_by_result_loss_matches": 4.0,
+    "eng_a_hist_perf_by_result_loss_avg_scored": 0.75,
+    "eng_a_hist_perf_by_result_loss_avg_conceded": 2.75,
+    "eng_a_standings_league_rank": 1.0,
+    "eng_a_standings_league_points": 77.0,
+    "eng_a_standings_goals_difference": 44.0,
+    "eng_diff_weather_temp_celsius": 0.0,
+    "eng_ratio_weather_temp_celsius": 1.0,
+    "eng_diff_weather_humidity_pct": 0.0,
+    "eng_ratio_weather_humidity_pct": 1.0,
+    "eng_diff_proc_team_id": 2943.0,
+    "eng_ratio_proc_team_id": 5.562790697674418,
+    "eng_diff_proc_league_season": 0.0,
+    "eng_ratio_proc_league_season": 1.0,
+    "eng_diff_weather_precipitation_probability": 0.0,
+    "eng_ratio_weather_precipitation_probability": -998.0,
+    "eng_diff_team_id": 2943.0,
+    "eng_ratio_team_id": 5.562790697674418,
+    "eng_diff_weather_temp_feels_like_celsius": 0.0,
+    "eng_ratio_weather_temp_feels_like_celsius": 1.0,
+    "eng_diff_standings_goals_difference": -29.0,
+    "eng_ratio_standings_goals_difference": 0.3409090909090909,
+    "eng_diff_weather_wind_speed_mps": 0.0,
+    "eng_ratio_weather_wind_speed_mps": 1.0,
+    "eng_diff_weather_pressure_hpa": 0.0,
+    "eng_ratio_weather_pressure_hpa": 1.0,
+    "eng_diff_weather_condition_main": -999.0,
+    "eng_ratio_weather_condition_main": -999.0,
+    "eng_diff_standings_league_points": -27.0,
+    "eng_ratio_standings_league_points": 0.6493506493506493,
+    "eng_diff_standings_league_rank": 4.0,
+    "eng_ratio_standings_league_rank": 5.0,
+    "eng_diff_weather_cloud_coverage_pct": 0.0,
+    "eng_ratio_weather_cloud_coverage_pct": 1.0,
+    "eng_diff_weather_wind_direction_deg": 0.0,
+    "eng_ratio_weather_wind_direction_deg": 1.0,
+    "eng_diff_proc_league_id": 0.0,
+    "eng_ratio_proc_league_id": 1.0
+  },
+  "fixture_meta": {
+    "id": 1238142,
+    "date_utc": "2025-04-27T16:00:00+00:00",
+    "timestamp_utc": 1745769600,
+    "referee": "Ç. Altay",
+    "venue": {
+      "name": "Recep Tayyip Erdoğan Stadyumu",
+      "city": "İstanbul"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "dt": 1745766000,
+      "main": {
+        "temperature": 14.73,
+        "temperature_feels_like": 13.64,
+        "temperature_min": 12.83,
+        "temperature_max": 14.73,
+        "air_pressure": 1021,
+        "pressure_sea_level": 1021,
+        "pressure_ground_level": 1014,
+        "humidity": 53,
+        "temp_kf": 1.9
+      },
+      "weather": [
+        {
+          "id": 803,
+          "main": "Clouds",
+          "description": "broken clouds",
+          "icon": "04d"
+        }
+      ],
+      "clouds": {
+        "coverage_percentage": 55
+      },
+      "wind": {
+        "speed_mps": 9.37,
+        "direction_degrees": 52,
+        "gust": 13.62
+      },
+      "visibility": 10000,
+      "probability_of_precipitation": 0,
+      "sys": {
+        "pod": "d"
+      },
+      "dt_txt": "2025-04-27 15:00:00",
+      "city": {
+        "name": "Istanbul",
+        "country": "TR"
+      },
+      "summary": "Clouds: broken clouds, Temp: 14.73°C"
+    }
+  },
+  "raw_data": {
+    "home": {
+      "basic_info": {
+        "id": 3588,
+        "name": "Eyüpspor",
+        "logo": "https://media.api-sports.io/football/teams/3588.png",
+        "statarea_id": "unknown"
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 203,
+          "name": "Süper Lig",
+          "country": "Turkey",
+          "logo": "https://media.api-sports.io/football/leagues/203.png",
+          "flag": "https://media.api-sports.io/flags/tr.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 3588,
+          "name": "Eyüpspor",
+          "logo": "https://media.api-sports.io/football/teams/3588.png"
+        },
+        "form_string": "DWWDDLWLWDWWLDWLDWWWWLDLLWDLWWL",
+        "fixtures": {
+          "played": {
+            "home": 15,
+            "away": 16,
+            "total": 31
+          },
+          "wins": {
+            "home": 9,
+            "away": 5,
+            "total": 14
+          },
+          "draws": {
+            "home": 3,
+            "away": 5,
+            "total": 8
+          },
+          "losses": {
+            "home": 3,
+            "away": 6,
+            "total": 9
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 30,
+              "away": 18,
+              "total": 48
+            },
+            "average": {
+              "home": 2.0,
+              "away": 1.1,
+              "total": 1.5
+            },
+            "minute": {
+              "0-15": {
+                "total": 9,
+                "percentage": 0.1837
+              },
+              "16-30": {
+                "total": 9,
+                "percentage": 0.1837
+              },
+              "31-45": {
+                "total": 4,
+                "percentage": 0.0816
+              },
+              "46-60": {
+                "total": 7,
+                "percentage": 0.1429
+              },
+              "61-75": {
+                "total": 12,
+                "percentage": 0.24489999999999998
+              },
+              "76-90": {
+                "total": 7,
+                "percentage": 0.1429
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.0204
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 27,
+                "under": 4
+              },
+              "1.5": {
+                "over": 10,
+                "under": 21
+              },
+              "2.5": {
+                "over": 6,
+                "under": 25
+              },
+              "3.5": {
+                "over": 3,
+                "under": 28
+              },
+              "4.5": {
+                "over": 1,
+                "under": 30
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 14,
+              "away": 19,
+              "total": 33
+            },
+            "average": {
+              "home": 0.9,
+              "away": 1.2,
+              "total": 1.1
+            },
+            "minute": {
+              "0-15": {},
+              "16-30": {
+                "total": 5,
+                "percentage": 0.1563
+              },
+              "31-45": {},
+              "46-60": {
+                "total": 12,
+                "percentage": 0.375
+              },
+              "61-75": {
+                "total": 6,
+                "percentage": 0.1875
+              },
+              "76-90": {
+                "total": 4,
+                "percentage": 0.125
+              },
+              "91-105": {
+                "total": 5,
+                "percentage": 0.1563
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 20,
+                "under": 11
+              },
+              "1.5": {
+                "over": 10,
+                "under": 21
+              },
+              "2.5": {
+                "over": 3,
+                "under": 28
+              },
+              "3.5": {
+                "over": 0,
+                "under": 31
+              },
+              "4.5": {
+                "over": 0,
+                "under": 31
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 4,
+            "draws": 2,
+            "losses": 2
+          },
+          "wins": {
+            "home": "6-0",
+            "away": "1-4"
+          },
+          "losses": {
+            "home": "1-3",
+            "away": "3-1"
+          },
+          "goals": {
+            "for": {
+              "home": 6,
+              "away": 4
+            },
+            "against": {
+              "home": 3,
+              "away": 3
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 7,
+          "away": 4,
+          "total": 11
+        },
+        "failed_to_score": {
+          "home": 1,
+          "away": 3,
+          "total": 4
+        },
+        "penalty": {
+          "scored": {
+            "total": 4,
+            "percentage": 0.6667000000000001
+          },
+          "missed": {
+            "total": 2,
+            "percentage": 0.3333
+          },
+          "total": 6
+        },
+        "lineups": [
+          {
+            "formation": "4-1-4-1",
+            "played": 19
+          },
+          {
+            "formation": "4-2-3-1",
+            "played": 8
+          },
+          {
+            "formation": "4-3-3",
+            "played": 1
+          },
+          {
+            "formation": "4-5-1",
+            "played": 1
+          },
+          {
+            "formation": "4-4-2",
+            "played": 1
+          },
+          {
+            "formation": "4-4-1-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 8,
+              "percentage": 0.092
+            },
+            "16-30": {
+              "total": 5,
+              "percentage": 0.0575
+            },
+            "31-45": {
+              "total": 11,
+              "percentage": 0.1264
+            },
+            "46-60": {
+              "total": 17,
+              "percentage": 0.1954
+            },
+            "61-75": {
+              "total": 16,
+              "percentage": 0.1839
+            },
+            "76-90": {
+              "total": 19,
+              "percentage": 0.2184
+            },
+            "91-105": {
+              "total": 10,
+              "percentage": 0.1149
+            },
+            "106-120": {},
+            "": {
+              "total": 1,
+              "percentage": 0.0115
+            }
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {},
+            "46-60": {},
+            "61-75": {
+              "total": 1,
+              "percentage": 0.3333
+            },
+            "76-90": {},
+            "91-105": {
+              "total": 2,
+              "percentage": 0.6667000000000001
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 3588,
+          "name": "Eyüpspor",
+          "logo": "https://media.api-sports.io/football/teams/3588.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.47,
+            "att": 0.56,
+            "def": 0.69,
+            "goals": {
+              "for": {
+                "total": 9,
+                "average": 1.8
+              },
+              "against": {
+                "total": 5,
+                "average": 1.0
+              }
+            }
+          },
+          "league": {
+            "form_string": "DWWDDLWLWDWWLDWLDWWWWLDLLWDLWWL",
+            "fixtures": {
+              "played": {
+                "home": 15,
+                "away": 16,
+                "total": 31
+              },
+              "wins": {
+                "home": 9,
+                "away": 5,
+                "total": 14
+              },
+              "draws": {
+                "home": 3,
+                "away": 5,
+                "total": 8
+              },
+              "losses": {
+                "home": 3,
+                "away": 6,
+                "total": 9
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 30,
+                  "away": 18,
+                  "total": 48
+                },
+                "average": {
+                  "home": 2.0,
+                  "away": 1.1,
+                  "total": 1.5
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 9,
+                    "percentage": 0.1837
+                  },
+                  "16-30": {
+                    "total": 9,
+                    "percentage": 0.1837
+                  },
+                  "31-45": {
+                    "total": 4,
+                    "percentage": 0.0816
+                  },
+                  "46-60": {
+                    "total": 7,
+                    "percentage": 0.1429
+                  },
+                  "61-75": {
+                    "total": 12,
+                    "percentage": 0.24489999999999998
+                  },
+                  "76-90": {
+                    "total": 7,
+                    "percentage": 0.1429
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.0204
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 27,
+                    "under": 4
+                  },
+                  "1.5": {
+                    "over": 10,
+                    "under": 21
+                  },
+                  "2.5": {
+                    "over": 6,
+                    "under": 25
+                  },
+                  "3.5": {
+                    "over": 3,
+                    "under": 28
+                  },
+                  "4.5": {
+                    "over": 1,
+                    "under": 30
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 14,
+                  "away": 19,
+                  "total": 33
+                },
+                "average": {
+                  "home": 0.9,
+                  "away": 1.2,
+                  "total": 1.1
+                },
+                "minute": {
+                  "0-15": {},
+                  "16-30": {
+                    "total": 5,
+                    "percentage": 0.1563
+                  },
+                  "31-45": {},
+                  "46-60": {
+                    "total": 12,
+                    "percentage": 0.375
+                  },
+                  "61-75": {
+                    "total": 6,
+                    "percentage": 0.1875
+                  },
+                  "76-90": {
+                    "total": 4,
+                    "percentage": 0.125
+                  },
+                  "91-105": {
+                    "total": 5,
+                    "percentage": 0.1563
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 20,
+                    "under": 11
+                  },
+                  "1.5": {
+                    "over": 10,
+                    "under": 21
+                  },
+                  "2.5": {
+                    "over": 3,
+                    "under": 28
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 31
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 31
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 4,
+                "draws": 2,
+                "losses": 2
+              },
+              "wins": {
+                "home": "6-0",
+                "away": "1-4"
+              },
+              "losses": {
+                "home": "1-3",
+                "away": "3-1"
+              },
+              "goals": {
+                "for": {
+                  "home": 6,
+                  "away": 4
+                },
+                "against": {
+                  "home": 3,
+                  "away": 3
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 7,
+              "away": 4,
+              "total": 11
+            },
+            "failed_to_score": {
+              "home": 1,
+              "away": 3,
+              "total": 4
+            },
+            "penalty": {
+              "scored": {
+                "total": 4,
+                "percentage": 0.6667000000000001
+              },
+              "missed": {
+                "total": 2,
+                "percentage": 0.3333
+              },
+              "total": 6
+            },
+            "lineups": [
+              {
+                "formation": "4-1-4-1",
+                "played": 19
+              },
+              {
+                "formation": "4-2-3-1",
+                "played": 8
+              },
+              {
+                "formation": "4-3-3",
+                "played": 1
+              },
+              {
+                "formation": "4-5-1",
+                "played": 1
+              },
+              {
+                "formation": "4-4-2",
+                "played": 1
+              },
+              {
+                "formation": "4-4-1-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 8,
+                  "percentage": 0.092
+                },
+                "16-30": {
+                  "total": 5,
+                  "percentage": 0.0575
+                },
+                "31-45": {
+                  "total": 11,
+                  "percentage": 0.1264
+                },
+                "46-60": {
+                  "total": 17,
+                  "percentage": 0.1954
+                },
+                "61-75": {
+                  "total": 16,
+                  "percentage": 0.1839
+                },
+                "76-90": {
+                  "total": 19,
+                  "percentage": 0.2184
+                },
+                "91-105": {
+                  "total": 10,
+                  "percentage": 0.1149
+                },
+                "106-120": {},
+                "": {
+                  "total": 1,
+                  "percentage": 0.0115
+                }
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {},
+                "46-60": {},
+                "61-75": {
+                  "total": 1,
+                  "percentage": 0.3333
+                },
+                "76-90": {},
+                "91-105": {
+                  "total": 2,
+                  "percentage": 0.6667000000000001
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {},
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 5,
+        "team": {
+          "id": 3588,
+          "name": "Eyüpspor",
+          "logo": "https://media.api-sports.io/football/teams/3588.png"
+        },
+        "league_points": 50,
+        "goals_difference": 15,
+        "group": "Süper Lig",
+        "form_string": "LWWLD",
+        "status": "same",
+        "coverage_percentage": {
+          "played": 31,
+          "win": 14,
+          "draw": 8,
+          "loss": 9,
+          "goals": {
+            "for": 48,
+            "against": 33
+          }
+        },
+        "home": {
+          "played": 15,
+          "win": 9,
+          "draw": 3,
+          "loss": 3,
+          "goals": {
+            "for": 30,
+            "against": 14
+          }
+        },
+        "away": {
+          "played": 16,
+          "win": 5,
+          "draw": 5,
+          "loss": 6,
+          "goals": {
+            "for": 18,
+            "against": 19
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    },
+    "away": {
+      "basic_info": {
+        "id": 645,
+        "name": "Galatasaray",
+        "logo": "https://media.api-sports.io/football/teams/645.png",
+        "statarea_id": 645
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 203,
+          "name": "Süper Lig",
+          "country": "Turkey",
+          "logo": "https://media.api-sports.io/football/leagues/203.png",
+          "flag": "https://media.api-sports.io/flags/tr.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 645,
+          "name": "Galatasaray",
+          "logo": "https://media.api-sports.io/football/teams/645.png"
+        },
+        "form_string": "WWWWWWDWWWWWDWWWWWDWWWWDDWWLWW",
+        "fixtures": {
+          "played": {
+            "home": 15,
+            "away": 15,
+            "total": 30
+          },
+          "wins": {
+            "home": 12,
+            "away": 12,
+            "total": 24
+          },
+          "draws": {
+            "home": 3,
+            "away": 2,
+            "total": 5
+          },
+          "losses": {
+            "home": 0,
+            "away": 1,
+            "total": 1
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 35,
+              "away": 36,
+              "total": 71
+            },
+            "average": {
+              "home": 2.3,
+              "away": 2.4,
+              "total": 2.4
+            },
+            "minute": {
+              "0-15": {
+                "total": 13,
+                "percentage": 0.19399999999999998
+              },
+              "16-30": {
+                "total": 11,
+                "percentage": 0.1642
+              },
+              "31-45": {
+                "total": 8,
+                "percentage": 0.11939999999999999
+              },
+              "46-60": {
+                "total": 18,
+                "percentage": 0.2687
+              },
+              "61-75": {
+                "total": 8,
+                "percentage": 0.11939999999999999
+              },
+              "76-90": {
+                "total": 8,
+                "percentage": 0.11939999999999999
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.0149
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 29,
+                "under": 1
+              },
+              "1.5": {
+                "over": 22,
+                "under": 8
+              },
+              "2.5": {
+                "over": 12,
+                "under": 18
+              },
+              "3.5": {
+                "over": 5,
+                "under": 25
+              },
+              "4.5": {
+                "over": 3,
+                "under": 27
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 14,
+              "away": 15,
+              "total": 29
+            },
+            "average": {
+              "home": 0.9,
+              "away": 1.0,
+              "total": 1.0
+            },
+            "minute": {
+              "0-15": {
+                "total": 2,
+                "percentage": 0.060599999999999994
+              },
+              "16-30": {
+                "total": 8,
+                "percentage": 0.24239999999999998
+              },
+              "31-45": {
+                "total": 2,
+                "percentage": 0.060599999999999994
+              },
+              "46-60": {
+                "total": 8,
+                "percentage": 0.24239999999999998
+              },
+              "61-75": {
+                "total": 4,
+                "percentage": 0.12119999999999999
+              },
+              "76-90": {
+                "total": 4,
+                "percentage": 0.12119999999999999
+              },
+              "91-105": {
+                "total": 5,
+                "percentage": 0.1515
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 19,
+                "under": 11
+              },
+              "1.5": {
+                "over": 7,
+                "under": 23
+              },
+              "2.5": {
+                "over": 3,
+                "under": 27
+              },
+              "3.5": {
+                "over": 0,
+                "under": 30
+              },
+              "4.5": {
+                "over": 0,
+                "under": 30
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 6,
+            "draws": 2,
+            "losses": 1
+          },
+          "wins": {
+            "home": "5-0",
+            "away": "1-5"
+          },
+          "losses": {
+            "away": "2-1"
+          },
+          "goals": {
+            "for": {
+              "home": 5,
+              "away": 5
+            },
+            "against": {
+              "home": 3,
+              "away": 3
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 7,
+          "away": 4,
+          "total": 11
+        },
+        "failed_to_score": {
+          "home": 1,
+          "away": 0,
+          "total": 1
+        },
+        "penalty": {
+          "scored": {
+            "total": 10,
+            "percentage": 0.9091
+          },
+          "missed": {
+            "total": 1,
+            "percentage": 0.0909
+          },
+          "total": 11
+        },
+        "lineups": [
+          {
+            "formation": "4-2-3-1",
+            "played": 23
+          },
+          {
+            "formation": "3-4-1-2",
+            "played": 5
+          },
+          {
+            "formation": "4-4-2",
+            "played": 1
+          },
+          {
+            "formation": "4-2-2-2",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {},
+            "16-30": {
+              "total": 8,
+              "percentage": 0.1096
+            },
+            "31-45": {
+              "total": 12,
+              "percentage": 0.16440000000000002
+            },
+            "46-60": {
+              "total": 13,
+              "percentage": 0.17809999999999998
+            },
+            "61-75": {
+              "total": 16,
+              "percentage": 0.2192
+            },
+            "76-90": {
+              "total": 13,
+              "percentage": 0.17809999999999998
+            },
+            "91-105": {
+              "total": 11,
+              "percentage": 0.1507
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {
+              "total": 1,
+              "percentage": 0.3333
+            },
+            "16-30": {},
+            "31-45": {
+              "total": 1,
+              "percentage": 0.3333
+            },
+            "46-60": {},
+            "61-75": {},
+            "76-90": {},
+            "91-105": {},
+            "106-120": {},
+            "": {
+              "total": 1,
+              "percentage": 0.3333
+            }
+          }
+        },
+        "predictions_snapshot": {
+          "id": 645,
+          "name": "Galatasaray",
+          "logo": "https://media.api-sports.io/football/teams/645.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.8,
+            "att": 0.69,
+            "def": 0.81,
+            "goals": {
+              "for": {
+                "total": 11,
+                "average": 2.2
+              },
+              "against": {
+                "total": 3,
+                "average": 0.6
+              }
+            }
+          },
+          "league": {
+            "form_string": "WWWWWWDWWWWWDWWWWWDWWWWDDWWLWW",
+            "fixtures": {
+              "played": {
+                "home": 15,
+                "away": 15,
+                "total": 30
+              },
+              "wins": {
+                "home": 12,
+                "away": 12,
+                "total": 24
+              },
+              "draws": {
+                "home": 3,
+                "away": 2,
+                "total": 5
+              },
+              "losses": {
+                "home": 0,
+                "away": 1,
+                "total": 1
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 35,
+                  "away": 36,
+                  "total": 71
+                },
+                "average": {
+                  "home": 2.3,
+                  "away": 2.4,
+                  "total": 2.4
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 13,
+                    "percentage": 0.19399999999999998
+                  },
+                  "16-30": {
+                    "total": 11,
+                    "percentage": 0.1642
+                  },
+                  "31-45": {
+                    "total": 8,
+                    "percentage": 0.11939999999999999
+                  },
+                  "46-60": {
+                    "total": 18,
+                    "percentage": 0.2687
+                  },
+                  "61-75": {
+                    "total": 8,
+                    "percentage": 0.11939999999999999
+                  },
+                  "76-90": {
+                    "total": 8,
+                    "percentage": 0.11939999999999999
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.0149
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 29,
+                    "under": 1
+                  },
+                  "1.5": {
+                    "over": 22,
+                    "under": 8
+                  },
+                  "2.5": {
+                    "over": 12,
+                    "under": 18
+                  },
+                  "3.5": {
+                    "over": 5,
+                    "under": 25
+                  },
+                  "4.5": {
+                    "over": 3,
+                    "under": 27
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 14,
+                  "away": 15,
+                  "total": 29
+                },
+                "average": {
+                  "home": 0.9,
+                  "away": 1.0,
+                  "total": 1.0
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 2,
+                    "percentage": 0.060599999999999994
+                  },
+                  "16-30": {
+                    "total": 8,
+                    "percentage": 0.24239999999999998
+                  },
+                  "31-45": {
+                    "total": 2,
+                    "percentage": 0.060599999999999994
+                  },
+                  "46-60": {
+                    "total": 8,
+                    "percentage": 0.24239999999999998
+                  },
+                  "61-75": {
+                    "total": 4,
+                    "percentage": 0.12119999999999999
+                  },
+                  "76-90": {
+                    "total": 4,
+                    "percentage": 0.12119999999999999
+                  },
+                  "91-105": {
+                    "total": 5,
+                    "percentage": 0.1515
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 19,
+                    "under": 11
+                  },
+                  "1.5": {
+                    "over": 7,
+                    "under": 23
+                  },
+                  "2.5": {
+                    "over": 3,
+                    "under": 27
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 30
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 30
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 6,
+                "draws": 2,
+                "losses": 1
+              },
+              "wins": {
+                "home": "5-0",
+                "away": "1-5"
+              },
+              "losses": {
+                "away": "2-1"
+              },
+              "goals": {
+                "for": {
+                  "home": 5,
+                  "away": 5
+                },
+                "against": {
+                  "home": 3,
+                  "away": 3
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 7,
+              "away": 4,
+              "total": 11
+            },
+            "failed_to_score": {
+              "home": 1,
+              "away": 0,
+              "total": 1
+            },
+            "penalty": {
+              "scored": {
+                "total": 10,
+                "percentage": 0.9091
+              },
+              "missed": {
+                "total": 1,
+                "percentage": 0.0909
+              },
+              "total": 11
+            },
+            "lineups": [
+              {
+                "formation": "4-2-3-1",
+                "played": 23
+              },
+              {
+                "formation": "3-4-1-2",
+                "played": 5
+              },
+              {
+                "formation": "4-4-2",
+                "played": 1
+              },
+              {
+                "formation": "4-2-2-2",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {},
+                "16-30": {
+                  "total": 8,
+                  "percentage": 0.1096
+                },
+                "31-45": {
+                  "total": 12,
+                  "percentage": 0.16440000000000002
+                },
+                "46-60": {
+                  "total": 13,
+                  "percentage": 0.17809999999999998
+                },
+                "61-75": {
+                  "total": 16,
+                  "percentage": 0.2192
+                },
+                "76-90": {
+                  "total": 13,
+                  "percentage": 0.17809999999999998
+                },
+                "91-105": {
+                  "total": 11,
+                  "percentage": 0.1507
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {
+                  "total": 1,
+                  "percentage": 0.3333
+                },
+                "16-30": {},
+                "31-45": {
+                  "total": 1,
+                  "percentage": 0.3333
+                },
+                "46-60": {},
+                "61-75": {},
+                "76-90": {},
+                "91-105": {},
+                "106-120": {},
+                "": {
+                  "total": 1,
+                  "percentage": 0.3333
+                }
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "Galatasaray",
+        "country": "Turkey",
+        "api_id": 645,
+        "game_type": "guest",
+        "period": 15,
+        "scrape_date": "2025-04-24T17:58:39.275406",
+        "scrape_date_utc": "2025-04-24T17:58:39.275000",
+        "content_hash": "78c710cfd3ded452ee241b24c180d601",
+        "general_statistics": {
+          "number of galatasaray wins": 9,
+          "number of galatasaray draws": 2,
+          "number of galatasaray losses": 4,
+          "Average goals_scored per match": 2.13,
+          "Average goals_conceded per match": 1.47,
+          "Chance to score goal next match": 0.93,
+          "Chance to conceded goal next match": 0.87,
+          "Number of clean_sheets matches": 2,
+          "failed_to_score matches": 1,
+          "over 2.5 goals in": 12,
+          "under 2.5 goals in": 3,
+          "Time without scored goal": "0 min.",
+          "Time without conceded goal": "37 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "Galatasaray": 0.6,
+            "draw": 0.13,
+            "opponent": 0.27
+          },
+          "halftime bet_1x2_probabilities": {
+            "Galatasaray": 0.53,
+            "draw": 0.13,
+            "opponent": 0.33
+          },
+          "second half bet_1x2_probabilities": {
+            "Galatasaray": 0.47,
+            "draw": 0.27,
+            "opponent": 0.27
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.93,
+            "under": 0.07
+          },
+          "over/under 1.5 goals for galatasaray only": {
+            "over": 0.6,
+            "under": 0.4
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.8,
+            "under": 0.2
+          },
+          "over/under 2.5 goals for galatasaray only": {
+            "over": 0.27,
+            "under": 0.73
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.33,
+            "under": 0.67
+          },
+          "over/under 3.5 goals for galatasaray only": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.07,
+            "2-3": 0.6,
+            "4+": 0.33
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.8,
+            "only one": 0.2,
+            "neither": 0.0
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.67,
+            "even": 0.33
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.17,
+            "16-30 min.": 0.17,
+            "31-45 min.": 0.11,
+            "46-60 min.": 0.26,
+            "61-75 min.": 0.17,
+            "76-90 min.": 0.13
+          },
+          "Galatasaray goals only": {
+            "0-15 min.": 0.16,
+            "16-30 min.": 0.16,
+            "31-45 min.": 0.13,
+            "46-60 min.": 0.25,
+            "61-75 min.": 0.19,
+            "76-90 min.": 0.13
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.27,
+            "11-20 min.": 0.27,
+            "21-30 min.": 0.33,
+            "31-40 min.": 0.0,
+            "41-50 min.": 0.13,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.0
+          },
+          "time of first galatasaray goal": {
+            "0-10 min.": 0.2,
+            "11-20 min.": 0.2,
+            "21-30 min.": 0.13,
+            "31-40 min.": 0.0,
+            "41-50 min.": 0.2,
+            "51-60 min.": 0.13,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.07,
+            "without goal": 0.07
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "Galatasaray": 0.53,
+            "opponent": 0.47,
+            "without goal": 0.0
+          },
+          "win after 15 minutes": {
+            "Galatasaray": 0.27,
+            "opponent": 0.2,
+            "draw": 0.53
+          },
+          "win after 30 minutes": {
+            "Galatasaray": 0.4,
+            "opponent": 0.33,
+            "draw": 0.27
+          },
+          "bet_halftime_result_probabilities": {
+            "Galatasaray": 0.53,
+            "opponent": 0.33,
+            "draw": 0.13
+          },
+          "win after 60 minutes": {
+            "Galatasaray": 0.47,
+            "opponent": 0.2,
+            "draw": 0.33
+          },
+          "win after 75 minutes": {
+            "Galatasaray": 0.6,
+            "opponent": 0.27,
+            "draw": 0.13
+          },
+          "bet_fulltime_result_probabilities": {
+            "Galatasaray": 0.6,
+            "opponent": 0.27,
+            "draw": 0.13
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.6,
+            "2-3 goals": 0.27,
+            "4+ goals": 0.13
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.27,
+            "second half": 0.6,
+            "tie": 0.13
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-22",
+            "competition": "Turkey - Fa Cup 2024/2025",
+            "opponent": "Konyaspor",
+            "team_goals": 5,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-04-11",
+            "competition": "Turkey - Super Lig 2024/2025",
+            "opponent": "Samsunspor",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-04-02",
+            "competition": "Turkey - Fa Cup 2024/2025",
+            "opponent": "Fenerbahce",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-29",
+            "competition": "Turkey - Super Lig 2024/2025",
+            "opponent": "Besiktas",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-09",
+            "competition": "Turkey - Super Lig 2024/2025",
+            "opponent": "Alanyaspor",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-02",
+            "competition": "Turkey - Super Lig 2024/2025",
+            "opponent": "Kasimpasa",
+            "team_goals": 3,
+            "opponent_goals": 3,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-17",
+            "competition": "Turkey - Super Lig 2024/2025",
+            "opponent": "Rizespor",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-13",
+            "competition": "Europe (uefa) - Uefa Europa League 2024/2025",
+            "opponent": "AZ Alkmaar",
+            "team_goals": 1,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-06",
+            "competition": "Turkey - Group Stage 2024/2025",
+            "opponent": "Boluspor",
+            "team_goals": 4,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-03",
+            "competition": "Turkey - Super Lig 2024/2025",
+            "opponent": "Gaziantep FK",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-30",
+            "competition": "Europe (uefa) - Uefa Europa League 2024/2025",
+            "opponent": "Ajax",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-17",
+            "competition": "Turkey - Super Lig 2024/2025",
+            "opponent": "Hatayspor",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-12",
+            "competition": "Turkey - Super Lig 2024/2025",
+            "opponent": "Istanbul Basaksehir",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-22",
+            "competition": "Turkey - Super Lig 2024/2025",
+            "opponent": "Kayserispor",
+            "team_goals": 5,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-17",
+            "competition": "Europe (uefa) - Group Stage 2024/2025",
+            "opponent": "AS Roma (w)",
+            "team_goals": 0,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-24T17:00:32.636000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 1,
+        "team": {
+          "id": 645,
+          "name": "Galatasaray",
+          "logo": "https://media.api-sports.io/football/teams/645.png"
+        },
+        "league_points": 77,
+        "goals_difference": 44,
+        "group": "Süper Lig",
+        "form_string": "WWLWW",
+        "status": "same",
+        "description": "Promotion - Champions League (League phase: )",
+        "coverage_percentage": {
+          "played": 30,
+          "win": 24,
+          "draw": 5,
+          "loss": 1,
+          "goals": {
+            "for": 73,
+            "against": 29
+          }
+        },
+        "home": {
+          "played": 15,
+          "win": 12,
+          "draw": 3,
+          "loss": 0,
+          "goals": {
+            "for": 37,
+            "against": 14
+          }
+        },
+        "away": {
+          "played": 15,
+          "win": 12,
+          "draw": 2,
+          "loss": 1,
+          "goals": {
+            "for": 36,
+            "against": 15
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    }
+  },
+  "goals": {}
+}

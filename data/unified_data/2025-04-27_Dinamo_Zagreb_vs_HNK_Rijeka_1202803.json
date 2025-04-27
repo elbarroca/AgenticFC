@@ -1,0 +1,1910 @@
+{
+  "fixture_id": 1202803,
+  "match_date": "2025-04-27",
+  "league": {
+    "id": "None",
+    "statarea_id": "unknown"
+  },
+  "engineered_features": {
+    "home": {
+      "team_id": 620,
+      "team_name": "Dinamo Zagreb",
+      "team_statarea_id": "unknown",
+      "base_league_id": "None",
+      "proc_league_id": 210,
+      "proc_league_name": "HNL",
+      "proc_league_country": "Croatia",
+      "proc_league_season": 2024,
+      "proc_team_id": 620,
+      "proc_team_name": "Dinamo Zagreb",
+      "weather_temp_celsius": 16.4,
+      "weather_temp_feels_like_celsius": 15.71,
+      "weather_pressure_hpa": 1024,
+      "weather_humidity_pct": 62,
+      "weather_wind_speed_mps": 2,
+      "weather_wind_direction_deg": 44,
+      "weather_cloud_coverage_pct": 14,
+      "weather_precipitation_probability": 0,
+      "weather_description": "few clouds",
+      "weather_condition_main": "Clouds",
+      "standings_league_rank": 3,
+      "standings_league_points": 52,
+      "standings_goals_difference": 19,
+      "standings_form_string": "LWWLD",
+      "standings_group_name": "HNL",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 9,
+          "proc_goals_scored_min_0_15_pct": 0.1552,
+          "proc_goals_scored_min_16_30_count": 11,
+          "proc_goals_scored_min_16_30_pct": 0.1897,
+          "proc_goals_scored_min_31_45_count": 7,
+          "proc_goals_scored_min_31_45_pct": 0.1207,
+          "proc_goals_scored_min_46_60_count": 11,
+          "proc_goals_scored_min_46_60_pct": 0.1897,
+          "proc_goals_scored_min_61_75_count": 8,
+          "proc_goals_scored_min_61_75_pct": 0.1379,
+          "proc_goals_scored_min_76_90_count": 7,
+          "proc_goals_scored_min_76_90_pct": 0.1207,
+          "proc_goals_scored_min_91_105_count": 4,
+          "proc_goals_scored_min_91_105_pct": 0.069
+        },
+        "card_stats": {
+          "yellow_avg": 1.839,
+          "red_avg": 0.129
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.6,
+          "proc_penalty_missed_pct": 0.4,
+          "proc_penalty_total_taken": 5
+        }
+      }
+    },
+    "away": {
+      "team_id": 561,
+      "team_name": "HNK Rijeka",
+      "team_statarea_id": 561,
+      "base_league_id": "None",
+      "proc_league_id": 210,
+      "proc_league_name": "HNL",
+      "proc_league_country": "Croatia",
+      "proc_league_season": 2024,
+      "proc_team_id": 561,
+      "proc_team_name": "HNK Rijeka",
+      "weather_temp_celsius": 16.4,
+      "weather_temp_feels_like_celsius": 15.71,
+      "weather_pressure_hpa": 1024,
+      "weather_humidity_pct": 62,
+      "weather_wind_speed_mps": 2,
+      "weather_wind_direction_deg": 44,
+      "weather_cloud_coverage_pct": 14,
+      "weather_precipitation_probability": 0,
+      "weather_description": "few clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "guest",
+      "hist_away_matches_played": 15,
+      "hist_away_average_goals_scored": 1.267,
+      "hist_away_average_goals_conceded": 0.733,
+      "hist_away_win_rate": 0.467,
+      "hist_away_draw_rate": 0.333,
+      "hist_away_loss_rate": 0.2,
+      "hist_away_both_teams_scored_rate": 0.333,
+      "hist_away_clean_sheet_rate": 0.533,
+      "hist_away_failed_to_score_rate": 0.267,
+      "hist_away_average_goal_difference": 0.533,
+      "hist_away_over_0_5_goals_rate": 0.867,
+      "hist_away_over_1_5_goals_rate": 0.6,
+      "hist_away_over_2_5_goals_rate": 0.333,
+      "hist_away_over_3_5_goals_rate": 0.2,
+      "hist_away_over_4_5_goals_rate": 0.0,
+      "hist_away_form_string": "LWLDWWLDWDWDWWD",
+      "hist_away_form_rating_points_pct": 0.578,
+      "hist_overall_l5_form_string": "LWLDW",
+      "hist_overall_l5_form_rating_points_pct": 0.467,
+      "hist_away_l3_form_string": "LWL",
+      "hist_away_l3_form_rating_points_pct": 0.333,
+      "hist_away_l3_avg_scored": 0.667,
+      "hist_away_l3_avg_conceded": 1.333,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "L 0-2 vs Istra 1961 (away)",
+          "W 1-0 vs NK Lokomotiva Zagreb (away)",
+          "L 1-2 vs NK Slaven Belupo (away)",
+          "D 0-0 vs HNK Gorica (away)",
+          "W 3-1 vs HNK Hajduk Split (away)"
+        ],
+        "away_l3_matches": [
+          "L 0-2 vs Istra 1961",
+          "W 1-0 vs NK Lokomotiva Zagreb",
+          "L 1-2 vs NK Slaven Belupo"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 7,
+      "hist_perf_by_result_win_avg_scored": 1.857,
+      "hist_perf_by_result_win_avg_conceded": 0.143,
+      "hist_perf_by_result_draw_matches": 5,
+      "hist_perf_by_result_draw_avg_scored": 1.0,
+      "hist_perf_by_result_draw_avg_conceded": 1.0,
+      "hist_perf_by_result_loss_matches": 3,
+      "hist_perf_by_result_loss_avg_scored": 0.333,
+      "hist_perf_by_result_loss_avg_conceded": 1.667,
+      "standings_league_rank": 1,
+      "standings_league_points": 56,
+      "standings_goals_difference": 26,
+      "standings_form_string": "LLWWL",
+      "standings_group_name": "HNL",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 6,
+          "proc_goals_scored_min_0_15_pct": 0.1395,
+          "proc_goals_scored_min_16_30_count": 11,
+          "proc_goals_scored_min_16_30_pct": 0.2558,
+          "proc_goals_scored_min_31_45_count": 5,
+          "proc_goals_scored_min_31_45_pct": 0.1163,
+          "proc_goals_scored_min_46_60_count": 9,
+          "proc_goals_scored_min_46_60_pct": 0.2093,
+          "proc_goals_scored_min_61_75_count": 4,
+          "proc_goals_scored_min_61_75_pct": 0.093,
+          "proc_goals_scored_min_76_90_count": 6,
+          "proc_goals_scored_min_76_90_pct": 0.1395,
+          "proc_goals_scored_min_91_105_count": 1,
+          "proc_goals_scored_min_91_105_pct": 0.0233
+        },
+        "card_stats": {
+          "yellow_avg": 2.032,
+          "red_avg": 0.129
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.5,
+          "proc_penalty_missed_pct": 0.5,
+          "proc_penalty_total_taken": 2
+        }
+      }
+    }
+  },
+  "model_input_features": {
+    "eng_h_team_id": 620.0,
+    "eng_h_proc_league_id": 210.0,
+    "eng_h_proc_league_season": 2024.0,
+    "eng_h_proc_team_id": 620.0,
+    "eng_h_weather_temp_celsius": 16.4,
+    "eng_h_weather_temp_feels_like_celsius": 15.71,
+    "eng_h_weather_pressure_hpa": 1024.0,
+    "eng_h_weather_humidity_pct": 62.0,
+    "eng_h_weather_wind_speed_mps": 2.0,
+    "eng_h_weather_wind_direction_deg": 44.0,
+    "eng_h_weather_cloud_coverage_pct": 14.0,
+    "eng_h_weather_precipitation_probability": 0.0,
+    "eng_h_weather_condition_main": "Clouds",
+    "eng_h_standings_league_rank": 3.0,
+    "eng_h_standings_league_points": 52.0,
+    "eng_h_standings_goals_difference": 19.0,
+    "eng_a_team_id": 561.0,
+    "eng_a_team_statarea_id": 561.0,
+    "eng_a_proc_league_id": 210.0,
+    "eng_a_proc_league_season": 2024.0,
+    "eng_a_proc_team_id": 561.0,
+    "eng_a_weather_temp_celsius": 16.4,
+    "eng_a_weather_temp_feels_like_celsius": 15.71,
+    "eng_a_weather_pressure_hpa": 1024.0,
+    "eng_a_weather_humidity_pct": 62.0,
+    "eng_a_weather_wind_speed_mps": 2.0,
+    "eng_a_weather_wind_direction_deg": 44.0,
+    "eng_a_weather_cloud_coverage_pct": 14.0,
+    "eng_a_weather_precipitation_probability": 0.0,
+    "eng_a_weather_condition_main": "Clouds",
+    "eng_a_match_history_source": "statarea",
+    "eng_a_match_history_games_analyzed": 15.0,
+    "eng_a_match_history_venue_context": "guest",
+    "eng_a_hist_away_matches_played": 15.0,
+    "eng_a_hist_away_average_goals_scored": 1.267,
+    "eng_a_hist_away_average_goals_conceded": 0.733,
+    "eng_a_hist_away_win_rate": 0.467,
+    "eng_a_hist_away_draw_rate": 0.333,
+    "eng_a_hist_away_loss_rate": 0.2,
+    "eng_a_hist_away_both_teams_scored_rate": 0.333,
+    "eng_a_hist_away_clean_sheet_rate": 0.533,
+    "eng_a_hist_away_failed_to_score_rate": 0.267,
+    "eng_a_hist_away_average_goal_difference": 0.533,
+    "eng_a_hist_away_over_0_5_goals_rate": 0.867,
+    "eng_a_hist_away_over_1_5_goals_rate": 0.6,
+    "eng_a_hist_away_over_2_5_goals_rate": 0.333,
+    "eng_a_hist_away_over_3_5_goals_rate": 0.2,
+    "eng_a_hist_away_over_4_5_goals_rate": 0.0,
+    "eng_a_hist_away_form_rating_points_pct": 0.578,
+    "eng_a_hist_overall_l5_form_rating_points_pct": 0.467,
+    "eng_a_hist_away_l3_form_rating_points_pct": 0.333,
+    "eng_a_hist_away_l3_avg_scored": 0.667,
+    "eng_a_hist_away_l3_avg_conceded": 1.333,
+    "eng_a_hist_perf_by_result_win_matches": 7.0,
+    "eng_a_hist_perf_by_result_win_avg_scored": 1.857,
+    "eng_a_hist_perf_by_result_win_avg_conceded": 0.143,
+    "eng_a_hist_perf_by_result_draw_matches": 5.0,
+    "eng_a_hist_perf_by_result_draw_avg_scored": 1.0,
+    "eng_a_hist_perf_by_result_draw_avg_conceded": 1.0,
+    "eng_a_hist_perf_by_result_loss_matches": 3.0,
+    "eng_a_hist_perf_by_result_loss_avg_scored": 0.333,
+    "eng_a_hist_perf_by_result_loss_avg_conceded": 1.667,
+    "eng_a_standings_league_rank": 1.0,
+    "eng_a_standings_league_points": 56.0,
+    "eng_a_standings_goals_difference": 26.0,
+    "eng_diff_weather_temp_celsius": 0.0,
+    "eng_ratio_weather_temp_celsius": 1.0,
+    "eng_diff_weather_humidity_pct": 0.0,
+    "eng_ratio_weather_humidity_pct": 1.0,
+    "eng_diff_proc_team_id": 59.0,
+    "eng_ratio_proc_team_id": 1.1051693404634582,
+    "eng_diff_proc_league_season": 0.0,
+    "eng_ratio_proc_league_season": 1.0,
+    "eng_diff_weather_precipitation_probability": 0.0,
+    "eng_ratio_weather_precipitation_probability": -998.0,
+    "eng_diff_team_id": 59.0,
+    "eng_ratio_team_id": 1.1051693404634582,
+    "eng_diff_weather_temp_feels_like_celsius": 0.0,
+    "eng_ratio_weather_temp_feels_like_celsius": 1.0,
+    "eng_diff_standings_goals_difference": -7.0,
+    "eng_ratio_standings_goals_difference": 0.7307692307692307,
+    "eng_diff_weather_wind_speed_mps": 0.0,
+    "eng_ratio_weather_wind_speed_mps": 1.0,
+    "eng_diff_weather_pressure_hpa": 0.0,
+    "eng_ratio_weather_pressure_hpa": 1.0,
+    "eng_diff_weather_condition_main": -999.0,
+    "eng_ratio_weather_condition_main": -999.0,
+    "eng_diff_standings_league_points": -4.0,
+    "eng_ratio_standings_league_points": 0.9285714285714286,
+    "eng_diff_standings_league_rank": 2.0,
+    "eng_ratio_standings_league_rank": 3.0,
+    "eng_diff_weather_cloud_coverage_pct": 0.0,
+    "eng_ratio_weather_cloud_coverage_pct": 1.0,
+    "eng_diff_weather_wind_direction_deg": 0.0,
+    "eng_ratio_weather_wind_direction_deg": 1.0,
+    "eng_diff_proc_league_id": 0.0,
+    "eng_ratio_proc_league_id": 1.0
+  },
+  "fixture_meta": {
+    "id": 1202803,
+    "date_utc": "2025-04-27T16:45:00+00:00",
+    "timestamp_utc": 1745772300,
+    "referee": "P. Kolarić",
+    "venue": {
+      "name": "Stadion Maksimir",
+      "city": "Zagreb"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "dt": 1745776800,
+      "main": {
+        "temperature": 16.4,
+        "temperature_feels_like": 15.71,
+        "temperature_min": 15.19,
+        "temperature_max": 16.4,
+        "air_pressure": 1024,
+        "pressure_sea_level": 1024,
+        "pressure_ground_level": 1005,
+        "humidity": 62,
+        "temp_kf": 1.21
+      },
+      "weather": [
+        {
+          "id": 801,
+          "main": "Clouds",
+          "description": "few clouds",
+          "icon": "02n"
+        }
+      ],
+      "clouds": {
+        "coverage_percentage": 14
+      },
+      "wind": {
+        "speed_mps": 2,
+        "direction_degrees": 44,
+        "gust": 4.9
+      },
+      "visibility": 10000,
+      "probability_of_precipitation": 0,
+      "sys": {
+        "pod": "n"
+      },
+      "dt_txt": "2025-04-27 18:00:00",
+      "city": {
+        "name": "Donji grad",
+        "country": "HR"
+      },
+      "summary": "Clouds: few clouds, Temp: 16.4°C"
+    }
+  },
+  "raw_data": {
+    "home": {
+      "basic_info": {
+        "id": 620,
+        "name": "Dinamo Zagreb",
+        "logo": "https://media.api-sports.io/football/teams/620.png",
+        "statarea_id": "unknown"
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 210,
+          "name": "HNL",
+          "country": "Croatia",
+          "logo": "https://media.api-sports.io/football/leagues/210.png",
+          "flag": "https://media.api-sports.io/flags/hr.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 620,
+          "name": "Dinamo Zagreb",
+          "logo": "https://media.api-sports.io/football/teams/620.png"
+        },
+        "form_string": "WWWWDLLWWDLWDDLDLWWLWWLDWWDLWWL",
+        "fixtures": {
+          "played": {
+            "home": 15,
+            "away": 16,
+            "total": 31
+          },
+          "wins": {
+            "home": 10,
+            "away": 5,
+            "total": 15
+          },
+          "draws": {
+            "home": 3,
+            "away": 4,
+            "total": 7
+          },
+          "losses": {
+            "home": 2,
+            "away": 7,
+            "total": 9
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 37,
+              "away": 21,
+              "total": 58
+            },
+            "average": {
+              "home": 2.5,
+              "away": 1.3,
+              "total": 1.9
+            },
+            "minute": {
+              "0-15": {
+                "total": 9,
+                "percentage": 0.15789999999999998
+              },
+              "16-30": {
+                "total": 11,
+                "percentage": 0.193
+              },
+              "31-45": {
+                "total": 7,
+                "percentage": 0.12279999999999999
+              },
+              "46-60": {
+                "total": 11,
+                "percentage": 0.193
+              },
+              "61-75": {
+                "total": 8,
+                "percentage": 0.1404
+              },
+              "76-90": {
+                "total": 7,
+                "percentage": 0.12279999999999999
+              },
+              "91-105": {
+                "total": 4,
+                "percentage": 0.0702
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 25,
+                "under": 6
+              },
+              "1.5": {
+                "over": 17,
+                "under": 14
+              },
+              "2.5": {
+                "over": 10,
+                "under": 21
+              },
+              "3.5": {
+                "over": 4,
+                "under": 27
+              },
+              "4.5": {
+                "over": 2,
+                "under": 29
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 14,
+              "away": 25,
+              "total": 39
+            },
+            "average": {
+              "home": 0.9,
+              "away": 1.6,
+              "total": 1.3
+            },
+            "minute": {
+              "0-15": {
+                "total": 4,
+                "percentage": 0.1
+              },
+              "16-30": {
+                "total": 6,
+                "percentage": 0.15
+              },
+              "31-45": {
+                "total": 7,
+                "percentage": 0.175
+              },
+              "46-60": {
+                "total": 11,
+                "percentage": 0.275
+              },
+              "61-75": {
+                "total": 6,
+                "percentage": 0.15
+              },
+              "76-90": {
+                "total": 3,
+                "percentage": 0.075
+              },
+              "91-105": {
+                "total": 3,
+                "percentage": 0.075
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 21,
+                "under": 10
+              },
+              "1.5": {
+                "over": 10,
+                "under": 21
+              },
+              "2.5": {
+                "over": 5,
+                "under": 26
+              },
+              "3.5": {
+                "over": 3,
+                "under": 28
+              },
+              "4.5": {
+                "over": 0,
+                "under": 31
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 4,
+            "draws": 2,
+            "losses": 2
+          },
+          "wins": {
+            "home": "5-0",
+            "away": "0-4"
+          },
+          "losses": {
+            "home": "2-4",
+            "away": "4-0"
+          },
+          "goals": {
+            "for": {
+              "home": 5,
+              "away": 4
+            },
+            "against": {
+              "home": 4,
+              "away": 4
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 6,
+          "away": 4,
+          "total": 10
+        },
+        "failed_to_score": {
+          "home": 2,
+          "away": 4,
+          "total": 6
+        },
+        "penalty": {
+          "scored": {
+            "total": 3,
+            "percentage": 0.6
+          },
+          "missed": {
+            "total": 2,
+            "percentage": 0.4
+          },
+          "total": 5
+        },
+        "lineups": [
+          {
+            "formation": "4-2-3-1",
+            "played": 15
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 7
+          },
+          {
+            "formation": "3-4-2-1",
+            "played": 4
+          },
+          {
+            "formation": "3-5-2",
+            "played": 3
+          },
+          {
+            "formation": "3-4-1-2",
+            "played": 1
+          },
+          {
+            "formation": "4-3-3",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {},
+            "16-30": {
+              "total": 8,
+              "percentage": 0.1404
+            },
+            "31-45": {
+              "total": 8,
+              "percentage": 0.1404
+            },
+            "46-60": {
+              "total": 15,
+              "percentage": 0.2632
+            },
+            "61-75": {
+              "total": 9,
+              "percentage": 0.15789999999999998
+            },
+            "76-90": {
+              "total": 8,
+              "percentage": 0.1404
+            },
+            "91-105": {
+              "total": 7,
+              "percentage": 0.12279999999999999
+            },
+            "106-120": {},
+            "": {
+              "total": 2,
+              "percentage": 0.0351
+            }
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {
+              "total": 1,
+              "percentage": 0.25
+            },
+            "46-60": {},
+            "61-75": {
+              "total": 1,
+              "percentage": 0.25
+            },
+            "76-90": {
+              "total": 1,
+              "percentage": 0.25
+            },
+            "91-105": {
+              "total": 1,
+              "percentage": 0.25
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 620,
+          "name": "Dinamo Zagreb",
+          "logo": "https://media.api-sports.io/football/teams/620.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.47,
+            "att": 0.7,
+            "def": 0.5,
+            "goals": {
+              "for": {
+                "total": 7,
+                "average": 1.4
+              },
+              "against": {
+                "total": 5,
+                "average": 1.0
+              }
+            }
+          },
+          "league": {
+            "form_string": "WWWWDLLWWDLWDDLDLWWLWWLDWWDLWWL",
+            "fixtures": {
+              "played": {
+                "home": 15,
+                "away": 16,
+                "total": 31
+              },
+              "wins": {
+                "home": 10,
+                "away": 5,
+                "total": 15
+              },
+              "draws": {
+                "home": 3,
+                "away": 4,
+                "total": 7
+              },
+              "losses": {
+                "home": 2,
+                "away": 7,
+                "total": 9
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 37,
+                  "away": 21,
+                  "total": 58
+                },
+                "average": {
+                  "home": 2.5,
+                  "away": 1.3,
+                  "total": 1.9
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 9,
+                    "percentage": 0.15789999999999998
+                  },
+                  "16-30": {
+                    "total": 11,
+                    "percentage": 0.193
+                  },
+                  "31-45": {
+                    "total": 7,
+                    "percentage": 0.12279999999999999
+                  },
+                  "46-60": {
+                    "total": 11,
+                    "percentage": 0.193
+                  },
+                  "61-75": {
+                    "total": 8,
+                    "percentage": 0.1404
+                  },
+                  "76-90": {
+                    "total": 7,
+                    "percentage": 0.12279999999999999
+                  },
+                  "91-105": {
+                    "total": 4,
+                    "percentage": 0.0702
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 25,
+                    "under": 6
+                  },
+                  "1.5": {
+                    "over": 17,
+                    "under": 14
+                  },
+                  "2.5": {
+                    "over": 10,
+                    "under": 21
+                  },
+                  "3.5": {
+                    "over": 4,
+                    "under": 27
+                  },
+                  "4.5": {
+                    "over": 2,
+                    "under": 29
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 14,
+                  "away": 25,
+                  "total": 39
+                },
+                "average": {
+                  "home": 0.9,
+                  "away": 1.6,
+                  "total": 1.3
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 4,
+                    "percentage": 0.1
+                  },
+                  "16-30": {
+                    "total": 6,
+                    "percentage": 0.15
+                  },
+                  "31-45": {
+                    "total": 7,
+                    "percentage": 0.175
+                  },
+                  "46-60": {
+                    "total": 11,
+                    "percentage": 0.275
+                  },
+                  "61-75": {
+                    "total": 6,
+                    "percentage": 0.15
+                  },
+                  "76-90": {
+                    "total": 3,
+                    "percentage": 0.075
+                  },
+                  "91-105": {
+                    "total": 3,
+                    "percentage": 0.075
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 21,
+                    "under": 10
+                  },
+                  "1.5": {
+                    "over": 10,
+                    "under": 21
+                  },
+                  "2.5": {
+                    "over": 5,
+                    "under": 26
+                  },
+                  "3.5": {
+                    "over": 3,
+                    "under": 28
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 31
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 4,
+                "draws": 2,
+                "losses": 2
+              },
+              "wins": {
+                "home": "5-0",
+                "away": "0-4"
+              },
+              "losses": {
+                "home": "2-4",
+                "away": "4-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 5,
+                  "away": 4
+                },
+                "against": {
+                  "home": 4,
+                  "away": 4
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 6,
+              "away": 4,
+              "total": 10
+            },
+            "failed_to_score": {
+              "home": 2,
+              "away": 4,
+              "total": 6
+            },
+            "penalty": {
+              "scored": {
+                "total": 3,
+                "percentage": 0.6
+              },
+              "missed": {
+                "total": 2,
+                "percentage": 0.4
+              },
+              "total": 5
+            },
+            "lineups": [
+              {
+                "formation": "4-2-3-1",
+                "played": 15
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 7
+              },
+              {
+                "formation": "3-4-2-1",
+                "played": 4
+              },
+              {
+                "formation": "3-5-2",
+                "played": 3
+              },
+              {
+                "formation": "3-4-1-2",
+                "played": 1
+              },
+              {
+                "formation": "4-3-3",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {},
+                "16-30": {
+                  "total": 8,
+                  "percentage": 0.1404
+                },
+                "31-45": {
+                  "total": 8,
+                  "percentage": 0.1404
+                },
+                "46-60": {
+                  "total": 15,
+                  "percentage": 0.2632
+                },
+                "61-75": {
+                  "total": 9,
+                  "percentage": 0.15789999999999998
+                },
+                "76-90": {
+                  "total": 8,
+                  "percentage": 0.1404
+                },
+                "91-105": {
+                  "total": 7,
+                  "percentage": 0.12279999999999999
+                },
+                "106-120": {},
+                "": {
+                  "total": 2,
+                  "percentage": 0.0351
+                }
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {
+                  "total": 1,
+                  "percentage": 0.25
+                },
+                "46-60": {},
+                "61-75": {
+                  "total": 1,
+                  "percentage": 0.25
+                },
+                "76-90": {
+                  "total": 1,
+                  "percentage": 0.25
+                },
+                "91-105": {
+                  "total": 1,
+                  "percentage": 0.25
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {},
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 3,
+        "team": {
+          "id": 620,
+          "name": "Dinamo Zagreb",
+          "logo": "https://media.api-sports.io/football/teams/620.png"
+        },
+        "league_points": 52,
+        "goals_difference": 19,
+        "group": "HNL",
+        "form_string": "LWWLD",
+        "status": "same",
+        "description": "UEFA Conference League Qualifiers",
+        "coverage_percentage": {
+          "played": 31,
+          "win": 15,
+          "draw": 7,
+          "loss": 9,
+          "goals": {
+            "for": 58,
+            "against": 39
+          }
+        },
+        "home": {
+          "played": 15,
+          "win": 10,
+          "draw": 3,
+          "loss": 2,
+          "goals": {
+            "for": 37,
+            "against": 14
+          }
+        },
+        "away": {
+          "played": 16,
+          "win": 5,
+          "draw": 4,
+          "loss": 7,
+          "goals": {
+            "for": 21,
+            "against": 25
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    },
+    "away": {
+      "basic_info": {
+        "id": 561,
+        "name": "HNK Rijeka",
+        "logo": "https://media.api-sports.io/football/teams/561.png",
+        "statarea_id": 561
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 210,
+          "name": "HNL",
+          "country": "Croatia",
+          "logo": "https://media.api-sports.io/football/leagues/210.png",
+          "flag": "https://media.api-sports.io/flags/hr.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 561,
+          "name": "HNK Rijeka",
+          "logo": "https://media.api-sports.io/football/teams/561.png"
+        },
+        "form_string": "WDWWDWWDDDDWDDWWDWWLLWWDDWLWWLL",
+        "fixtures": {
+          "played": {
+            "home": 16,
+            "away": 15,
+            "total": 31
+          },
+          "wins": {
+            "home": 9,
+            "away": 6,
+            "total": 15
+          },
+          "draws": {
+            "home": 5,
+            "away": 6,
+            "total": 11
+          },
+          "losses": {
+            "home": 2,
+            "away": 3,
+            "total": 5
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 30,
+              "away": 13,
+              "total": 43
+            },
+            "average": {
+              "home": 1.9,
+              "away": 0.9,
+              "total": 1.4
+            },
+            "minute": {
+              "0-15": {
+                "total": 6,
+                "percentage": 0.1429
+              },
+              "16-30": {
+                "total": 11,
+                "percentage": 0.2619
+              },
+              "31-45": {
+                "total": 5,
+                "percentage": 0.11900000000000001
+              },
+              "46-60": {
+                "total": 9,
+                "percentage": 0.2143
+              },
+              "61-75": {
+                "total": 4,
+                "percentage": 0.09519999999999999
+              },
+              "76-90": {
+                "total": 6,
+                "percentage": 0.1429
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.023799999999999998
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 22,
+                "under": 9
+              },
+              "1.5": {
+                "over": 11,
+                "under": 20
+              },
+              "2.5": {
+                "over": 6,
+                "under": 25
+              },
+              "3.5": {
+                "over": 4,
+                "under": 27
+              },
+              "4.5": {
+                "over": 0,
+                "under": 31
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 8,
+              "away": 9,
+              "total": 17
+            },
+            "average": {
+              "home": 0.5,
+              "away": 0.6,
+              "total": 0.5
+            },
+            "minute": {
+              "0-15": {
+                "total": 1,
+                "percentage": 0.0556
+              },
+              "16-30": {
+                "total": 4,
+                "percentage": 0.22219999999999998
+              },
+              "31-45": {
+                "total": 6,
+                "percentage": 0.3333
+              },
+              "46-60": {
+                "total": 2,
+                "percentage": 0.11109999999999999
+              },
+              "61-75": {
+                "total": 3,
+                "percentage": 0.16670000000000001
+              },
+              "76-90": {
+                "total": 1,
+                "percentage": 0.0556
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.0556
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 12,
+                "under": 19
+              },
+              "1.5": {
+                "over": 5,
+                "under": 26
+              },
+              "2.5": {
+                "over": 0,
+                "under": 31
+              },
+              "3.5": {
+                "over": 0,
+                "under": 31
+              },
+              "4.5": {
+                "over": 0,
+                "under": 31
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 2,
+            "draws": 4,
+            "losses": 2
+          },
+          "wins": {
+            "home": "4-0",
+            "away": "0-2"
+          },
+          "losses": {
+            "home": "0-2",
+            "away": "2-0"
+          },
+          "goals": {
+            "for": {
+              "home": 4,
+              "away": 2
+            },
+            "against": {
+              "home": 2,
+              "away": 2
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 9,
+          "away": 10,
+          "total": 19
+        },
+        "failed_to_score": {
+          "home": 3,
+          "away": 6,
+          "total": 9
+        },
+        "penalty": {
+          "scored": {
+            "total": 1,
+            "percentage": 0.5
+          },
+          "missed": {
+            "total": 1,
+            "percentage": 0.5
+          },
+          "total": 2
+        },
+        "lineups": [
+          {
+            "formation": "4-1-4-1",
+            "played": 16
+          },
+          {
+            "formation": "4-2-3-1",
+            "played": 14
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 4,
+              "percentage": 0.0635
+            },
+            "16-30": {
+              "total": 11,
+              "percentage": 0.1746
+            },
+            "31-45": {
+              "total": 9,
+              "percentage": 0.1429
+            },
+            "46-60": {
+              "total": 11,
+              "percentage": 0.1746
+            },
+            "61-75": {
+              "total": 12,
+              "percentage": 0.1905
+            },
+            "76-90": {
+              "total": 10,
+              "percentage": 0.15869999999999998
+            },
+            "91-105": {
+              "total": 6,
+              "percentage": 0.09519999999999999
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {
+              "total": 1,
+              "percentage": 0.25
+            },
+            "16-30": {},
+            "31-45": {},
+            "46-60": {
+              "total": 1,
+              "percentage": 0.25
+            },
+            "61-75": {
+              "total": 1,
+              "percentage": 0.25
+            },
+            "76-90": {},
+            "91-105": {
+              "total": 1,
+              "percentage": 0.25
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 561,
+          "name": "HNK Rijeka",
+          "logo": "https://media.api-sports.io/football/teams/561.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.4,
+            "att": 0.3,
+            "def": 0.4,
+            "goals": {
+              "for": {
+                "total": 3,
+                "average": 0.6
+              },
+              "against": {
+                "total": 6,
+                "average": 1.2
+              }
+            }
+          },
+          "league": {
+            "form_string": "WDWWDWWDDDDWDDWWDWWLLWWDDWLWWLL",
+            "fixtures": {
+              "played": {
+                "home": 16,
+                "away": 15,
+                "total": 31
+              },
+              "wins": {
+                "home": 9,
+                "away": 6,
+                "total": 15
+              },
+              "draws": {
+                "home": 5,
+                "away": 6,
+                "total": 11
+              },
+              "losses": {
+                "home": 2,
+                "away": 3,
+                "total": 5
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 30,
+                  "away": 13,
+                  "total": 43
+                },
+                "average": {
+                  "home": 1.9,
+                  "away": 0.9,
+                  "total": 1.4
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 6,
+                    "percentage": 0.1429
+                  },
+                  "16-30": {
+                    "total": 11,
+                    "percentage": 0.2619
+                  },
+                  "31-45": {
+                    "total": 5,
+                    "percentage": 0.11900000000000001
+                  },
+                  "46-60": {
+                    "total": 9,
+                    "percentage": 0.2143
+                  },
+                  "61-75": {
+                    "total": 4,
+                    "percentage": 0.09519999999999999
+                  },
+                  "76-90": {
+                    "total": 6,
+                    "percentage": 0.1429
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.023799999999999998
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 22,
+                    "under": 9
+                  },
+                  "1.5": {
+                    "over": 11,
+                    "under": 20
+                  },
+                  "2.5": {
+                    "over": 6,
+                    "under": 25
+                  },
+                  "3.5": {
+                    "over": 4,
+                    "under": 27
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 31
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 8,
+                  "away": 9,
+                  "total": 17
+                },
+                "average": {
+                  "home": 0.5,
+                  "away": 0.6,
+                  "total": 0.5
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 1,
+                    "percentage": 0.0556
+                  },
+                  "16-30": {
+                    "total": 4,
+                    "percentage": 0.22219999999999998
+                  },
+                  "31-45": {
+                    "total": 6,
+                    "percentage": 0.3333
+                  },
+                  "46-60": {
+                    "total": 2,
+                    "percentage": 0.11109999999999999
+                  },
+                  "61-75": {
+                    "total": 3,
+                    "percentage": 0.16670000000000001
+                  },
+                  "76-90": {
+                    "total": 1,
+                    "percentage": 0.0556
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.0556
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 12,
+                    "under": 19
+                  },
+                  "1.5": {
+                    "over": 5,
+                    "under": 26
+                  },
+                  "2.5": {
+                    "over": 0,
+                    "under": 31
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 31
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 31
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 2,
+                "draws": 4,
+                "losses": 2
+              },
+              "wins": {
+                "home": "4-0",
+                "away": "0-2"
+              },
+              "losses": {
+                "home": "0-2",
+                "away": "2-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 4,
+                  "away": 2
+                },
+                "against": {
+                  "home": 2,
+                  "away": 2
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 9,
+              "away": 10,
+              "total": 19
+            },
+            "failed_to_score": {
+              "home": 3,
+              "away": 6,
+              "total": 9
+            },
+            "penalty": {
+              "scored": {
+                "total": 1,
+                "percentage": 0.5
+              },
+              "missed": {
+                "total": 1,
+                "percentage": 0.5
+              },
+              "total": 2
+            },
+            "lineups": [
+              {
+                "formation": "4-1-4-1",
+                "played": 16
+              },
+              {
+                "formation": "4-2-3-1",
+                "played": 14
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 4,
+                  "percentage": 0.0635
+                },
+                "16-30": {
+                  "total": 11,
+                  "percentage": 0.1746
+                },
+                "31-45": {
+                  "total": 9,
+                  "percentage": 0.1429
+                },
+                "46-60": {
+                  "total": 11,
+                  "percentage": 0.1746
+                },
+                "61-75": {
+                  "total": 12,
+                  "percentage": 0.1905
+                },
+                "76-90": {
+                  "total": 10,
+                  "percentage": 0.15869999999999998
+                },
+                "91-105": {
+                  "total": 6,
+                  "percentage": 0.09519999999999999
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {
+                  "total": 1,
+                  "percentage": 0.25
+                },
+                "16-30": {},
+                "31-45": {},
+                "46-60": {
+                  "total": 1,
+                  "percentage": 0.25
+                },
+                "61-75": {
+                  "total": 1,
+                  "percentage": 0.25
+                },
+                "76-90": {},
+                "91-105": {
+                  "total": 1,
+                  "percentage": 0.25
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "HNK Rijeka",
+        "country": "Croatia",
+        "api_id": 561,
+        "game_type": "guest",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:45:11.803382",
+        "scrape_date_utc": "2025-04-22T17:45:11.803000",
+        "content_hash": "8c9c07441a3434a7ba4935e093eeab6f",
+        "general_statistics": {
+          "number of hnk rijeka wins": 7,
+          "number of hnk rijeka draws": 5,
+          "number of hnk rijeka losses": 3,
+          "Average goals_scored per match": 1.27,
+          "Average goals_conceded per match": 0.73,
+          "Chance to score goal next match": 0.73,
+          "Chance to conceded goal next match": 0.47,
+          "Number of clean_sheets matches": 8,
+          "failed_to_score matches": 4,
+          "over 2.5 goals in": 5,
+          "under 2.5 goals in": 10,
+          "Time without scored goal": "108 min.",
+          "Time without conceded goal": "20 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "hnk rijeka": 0.47,
+            "draw": 0.33,
+            "opponent": 0.2
+          },
+          "halftime bet_1x2_probabilities": {
+            "hnk rijeka": 0.4,
+            "draw": 0.4,
+            "opponent": 0.2
+          },
+          "second half bet_1x2_probabilities": {
+            "hnk rijeka": 0.4,
+            "draw": 0.4,
+            "opponent": 0.2
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.6,
+            "under": 0.4
+          },
+          "over/under 1.5 goals for hnk rijeka only": {
+            "over": 0.4,
+            "under": 0.6
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.33,
+            "under": 0.67
+          },
+          "over/under 2.5 goals for hnk rijeka only": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "over/under 3.5 goals for hnk rijeka only": {
+            "over": 0.0,
+            "under": 1.0
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.4,
+            "2-3": 0.4,
+            "4+": 0.2
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.33,
+            "only one": 0.53,
+            "neither": 0.13
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.4,
+            "even": 0.6
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.17,
+            "16-30 min.": 0.23,
+            "31-45 min.": 0.13,
+            "46-60 min.": 0.1,
+            "61-75 min.": 0.17,
+            "76-90 min.": 0.2
+          },
+          "hnk rijeka goals only": {
+            "0-15 min.": 0.21,
+            "16-30 min.": 0.21,
+            "31-45 min.": 0.11,
+            "46-60 min.": 0.16,
+            "61-75 min.": 0.11,
+            "76-90 min.": 0.21
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.13,
+            "11-20 min.": 0.2,
+            "21-30 min.": 0.2,
+            "31-40 min.": 0.07,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.13,
+            "81-90 min.": 0.0,
+            "without goal": 0.13
+          },
+          "time of first hnk rijeka goal": {
+            "0-10 min.": 0.07,
+            "11-20 min.": 0.27,
+            "21-30 min.": 0.13,
+            "31-40 min.": 0.0,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.13,
+            "81-90 min.": 0.0,
+            "without goal": 0.27
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "hnk rijeka": 0.67,
+            "opponent": 0.2,
+            "without goal": 0.13
+          },
+          "win after 15 minutes": {
+            "hnk rijeka": 0.13,
+            "opponent": 0.0,
+            "draw": 0.87
+          },
+          "win after 30 minutes": {
+            "hnk rijeka": 0.33,
+            "opponent": 0.07,
+            "draw": 0.6
+          },
+          "bet_halftime_result_probabilities": {
+            "hnk rijeka": 0.4,
+            "opponent": 0.2,
+            "draw": 0.4
+          },
+          "win after 60 minutes": {
+            "hnk rijeka": 0.47,
+            "opponent": 0.13,
+            "draw": 0.4
+          },
+          "win after 75 minutes": {
+            "hnk rijeka": 0.47,
+            "opponent": 0.2,
+            "draw": 0.33
+          },
+          "bet_fulltime_result_probabilities": {
+            "hnk rijeka": 0.47,
+            "opponent": 0.2,
+            "draw": 0.33
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.67,
+            "2-3 goals": 0.33,
+            "4+ goals": 0.0
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.2,
+            "second half": 0.47,
+            "tie": 0.33
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-19",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "Istra 1961",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-04-06",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "NK Lokomotiva Zagreb",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-29",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "NK Slaven Belupo",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-01",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "HNK Gorica",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-26",
+            "competition": "Croatia - Fa Cup 2024/2025",
+            "opponent": "HNK Hajduk Split",
+            "team_goals": 3,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-16",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "NK Osijek",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-01",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "NK Varazdin",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-18",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Grazer AK",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-17",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Sturm Graz",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-15",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "HNK Hajduk Split",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-08",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "Sibenik",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-23",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "NK Dinamo Zagreb",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-03",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "Istra 1961",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-22",
+            "competition": "Croatia - Fa Cup 2024/2025",
+            "opponent": "Bednja Beletinec",
+            "team_goals": 3,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-18",
+            "competition": "Croatia - Hnl 2024/2025",
+            "opponent": "NK Lokomotiva Zagreb",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "away"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:48:28.078000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 1,
+        "team": {
+          "id": 561,
+          "name": "HNK Rijeka",
+          "logo": "https://media.api-sports.io/football/teams/561.png"
+        },
+        "league_points": 56,
+        "goals_difference": 26,
+        "group": "HNL",
+        "form_string": "LLWWL",
+        "status": "same",
+        "description": "UEFA Champions League Qualifiers",
+        "coverage_percentage": {
+          "played": 31,
+          "win": 15,
+          "draw": 11,
+          "loss": 5,
+          "goals": {
+            "for": 43,
+            "against": 17
+          }
+        },
+        "home": {
+          "played": 16,
+          "win": 9,
+          "draw": 5,
+          "loss": 2,
+          "goals": {
+            "for": 30,
+            "against": 8
+          }
+        },
+        "away": {
+          "played": 15,
+          "win": 6,
+          "draw": 6,
+          "loss": 3,
+          "goals": {
+            "for": 13,
+            "against": 9
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    }
+  },
+  "goals": {}
+}

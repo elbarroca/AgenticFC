@@ -1,0 +1,2331 @@
+{
+  "fixture_id": 1231693,
+  "match_date": "2025-04-27",
+  "league": {
+    "id": "None",
+    "statarea_id": "unknown"
+  },
+  "engineered_features": {
+    "home": {
+      "team_id": 244,
+      "team_name": "Leixoes",
+      "team_statarea_id": 244,
+      "base_league_id": "None",
+      "proc_league_id": 95,
+      "proc_league_name": "Segunda Liga",
+      "proc_league_country": "Portugal",
+      "proc_league_season": 2024,
+      "proc_team_id": 244,
+      "proc_team_name": "Leixoes",
+      "weather_temp_celsius": 21.1,
+      "weather_temp_feels_like_celsius": 20.49,
+      "weather_pressure_hpa": 1020,
+      "weather_humidity_pct": 47,
+      "weather_wind_speed_mps": 3.84,
+      "weather_wind_direction_deg": 312,
+      "weather_cloud_coverage_pct": 30,
+      "weather_precipitation_probability": 0,
+      "weather_description": "scattered clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "host",
+      "hist_home_matches_played": 15,
+      "hist_home_average_goals_scored": 1.2,
+      "hist_home_average_goals_conceded": 1.0,
+      "hist_home_win_rate": 0.333,
+      "hist_home_draw_rate": 0.333,
+      "hist_home_loss_rate": 0.333,
+      "hist_home_both_teams_scored_rate": 0.533,
+      "hist_home_clean_sheet_rate": 0.2,
+      "hist_home_failed_to_score_rate": 0.333,
+      "hist_home_average_goal_difference": 0.2,
+      "hist_home_over_0_5_goals_rate": 0.933,
+      "hist_home_over_1_5_goals_rate": 0.733,
+      "hist_home_over_2_5_goals_rate": 0.467,
+      "hist_home_over_3_5_goals_rate": 0.067,
+      "hist_home_over_4_5_goals_rate": 0.0,
+      "hist_home_form_string": "DLLDLDDWDLWWWWL",
+      "hist_home_form_rating_points_pct": 0.444,
+      "hist_overall_l5_form_string": "DLLDL",
+      "hist_overall_l5_form_rating_points_pct": 0.133,
+      "hist_home_l3_form_string": "DLL",
+      "hist_home_l3_form_rating_points_pct": 0.111,
+      "hist_home_l3_avg_scored": 0.333,
+      "hist_home_l3_avg_conceded": 1.0,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "D 1-1 vs Academico Viseu (home)",
+          "L 0-1 vs Leiria (home)",
+          "L 0-1 vs Tondela (home)",
+          "D 1-1 vs Alverca (home)",
+          "L 1-2 vs Oliveirense (home)"
+        ],
+        "home_l3_matches": [
+          "D 1-1 vs Academico Viseu",
+          "L 0-1 vs Leiria",
+          "L 0-1 vs Tondela"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 5,
+      "hist_perf_by_result_win_avg_scored": 2.4,
+      "hist_perf_by_result_win_avg_conceded": 0.6,
+      "hist_perf_by_result_draw_matches": 5,
+      "hist_perf_by_result_draw_avg_scored": 1.0,
+      "hist_perf_by_result_draw_avg_conceded": 1.0,
+      "hist_perf_by_result_loss_matches": 5,
+      "hist_perf_by_result_loss_avg_scored": 0.2,
+      "hist_perf_by_result_loss_avg_conceded": 1.4,
+      "standings_league_rank": 14,
+      "standings_league_points": 32,
+      "standings_goals_difference": -9,
+      "standings_form_string": "LDDLW",
+      "standings_group_name": "Segunda Liga",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 3,
+          "proc_goals_scored_min_0_15_pct": 0.1071,
+          "proc_goals_scored_min_16_30_count": 6,
+          "proc_goals_scored_min_16_30_pct": 0.2143,
+          "proc_goals_scored_min_31_45_count": 4,
+          "proc_goals_scored_min_31_45_pct": 0.1429,
+          "proc_goals_scored_min_46_60_count": 7,
+          "proc_goals_scored_min_46_60_pct": 0.25,
+          "proc_goals_scored_min_61_75_count": 4,
+          "proc_goals_scored_min_61_75_pct": 0.1429,
+          "proc_goals_scored_min_76_90_count": 3,
+          "proc_goals_scored_min_76_90_pct": 0.1071,
+          "proc_goals_scored_min_91_105_count": 1,
+          "proc_goals_scored_min_91_105_pct": 0.0357
+        },
+        "card_stats": {
+          "yellow_avg": 3.167,
+          "red_avg": 0.133
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.6667000000000001,
+          "proc_penalty_missed_pct": 0.3333,
+          "proc_penalty_total_taken": 3
+        }
+      }
+    },
+    "away": {
+      "team_id": 235,
+      "team_name": "Penafiel",
+      "team_statarea_id": 235,
+      "base_league_id": "None",
+      "proc_league_id": 95,
+      "proc_league_name": "Segunda Liga",
+      "proc_league_country": "Portugal",
+      "proc_league_season": 2024,
+      "proc_team_id": 235,
+      "proc_team_name": "Penafiel",
+      "weather_temp_celsius": 21.1,
+      "weather_temp_feels_like_celsius": 20.49,
+      "weather_pressure_hpa": 1020,
+      "weather_humidity_pct": 47,
+      "weather_wind_speed_mps": 3.84,
+      "weather_wind_direction_deg": 312,
+      "weather_cloud_coverage_pct": 30,
+      "weather_precipitation_probability": 0,
+      "weather_description": "scattered clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "guest",
+      "hist_away_matches_played": 15,
+      "hist_away_average_goals_scored": 1.4,
+      "hist_away_average_goals_conceded": 1.467,
+      "hist_away_win_rate": 0.4,
+      "hist_away_draw_rate": 0.133,
+      "hist_away_loss_rate": 0.467,
+      "hist_away_both_teams_scored_rate": 0.467,
+      "hist_away_clean_sheet_rate": 0.2,
+      "hist_away_failed_to_score_rate": 0.333,
+      "hist_away_average_goal_difference": -0.067,
+      "hist_away_over_0_5_goals_rate": 1.0,
+      "hist_away_over_1_5_goals_rate": 0.667,
+      "hist_away_over_2_5_goals_rate": 0.533,
+      "hist_away_over_3_5_goals_rate": 0.4,
+      "hist_away_over_4_5_goals_rate": 0.2,
+      "hist_away_form_string": "LLLLLLDWWLWDWWW",
+      "hist_away_form_rating_points_pct": 0.444,
+      "hist_overall_l5_form_string": "LLLLL",
+      "hist_overall_l5_form_rating_points_pct": 0.0,
+      "hist_away_l3_form_string": "LLL",
+      "hist_away_l3_form_rating_points_pct": 0.0,
+      "hist_away_l3_avg_scored": 0.667,
+      "hist_away_l3_avg_conceded": 2.0,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "L 2-4 vs Mafra (away)",
+          "L 0-1 vs Felgueiras (away)",
+          "L 0-1 vs Academico Viseu (away)",
+          "L 0-1 vs Leiria (away)",
+          "L 2-3 vs FC Porto B (away)"
+        ],
+        "away_l3_matches": [
+          "L 2-4 vs Mafra",
+          "L 0-1 vs Felgueiras",
+          "L 0-1 vs Academico Viseu"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 6,
+      "hist_perf_by_result_win_avg_scored": 2.167,
+      "hist_perf_by_result_win_avg_conceded": 0.5,
+      "hist_perf_by_result_draw_matches": 2,
+      "hist_perf_by_result_draw_avg_scored": 2.0,
+      "hist_perf_by_result_draw_avg_conceded": 2.0,
+      "hist_perf_by_result_loss_matches": 7,
+      "hist_perf_by_result_loss_avg_scored": 0.571,
+      "hist_perf_by_result_loss_avg_conceded": 2.143,
+      "standings_league_rank": 9,
+      "standings_league_points": 43,
+      "standings_goals_difference": 1,
+      "standings_form_string": "LLLLL",
+      "standings_group_name": "Segunda Liga",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 11,
+          "proc_goals_scored_min_0_15_pct": 0.2558,
+          "proc_goals_scored_min_16_30_count": 8,
+          "proc_goals_scored_min_16_30_pct": 0.186,
+          "proc_goals_scored_min_31_45_count": 3,
+          "proc_goals_scored_min_31_45_pct": 0.0698,
+          "proc_goals_scored_min_46_60_count": 5,
+          "proc_goals_scored_min_46_60_pct": 0.1163,
+          "proc_goals_scored_min_61_75_count": 8,
+          "proc_goals_scored_min_61_75_pct": 0.186,
+          "proc_goals_scored_min_76_90_count": 4,
+          "proc_goals_scored_min_76_90_pct": 0.093,
+          "proc_goals_scored_min_91_105_count": 3,
+          "proc_goals_scored_min_91_105_pct": 0.0698
+        },
+        "card_stats": {
+          "yellow_avg": 2.967,
+          "red_avg": 0.233
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.625,
+          "proc_penalty_missed_pct": 0.375,
+          "proc_penalty_total_taken": 8
+        }
+      }
+    }
+  },
+  "model_input_features": {
+    "eng_h_team_id": 244.0,
+    "eng_h_team_statarea_id": 244.0,
+    "eng_h_proc_league_id": 95.0,
+    "eng_h_proc_league_season": 2024.0,
+    "eng_h_proc_team_id": 244.0,
+    "eng_h_weather_temp_celsius": 21.1,
+    "eng_h_weather_temp_feels_like_celsius": 20.49,
+    "eng_h_weather_pressure_hpa": 1020.0,
+    "eng_h_weather_humidity_pct": 47.0,
+    "eng_h_weather_wind_speed_mps": 3.84,
+    "eng_h_weather_wind_direction_deg": 312.0,
+    "eng_h_weather_cloud_coverage_pct": 30.0,
+    "eng_h_weather_precipitation_probability": 0.0,
+    "eng_h_weather_condition_main": "Clouds",
+    "eng_h_match_history_source": "statarea",
+    "eng_h_match_history_games_analyzed": 15.0,
+    "eng_h_match_history_venue_context": "host",
+    "eng_h_hist_home_matches_played": 15.0,
+    "eng_h_hist_home_average_goals_scored": 1.2,
+    "eng_h_hist_home_average_goals_conceded": 1.0,
+    "eng_h_hist_home_win_rate": 0.333,
+    "eng_h_hist_home_draw_rate": 0.333,
+    "eng_h_hist_home_loss_rate": 0.333,
+    "eng_h_hist_home_both_teams_scored_rate": 0.533,
+    "eng_h_hist_home_clean_sheet_rate": 0.2,
+    "eng_h_hist_home_failed_to_score_rate": 0.333,
+    "eng_h_hist_home_average_goal_difference": 0.2,
+    "eng_h_hist_home_over_0_5_goals_rate": 0.933,
+    "eng_h_hist_home_over_1_5_goals_rate": 0.733,
+    "eng_h_hist_home_over_2_5_goals_rate": 0.467,
+    "eng_h_hist_home_over_3_5_goals_rate": 0.067,
+    "eng_h_hist_home_over_4_5_goals_rate": 0.0,
+    "eng_h_hist_home_form_rating_points_pct": 0.444,
+    "eng_h_hist_overall_l5_form_rating_points_pct": 0.133,
+    "eng_h_hist_home_l3_form_rating_points_pct": 0.111,
+    "eng_h_hist_home_l3_avg_scored": 0.333,
+    "eng_h_hist_home_l3_avg_conceded": 1.0,
+    "eng_h_hist_perf_by_result_win_matches": 5.0,
+    "eng_h_hist_perf_by_result_win_avg_scored": 2.4,
+    "eng_h_hist_perf_by_result_win_avg_conceded": 0.6,
+    "eng_h_hist_perf_by_result_draw_matches": 5.0,
+    "eng_h_hist_perf_by_result_draw_avg_scored": 1.0,
+    "eng_h_hist_perf_by_result_draw_avg_conceded": 1.0,
+    "eng_h_hist_perf_by_result_loss_matches": 5.0,
+    "eng_h_hist_perf_by_result_loss_avg_scored": 0.2,
+    "eng_h_hist_perf_by_result_loss_avg_conceded": 1.4,
+    "eng_h_standings_league_rank": 14.0,
+    "eng_h_standings_league_points": 32.0,
+    "eng_h_standings_goals_difference": -9.0,
+    "eng_a_team_id": 235.0,
+    "eng_a_team_statarea_id": 235.0,
+    "eng_a_proc_league_id": 95.0,
+    "eng_a_proc_league_season": 2024.0,
+    "eng_a_proc_team_id": 235.0,
+    "eng_a_weather_temp_celsius": 21.1,
+    "eng_a_weather_temp_feels_like_celsius": 20.49,
+    "eng_a_weather_pressure_hpa": 1020.0,
+    "eng_a_weather_humidity_pct": 47.0,
+    "eng_a_weather_wind_speed_mps": 3.84,
+    "eng_a_weather_wind_direction_deg": 312.0,
+    "eng_a_weather_cloud_coverage_pct": 30.0,
+    "eng_a_weather_precipitation_probability": 0.0,
+    "eng_a_weather_condition_main": "Clouds",
+    "eng_a_match_history_source": "statarea",
+    "eng_a_match_history_games_analyzed": 15.0,
+    "eng_a_match_history_venue_context": "guest",
+    "eng_a_hist_away_matches_played": 15.0,
+    "eng_a_hist_away_average_goals_scored": 1.4,
+    "eng_a_hist_away_average_goals_conceded": 1.467,
+    "eng_a_hist_away_win_rate": 0.4,
+    "eng_a_hist_away_draw_rate": 0.133,
+    "eng_a_hist_away_loss_rate": 0.467,
+    "eng_a_hist_away_both_teams_scored_rate": 0.467,
+    "eng_a_hist_away_clean_sheet_rate": 0.2,
+    "eng_a_hist_away_failed_to_score_rate": 0.333,
+    "eng_a_hist_away_average_goal_difference": -0.067,
+    "eng_a_hist_away_over_0_5_goals_rate": 1.0,
+    "eng_a_hist_away_over_1_5_goals_rate": 0.667,
+    "eng_a_hist_away_over_2_5_goals_rate": 0.533,
+    "eng_a_hist_away_over_3_5_goals_rate": 0.4,
+    "eng_a_hist_away_over_4_5_goals_rate": 0.2,
+    "eng_a_hist_away_form_rating_points_pct": 0.444,
+    "eng_a_hist_overall_l5_form_rating_points_pct": 0.0,
+    "eng_a_hist_away_l3_form_rating_points_pct": 0.0,
+    "eng_a_hist_away_l3_avg_scored": 0.667,
+    "eng_a_hist_away_l3_avg_conceded": 2.0,
+    "eng_a_hist_perf_by_result_win_matches": 6.0,
+    "eng_a_hist_perf_by_result_win_avg_scored": 2.167,
+    "eng_a_hist_perf_by_result_win_avg_conceded": 0.5,
+    "eng_a_hist_perf_by_result_draw_matches": 2.0,
+    "eng_a_hist_perf_by_result_draw_avg_scored": 2.0,
+    "eng_a_hist_perf_by_result_draw_avg_conceded": 2.0,
+    "eng_a_hist_perf_by_result_loss_matches": 7.0,
+    "eng_a_hist_perf_by_result_loss_avg_scored": 0.571,
+    "eng_a_hist_perf_by_result_loss_avg_conceded": 2.143,
+    "eng_a_standings_league_rank": 9.0,
+    "eng_a_standings_league_points": 43.0,
+    "eng_a_standings_goals_difference": 1.0,
+    "eng_diff_weather_temp_celsius": 0.0,
+    "eng_ratio_weather_temp_celsius": 1.0,
+    "eng_diff_weather_humidity_pct": 0.0,
+    "eng_ratio_weather_humidity_pct": 1.0,
+    "eng_diff_proc_team_id": 9.0,
+    "eng_ratio_proc_team_id": 1.0382978723404255,
+    "eng_diff_proc_league_season": 0.0,
+    "eng_ratio_proc_league_season": 1.0,
+    "eng_diff_hist_perf_by_result_win_avg_conceded": 0.09999999999999998,
+    "eng_ratio_hist_perf_by_result_win_avg_conceded": 1.2,
+    "eng_diff_match_history_games_analyzed": 0.0,
+    "eng_ratio_match_history_games_analyzed": 1.0,
+    "eng_diff_weather_precipitation_probability": 0.0,
+    "eng_ratio_weather_precipitation_probability": -998.0,
+    "eng_diff_hist_perf_by_result_draw_avg_conceded": -1.0,
+    "eng_ratio_hist_perf_by_result_draw_avg_conceded": 0.5,
+    "eng_diff_team_id": 9.0,
+    "eng_ratio_team_id": 1.0382978723404255,
+    "eng_diff_match_history_venue_context": -999.0,
+    "eng_ratio_match_history_venue_context": -999.0,
+    "eng_diff_weather_temp_feels_like_celsius": 0.0,
+    "eng_ratio_weather_temp_feels_like_celsius": 1.0,
+    "eng_diff_standings_goals_difference": -10.0,
+    "eng_ratio_standings_goals_difference": -9.0,
+    "eng_diff_hist_perf_by_result_draw_matches": 3.0,
+    "eng_ratio_hist_perf_by_result_draw_matches": 2.5,
+    "eng_diff_weather_wind_speed_mps": 0.0,
+    "eng_ratio_weather_wind_speed_mps": 1.0,
+    "eng_diff_hist_perf_by_result_loss_avg_conceded": -0.7429999999999999,
+    "eng_ratio_hist_perf_by_result_loss_avg_conceded": 0.653289780681288,
+    "eng_diff_weather_pressure_hpa": 0.0,
+    "eng_ratio_weather_pressure_hpa": 1.0,
+    "eng_diff_hist_perf_by_result_win_matches": -1.0,
+    "eng_ratio_hist_perf_by_result_win_matches": 0.8333333333333334,
+    "eng_diff_weather_condition_main": -999.0,
+    "eng_ratio_weather_condition_main": -999.0,
+    "eng_diff_hist_perf_by_result_draw_avg_scored": -1.0,
+    "eng_ratio_hist_perf_by_result_draw_avg_scored": 0.5,
+    "eng_diff_hist_overall_l5_form_rating_points_pct": 0.133,
+    "eng_ratio_hist_overall_l5_form_rating_points_pct": -998.0,
+    "eng_diff_hist_perf_by_result_win_avg_scored": 0.2330000000000001,
+    "eng_ratio_hist_perf_by_result_win_avg_scored": 1.1075219197046609,
+    "eng_diff_hist_perf_by_result_loss_matches": -2.0,
+    "eng_ratio_hist_perf_by_result_loss_matches": 0.7142857142857143,
+    "eng_diff_hist_perf_by_result_loss_avg_scored": -0.37099999999999994,
+    "eng_ratio_hist_perf_by_result_loss_avg_scored": 0.35026269702276713,
+    "eng_diff_standings_league_rank": 5.0,
+    "eng_ratio_standings_league_rank": 1.5555555555555556,
+    "eng_diff_standings_league_points": -11.0,
+    "eng_ratio_standings_league_points": 0.7441860465116279,
+    "eng_diff_weather_cloud_coverage_pct": 0.0,
+    "eng_ratio_weather_cloud_coverage_pct": 1.0,
+    "eng_diff_match_history_source": -999.0,
+    "eng_ratio_match_history_source": -999.0,
+    "eng_diff_team_statarea_id": 9.0,
+    "eng_ratio_team_statarea_id": 1.0382978723404255,
+    "eng_diff_weather_wind_direction_deg": 0.0,
+    "eng_ratio_weather_wind_direction_deg": 1.0,
+    "eng_diff_proc_league_id": 0.0,
+    "eng_ratio_proc_league_id": 1.0
+  },
+  "fixture_meta": {
+    "id": 1231693,
+    "date_utc": "2025-04-27T14:30:00+00:00",
+    "timestamp_utc": 1745764200,
+    "venue": {
+      "name": "Estádio do Mar",
+      "city": "Matosinhos"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "dt": 1745766000,
+      "main": {
+        "temperature": 21.1,
+        "temperature_feels_like": 20.49,
+        "temperature_min": 19.65,
+        "temperature_max": 21.1,
+        "air_pressure": 1020,
+        "pressure_sea_level": 1020,
+        "pressure_ground_level": 1015,
+        "humidity": 47,
+        "temp_kf": 1.45
+      },
+      "weather": [
+        {
+          "id": 802,
+          "main": "Clouds",
+          "description": "scattered clouds",
+          "icon": "03d"
+        }
+      ],
+      "clouds": {
+        "coverage_percentage": 30
+      },
+      "wind": {
+        "speed_mps": 3.84,
+        "direction_degrees": 312,
+        "gust": 4.22
+      },
+      "visibility": 10000,
+      "probability_of_precipitation": 0,
+      "sys": {
+        "pod": "d"
+      },
+      "dt_txt": "2025-04-27 15:00:00",
+      "city": {
+        "name": "Matosinhos Municipality",
+        "country": "PT"
+      },
+      "summary": "Clouds: scattered clouds, Temp: 21.1°C"
+    }
+  },
+  "raw_data": {
+    "home": {
+      "basic_info": {
+        "id": 244,
+        "name": "Leixoes",
+        "logo": "https://media.api-sports.io/football/teams/244.png",
+        "statarea_id": 244
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 95,
+          "name": "Segunda Liga",
+          "country": "Portugal",
+          "logo": "https://media.api-sports.io/football/leagues/95.png",
+          "flag": "https://media.api-sports.io/flags/pt.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 244,
+          "name": "Leixoes",
+          "logo": "https://media.api-sports.io/football/teams/244.png"
+        },
+        "form_string": "WDDWLDWLWLWLDLWLDLDDLDDLLWLDDL",
+        "fixtures": {
+          "played": {
+            "home": 15,
+            "away": 15,
+            "total": 30
+          },
+          "wins": {
+            "home": 5,
+            "away": 2,
+            "total": 7
+          },
+          "draws": {
+            "home": 6,
+            "away": 5,
+            "total": 11
+          },
+          "losses": {
+            "home": 4,
+            "away": 8,
+            "total": 12
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 21,
+              "away": 7,
+              "total": 28
+            },
+            "average": {
+              "home": 1.4,
+              "away": 0.5,
+              "total": 0.9
+            },
+            "minute": {
+              "0-15": {
+                "total": 3,
+                "percentage": 0.10710000000000001
+              },
+              "16-30": {
+                "total": 6,
+                "percentage": 0.2143
+              },
+              "31-45": {
+                "total": 4,
+                "percentage": 0.1429
+              },
+              "46-60": {
+                "total": 7,
+                "percentage": 0.25
+              },
+              "61-75": {
+                "total": 4,
+                "percentage": 0.1429
+              },
+              "76-90": {
+                "total": 3,
+                "percentage": 0.10710000000000001
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.035699999999999996
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 18,
+                "under": 12
+              },
+              "1.5": {
+                "over": 7,
+                "under": 23
+              },
+              "2.5": {
+                "over": 3,
+                "under": 27
+              },
+              "3.5": {
+                "over": 0,
+                "under": 30
+              },
+              "4.5": {
+                "over": 0,
+                "under": 30
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 16,
+              "away": 21,
+              "total": 37
+            },
+            "average": {
+              "home": 1.1,
+              "away": 1.4,
+              "total": 1.2
+            },
+            "minute": {
+              "0-15": {
+                "total": 8,
+                "percentage": 0.2162
+              },
+              "16-30": {
+                "total": 4,
+                "percentage": 0.1081
+              },
+              "31-45": {
+                "total": 5,
+                "percentage": 0.1351
+              },
+              "46-60": {
+                "total": 6,
+                "percentage": 0.16219999999999998
+              },
+              "61-75": {
+                "total": 3,
+                "percentage": 0.08109999999999999
+              },
+              "76-90": {
+                "total": 5,
+                "percentage": 0.1351
+              },
+              "91-105": {
+                "total": 6,
+                "percentage": 0.16219999999999998
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 22,
+                "under": 8
+              },
+              "1.5": {
+                "over": 9,
+                "under": 21
+              },
+              "2.5": {
+                "over": 4,
+                "under": 26
+              },
+              "3.5": {
+                "over": 2,
+                "under": 28
+              },
+              "4.5": {
+                "over": 0,
+                "under": 30
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 1,
+            "draws": 2,
+            "losses": 2
+          },
+          "wins": {
+            "home": "3-0",
+            "away": "0-1"
+          },
+          "losses": {
+            "home": "1-2",
+            "away": "4-0"
+          },
+          "goals": {
+            "for": {
+              "home": 3,
+              "away": 1
+            },
+            "against": {
+              "home": 3,
+              "away": 4
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 3,
+          "away": 5,
+          "total": 8
+        },
+        "failed_to_score": {
+          "home": 4,
+          "away": 8,
+          "total": 12
+        },
+        "penalty": {
+          "scored": {
+            "total": 2,
+            "percentage": 0.6667000000000001
+          },
+          "missed": {
+            "total": 1,
+            "percentage": 0.3333
+          },
+          "total": 3
+        },
+        "lineups": [
+          {
+            "formation": "4-3-3",
+            "played": 26
+          },
+          {
+            "formation": "4-4-2",
+            "played": 1
+          },
+          {
+            "formation": "4-3-1-2",
+            "played": 1
+          },
+          {
+            "formation": "3-4-3",
+            "played": 1
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 5,
+              "percentage": 0.0526
+            },
+            "16-30": {
+              "total": 11,
+              "percentage": 0.1158
+            },
+            "31-45": {
+              "total": 13,
+              "percentage": 0.1368
+            },
+            "46-60": {
+              "total": 16,
+              "percentage": 0.1684
+            },
+            "61-75": {
+              "total": 9,
+              "percentage": 0.0947
+            },
+            "76-90": {
+              "total": 27,
+              "percentage": 0.2842
+            },
+            "91-105": {
+              "total": 14,
+              "percentage": 0.1474
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {},
+            "46-60": {},
+            "61-75": {},
+            "76-90": {},
+            "91-105": {
+              "total": 4,
+              "percentage": 1.0
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 244,
+          "name": "Leixoes",
+          "logo": "https://media.api-sports.io/football/teams/244.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.33,
+            "att": 0.21,
+            "def": 0.5,
+            "goals": {
+              "for": {
+                "total": 3,
+                "average": 0.6
+              },
+              "against": {
+                "total": 7,
+                "average": 1.4
+              }
+            }
+          },
+          "league": {
+            "form_string": "WDDWLDWLWLWLDLWLDLDDLDDLLWLDDL",
+            "fixtures": {
+              "played": {
+                "home": 15,
+                "away": 15,
+                "total": 30
+              },
+              "wins": {
+                "home": 5,
+                "away": 2,
+                "total": 7
+              },
+              "draws": {
+                "home": 6,
+                "away": 5,
+                "total": 11
+              },
+              "losses": {
+                "home": 4,
+                "away": 8,
+                "total": 12
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 21,
+                  "away": 7,
+                  "total": 28
+                },
+                "average": {
+                  "home": 1.4,
+                  "away": 0.5,
+                  "total": 0.9
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 3,
+                    "percentage": 0.10710000000000001
+                  },
+                  "16-30": {
+                    "total": 6,
+                    "percentage": 0.2143
+                  },
+                  "31-45": {
+                    "total": 4,
+                    "percentage": 0.1429
+                  },
+                  "46-60": {
+                    "total": 7,
+                    "percentage": 0.25
+                  },
+                  "61-75": {
+                    "total": 4,
+                    "percentage": 0.1429
+                  },
+                  "76-90": {
+                    "total": 3,
+                    "percentage": 0.10710000000000001
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.035699999999999996
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 18,
+                    "under": 12
+                  },
+                  "1.5": {
+                    "over": 7,
+                    "under": 23
+                  },
+                  "2.5": {
+                    "over": 3,
+                    "under": 27
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 30
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 30
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 16,
+                  "away": 21,
+                  "total": 37
+                },
+                "average": {
+                  "home": 1.1,
+                  "away": 1.4,
+                  "total": 1.2
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 8,
+                    "percentage": 0.2162
+                  },
+                  "16-30": {
+                    "total": 4,
+                    "percentage": 0.1081
+                  },
+                  "31-45": {
+                    "total": 5,
+                    "percentage": 0.1351
+                  },
+                  "46-60": {
+                    "total": 6,
+                    "percentage": 0.16219999999999998
+                  },
+                  "61-75": {
+                    "total": 3,
+                    "percentage": 0.08109999999999999
+                  },
+                  "76-90": {
+                    "total": 5,
+                    "percentage": 0.1351
+                  },
+                  "91-105": {
+                    "total": 6,
+                    "percentage": 0.16219999999999998
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 22,
+                    "under": 8
+                  },
+                  "1.5": {
+                    "over": 9,
+                    "under": 21
+                  },
+                  "2.5": {
+                    "over": 4,
+                    "under": 26
+                  },
+                  "3.5": {
+                    "over": 2,
+                    "under": 28
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 30
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 1,
+                "draws": 2,
+                "losses": 2
+              },
+              "wins": {
+                "home": "3-0",
+                "away": "0-1"
+              },
+              "losses": {
+                "home": "1-2",
+                "away": "4-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 3,
+                  "away": 1
+                },
+                "against": {
+                  "home": 3,
+                  "away": 4
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 3,
+              "away": 5,
+              "total": 8
+            },
+            "failed_to_score": {
+              "home": 4,
+              "away": 8,
+              "total": 12
+            },
+            "penalty": {
+              "scored": {
+                "total": 2,
+                "percentage": 0.6667000000000001
+              },
+              "missed": {
+                "total": 1,
+                "percentage": 0.3333
+              },
+              "total": 3
+            },
+            "lineups": [
+              {
+                "formation": "4-3-3",
+                "played": 26
+              },
+              {
+                "formation": "4-4-2",
+                "played": 1
+              },
+              {
+                "formation": "4-3-1-2",
+                "played": 1
+              },
+              {
+                "formation": "3-4-3",
+                "played": 1
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 5,
+                  "percentage": 0.0526
+                },
+                "16-30": {
+                  "total": 11,
+                  "percentage": 0.1158
+                },
+                "31-45": {
+                  "total": 13,
+                  "percentage": 0.1368
+                },
+                "46-60": {
+                  "total": 16,
+                  "percentage": 0.1684
+                },
+                "61-75": {
+                  "total": 9,
+                  "percentage": 0.0947
+                },
+                "76-90": {
+                  "total": 27,
+                  "percentage": 0.2842
+                },
+                "91-105": {
+                  "total": 14,
+                  "percentage": 0.1474
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {},
+                "46-60": {},
+                "61-75": {},
+                "76-90": {},
+                "91-105": {
+                  "total": 4,
+                  "percentage": 1.0
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "Leixoes",
+        "country": "Portugal",
+        "api_id": 244,
+        "game_type": "host",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:46:39.338320",
+        "scrape_date_utc": "2025-04-22T17:46:39.338000",
+        "content_hash": "9b53aae9d02ece81824de62cb506966b",
+        "general_statistics": {
+          "number of leixoes wins": 5,
+          "number of leixoes draws": 5,
+          "number of leixoes losses": 5,
+          "Average goals_scored per match": 1.2,
+          "Average goals_conceded per match": 1,
+          "Chance to score goal next match": 0.67,
+          "Chance to conceded goal next match": 0.8,
+          "Number of clean_sheets matches": 3,
+          "failed_to_score matches": 5,
+          "over 2.5 goals in": 7,
+          "under 2.5 goals in": 8,
+          "Time without scored goal": "31 min.",
+          "Time without conceded goal": "73 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "Leixoes": 0.33,
+            "draw": 0.33,
+            "opponent": 0.33
+          },
+          "halftime bet_1x2_probabilities": {
+            "Leixoes": 0.33,
+            "draw": 0.27,
+            "opponent": 0.4
+          },
+          "second half bet_1x2_probabilities": {
+            "Leixoes": 0.33,
+            "draw": 0.4,
+            "opponent": 0.27
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.73,
+            "under": 0.27
+          },
+          "over/under 1.5 goals for leixoes only": {
+            "over": 0.4,
+            "under": 0.6
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.47,
+            "under": 0.53
+          },
+          "over/under 2.5 goals for leixoes only": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.07,
+            "under": 0.93
+          },
+          "over/under 3.5 goals for leixoes only": {
+            "over": 0.0,
+            "under": 1.0
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.27,
+            "2-3": 0.67,
+            "4+": 0.07
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.53,
+            "only one": 0.4,
+            "neither": 0.07
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.6,
+            "even": 0.4
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.18,
+            "16-30 min.": 0.09,
+            "31-45 min.": 0.18,
+            "46-60 min.": 0.24,
+            "61-75 min.": 0.15,
+            "76-90 min.": 0.15
+          },
+          "Leixoes goals only": {
+            "0-15 min.": 0.11,
+            "16-30 min.": 0.06,
+            "31-45 min.": 0.28,
+            "46-60 min.": 0.33,
+            "61-75 min.": 0.06,
+            "76-90 min.": 0.17
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.27,
+            "11-20 min.": 0.27,
+            "21-30 min.": 0.07,
+            "31-40 min.": 0.07,
+            "41-50 min.": 0.13,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.07,
+            "without goal": 0.07
+          },
+          "time of first leixoes goal": {
+            "0-10 min.": 0.07,
+            "11-20 min.": 0.07,
+            "21-30 min.": 0.07,
+            "31-40 min.": 0.07,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.27,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.33
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "Leixoes": 0.33,
+            "opponent": 0.6,
+            "without goal": 0.07
+          },
+          "win after 15 minutes": {
+            "Leixoes": 0.13,
+            "opponent": 0.27,
+            "draw": 0.6
+          },
+          "win after 30 minutes": {
+            "Leixoes": 0.2,
+            "opponent": 0.4,
+            "draw": 0.4
+          },
+          "bet_halftime_result_probabilities": {
+            "Leixoes": 0.33,
+            "opponent": 0.4,
+            "draw": 0.27
+          },
+          "win after 60 minutes": {
+            "Leixoes": 0.33,
+            "opponent": 0.27,
+            "draw": 0.4
+          },
+          "win after 75 minutes": {
+            "Leixoes": 0.27,
+            "opponent": 0.27,
+            "draw": 0.47
+          },
+          "bet_fulltime_result_probabilities": {
+            "Leixoes": 0.33,
+            "opponent": 0.33,
+            "draw": 0.33
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.8,
+            "2-3 goals": 0.2,
+            "4+ goals": 0.0
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.33,
+            "second half": 0.33,
+            "tie": 0.33
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-12",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Academico Viseu",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-30",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Leiria",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-10",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Tondela",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-23",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Alverca",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-08",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Oliveirense",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-25",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Chaves",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-12",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Torreense",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-20",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Mafra",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-07",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Felgueiras",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-23",
+            "competition": "Portugal - Fa Cup 2024/2025",
+            "opponent": "SC Braga",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-10",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Maritimo",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-10-27",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "FC Porto B",
+            "team_goals": 3,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-10-20",
+            "competition": "Portugal - Fa Cup 2024/2025",
+            "opponent": "Alcains",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-10-05",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Portimonense",
+            "team_goals": 3,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-09-15",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Vizela",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "home"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:48:44.790000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 14,
+        "team": {
+          "id": 244,
+          "name": "Leixoes",
+          "logo": "https://media.api-sports.io/football/teams/244.png"
+        },
+        "league_points": 32,
+        "goals_difference": -9,
+        "group": "Segunda Liga",
+        "form_string": "LDDLW",
+        "status": "same",
+        "coverage_percentage": {
+          "played": 30,
+          "win": 7,
+          "draw": 11,
+          "loss": 12,
+          "goals": {
+            "for": 28,
+            "against": 37
+          }
+        },
+        "home": {
+          "played": 15,
+          "win": 5,
+          "draw": 6,
+          "loss": 4,
+          "goals": {
+            "for": 21,
+            "against": 16
+          }
+        },
+        "away": {
+          "played": 15,
+          "win": 2,
+          "draw": 5,
+          "loss": 8,
+          "goals": {
+            "for": 7,
+            "against": 21
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    },
+    "away": {
+      "basic_info": {
+        "id": 235,
+        "name": "Penafiel",
+        "logo": "https://media.api-sports.io/football/teams/235.png",
+        "statarea_id": 235
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 95,
+          "name": "Segunda Liga",
+          "country": "Portugal",
+          "logo": "https://media.api-sports.io/football/leagues/95.png",
+          "flag": "https://media.api-sports.io/flags/pt.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 235,
+          "name": "Penafiel",
+          "logo": "https://media.api-sports.io/football/teams/235.png"
+        },
+        "form_string": "WWDWDWWDLWWDLWWDWDDLLLWLWLLLLL",
+        "fixtures": {
+          "played": {
+            "home": 15,
+            "away": 15,
+            "total": 30
+          },
+          "wins": {
+            "home": 6,
+            "away": 6,
+            "total": 12
+          },
+          "draws": {
+            "home": 5,
+            "away": 2,
+            "total": 7
+          },
+          "losses": {
+            "home": 4,
+            "away": 7,
+            "total": 11
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 24,
+              "away": 19,
+              "total": 43
+            },
+            "average": {
+              "home": 1.6,
+              "away": 1.3,
+              "total": 1.4
+            },
+            "minute": {
+              "0-15": {
+                "total": 11,
+                "percentage": 0.2619
+              },
+              "16-30": {
+                "total": 8,
+                "percentage": 0.1905
+              },
+              "31-45": {
+                "total": 3,
+                "percentage": 0.07139999999999999
+              },
+              "46-60": {
+                "total": 5,
+                "percentage": 0.11900000000000001
+              },
+              "61-75": {
+                "total": 8,
+                "percentage": 0.1905
+              },
+              "76-90": {
+                "total": 4,
+                "percentage": 0.09519999999999999
+              },
+              "91-105": {
+                "total": 3,
+                "percentage": 0.07139999999999999
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 23,
+                "under": 7
+              },
+              "1.5": {
+                "over": 14,
+                "under": 16
+              },
+              "2.5": {
+                "over": 5,
+                "under": 25
+              },
+              "3.5": {
+                "over": 1,
+                "under": 29
+              },
+              "4.5": {
+                "over": 0,
+                "under": 30
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 20,
+              "away": 22,
+              "total": 42
+            },
+            "average": {
+              "home": 1.3,
+              "away": 1.5,
+              "total": 1.4
+            },
+            "minute": {
+              "0-15": {
+                "total": 10,
+                "percentage": 0.23260000000000003
+              },
+              "16-30": {
+                "total": 6,
+                "percentage": 0.13949999999999999
+              },
+              "31-45": {
+                "total": 7,
+                "percentage": 0.1628
+              },
+              "46-60": {
+                "total": 8,
+                "percentage": 0.18600000000000003
+              },
+              "61-75": {
+                "total": 7,
+                "percentage": 0.1628
+              },
+              "76-90": {
+                "total": 3,
+                "percentage": 0.0698
+              },
+              "91-105": {
+                "total": 2,
+                "percentage": 0.04650000000000001
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 25,
+                "under": 5
+              },
+              "1.5": {
+                "over": 12,
+                "under": 18
+              },
+              "2.5": {
+                "over": 4,
+                "under": 26
+              },
+              "3.5": {
+                "over": 1,
+                "under": 29
+              },
+              "4.5": {
+                "over": 0,
+                "under": 30
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 2,
+            "draws": 2,
+            "losses": 3
+          },
+          "wins": {
+            "home": "3-0",
+            "away": "1-3"
+          },
+          "losses": {
+            "home": "0-2",
+            "away": "3-0"
+          },
+          "goals": {
+            "for": {
+              "home": 4,
+              "away": 3
+            },
+            "against": {
+              "home": 3,
+              "away": 4
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 2,
+          "away": 3,
+          "total": 5
+        },
+        "failed_to_score": {
+          "home": 2,
+          "away": 5,
+          "total": 7
+        },
+        "penalty": {
+          "scored": {
+            "total": 5,
+            "percentage": 0.625
+          },
+          "missed": {
+            "total": 3,
+            "percentage": 0.375
+          },
+          "total": 8
+        },
+        "lineups": [
+          {
+            "formation": "4-3-3",
+            "played": 14
+          },
+          {
+            "formation": "4-2-3-1",
+            "played": 9
+          },
+          {
+            "formation": "3-4-3",
+            "played": 2
+          },
+          {
+            "formation": "5-3-2",
+            "played": 2
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 1
+          },
+          {
+            "formation": "4-4-2",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 4,
+              "percentage": 0.0449
+            },
+            "16-30": {
+              "total": 8,
+              "percentage": 0.08990000000000001
+            },
+            "31-45": {
+              "total": 11,
+              "percentage": 0.12359999999999999
+            },
+            "46-60": {
+              "total": 11,
+              "percentage": 0.12359999999999999
+            },
+            "61-75": {
+              "total": 19,
+              "percentage": 0.21350000000000002
+            },
+            "76-90": {
+              "total": 18,
+              "percentage": 0.2022
+            },
+            "91-105": {
+              "total": 17,
+              "percentage": 0.191
+            },
+            "106-120": {},
+            "": {
+              "total": 1,
+              "percentage": 0.011200000000000002
+            }
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {},
+            "46-60": {
+              "total": 1,
+              "percentage": 0.1429
+            },
+            "61-75": {
+              "total": 2,
+              "percentage": 0.2857
+            },
+            "76-90": {
+              "total": 2,
+              "percentage": 0.2857
+            },
+            "91-105": {
+              "total": 2,
+              "percentage": 0.2857
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 235,
+          "name": "Penafiel",
+          "logo": "https://media.api-sports.io/football/teams/235.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.0,
+            "att": 0.21,
+            "def": 0.36,
+            "goals": {
+              "for": {
+                "total": 3,
+                "average": 0.6
+              },
+              "against": {
+                "total": 9,
+                "average": 1.8
+              }
+            }
+          },
+          "league": {
+            "form_string": "WWDWDWWDLWWDLWWDWDDLLLWLWLLLLL",
+            "fixtures": {
+              "played": {
+                "home": 15,
+                "away": 15,
+                "total": 30
+              },
+              "wins": {
+                "home": 6,
+                "away": 6,
+                "total": 12
+              },
+              "draws": {
+                "home": 5,
+                "away": 2,
+                "total": 7
+              },
+              "losses": {
+                "home": 4,
+                "away": 7,
+                "total": 11
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 24,
+                  "away": 19,
+                  "total": 43
+                },
+                "average": {
+                  "home": 1.6,
+                  "away": 1.3,
+                  "total": 1.4
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 11,
+                    "percentage": 0.2619
+                  },
+                  "16-30": {
+                    "total": 8,
+                    "percentage": 0.1905
+                  },
+                  "31-45": {
+                    "total": 3,
+                    "percentage": 0.07139999999999999
+                  },
+                  "46-60": {
+                    "total": 5,
+                    "percentage": 0.11900000000000001
+                  },
+                  "61-75": {
+                    "total": 8,
+                    "percentage": 0.1905
+                  },
+                  "76-90": {
+                    "total": 4,
+                    "percentage": 0.09519999999999999
+                  },
+                  "91-105": {
+                    "total": 3,
+                    "percentage": 0.07139999999999999
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 23,
+                    "under": 7
+                  },
+                  "1.5": {
+                    "over": 14,
+                    "under": 16
+                  },
+                  "2.5": {
+                    "over": 5,
+                    "under": 25
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 29
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 30
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 20,
+                  "away": 22,
+                  "total": 42
+                },
+                "average": {
+                  "home": 1.3,
+                  "away": 1.5,
+                  "total": 1.4
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 10,
+                    "percentage": 0.23260000000000003
+                  },
+                  "16-30": {
+                    "total": 6,
+                    "percentage": 0.13949999999999999
+                  },
+                  "31-45": {
+                    "total": 7,
+                    "percentage": 0.1628
+                  },
+                  "46-60": {
+                    "total": 8,
+                    "percentage": 0.18600000000000003
+                  },
+                  "61-75": {
+                    "total": 7,
+                    "percentage": 0.1628
+                  },
+                  "76-90": {
+                    "total": 3,
+                    "percentage": 0.0698
+                  },
+                  "91-105": {
+                    "total": 2,
+                    "percentage": 0.04650000000000001
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 25,
+                    "under": 5
+                  },
+                  "1.5": {
+                    "over": 12,
+                    "under": 18
+                  },
+                  "2.5": {
+                    "over": 4,
+                    "under": 26
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 29
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 30
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 2,
+                "draws": 2,
+                "losses": 3
+              },
+              "wins": {
+                "home": "3-0",
+                "away": "1-3"
+              },
+              "losses": {
+                "home": "0-2",
+                "away": "3-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 4,
+                  "away": 3
+                },
+                "against": {
+                  "home": 3,
+                  "away": 4
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 2,
+              "away": 3,
+              "total": 5
+            },
+            "failed_to_score": {
+              "home": 2,
+              "away": 5,
+              "total": 7
+            },
+            "penalty": {
+              "scored": {
+                "total": 5,
+                "percentage": 0.625
+              },
+              "missed": {
+                "total": 3,
+                "percentage": 0.375
+              },
+              "total": 8
+            },
+            "lineups": [
+              {
+                "formation": "4-3-3",
+                "played": 14
+              },
+              {
+                "formation": "4-2-3-1",
+                "played": 9
+              },
+              {
+                "formation": "3-4-3",
+                "played": 2
+              },
+              {
+                "formation": "5-3-2",
+                "played": 2
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 1
+              },
+              {
+                "formation": "4-4-2",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 4,
+                  "percentage": 0.0449
+                },
+                "16-30": {
+                  "total": 8,
+                  "percentage": 0.08990000000000001
+                },
+                "31-45": {
+                  "total": 11,
+                  "percentage": 0.12359999999999999
+                },
+                "46-60": {
+                  "total": 11,
+                  "percentage": 0.12359999999999999
+                },
+                "61-75": {
+                  "total": 19,
+                  "percentage": 0.21350000000000002
+                },
+                "76-90": {
+                  "total": 18,
+                  "percentage": 0.2022
+                },
+                "91-105": {
+                  "total": 17,
+                  "percentage": 0.191
+                },
+                "106-120": {},
+                "": {
+                  "total": 1,
+                  "percentage": 0.011200000000000002
+                }
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {},
+                "46-60": {
+                  "total": 1,
+                  "percentage": 0.1429
+                },
+                "61-75": {
+                  "total": 2,
+                  "percentage": 0.2857
+                },
+                "76-90": {
+                  "total": 2,
+                  "percentage": 0.2857
+                },
+                "91-105": {
+                  "total": 2,
+                  "percentage": 0.2857
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "Penafiel",
+        "country": "Portugal",
+        "api_id": 235,
+        "game_type": "guest",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:46:10.562846",
+        "scrape_date_utc": "2025-04-22T17:46:10.562000",
+        "content_hash": "e20afdc5307e2d5628e861148ab5230b",
+        "general_statistics": {
+          "number of penafiel wins": 6,
+          "number of penafiel draws": 2,
+          "number of penafiel losses": 7,
+          "Average goals_scored per match": 1.4,
+          "Average goals_conceded per match": 1.47,
+          "Chance to score goal next match": 0.67,
+          "Chance to conceded goal next match": 0.8,
+          "Number of clean_sheets matches": 3,
+          "failed_to_score matches": 5,
+          "over 2.5 goals in": 8,
+          "under 2.5 goals in": 7,
+          "Time without scored goal": "64 min.",
+          "Time without conceded goal": "21 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "Penafiel": 0.4,
+            "draw": 0.13,
+            "opponent": 0.47
+          },
+          "halftime bet_1x2_probabilities": {
+            "Penafiel": 0.2,
+            "draw": 0.53,
+            "opponent": 0.27
+          },
+          "second half bet_1x2_probabilities": {
+            "Penafiel": 0.4,
+            "draw": 0.27,
+            "opponent": 0.33
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.67,
+            "under": 0.33
+          },
+          "over/under 1.5 goals for penafiel only": {
+            "over": 0.53,
+            "under": 0.47
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.53,
+            "under": 0.47
+          },
+          "over/under 2.5 goals for penafiel only": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.4,
+            "under": 0.6
+          },
+          "over/under 3.5 goals for penafiel only": {
+            "over": 0.07,
+            "under": 0.93
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.33,
+            "2-3": 0.27,
+            "4+": 0.4
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.47,
+            "only one": 0.53,
+            "neither": 0.0
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.6,
+            "even": 0.4
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.12,
+            "16-30 min.": 0.12,
+            "31-45 min.": 0.16,
+            "46-60 min.": 0.16,
+            "61-75 min.": 0.28,
+            "76-90 min.": 0.16
+          },
+          "Penafiel goals only": {
+            "0-15 min.": 0.1,
+            "16-30 min.": 0.14,
+            "31-45 min.": 0.14,
+            "46-60 min.": 0.14,
+            "61-75 min.": 0.29,
+            "76-90 min.": 0.19
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.27,
+            "11-20 min.": 0.13,
+            "21-30 min.": 0.07,
+            "31-40 min.": 0.27,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.13,
+            "without goal": 0.0
+          },
+          "time of first penafiel goal": {
+            "0-10 min.": 0.13,
+            "11-20 min.": 0.07,
+            "21-30 min.": 0.07,
+            "31-40 min.": 0.2,
+            "41-50 min.": 0.0,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.07,
+            "without goal": 0.33
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "Penafiel": 0.47,
+            "opponent": 0.53,
+            "without goal": 0.0
+          },
+          "win after 15 minutes": {
+            "Penafiel": 0.13,
+            "opponent": 0.2,
+            "draw": 0.67
+          },
+          "win after 30 minutes": {
+            "Penafiel": 0.13,
+            "opponent": 0.2,
+            "draw": 0.67
+          },
+          "bet_halftime_result_probabilities": {
+            "Penafiel": 0.2,
+            "opponent": 0.27,
+            "draw": 0.53
+          },
+          "win after 60 minutes": {
+            "Penafiel": 0.27,
+            "opponent": 0.27,
+            "draw": 0.47
+          },
+          "win after 75 minutes": {
+            "Penafiel": 0.4,
+            "opponent": 0.47,
+            "draw": 0.13
+          },
+          "bet_fulltime_result_probabilities": {
+            "Penafiel": 0.4,
+            "opponent": 0.47,
+            "draw": 0.13
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.6,
+            "2-3 goals": 0.4,
+            "4+ goals": 0.0
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.47,
+            "second half": 0.4,
+            "tie": 0.13
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-14",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Mafra",
+            "team_goals": 2,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-04-05",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Felgueiras",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-15",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Academico Viseu",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-02",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Leiria",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-16",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "FC Porto B",
+            "team_goals": 2,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-01",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Tondela",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-20",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Oliveirense",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-04",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Chaves",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-22",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Torreense",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-07",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Feirense",
+            "team_goals": 0,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-02",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Maritimo",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-12",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Alverca",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2024-09-28",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Portimonense",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-09-21",
+            "competition": "Portugal - Fa Cup 2024/2025",
+            "opponent": "Tocha",
+            "team_goals": 4,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-09-01",
+            "competition": "Portugal - Liga Portugal 2 2024/2025",
+            "opponent": "Pacos Ferreira",
+            "team_goals": 3,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:49:11.465000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 9,
+        "team": {
+          "id": 235,
+          "name": "Penafiel",
+          "logo": "https://media.api-sports.io/football/teams/235.png"
+        },
+        "league_points": 43,
+        "goals_difference": 1,
+        "group": "Segunda Liga",
+        "form_string": "LLLLL",
+        "status": "down",
+        "coverage_percentage": {
+          "played": 30,
+          "win": 12,
+          "draw": 7,
+          "loss": 11,
+          "goals": {
+            "for": 43,
+            "against": 42
+          }
+        },
+        "home": {
+          "played": 15,
+          "win": 6,
+          "draw": 5,
+          "loss": 4,
+          "goals": {
+            "for": 24,
+            "against": 20
+          }
+        },
+        "away": {
+          "played": 15,
+          "win": 6,
+          "draw": 2,
+          "loss": 7,
+          "goals": {
+            "for": 19,
+            "against": 22
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    }
+  },
+  "goals": {}
+}

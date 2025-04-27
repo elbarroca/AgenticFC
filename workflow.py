@@ -1,16 +1,12 @@
-# Path: workflow.py
 import subprocess
 import sys
 import logging
 import os
 from datetime import datetime
 
-# --- Configuration ---
 PYTHON_EXECUTABLE = sys.executable # Use the same python environment
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) # Assumes workflow.py is in the project root
 
-# Paths to the scripts relative to the BASE_DIR
-# Adjust these paths if workflow.py is not in the project root
 DATA_FETCHER_SCRIPT = os.path.join(BASE_DIR, "get_data", "data_fetcher.py")
 EXTRACT_DAILY_GAMES_SCRIPT = os.path.join(BASE_DIR, "score_data", "extract_daily_games.py")
 PREDICT_GAMES_SCRIPT = os.path.join(BASE_DIR, "score_data", "predict_games.py")
@@ -43,8 +39,7 @@ def run_script(script_path: str, script_name: str) -> bool:
         return False
 
     try:
-        # Run the script, capture output and errors
-        # Set cwd to the script's directory to handle relative paths within the script correctly
+
         script_dir = os.path.dirname(script_path)
         result = subprocess.run(
             [PYTHON_EXECUTABLE, os.path.basename(script_path)],
@@ -83,43 +78,28 @@ def main_workflow():
     logger.info("Step 1: Fetching Daily Data...")
     if not run_script(DATA_FETCHER_SCRIPT, "Data Fetcher"):
         success = False
-        # Decide if we should stop if fetching fails
-        # logger.error("Halting workflow due to Data Fetcher failure.")
-        # return
 
     # Step 2: Extract and Unify Daily Games
     if success:
         logger.info("\nStep 2: Extracting & Unifying Daily Games...")
         if not run_script(EXTRACT_DAILY_GAMES_SCRIPT, "Extract Daily Games"):
             success = False
-            # Decide if we should stop if extraction fails
-            # logger.error("Halting workflow due to Extract Daily Games failure.")
-            # return
 
     # Step 3: Predict Games
     if success:
         logger.info("\nStep 3: Running Game Predictions...")
         if not run_script(PREDICT_GAMES_SCRIPT, "Predict Games"):
             success = False
-            # Decide if we should stop if prediction fails
-            # logger.error("Halting workflow due to Predict Games failure.")
-            # return
 
     # Step 4: Generate Betting Papers
     if success:
         logger.info("\nStep 4: Generating Betting Papers...")
         if not run_script(PAPER_GENERATOR_SCRIPT, "Paper Generator"):
             success = False
-            # Optional: Decide if workflow should halt on paper generation failure
-            # logger.error("Halting workflow due to Paper Generator failure.")
-            # return
 
     # Step 5: Match Predictions to Market Odds (Placeholder) - Renumbered
     if success:
         logger.info("\nStep 5: Match Predictions to Market Odds (Future Implementation)...")
-        # Placeholder for calling the new odds matching logic
-        # if not run_script(ODDS_MATCHER_SCRIPT, "Odds Matcher"):
-        #     success = False
         logger.info("Skipping odds matching step - requires implementation.")
 
 

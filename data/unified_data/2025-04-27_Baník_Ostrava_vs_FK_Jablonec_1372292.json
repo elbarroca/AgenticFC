@@ -1,0 +1,1536 @@
+{
+  "fixture_id": 1372292,
+  "match_date": "2025-04-27",
+  "league": {
+    "id": "None",
+    "statarea_id": "unknown"
+  },
+  "engineered_features": {
+    "home": {
+      "team_id": 3713,
+      "team_name": "Baník Ostrava",
+      "team_statarea_id": "unknown",
+      "base_league_id": "None",
+      "proc_league_id": 345,
+      "proc_league_name": "Czech Liga",
+      "proc_league_country": "Czech-Republic",
+      "proc_league_season": 2024,
+      "proc_team_id": 3713,
+      "proc_team_name": "Baník Ostrava",
+      "weather_temp_celsius": 13.01,
+      "weather_temp_feels_like_celsius": 11.41,
+      "weather_pressure_hpa": 1027,
+      "weather_humidity_pct": 40,
+      "weather_wind_speed_mps": 7.72,
+      "weather_wind_direction_deg": 30,
+      "weather_cloud_coverage_pct": 0,
+      "weather_description": "clear sky",
+      "weather_condition_main": "Clear",
+      "standings_league_rank": 3,
+      "standings_league_points": 64,
+      "standings_goals_difference": 26,
+      "standings_group_name": "Czech Liga: Championship Round",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 4,
+          "proc_goals_scored_min_0_15_pct": 0.0769,
+          "proc_goals_scored_min_16_30_count": 6,
+          "proc_goals_scored_min_16_30_pct": 0.1154,
+          "proc_goals_scored_min_31_45_count": 12,
+          "proc_goals_scored_min_31_45_pct": 0.2308,
+          "proc_goals_scored_min_46_60_count": 7,
+          "proc_goals_scored_min_46_60_pct": 0.1346,
+          "proc_goals_scored_min_61_75_count": 8,
+          "proc_goals_scored_min_61_75_pct": 0.1538,
+          "proc_goals_scored_min_76_90_count": 9,
+          "proc_goals_scored_min_76_90_pct": 0.1731,
+          "proc_goals_scored_min_91_105_count": 4,
+          "proc_goals_scored_min_91_105_pct": 0.0769
+        },
+        "card_stats": {
+          "yellow_avg": 1.333,
+          "red_avg": 0.067
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.6667000000000001,
+          "proc_penalty_missed_pct": 0.3333,
+          "proc_penalty_total_taken": 6
+        }
+      }
+    },
+    "away": {
+      "team_id": 1122,
+      "team_name": "FK Jablonec",
+      "team_statarea_id": "unknown",
+      "base_league_id": "None",
+      "proc_league_id": 345,
+      "proc_league_name": "Czech Liga",
+      "proc_league_country": "Czech-Republic",
+      "proc_league_season": 2024,
+      "proc_team_id": 1122,
+      "proc_team_name": "FK Jablonec",
+      "weather_temp_celsius": 13.01,
+      "weather_temp_feels_like_celsius": 11.41,
+      "weather_pressure_hpa": 1027,
+      "weather_humidity_pct": 40,
+      "weather_wind_speed_mps": 7.72,
+      "weather_wind_direction_deg": 30,
+      "weather_cloud_coverage_pct": 0,
+      "weather_description": "clear sky",
+      "weather_condition_main": "Clear",
+      "standings_league_rank": 5,
+      "standings_league_points": 51,
+      "standings_goals_difference": 22,
+      "standings_group_name": "Czech Liga: Championship Round",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 4,
+          "proc_goals_scored_min_0_15_pct": 0.0851,
+          "proc_goals_scored_min_16_30_count": 7,
+          "proc_goals_scored_min_16_30_pct": 0.1489,
+          "proc_goals_scored_min_31_45_count": 10,
+          "proc_goals_scored_min_31_45_pct": 0.2128,
+          "proc_goals_scored_min_46_60_count": 10,
+          "proc_goals_scored_min_46_60_pct": 0.2128,
+          "proc_goals_scored_min_61_75_count": 8,
+          "proc_goals_scored_min_61_75_pct": 0.1702,
+          "proc_goals_scored_min_76_90_count": 7,
+          "proc_goals_scored_min_76_90_pct": 0.1489,
+          "proc_goals_scored_min_91_105_count": 1,
+          "proc_goals_scored_min_91_105_pct": 0.0213
+        },
+        "card_stats": {
+          "yellow_avg": 1.667,
+          "red_avg": 0.067
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.8,
+          "proc_penalty_missed_pct": 0.2,
+          "proc_penalty_total_taken": 5
+        }
+      }
+    }
+  },
+  "model_input_features": {
+    "eng_h_team_id": 3713.0,
+    "eng_h_proc_league_id": 345.0,
+    "eng_h_proc_league_season": 2024.0,
+    "eng_h_proc_team_id": 3713.0,
+    "eng_h_weather_temp_celsius": 13.01,
+    "eng_h_weather_temp_feels_like_celsius": 11.41,
+    "eng_h_weather_pressure_hpa": 1027.0,
+    "eng_h_weather_humidity_pct": 40.0,
+    "eng_h_weather_wind_speed_mps": 7.72,
+    "eng_h_weather_wind_direction_deg": 30.0,
+    "eng_h_weather_cloud_coverage_pct": 0.0,
+    "eng_h_weather_condition_main": "Clear",
+    "eng_h_standings_league_rank": 3.0,
+    "eng_h_standings_league_points": 64.0,
+    "eng_h_standings_goals_difference": 26.0,
+    "eng_a_team_id": 1122.0,
+    "eng_a_proc_league_id": 345.0,
+    "eng_a_proc_league_season": 2024.0,
+    "eng_a_proc_team_id": 1122.0,
+    "eng_a_weather_temp_celsius": 13.01,
+    "eng_a_weather_temp_feels_like_celsius": 11.41,
+    "eng_a_weather_pressure_hpa": 1027.0,
+    "eng_a_weather_humidity_pct": 40.0,
+    "eng_a_weather_wind_speed_mps": 7.72,
+    "eng_a_weather_wind_direction_deg": 30.0,
+    "eng_a_weather_cloud_coverage_pct": 0.0,
+    "eng_a_weather_condition_main": "Clear",
+    "eng_a_standings_league_rank": 5.0,
+    "eng_a_standings_league_points": 51.0,
+    "eng_a_standings_goals_difference": 22.0,
+    "eng_diff_weather_temp_celsius": 0.0,
+    "eng_ratio_weather_temp_celsius": 1.0,
+    "eng_diff_weather_humidity_pct": 0.0,
+    "eng_ratio_weather_humidity_pct": 1.0,
+    "eng_diff_proc_team_id": 2591.0,
+    "eng_ratio_proc_team_id": 3.3092691622103385,
+    "eng_diff_proc_league_season": 0.0,
+    "eng_ratio_proc_league_season": 1.0,
+    "eng_diff_team_id": 2591.0,
+    "eng_ratio_team_id": 3.3092691622103385,
+    "eng_diff_weather_temp_feels_like_celsius": 0.0,
+    "eng_ratio_weather_temp_feels_like_celsius": 1.0,
+    "eng_diff_standings_goals_difference": 4.0,
+    "eng_ratio_standings_goals_difference": 1.1818181818181819,
+    "eng_diff_weather_wind_speed_mps": 0.0,
+    "eng_ratio_weather_wind_speed_mps": 1.0,
+    "eng_diff_weather_pressure_hpa": 0.0,
+    "eng_ratio_weather_pressure_hpa": 1.0,
+    "eng_diff_weather_condition_main": -999.0,
+    "eng_ratio_weather_condition_main": -999.0,
+    "eng_diff_standings_league_points": 13.0,
+    "eng_ratio_standings_league_points": 1.2549019607843137,
+    "eng_diff_standings_league_rank": -2.0,
+    "eng_ratio_standings_league_rank": 0.6,
+    "eng_diff_weather_cloud_coverage_pct": 0.0,
+    "eng_ratio_weather_cloud_coverage_pct": -998.0,
+    "eng_diff_weather_wind_direction_deg": 0.0,
+    "eng_ratio_weather_wind_direction_deg": 1.0,
+    "eng_diff_proc_league_id": 0.0,
+    "eng_ratio_proc_league_id": 1.0
+  },
+  "fixture_meta": {
+    "id": 1372292,
+    "date_utc": "2025-04-27T13:30:00+00:00",
+    "timestamp_utc": 1745760600,
+    "referee": "J. Všetečka",
+    "venue": {
+      "name": "Městský stadion - Vítkovice Aréna",
+      "city": "Ostrava"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "coord": {
+        "lon": 18.282,
+        "lat": 49.8346
+      },
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "clear sky",
+          "icon": "01d"
+        }
+      ],
+      "base": "stations",
+      "main": {
+        "temperature": 13.01,
+        "temperature_feels_like": 11.41,
+        "temperature_min": 12.76,
+        "temperature_max": 15.26,
+        "air_pressure": 1027,
+        "humidity": 40,
+        "pressure_sea_level": 1027,
+        "pressure_ground_level": 999
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed_mps": 7.72,
+        "direction_degrees": 30
+      },
+      "clouds": {
+        "coverage_percentage": 0
+      },
+      "dt": 1745750989,
+      "sys": {
+        "type": 2,
+        "id": 47767,
+        "country": "CZ",
+        "sunrise": 1745724643,
+        "sunset": 1745776681
+      },
+      "timezone": 7200,
+      "id": 3068799,
+      "name": "Ostrava",
+      "cod": 200,
+      "summary": "Clear: clear sky, Temp: 13.01°C"
+    }
+  },
+  "raw_data": {
+    "home": {
+      "basic_info": {
+        "id": 3713,
+        "name": "Baník Ostrava",
+        "logo": "https://media.api-sports.io/football/teams/3713.png",
+        "statarea_id": "unknown"
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 345,
+          "name": "Czech Liga",
+          "country": "Czech-Republic",
+          "logo": "https://media.api-sports.io/football/leagues/345.png",
+          "flag": "https://media.api-sports.io/flags/cz.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 3713,
+          "name": "Baník Ostrava",
+          "logo": "https://media.api-sports.io/football/teams/3713.png"
+        },
+        "form_string": "LWWLWDDWWDLWWWLWLWWWWLWWWWWDWW",
+        "fixtures": {
+          "played": {
+            "home": 15,
+            "away": 15,
+            "total": 30
+          },
+          "wins": {
+            "home": 12,
+            "away": 8,
+            "total": 20
+          },
+          "draws": {
+            "home": 1,
+            "away": 3,
+            "total": 4
+          },
+          "losses": {
+            "home": 2,
+            "away": 4,
+            "total": 6
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 30,
+              "away": 22,
+              "total": 52
+            },
+            "average": {
+              "home": 2.0,
+              "away": 1.5,
+              "total": 1.7
+            },
+            "minute": {
+              "0-15": {
+                "total": 4,
+                "percentage": 0.08
+              },
+              "16-30": {
+                "total": 6,
+                "percentage": 0.12
+              },
+              "31-45": {
+                "total": 12,
+                "percentage": 0.24
+              },
+              "46-60": {
+                "total": 7,
+                "percentage": 0.14
+              },
+              "61-75": {
+                "total": 8,
+                "percentage": 0.16
+              },
+              "76-90": {
+                "total": 9,
+                "percentage": 0.18
+              },
+              "91-105": {
+                "total": 4,
+                "percentage": 0.08
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 25,
+                "under": 5
+              },
+              "1.5": {
+                "over": 14,
+                "under": 16
+              },
+              "2.5": {
+                "over": 7,
+                "under": 23
+              },
+              "3.5": {
+                "over": 3,
+                "under": 27
+              },
+              "4.5": {
+                "over": 2,
+                "under": 28
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 11,
+              "away": 15,
+              "total": 26
+            },
+            "average": {
+              "home": 0.7,
+              "away": 1.0,
+              "total": 0.9
+            },
+            "minute": {
+              "0-15": {
+                "total": 7,
+                "percentage": 0.25
+              },
+              "16-30": {
+                "total": 1,
+                "percentage": 0.035699999999999996
+              },
+              "31-45": {
+                "total": 5,
+                "percentage": 0.17859999999999998
+              },
+              "46-60": {
+                "total": 6,
+                "percentage": 0.2143
+              },
+              "61-75": {
+                "total": 1,
+                "percentage": 0.035699999999999996
+              },
+              "76-90": {
+                "total": 7,
+                "percentage": 0.25
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.035699999999999996
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 17,
+                "under": 13
+              },
+              "1.5": {
+                "over": 7,
+                "under": 23
+              },
+              "2.5": {
+                "over": 2,
+                "under": 28
+              },
+              "3.5": {
+                "over": 0,
+                "under": 30
+              },
+              "4.5": {
+                "over": 0,
+                "under": 30
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 5,
+            "draws": 2,
+            "losses": 1
+          },
+          "wins": {
+            "home": "6-0",
+            "away": "0-4"
+          },
+          "losses": {
+            "home": "1-3",
+            "away": "3-1"
+          },
+          "goals": {
+            "for": {
+              "home": 6,
+              "away": 4
+            },
+            "against": {
+              "home": 3,
+              "away": 3
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 7,
+          "away": 6,
+          "total": 13
+        },
+        "failed_to_score": {
+          "home": 1,
+          "away": 4,
+          "total": 5
+        },
+        "penalty": {
+          "scored": {
+            "total": 4,
+            "percentage": 0.6667000000000001
+          },
+          "missed": {
+            "total": 2,
+            "percentage": 0.3333
+          },
+          "total": 6
+        },
+        "lineups": [
+          {
+            "formation": "3-4-3",
+            "played": 13
+          },
+          {
+            "formation": "4-2-3-1",
+            "played": 7
+          },
+          {
+            "formation": "3-4-1-2",
+            "played": 2
+          },
+          {
+            "formation": "3-5-2",
+            "played": 2
+          },
+          {
+            "formation": "3-1-4-2",
+            "played": 2
+          },
+          {
+            "formation": "5-4-1",
+            "played": 1
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 1
+          },
+          {
+            "formation": "3-4-2-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 3,
+              "percentage": 0.075
+            },
+            "16-30": {
+              "total": 6,
+              "percentage": 0.15
+            },
+            "31-45": {
+              "total": 5,
+              "percentage": 0.125
+            },
+            "46-60": {
+              "total": 7,
+              "percentage": 0.175
+            },
+            "61-75": {
+              "total": 3,
+              "percentage": 0.075
+            },
+            "76-90": {
+              "total": 8,
+              "percentage": 0.2
+            },
+            "91-105": {
+              "total": 8,
+              "percentage": 0.2
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {
+              "total": 1,
+              "percentage": 0.5
+            },
+            "46-60": {},
+            "61-75": {},
+            "76-90": {
+              "total": 1,
+              "percentage": 0.5
+            },
+            "91-105": {},
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 3713,
+          "name": "Baník Ostrava",
+          "logo": "https://media.api-sports.io/football/teams/3713.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.87,
+            "att": 0.71,
+            "def": 0.71,
+            "goals": {
+              "for": {
+                "total": 10,
+                "average": 2.0
+              },
+              "against": {
+                "total": 4,
+                "average": 0.8
+              }
+            }
+          },
+          "league": {
+            "form_string": "LWWLWDDWWDLWWWLWLWWWWLWWWWWDWW",
+            "fixtures": {
+              "played": {
+                "home": 15,
+                "away": 15,
+                "total": 30
+              },
+              "wins": {
+                "home": 12,
+                "away": 8,
+                "total": 20
+              },
+              "draws": {
+                "home": 1,
+                "away": 3,
+                "total": 4
+              },
+              "losses": {
+                "home": 2,
+                "away": 4,
+                "total": 6
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 30,
+                  "away": 22,
+                  "total": 52
+                },
+                "average": {
+                  "home": 2.0,
+                  "away": 1.5,
+                  "total": 1.7
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 4,
+                    "percentage": 0.08
+                  },
+                  "16-30": {
+                    "total": 6,
+                    "percentage": 0.12
+                  },
+                  "31-45": {
+                    "total": 12,
+                    "percentage": 0.24
+                  },
+                  "46-60": {
+                    "total": 7,
+                    "percentage": 0.14
+                  },
+                  "61-75": {
+                    "total": 8,
+                    "percentage": 0.16
+                  },
+                  "76-90": {
+                    "total": 9,
+                    "percentage": 0.18
+                  },
+                  "91-105": {
+                    "total": 4,
+                    "percentage": 0.08
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 25,
+                    "under": 5
+                  },
+                  "1.5": {
+                    "over": 14,
+                    "under": 16
+                  },
+                  "2.5": {
+                    "over": 7,
+                    "under": 23
+                  },
+                  "3.5": {
+                    "over": 3,
+                    "under": 27
+                  },
+                  "4.5": {
+                    "over": 2,
+                    "under": 28
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 11,
+                  "away": 15,
+                  "total": 26
+                },
+                "average": {
+                  "home": 0.7,
+                  "away": 1.0,
+                  "total": 0.9
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 7,
+                    "percentage": 0.25
+                  },
+                  "16-30": {
+                    "total": 1,
+                    "percentage": 0.035699999999999996
+                  },
+                  "31-45": {
+                    "total": 5,
+                    "percentage": 0.17859999999999998
+                  },
+                  "46-60": {
+                    "total": 6,
+                    "percentage": 0.2143
+                  },
+                  "61-75": {
+                    "total": 1,
+                    "percentage": 0.035699999999999996
+                  },
+                  "76-90": {
+                    "total": 7,
+                    "percentage": 0.25
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.035699999999999996
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 17,
+                    "under": 13
+                  },
+                  "1.5": {
+                    "over": 7,
+                    "under": 23
+                  },
+                  "2.5": {
+                    "over": 2,
+                    "under": 28
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 30
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 30
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 5,
+                "draws": 2,
+                "losses": 1
+              },
+              "wins": {
+                "home": "6-0",
+                "away": "0-4"
+              },
+              "losses": {
+                "home": "1-3",
+                "away": "3-1"
+              },
+              "goals": {
+                "for": {
+                  "home": 6,
+                  "away": 4
+                },
+                "against": {
+                  "home": 3,
+                  "away": 3
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 7,
+              "away": 6,
+              "total": 13
+            },
+            "failed_to_score": {
+              "home": 1,
+              "away": 4,
+              "total": 5
+            },
+            "penalty": {
+              "scored": {
+                "total": 4,
+                "percentage": 0.6667000000000001
+              },
+              "missed": {
+                "total": 2,
+                "percentage": 0.3333
+              },
+              "total": 6
+            },
+            "lineups": [
+              {
+                "formation": "3-4-3",
+                "played": 13
+              },
+              {
+                "formation": "4-2-3-1",
+                "played": 7
+              },
+              {
+                "formation": "3-4-1-2",
+                "played": 2
+              },
+              {
+                "formation": "3-5-2",
+                "played": 2
+              },
+              {
+                "formation": "3-1-4-2",
+                "played": 2
+              },
+              {
+                "formation": "5-4-1",
+                "played": 1
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 1
+              },
+              {
+                "formation": "3-4-2-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 3,
+                  "percentage": 0.075
+                },
+                "16-30": {
+                  "total": 6,
+                  "percentage": 0.15
+                },
+                "31-45": {
+                  "total": 5,
+                  "percentage": 0.125
+                },
+                "46-60": {
+                  "total": 7,
+                  "percentage": 0.175
+                },
+                "61-75": {
+                  "total": 3,
+                  "percentage": 0.075
+                },
+                "76-90": {
+                  "total": 8,
+                  "percentage": 0.2
+                },
+                "91-105": {
+                  "total": 8,
+                  "percentage": 0.2
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {
+                  "total": 1,
+                  "percentage": 0.5
+                },
+                "46-60": {},
+                "61-75": {},
+                "76-90": {
+                  "total": 1,
+                  "percentage": 0.5
+                },
+                "91-105": {},
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {},
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 3,
+        "team": {
+          "id": 3713,
+          "name": "Baník Ostrava",
+          "logo": "https://media.api-sports.io/football/teams/3713.png"
+        },
+        "league_points": 64,
+        "goals_difference": 26,
+        "group": "Czech Liga: Championship Round",
+        "status": "same",
+        "description": "UEFA Europa League Qualifiers",
+        "coverage_percentage": {
+          "played": 30,
+          "win": 20,
+          "draw": 4,
+          "loss": 6,
+          "goals": {
+            "for": 52,
+            "against": 26
+          }
+        },
+        "home": {
+          "played": 0,
+          "win": 0,
+          "draw": 0,
+          "loss": 0,
+          "goals": {
+            "for": 0,
+            "against": 0
+          }
+        },
+        "away": {
+          "played": 0,
+          "win": 0,
+          "draw": 0,
+          "loss": 0,
+          "goals": {
+            "for": 0,
+            "against": 0
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    },
+    "away": {
+      "basic_info": {
+        "id": 1122,
+        "name": "FK Jablonec",
+        "logo": "https://media.api-sports.io/football/teams/1122.png",
+        "statarea_id": "unknown"
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 345,
+          "name": "Czech Liga",
+          "country": "Czech-Republic",
+          "logo": "https://media.api-sports.io/football/leagues/345.png",
+          "flag": "https://media.api-sports.io/flags/cz.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 1122,
+          "name": "FK Jablonec",
+          "logo": "https://media.api-sports.io/football/teams/1122.png"
+        },
+        "form_string": "WLDWLWDLWWLDWLWLWWLLWWWDDLDWWW",
+        "fixtures": {
+          "played": {
+            "home": 15,
+            "away": 15,
+            "total": 30
+          },
+          "wins": {
+            "home": 9,
+            "away": 6,
+            "total": 15
+          },
+          "draws": {
+            "home": 3,
+            "away": 3,
+            "total": 6
+          },
+          "losses": {
+            "home": 3,
+            "away": 6,
+            "total": 9
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 29,
+              "away": 18,
+              "total": 47
+            },
+            "average": {
+              "home": 1.9,
+              "away": 1.2,
+              "total": 1.6
+            },
+            "minute": {
+              "0-15": {
+                "total": 4,
+                "percentage": 0.0851
+              },
+              "16-30": {
+                "total": 7,
+                "percentage": 0.1489
+              },
+              "31-45": {
+                "total": 10,
+                "percentage": 0.21280000000000002
+              },
+              "46-60": {
+                "total": 10,
+                "percentage": 0.21280000000000002
+              },
+              "61-75": {
+                "total": 8,
+                "percentage": 0.1702
+              },
+              "76-90": {
+                "total": 7,
+                "percentage": 0.1489
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.0213
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 20,
+                "under": 10
+              },
+              "1.5": {
+                "over": 13,
+                "under": 17
+              },
+              "2.5": {
+                "over": 7,
+                "under": 23
+              },
+              "3.5": {
+                "over": 4,
+                "under": 26
+              },
+              "4.5": {
+                "over": 3,
+                "under": 27
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 9,
+              "away": 16,
+              "total": 25
+            },
+            "average": {
+              "home": 0.6,
+              "away": 1.1,
+              "total": 0.8
+            },
+            "minute": {
+              "0-15": {
+                "total": 2,
+                "percentage": 0.08
+              },
+              "16-30": {
+                "total": 4,
+                "percentage": 0.16
+              },
+              "31-45": {
+                "total": 3,
+                "percentage": 0.12
+              },
+              "46-60": {
+                "total": 4,
+                "percentage": 0.16
+              },
+              "61-75": {
+                "total": 6,
+                "percentage": 0.24
+              },
+              "76-90": {
+                "total": 5,
+                "percentage": 0.2
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.04
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 15,
+                "under": 15
+              },
+              "1.5": {
+                "over": 8,
+                "under": 22
+              },
+              "2.5": {
+                "over": 2,
+                "under": 28
+              },
+              "3.5": {
+                "over": 0,
+                "under": 30
+              },
+              "4.5": {
+                "over": 0,
+                "under": 30
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 3,
+            "draws": 2,
+            "losses": 2
+          },
+          "wins": {
+            "home": "5-0",
+            "away": "0-5"
+          },
+          "losses": {
+            "home": "1-2",
+            "away": "3-0"
+          },
+          "goals": {
+            "for": {
+              "home": 5,
+              "away": 5
+            },
+            "against": {
+              "home": 2,
+              "away": 3
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 9,
+          "away": 6,
+          "total": 15
+        },
+        "failed_to_score": {
+          "home": 4,
+          "away": 6,
+          "total": 10
+        },
+        "penalty": {
+          "scored": {
+            "total": 4,
+            "percentage": 0.8
+          },
+          "missed": {
+            "total": 1,
+            "percentage": 0.2
+          },
+          "total": 5
+        },
+        "lineups": [
+          {
+            "formation": "3-4-3",
+            "played": 13
+          },
+          {
+            "formation": "3-4-2-1",
+            "played": 8
+          },
+          {
+            "formation": "3-5-2",
+            "played": 3
+          },
+          {
+            "formation": "3-4-1-2",
+            "played": 3
+          },
+          {
+            "formation": "5-4-1",
+            "played": 1
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 1,
+              "percentage": 0.02
+            },
+            "16-30": {
+              "total": 5,
+              "percentage": 0.1
+            },
+            "31-45": {
+              "total": 6,
+              "percentage": 0.12
+            },
+            "46-60": {
+              "total": 9,
+              "percentage": 0.18
+            },
+            "61-75": {
+              "total": 12,
+              "percentage": 0.24
+            },
+            "76-90": {
+              "total": 14,
+              "percentage": 0.28
+            },
+            "91-105": {
+              "total": 3,
+              "percentage": 0.06
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {},
+            "46-60": {},
+            "61-75": {
+              "total": 2,
+              "percentage": 1.0
+            },
+            "76-90": {},
+            "91-105": {},
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 1122,
+          "name": "FK Jablonec",
+          "logo": "https://media.api-sports.io/football/teams/1122.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.67,
+            "att": 0.21,
+            "def": 0.79,
+            "goals": {
+              "for": {
+                "total": 3,
+                "average": 0.6
+              },
+              "against": {
+                "total": 3,
+                "average": 0.6
+              }
+            }
+          },
+          "league": {
+            "form_string": "WLDWLWDLWWLDWLWLWWLLWWWDDLDWWW",
+            "fixtures": {
+              "played": {
+                "home": 15,
+                "away": 15,
+                "total": 30
+              },
+              "wins": {
+                "home": 9,
+                "away": 6,
+                "total": 15
+              },
+              "draws": {
+                "home": 3,
+                "away": 3,
+                "total": 6
+              },
+              "losses": {
+                "home": 3,
+                "away": 6,
+                "total": 9
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 29,
+                  "away": 18,
+                  "total": 47
+                },
+                "average": {
+                  "home": 1.9,
+                  "away": 1.2,
+                  "total": 1.6
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 4,
+                    "percentage": 0.0851
+                  },
+                  "16-30": {
+                    "total": 7,
+                    "percentage": 0.1489
+                  },
+                  "31-45": {
+                    "total": 10,
+                    "percentage": 0.21280000000000002
+                  },
+                  "46-60": {
+                    "total": 10,
+                    "percentage": 0.21280000000000002
+                  },
+                  "61-75": {
+                    "total": 8,
+                    "percentage": 0.1702
+                  },
+                  "76-90": {
+                    "total": 7,
+                    "percentage": 0.1489
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.0213
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 20,
+                    "under": 10
+                  },
+                  "1.5": {
+                    "over": 13,
+                    "under": 17
+                  },
+                  "2.5": {
+                    "over": 7,
+                    "under": 23
+                  },
+                  "3.5": {
+                    "over": 4,
+                    "under": 26
+                  },
+                  "4.5": {
+                    "over": 3,
+                    "under": 27
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 9,
+                  "away": 16,
+                  "total": 25
+                },
+                "average": {
+                  "home": 0.6,
+                  "away": 1.1,
+                  "total": 0.8
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 2,
+                    "percentage": 0.08
+                  },
+                  "16-30": {
+                    "total": 4,
+                    "percentage": 0.16
+                  },
+                  "31-45": {
+                    "total": 3,
+                    "percentage": 0.12
+                  },
+                  "46-60": {
+                    "total": 4,
+                    "percentage": 0.16
+                  },
+                  "61-75": {
+                    "total": 6,
+                    "percentage": 0.24
+                  },
+                  "76-90": {
+                    "total": 5,
+                    "percentage": 0.2
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.04
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 15,
+                    "under": 15
+                  },
+                  "1.5": {
+                    "over": 8,
+                    "under": 22
+                  },
+                  "2.5": {
+                    "over": 2,
+                    "under": 28
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 30
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 30
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 3,
+                "draws": 2,
+                "losses": 2
+              },
+              "wins": {
+                "home": "5-0",
+                "away": "0-5"
+              },
+              "losses": {
+                "home": "1-2",
+                "away": "3-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 5,
+                  "away": 5
+                },
+                "against": {
+                  "home": 2,
+                  "away": 3
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 9,
+              "away": 6,
+              "total": 15
+            },
+            "failed_to_score": {
+              "home": 4,
+              "away": 6,
+              "total": 10
+            },
+            "penalty": {
+              "scored": {
+                "total": 4,
+                "percentage": 0.8
+              },
+              "missed": {
+                "total": 1,
+                "percentage": 0.2
+              },
+              "total": 5
+            },
+            "lineups": [
+              {
+                "formation": "3-4-3",
+                "played": 13
+              },
+              {
+                "formation": "3-4-2-1",
+                "played": 8
+              },
+              {
+                "formation": "3-5-2",
+                "played": 3
+              },
+              {
+                "formation": "3-4-1-2",
+                "played": 3
+              },
+              {
+                "formation": "5-4-1",
+                "played": 1
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 1,
+                  "percentage": 0.02
+                },
+                "16-30": {
+                  "total": 5,
+                  "percentage": 0.1
+                },
+                "31-45": {
+                  "total": 6,
+                  "percentage": 0.12
+                },
+                "46-60": {
+                  "total": 9,
+                  "percentage": 0.18
+                },
+                "61-75": {
+                  "total": 12,
+                  "percentage": 0.24
+                },
+                "76-90": {
+                  "total": 14,
+                  "percentage": 0.28
+                },
+                "91-105": {
+                  "total": 3,
+                  "percentage": 0.06
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {},
+                "46-60": {},
+                "61-75": {
+                  "total": 2,
+                  "percentage": 1.0
+                },
+                "76-90": {},
+                "91-105": {},
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {},
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 5,
+        "team": {
+          "id": 1122,
+          "name": "FK Jablonec",
+          "logo": "https://media.api-sports.io/football/teams/1122.png"
+        },
+        "league_points": 51,
+        "goals_difference": 22,
+        "group": "Czech Liga: Championship Round",
+        "status": "same",
+        "coverage_percentage": {
+          "played": 30,
+          "win": 15,
+          "draw": 6,
+          "loss": 9,
+          "goals": {
+            "for": 47,
+            "against": 25
+          }
+        },
+        "home": {
+          "played": 0,
+          "win": 0,
+          "draw": 0,
+          "loss": 0,
+          "goals": {
+            "for": 0,
+            "against": 0
+          }
+        },
+        "away": {
+          "played": 0,
+          "win": 0,
+          "draw": 0,
+          "loss": 0,
+          "goals": {
+            "for": 0,
+            "against": 0
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    }
+  },
+  "goals": {}
+}

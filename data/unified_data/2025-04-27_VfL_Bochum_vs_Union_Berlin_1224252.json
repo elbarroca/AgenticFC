@@ -1,0 +1,2361 @@
+{
+  "fixture_id": 1224252,
+  "match_date": "2025-04-27",
+  "league": {
+    "id": "None",
+    "statarea_id": "unknown"
+  },
+  "engineered_features": {
+    "home": {
+      "team_id": 176,
+      "team_name": "VfL Bochum",
+      "team_statarea_id": 176,
+      "base_league_id": "None",
+      "proc_league_id": 78,
+      "proc_league_name": "Bundesliga",
+      "proc_league_country": "Germany",
+      "proc_league_season": 2024,
+      "proc_team_id": 176,
+      "proc_team_name": "VfL Bochum",
+      "weather_temp_celsius": 19.49,
+      "weather_temp_feels_like_celsius": 18.77,
+      "weather_pressure_hpa": 1024,
+      "weather_humidity_pct": 49,
+      "weather_wind_speed_mps": 0.45,
+      "weather_wind_direction_deg": 337,
+      "weather_cloud_coverage_pct": 42,
+      "weather_description": "scattered clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "host",
+      "hist_home_matches_played": 15,
+      "hist_home_average_goals_scored": 1.6,
+      "hist_home_average_goals_conceded": 1.333,
+      "hist_home_win_rate": 0.467,
+      "hist_home_draw_rate": 0.133,
+      "hist_home_loss_rate": 0.4,
+      "hist_home_both_teams_scored_rate": 0.4,
+      "hist_home_clean_sheet_rate": 0.333,
+      "hist_home_failed_to_score_rate": 0.267,
+      "hist_home_average_goal_difference": 0.267,
+      "hist_home_over_0_5_goals_rate": 1.0,
+      "hist_home_over_1_5_goals_rate": 0.667,
+      "hist_home_over_2_5_goals_rate": 0.4,
+      "hist_home_over_3_5_goals_rate": 0.333,
+      "hist_home_over_4_5_goals_rate": 0.2,
+      "hist_home_form_string": "LLWLLWLDWWWWLWD",
+      "hist_home_form_rating_points_pct": 0.511,
+      "hist_overall_l5_form_string": "LLWLL",
+      "hist_overall_l5_form_rating_points_pct": 0.2,
+      "hist_home_l3_form_string": "LLW",
+      "hist_home_l3_form_rating_points_pct": 0.333,
+      "hist_home_l3_avg_scored": 1.667,
+      "hist_home_l3_avg_conceded": 2.667,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "L 1-2 vs FC Augsburg (home)",
+          "L 0-4 vs VfB Stuttgart (home)",
+          "W 4-2 vs Preussen Munster (home)",
+          "L 1-3 vs Eintracht Frankfurt (home)",
+          "L 0-1 vs 1899 Hoffenheim (home)"
+        ],
+        "home_l3_matches": [
+          "L 1-2 vs FC Augsburg",
+          "L 0-4 vs VfB Stuttgart",
+          "W 4-2 vs Preussen Munster"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 7,
+      "hist_perf_by_result_win_avg_scored": 2.571,
+      "hist_perf_by_result_win_avg_conceded": 0.571,
+      "hist_perf_by_result_draw_matches": 2,
+      "hist_perf_by_result_draw_avg_scored": 2.0,
+      "hist_perf_by_result_draw_avg_conceded": 2.0,
+      "hist_perf_by_result_loss_matches": 6,
+      "hist_perf_by_result_loss_avg_scored": 0.333,
+      "hist_perf_by_result_loss_avg_conceded": 2.0,
+      "standings_league_rank": 18,
+      "standings_league_points": 20,
+      "standings_goals_difference": -33,
+      "standings_form_string": "LLLLL",
+      "standings_group_name": "Bundesliga",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 1,
+          "proc_goals_scored_min_0_15_pct": 0.0357,
+          "proc_goals_scored_min_16_30_count": 5,
+          "proc_goals_scored_min_16_30_pct": 0.1786,
+          "proc_goals_scored_min_31_45_count": 9,
+          "proc_goals_scored_min_31_45_pct": 0.3214,
+          "proc_goals_scored_min_46_60_count": 6,
+          "proc_goals_scored_min_46_60_pct": 0.2143,
+          "proc_goals_scored_min_61_75_count": 5,
+          "proc_goals_scored_min_61_75_pct": 0.1786,
+          "proc_goals_scored_min_76_90_count": 2,
+          "proc_goals_scored_min_76_90_pct": 0.0714
+        },
+        "card_stats": {
+          "yellow_avg": 2.133,
+          "red_avg": 0.067
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.5,
+          "proc_penalty_missed_pct": 0.5,
+          "proc_penalty_total_taken": 2
+        }
+      }
+    },
+    "away": {
+      "team_id": 182,
+      "team_name": "Union Berlin",
+      "team_statarea_id": 182,
+      "base_league_id": "None",
+      "proc_league_id": 78,
+      "proc_league_name": "Bundesliga",
+      "proc_league_country": "Germany",
+      "proc_league_season": 2024,
+      "proc_team_id": 182,
+      "proc_team_name": "Union Berlin",
+      "weather_temp_celsius": 19.49,
+      "weather_temp_feels_like_celsius": 18.77,
+      "weather_pressure_hpa": 1024,
+      "weather_humidity_pct": 49,
+      "weather_wind_speed_mps": 0.45,
+      "weather_wind_direction_deg": 337,
+      "weather_cloud_coverage_pct": 42,
+      "weather_description": "scattered clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "guest",
+      "hist_away_matches_played": 15,
+      "hist_away_average_goals_scored": 0.867,
+      "hist_away_average_goals_conceded": 1.8,
+      "hist_away_win_rate": 0.267,
+      "hist_away_draw_rate": 0.133,
+      "hist_away_loss_rate": 0.6,
+      "hist_away_both_teams_scored_rate": 0.267,
+      "hist_away_clean_sheet_rate": 0.267,
+      "hist_away_failed_to_score_rate": 0.6,
+      "hist_away_average_goal_difference": -0.933,
+      "hist_away_over_0_5_goals_rate": 0.867,
+      "hist_away_over_1_5_goals_rate": 0.733,
+      "hist_away_over_2_5_goals_rate": 0.533,
+      "hist_away_over_3_5_goals_rate": 0.267,
+      "hist_away_over_4_5_goals_rate": 0.2,
+      "hist_away_form_string": "DWWLWLLLLLLLWLD",
+      "hist_away_form_rating_points_pct": 0.311,
+      "hist_overall_l5_form_string": "DWWLW",
+      "hist_overall_l5_form_rating_points_pct": 0.667,
+      "hist_away_l3_form_string": "DWW",
+      "hist_away_l3_form_rating_points_pct": 0.778,
+      "hist_away_l3_avg_scored": 1.333,
+      "hist_away_l3_avg_conceded": 0.667,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "D 0-0 vs Bayer Leverkusen (away)",
+          "W 2-1 vs SC Freiburg (away)",
+          "W 2-1 vs Eintracht Frankfurt (away)",
+          "L 0-6 vs Borussia Dortmund (away)",
+          "W 4-0 vs 1899 Hoffenheim (away)"
+        ],
+        "away_l3_matches": [
+          "D 0-0 vs Bayer Leverkusen",
+          "W 2-1 vs SC Freiburg",
+          "W 2-1 vs Eintracht Frankfurt"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 4,
+      "hist_perf_by_result_win_avg_scored": 2.5,
+      "hist_perf_by_result_win_avg_conceded": 0.5,
+      "hist_perf_by_result_draw_matches": 2,
+      "hist_perf_by_result_draw_avg_scored": 0.0,
+      "hist_perf_by_result_draw_avg_conceded": 0.0,
+      "hist_perf_by_result_loss_matches": 9,
+      "hist_perf_by_result_loss_avg_scored": 0.333,
+      "hist_perf_by_result_loss_avg_conceded": 2.778,
+      "standings_league_rank": 13,
+      "standings_league_points": 35,
+      "standings_goals_difference": -14,
+      "standings_form_string": "DDWWD",
+      "standings_group_name": "Bundesliga",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 4,
+          "proc_goals_scored_min_0_15_pct": 0.129,
+          "proc_goals_scored_min_16_30_count": 9,
+          "proc_goals_scored_min_16_30_pct": 0.2903,
+          "proc_goals_scored_min_31_45_count": 5,
+          "proc_goals_scored_min_31_45_pct": 0.1613,
+          "proc_goals_scored_min_46_60_count": 3,
+          "proc_goals_scored_min_46_60_pct": 0.0968,
+          "proc_goals_scored_min_61_75_count": 7,
+          "proc_goals_scored_min_61_75_pct": 0.2258,
+          "proc_goals_scored_min_76_90_count": 4,
+          "proc_goals_scored_min_76_90_pct": 0.129
+        },
+        "card_stats": {
+          "yellow_avg": 2.2,
+          "red_avg": 0.033
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 1.0,
+          "proc_penalty_missed_pct": 0.0,
+          "proc_penalty_total_taken": 3
+        }
+      }
+    }
+  },
+  "model_input_features": {
+    "eng_h_team_id": 176.0,
+    "eng_h_team_statarea_id": 176.0,
+    "eng_h_proc_league_id": 78.0,
+    "eng_h_proc_league_season": 2024.0,
+    "eng_h_proc_team_id": 176.0,
+    "eng_h_weather_temp_celsius": 19.49,
+    "eng_h_weather_temp_feels_like_celsius": 18.77,
+    "eng_h_weather_pressure_hpa": 1024.0,
+    "eng_h_weather_humidity_pct": 49.0,
+    "eng_h_weather_wind_speed_mps": 0.45,
+    "eng_h_weather_wind_direction_deg": 337.0,
+    "eng_h_weather_cloud_coverage_pct": 42.0,
+    "eng_h_weather_condition_main": "Clouds",
+    "eng_h_match_history_source": "statarea",
+    "eng_h_match_history_games_analyzed": 15.0,
+    "eng_h_match_history_venue_context": "host",
+    "eng_h_hist_home_matches_played": 15.0,
+    "eng_h_hist_home_average_goals_scored": 1.6,
+    "eng_h_hist_home_average_goals_conceded": 1.333,
+    "eng_h_hist_home_win_rate": 0.467,
+    "eng_h_hist_home_draw_rate": 0.133,
+    "eng_h_hist_home_loss_rate": 0.4,
+    "eng_h_hist_home_both_teams_scored_rate": 0.4,
+    "eng_h_hist_home_clean_sheet_rate": 0.333,
+    "eng_h_hist_home_failed_to_score_rate": 0.267,
+    "eng_h_hist_home_average_goal_difference": 0.267,
+    "eng_h_hist_home_over_0_5_goals_rate": 1.0,
+    "eng_h_hist_home_over_1_5_goals_rate": 0.667,
+    "eng_h_hist_home_over_2_5_goals_rate": 0.4,
+    "eng_h_hist_home_over_3_5_goals_rate": 0.333,
+    "eng_h_hist_home_over_4_5_goals_rate": 0.2,
+    "eng_h_hist_home_form_rating_points_pct": 0.511,
+    "eng_h_hist_overall_l5_form_rating_points_pct": 0.2,
+    "eng_h_hist_home_l3_form_rating_points_pct": 0.333,
+    "eng_h_hist_home_l3_avg_scored": 1.667,
+    "eng_h_hist_home_l3_avg_conceded": 2.667,
+    "eng_h_hist_perf_by_result_win_matches": 7.0,
+    "eng_h_hist_perf_by_result_win_avg_scored": 2.571,
+    "eng_h_hist_perf_by_result_win_avg_conceded": 0.571,
+    "eng_h_hist_perf_by_result_draw_matches": 2.0,
+    "eng_h_hist_perf_by_result_draw_avg_scored": 2.0,
+    "eng_h_hist_perf_by_result_draw_avg_conceded": 2.0,
+    "eng_h_hist_perf_by_result_loss_matches": 6.0,
+    "eng_h_hist_perf_by_result_loss_avg_scored": 0.333,
+    "eng_h_hist_perf_by_result_loss_avg_conceded": 2.0,
+    "eng_h_standings_league_rank": 18.0,
+    "eng_h_standings_league_points": 20.0,
+    "eng_h_standings_goals_difference": -33.0,
+    "eng_a_team_id": 182.0,
+    "eng_a_team_statarea_id": 182.0,
+    "eng_a_proc_league_id": 78.0,
+    "eng_a_proc_league_season": 2024.0,
+    "eng_a_proc_team_id": 182.0,
+    "eng_a_weather_temp_celsius": 19.49,
+    "eng_a_weather_temp_feels_like_celsius": 18.77,
+    "eng_a_weather_pressure_hpa": 1024.0,
+    "eng_a_weather_humidity_pct": 49.0,
+    "eng_a_weather_wind_speed_mps": 0.45,
+    "eng_a_weather_wind_direction_deg": 337.0,
+    "eng_a_weather_cloud_coverage_pct": 42.0,
+    "eng_a_weather_condition_main": "Clouds",
+    "eng_a_match_history_source": "statarea",
+    "eng_a_match_history_games_analyzed": 15.0,
+    "eng_a_match_history_venue_context": "guest",
+    "eng_a_hist_away_matches_played": 15.0,
+    "eng_a_hist_away_average_goals_scored": 0.867,
+    "eng_a_hist_away_average_goals_conceded": 1.8,
+    "eng_a_hist_away_win_rate": 0.267,
+    "eng_a_hist_away_draw_rate": 0.133,
+    "eng_a_hist_away_loss_rate": 0.6,
+    "eng_a_hist_away_both_teams_scored_rate": 0.267,
+    "eng_a_hist_away_clean_sheet_rate": 0.267,
+    "eng_a_hist_away_failed_to_score_rate": 0.6,
+    "eng_a_hist_away_average_goal_difference": -0.933,
+    "eng_a_hist_away_over_0_5_goals_rate": 0.867,
+    "eng_a_hist_away_over_1_5_goals_rate": 0.733,
+    "eng_a_hist_away_over_2_5_goals_rate": 0.533,
+    "eng_a_hist_away_over_3_5_goals_rate": 0.267,
+    "eng_a_hist_away_over_4_5_goals_rate": 0.2,
+    "eng_a_hist_away_form_rating_points_pct": 0.311,
+    "eng_a_hist_overall_l5_form_rating_points_pct": 0.667,
+    "eng_a_hist_away_l3_form_rating_points_pct": 0.778,
+    "eng_a_hist_away_l3_avg_scored": 1.333,
+    "eng_a_hist_away_l3_avg_conceded": 0.667,
+    "eng_a_hist_perf_by_result_win_matches": 4.0,
+    "eng_a_hist_perf_by_result_win_avg_scored": 2.5,
+    "eng_a_hist_perf_by_result_win_avg_conceded": 0.5,
+    "eng_a_hist_perf_by_result_draw_matches": 2.0,
+    "eng_a_hist_perf_by_result_draw_avg_scored": 0.0,
+    "eng_a_hist_perf_by_result_draw_avg_conceded": 0.0,
+    "eng_a_hist_perf_by_result_loss_matches": 9.0,
+    "eng_a_hist_perf_by_result_loss_avg_scored": 0.333,
+    "eng_a_hist_perf_by_result_loss_avg_conceded": 2.778,
+    "eng_a_standings_league_rank": 13.0,
+    "eng_a_standings_league_points": 35.0,
+    "eng_a_standings_goals_difference": -14.0,
+    "eng_diff_weather_temp_celsius": 0.0,
+    "eng_ratio_weather_temp_celsius": 1.0,
+    "eng_diff_weather_humidity_pct": 0.0,
+    "eng_ratio_weather_humidity_pct": 1.0,
+    "eng_diff_proc_team_id": -6.0,
+    "eng_ratio_proc_team_id": 0.967032967032967,
+    "eng_diff_proc_league_season": 0.0,
+    "eng_ratio_proc_league_season": 1.0,
+    "eng_diff_hist_perf_by_result_win_avg_conceded": 0.07099999999999995,
+    "eng_ratio_hist_perf_by_result_win_avg_conceded": 1.142,
+    "eng_diff_match_history_games_analyzed": 0.0,
+    "eng_ratio_match_history_games_analyzed": 1.0,
+    "eng_diff_hist_perf_by_result_draw_avg_conceded": 2.0,
+    "eng_ratio_hist_perf_by_result_draw_avg_conceded": -998.0,
+    "eng_diff_team_id": -6.0,
+    "eng_ratio_team_id": 0.967032967032967,
+    "eng_diff_match_history_venue_context": -999.0,
+    "eng_ratio_match_history_venue_context": -999.0,
+    "eng_diff_weather_temp_feels_like_celsius": 0.0,
+    "eng_ratio_weather_temp_feels_like_celsius": 1.0,
+    "eng_diff_standings_goals_difference": -19.0,
+    "eng_ratio_standings_goals_difference": 2.357142857142857,
+    "eng_diff_hist_perf_by_result_draw_matches": 0.0,
+    "eng_ratio_hist_perf_by_result_draw_matches": 1.0,
+    "eng_diff_weather_wind_speed_mps": 0.0,
+    "eng_ratio_weather_wind_speed_mps": 1.0,
+    "eng_diff_hist_perf_by_result_loss_avg_conceded": -0.778,
+    "eng_ratio_hist_perf_by_result_loss_avg_conceded": 0.7199424046076314,
+    "eng_diff_weather_pressure_hpa": 0.0,
+    "eng_ratio_weather_pressure_hpa": 1.0,
+    "eng_diff_hist_perf_by_result_win_matches": 3.0,
+    "eng_ratio_hist_perf_by_result_win_matches": 1.75,
+    "eng_diff_weather_condition_main": -999.0,
+    "eng_ratio_weather_condition_main": -999.0,
+    "eng_diff_hist_perf_by_result_draw_avg_scored": 2.0,
+    "eng_ratio_hist_perf_by_result_draw_avg_scored": -998.0,
+    "eng_diff_hist_overall_l5_form_rating_points_pct": -0.467,
+    "eng_ratio_hist_overall_l5_form_rating_points_pct": 0.29985007496251875,
+    "eng_diff_hist_perf_by_result_win_avg_scored": 0.07100000000000017,
+    "eng_ratio_hist_perf_by_result_win_avg_scored": 1.0284,
+    "eng_diff_hist_perf_by_result_loss_matches": -3.0,
+    "eng_ratio_hist_perf_by_result_loss_matches": 0.6666666666666666,
+    "eng_diff_hist_perf_by_result_loss_avg_scored": 0.0,
+    "eng_ratio_hist_perf_by_result_loss_avg_scored": 1.0,
+    "eng_diff_standings_league_rank": 5.0,
+    "eng_ratio_standings_league_rank": 1.3846153846153846,
+    "eng_diff_standings_league_points": -15.0,
+    "eng_ratio_standings_league_points": 0.5714285714285714,
+    "eng_diff_weather_cloud_coverage_pct": 0.0,
+    "eng_ratio_weather_cloud_coverage_pct": 1.0,
+    "eng_diff_match_history_source": -999.0,
+    "eng_ratio_match_history_source": -999.0,
+    "eng_diff_team_statarea_id": -6.0,
+    "eng_ratio_team_statarea_id": 0.967032967032967,
+    "eng_diff_weather_wind_direction_deg": 0.0,
+    "eng_ratio_weather_wind_direction_deg": 1.0,
+    "eng_diff_proc_league_id": 0.0,
+    "eng_ratio_proc_league_id": 1.0
+  },
+  "fixture_meta": {
+    "id": 1224252,
+    "date_utc": "2025-04-27T13:30:00+00:00",
+    "timestamp_utc": 1745760600,
+    "referee": "D. Aytekin",
+    "venue": {
+      "name": "Vonovia Ruhrstadion",
+      "city": "Bochum"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "coord": {
+        "lon": 7.2167,
+        "lat": 51.4833
+      },
+      "weather": [
+        {
+          "id": 802,
+          "main": "Clouds",
+          "description": "scattered clouds",
+          "icon": "03d"
+        }
+      ],
+      "base": "stations",
+      "main": {
+        "temperature": 19.49,
+        "temperature_feels_like": 18.77,
+        "temperature_min": 18,
+        "temperature_max": 20.61,
+        "air_pressure": 1024,
+        "humidity": 49,
+        "pressure_sea_level": 1024,
+        "pressure_ground_level": 1010
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed_mps": 0.45,
+        "direction_degrees": 337,
+        "gust": 2.24
+      },
+      "clouds": {
+        "coverage_percentage": 42
+      },
+      "dt": 1745750926,
+      "sys": {
+        "type": 2,
+        "id": 2035566,
+        "country": "DE",
+        "sunrise": 1745727026,
+        "sunset": 1745779609
+      },
+      "timezone": 7200,
+      "id": 2947416,
+      "name": "Bochum",
+      "cod": 200,
+      "summary": "Clouds: scattered clouds, Temp: 19.49°C"
+    }
+  },
+  "raw_data": {
+    "home": {
+      "basic_info": {
+        "id": 176,
+        "name": "VfL Bochum",
+        "logo": "https://media.api-sports.io/football/teams/176.png",
+        "statarea_id": 176
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 78,
+          "name": "Bundesliga",
+          "country": "Germany",
+          "logo": "https://media.api-sports.io/football/leagues/78.png",
+          "flag": "https://media.api-sports.io/flags/de.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 176,
+          "name": "VfL Bochum",
+          "logo": "https://media.api-sports.io/football/teams/176.png"
+        },
+        "form_string": "LLLDLLLLLDLLLDWLWDLLDWDLWLLLLL",
+        "fixtures": {
+          "played": {
+            "home": 15,
+            "away": 15,
+            "total": 30
+          },
+          "wins": {
+            "home": 3,
+            "away": 1,
+            "total": 4
+          },
+          "draws": {
+            "home": 3,
+            "away": 3,
+            "total": 6
+          },
+          "losses": {
+            "home": 9,
+            "away": 11,
+            "total": 20
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 14,
+              "away": 14,
+              "total": 28
+            },
+            "average": {
+              "home": 0.9,
+              "away": 0.9,
+              "total": 0.9
+            },
+            "minute": {
+              "0-15": {
+                "total": 1,
+                "percentage": 0.035699999999999996
+              },
+              "16-30": {
+                "total": 5,
+                "percentage": 0.17859999999999998
+              },
+              "31-45": {
+                "total": 9,
+                "percentage": 0.3214
+              },
+              "46-60": {
+                "total": 6,
+                "percentage": 0.2143
+              },
+              "61-75": {
+                "total": 5,
+                "percentage": 0.17859999999999998
+              },
+              "76-90": {
+                "total": 2,
+                "percentage": 0.07139999999999999
+              },
+              "91-105": {},
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 18,
+                "under": 12
+              },
+              "1.5": {
+                "over": 8,
+                "under": 22
+              },
+              "2.5": {
+                "over": 2,
+                "under": 28
+              },
+              "3.5": {
+                "over": 0,
+                "under": 30
+              },
+              "4.5": {
+                "over": 0,
+                "under": 30
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 28,
+              "away": 35,
+              "total": 63
+            },
+            "average": {
+              "home": 1.9,
+              "away": 2.3,
+              "total": 2.1
+            },
+            "minute": {
+              "0-15": {
+                "total": 9,
+                "percentage": 0.1429
+              },
+              "16-30": {
+                "total": 12,
+                "percentage": 0.1905
+              },
+              "31-45": {
+                "total": 8,
+                "percentage": 0.127
+              },
+              "46-60": {
+                "total": 9,
+                "percentage": 0.1429
+              },
+              "61-75": {
+                "total": 12,
+                "percentage": 0.1905
+              },
+              "76-90": {
+                "total": 11,
+                "percentage": 0.1746
+              },
+              "91-105": {
+                "total": 2,
+                "percentage": 0.0317
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 27,
+                "under": 3
+              },
+              "1.5": {
+                "over": 18,
+                "under": 12
+              },
+              "2.5": {
+                "over": 10,
+                "under": 20
+              },
+              "3.5": {
+                "over": 4,
+                "under": 26
+              },
+              "4.5": {
+                "over": 2,
+                "under": 28
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 1,
+            "draws": 1,
+            "losses": 5
+          },
+          "wins": {
+            "home": "2-0",
+            "away": "2-3"
+          },
+          "losses": {
+            "home": "0-5",
+            "away": "7-2"
+          },
+          "goals": {
+            "for": {
+              "home": 3,
+              "away": 3
+            },
+            "against": {
+              "home": 5,
+              "away": 7
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 3,
+          "away": 0,
+          "total": 3
+        },
+        "failed_to_score": {
+          "home": 6,
+          "away": 6,
+          "total": 12
+        },
+        "penalty": {
+          "scored": {
+            "total": 1,
+            "percentage": 0.5
+          },
+          "missed": {
+            "total": 1,
+            "percentage": 0.5
+          },
+          "total": 2
+        },
+        "lineups": [
+          {
+            "formation": "3-5-2",
+            "played": 8
+          },
+          {
+            "formation": "4-3-1-2",
+            "played": 5
+          },
+          {
+            "formation": "5-3-2",
+            "played": 4
+          },
+          {
+            "formation": "4-4-2",
+            "played": 3
+          },
+          {
+            "formation": "3-4-3",
+            "played": 3
+          },
+          {
+            "formation": "4-2-3-1",
+            "played": 2
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 1
+          },
+          {
+            "formation": "5-4-1",
+            "played": 1
+          },
+          {
+            "formation": "3-4-2-1",
+            "played": 1
+          },
+          {
+            "formation": "3-4-1-2",
+            "played": 1
+          },
+          {
+            "formation": "3-1-4-2",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 4,
+              "percentage": 0.0625
+            },
+            "16-30": {
+              "total": 8,
+              "percentage": 0.125
+            },
+            "31-45": {
+              "total": 7,
+              "percentage": 0.1094
+            },
+            "46-60": {
+              "total": 9,
+              "percentage": 0.1406
+            },
+            "61-75": {
+              "total": 9,
+              "percentage": 0.1406
+            },
+            "76-90": {
+              "total": 21,
+              "percentage": 0.3281
+            },
+            "91-105": {
+              "total": 6,
+              "percentage": 0.09380000000000001
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {
+              "total": 1,
+              "percentage": 0.5
+            },
+            "16-30": {},
+            "31-45": {},
+            "46-60": {},
+            "61-75": {},
+            "76-90": {
+              "total": 1,
+              "percentage": 0.5
+            },
+            "91-105": {},
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 176,
+          "name": "VfL Bochum",
+          "logo": "https://media.api-sports.io/football/teams/176.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.0,
+            "att": 0.15,
+            "def": 0.35,
+            "goals": {
+              "for": {
+                "total": 3,
+                "average": 0.6
+              },
+              "against": {
+                "total": 13,
+                "average": 2.6
+              }
+            }
+          },
+          "league": {
+            "form_string": "LLLDLLLLLDLLLDWLWDLLDWDLWLLLLL",
+            "fixtures": {
+              "played": {
+                "home": 15,
+                "away": 15,
+                "total": 30
+              },
+              "wins": {
+                "home": 3,
+                "away": 1,
+                "total": 4
+              },
+              "draws": {
+                "home": 3,
+                "away": 3,
+                "total": 6
+              },
+              "losses": {
+                "home": 9,
+                "away": 11,
+                "total": 20
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 14,
+                  "away": 14,
+                  "total": 28
+                },
+                "average": {
+                  "home": 0.9,
+                  "away": 0.9,
+                  "total": 0.9
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 1,
+                    "percentage": 0.035699999999999996
+                  },
+                  "16-30": {
+                    "total": 5,
+                    "percentage": 0.17859999999999998
+                  },
+                  "31-45": {
+                    "total": 9,
+                    "percentage": 0.3214
+                  },
+                  "46-60": {
+                    "total": 6,
+                    "percentage": 0.2143
+                  },
+                  "61-75": {
+                    "total": 5,
+                    "percentage": 0.17859999999999998
+                  },
+                  "76-90": {
+                    "total": 2,
+                    "percentage": 0.07139999999999999
+                  },
+                  "91-105": {},
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 18,
+                    "under": 12
+                  },
+                  "1.5": {
+                    "over": 8,
+                    "under": 22
+                  },
+                  "2.5": {
+                    "over": 2,
+                    "under": 28
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 30
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 30
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 28,
+                  "away": 35,
+                  "total": 63
+                },
+                "average": {
+                  "home": 1.9,
+                  "away": 2.3,
+                  "total": 2.1
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 9,
+                    "percentage": 0.1429
+                  },
+                  "16-30": {
+                    "total": 12,
+                    "percentage": 0.1905
+                  },
+                  "31-45": {
+                    "total": 8,
+                    "percentage": 0.127
+                  },
+                  "46-60": {
+                    "total": 9,
+                    "percentage": 0.1429
+                  },
+                  "61-75": {
+                    "total": 12,
+                    "percentage": 0.1905
+                  },
+                  "76-90": {
+                    "total": 11,
+                    "percentage": 0.1746
+                  },
+                  "91-105": {
+                    "total": 2,
+                    "percentage": 0.0317
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 27,
+                    "under": 3
+                  },
+                  "1.5": {
+                    "over": 18,
+                    "under": 12
+                  },
+                  "2.5": {
+                    "over": 10,
+                    "under": 20
+                  },
+                  "3.5": {
+                    "over": 4,
+                    "under": 26
+                  },
+                  "4.5": {
+                    "over": 2,
+                    "under": 28
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 1,
+                "draws": 1,
+                "losses": 5
+              },
+              "wins": {
+                "home": "2-0",
+                "away": "2-3"
+              },
+              "losses": {
+                "home": "0-5",
+                "away": "7-2"
+              },
+              "goals": {
+                "for": {
+                  "home": 3,
+                  "away": 3
+                },
+                "against": {
+                  "home": 5,
+                  "away": 7
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 3,
+              "away": 0,
+              "total": 3
+            },
+            "failed_to_score": {
+              "home": 6,
+              "away": 6,
+              "total": 12
+            },
+            "penalty": {
+              "scored": {
+                "total": 1,
+                "percentage": 0.5
+              },
+              "missed": {
+                "total": 1,
+                "percentage": 0.5
+              },
+              "total": 2
+            },
+            "lineups": [
+              {
+                "formation": "3-5-2",
+                "played": 8
+              },
+              {
+                "formation": "4-3-1-2",
+                "played": 5
+              },
+              {
+                "formation": "5-3-2",
+                "played": 4
+              },
+              {
+                "formation": "4-4-2",
+                "played": 3
+              },
+              {
+                "formation": "3-4-3",
+                "played": 3
+              },
+              {
+                "formation": "4-2-3-1",
+                "played": 2
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 1
+              },
+              {
+                "formation": "5-4-1",
+                "played": 1
+              },
+              {
+                "formation": "3-4-2-1",
+                "played": 1
+              },
+              {
+                "formation": "3-4-1-2",
+                "played": 1
+              },
+              {
+                "formation": "3-1-4-2",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 4,
+                  "percentage": 0.0625
+                },
+                "16-30": {
+                  "total": 8,
+                  "percentage": 0.125
+                },
+                "31-45": {
+                  "total": 7,
+                  "percentage": 0.1094
+                },
+                "46-60": {
+                  "total": 9,
+                  "percentage": 0.1406
+                },
+                "61-75": {
+                  "total": 9,
+                  "percentage": 0.1406
+                },
+                "76-90": {
+                  "total": 21,
+                  "percentage": 0.3281
+                },
+                "91-105": {
+                  "total": 6,
+                  "percentage": 0.09380000000000001
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {
+                  "total": 1,
+                  "percentage": 0.5
+                },
+                "16-30": {},
+                "31-45": {},
+                "46-60": {},
+                "61-75": {},
+                "76-90": {
+                  "total": 1,
+                  "percentage": 0.5
+                },
+                "91-105": {},
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "VfL Bochum",
+        "country": "Germany",
+        "api_id": 176,
+        "game_type": "host",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:46:32.788598",
+        "scrape_date_utc": "2025-04-22T17:46:32.788000",
+        "content_hash": "e399ea1712f7e7a438a6ce544e31a9c6",
+        "general_statistics": {
+          "number of vfl bochum wins": 7,
+          "number of vfl bochum draws": 2,
+          "number of vfl bochum losses": 6,
+          "Average goals_scored per match": 1.6,
+          "Average goals_conceded per match": 1.33,
+          "Chance to score goal next match": 0.73,
+          "Chance to conceded goal next match": 0.67,
+          "Number of clean_sheets matches": 5,
+          "failed_to_score matches": 4,
+          "over 2.5 goals in": 6,
+          "under 2.5 goals in": 9,
+          "Time without scored goal": "30 min.",
+          "Time without conceded goal": "0 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "vfl bochum": 0.47,
+            "draw": 0.13,
+            "opponent": 0.4
+          },
+          "halftime bet_1x2_probabilities": {
+            "vfl bochum": 0.33,
+            "draw": 0.27,
+            "opponent": 0.4
+          },
+          "second half bet_1x2_probabilities": {
+            "vfl bochum": 0.33,
+            "draw": 0.4,
+            "opponent": 0.27
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.67,
+            "under": 0.33
+          },
+          "over/under 1.5 goals for vfl bochum only": {
+            "over": 0.4,
+            "under": 0.6
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.4,
+            "under": 0.6
+          },
+          "over/under 2.5 goals for vfl bochum only": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.33,
+            "under": 0.67
+          },
+          "over/under 3.5 goals for vfl bochum only": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.33,
+            "2-3": 0.33,
+            "4+": 0.33
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.4,
+            "only one": 0.6,
+            "neither": 0.0
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.4,
+            "even": 0.6
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.16,
+            "16-30 min.": 0.18,
+            "31-45 min.": 0.18,
+            "46-60 min.": 0.16,
+            "61-75 min.": 0.11,
+            "76-90 min.": 0.2
+          },
+          "vfl bochum goals only": {
+            "0-15 min.": 0.13,
+            "16-30 min.": 0.13,
+            "31-45 min.": 0.25,
+            "46-60 min.": 0.17,
+            "61-75 min.": 0.17,
+            "76-90 min.": 0.17
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.27,
+            "11-20 min.": 0.2,
+            "21-30 min.": 0.07,
+            "31-40 min.": 0.13,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.13,
+            "81-90 min.": 0.0,
+            "without goal": 0.0
+          },
+          "time of first vfl bochum goal": {
+            "0-10 min.": 0.13,
+            "11-20 min.": 0.07,
+            "21-30 min.": 0.0,
+            "31-40 min.": 0.07,
+            "41-50 min.": 0.13,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.13,
+            "81-90 min.": 0.07,
+            "without goal": 0.27
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "vfl bochum": 0.47,
+            "opponent": 0.53,
+            "without goal": 0.0
+          },
+          "win after 15 minutes": {
+            "vfl bochum": 0.2,
+            "opponent": 0.13,
+            "draw": 0.67
+          },
+          "win after 30 minutes": {
+            "vfl bochum": 0.2,
+            "opponent": 0.33,
+            "draw": 0.47
+          },
+          "bet_halftime_result_probabilities": {
+            "vfl bochum": 0.33,
+            "opponent": 0.4,
+            "draw": 0.27
+          },
+          "win after 60 minutes": {
+            "vfl bochum": 0.33,
+            "opponent": 0.4,
+            "draw": 0.27
+          },
+          "win after 75 minutes": {
+            "vfl bochum": 0.47,
+            "opponent": 0.4,
+            "draw": 0.13
+          },
+          "bet_fulltime_result_probabilities": {
+            "vfl bochum": 0.47,
+            "opponent": 0.4,
+            "draw": 0.13
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.53,
+            "2-3 goals": 0.33,
+            "4+ goals": 0.13
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.47,
+            "second half": 0.4,
+            "tie": 0.13
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-12",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "FC Augsburg",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-04-05",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "VfB Stuttgart",
+            "team_goals": 0,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-20",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Preussen Munster",
+            "team_goals": 4,
+            "opponent_goals": 2,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-16",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Eintracht Frankfurt",
+            "team_goals": 1,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-01",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "1899 Hoffenheim",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-15",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Borussia Dortmund",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-01",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "SC Freiburg",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-18",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "RB Leipzig",
+            "team_goals": 3,
+            "opponent_goals": 3,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-15",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "FC St. Pauli",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-05",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Heracles",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-05",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Wuppertaler SV",
+            "team_goals": 6,
+            "opponent_goals": 2,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-22",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "FC Heidenheim",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-07",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Werder Bremen",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-14",
+            "competition": "Friendly Games - Club Friendlies 2023/2024",
+            "opponent": "Den Bosch",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-09",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Bayer Leverkusen",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "home"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:49:50.116000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 18,
+        "team": {
+          "id": 176,
+          "name": "VfL Bochum",
+          "logo": "https://media.api-sports.io/football/teams/176.png"
+        },
+        "league_points": 20,
+        "goals_difference": -33,
+        "group": "Bundesliga",
+        "form_string": "LLLLL",
+        "status": "same",
+        "description": "Relegation - 2. Bundesliga",
+        "coverage_percentage": {
+          "played": 30,
+          "win": 5,
+          "draw": 5,
+          "loss": 20,
+          "goals": {
+            "for": 29,
+            "against": 62
+          }
+        },
+        "home": {
+          "played": 15,
+          "win": 3,
+          "draw": 3,
+          "loss": 9,
+          "goals": {
+            "for": 14,
+            "against": 28
+          }
+        },
+        "away": {
+          "played": 15,
+          "win": 2,
+          "draw": 2,
+          "loss": 11,
+          "goals": {
+            "for": 15,
+            "against": 34
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    },
+    "away": {
+      "basic_info": {
+        "id": 182,
+        "name": "Union Berlin",
+        "logo": "https://media.api-sports.io/football/teams/182.png",
+        "statarea_id": 182
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 78,
+          "name": "Bundesliga",
+          "country": "Germany",
+          "logo": "https://media.api-sports.io/football/leagues/78.png",
+          "flag": "https://media.api-sports.io/flags/de.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 182,
+          "name": "Union Berlin",
+          "logo": "https://media.api-sports.io/football/teams/182.png"
+        },
+        "form_string": "DWDWLWWDLDLLLDLLLWLDWLLLWDWWDD",
+        "fixtures": {
+          "played": {
+            "home": 15,
+            "away": 15,
+            "total": 30
+          },
+          "wins": {
+            "home": 5,
+            "away": 4,
+            "total": 9
+          },
+          "draws": {
+            "home": 6,
+            "away": 3,
+            "total": 9
+          },
+          "losses": {
+            "home": 4,
+            "away": 8,
+            "total": 12
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 17,
+              "away": 14,
+              "total": 31
+            },
+            "average": {
+              "home": 1.1,
+              "away": 0.9,
+              "total": 1.0
+            },
+            "minute": {
+              "0-15": {
+                "total": 4,
+                "percentage": 0.125
+              },
+              "16-30": {
+                "total": 9,
+                "percentage": 0.2813
+              },
+              "31-45": {
+                "total": 5,
+                "percentage": 0.1563
+              },
+              "46-60": {
+                "total": 3,
+                "percentage": 0.09380000000000001
+              },
+              "61-75": {
+                "total": 7,
+                "percentage": 0.2188
+              },
+              "76-90": {
+                "total": 4,
+                "percentage": 0.125
+              },
+              "91-105": {},
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 18,
+                "under": 12
+              },
+              "1.5": {
+                "over": 9,
+                "under": 21
+              },
+              "2.5": {
+                "over": 2,
+                "under": 28
+              },
+              "3.5": {
+                "over": 2,
+                "under": 28
+              },
+              "4.5": {
+                "over": 0,
+                "under": 30
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 17,
+              "away": 26,
+              "total": 43
+            },
+            "average": {
+              "home": 1.1,
+              "away": 1.7,
+              "total": 1.4
+            },
+            "minute": {
+              "0-15": {
+                "total": 8,
+                "percentage": 0.1905
+              },
+              "16-30": {
+                "total": 8,
+                "percentage": 0.1905
+              },
+              "31-45": {
+                "total": 6,
+                "percentage": 0.1429
+              },
+              "46-60": {
+                "total": 6,
+                "percentage": 0.1429
+              },
+              "61-75": {
+                "total": 7,
+                "percentage": 0.16670000000000001
+              },
+              "76-90": {
+                "total": 5,
+                "percentage": 0.11900000000000001
+              },
+              "91-105": {
+                "total": 2,
+                "percentage": 0.047599999999999996
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 22,
+                "under": 8
+              },
+              "1.5": {
+                "over": 10,
+                "under": 20
+              },
+              "2.5": {
+                "over": 6,
+                "under": 24
+              },
+              "3.5": {
+                "over": 3,
+                "under": 27
+              },
+              "4.5": {
+                "over": 1,
+                "under": 29
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 2,
+            "draws": 1,
+            "losses": 3
+          },
+          "wins": {
+            "home": "2-1",
+            "away": "0-4"
+          },
+          "losses": {
+            "home": "0-2",
+            "away": "6-0"
+          },
+          "goals": {
+            "for": {
+              "home": 4,
+              "away": 4
+            },
+            "against": {
+              "home": 4,
+              "away": 6
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 4,
+          "away": 4,
+          "total": 8
+        },
+        "failed_to_score": {
+          "home": 4,
+          "away": 8,
+          "total": 12
+        },
+        "penalty": {
+          "scored": {
+            "total": 3,
+            "percentage": 1.0
+          },
+          "missed": {
+            "total": 0,
+            "percentage": 0.0
+          },
+          "total": 3
+        },
+        "lineups": [
+          {
+            "formation": "3-4-2-1",
+            "played": 13
+          },
+          {
+            "formation": "3-4-3",
+            "played": 6
+          },
+          {
+            "formation": "3-5-2",
+            "played": 4
+          },
+          {
+            "formation": "4-2-3-1",
+            "played": 3
+          },
+          {
+            "formation": "4-4-2",
+            "played": 1
+          },
+          {
+            "formation": "4-5-1",
+            "played": 1
+          },
+          {
+            "formation": "4-3-3",
+            "played": 1
+          },
+          {
+            "formation": "5-4-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 2,
+              "percentage": 0.030299999999999997
+            },
+            "16-30": {
+              "total": 6,
+              "percentage": 0.0909
+            },
+            "31-45": {
+              "total": 9,
+              "percentage": 0.1364
+            },
+            "46-60": {
+              "total": 14,
+              "percentage": 0.2121
+            },
+            "61-75": {
+              "total": 7,
+              "percentage": 0.1061
+            },
+            "76-90": {
+              "total": 17,
+              "percentage": 0.2576
+            },
+            "91-105": {
+              "total": 11,
+              "percentage": 0.16670000000000001
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {
+              "total": 1,
+              "percentage": 1.0
+            },
+            "46-60": {},
+            "61-75": {},
+            "76-90": {},
+            "91-105": {},
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 182,
+          "name": "Union Berlin",
+          "logo": "https://media.api-sports.io/football/teams/182.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.6,
+            "att": 0.4,
+            "def": 0.7,
+            "goals": {
+              "for": {
+                "total": 8,
+                "average": 1.6
+              },
+              "against": {
+                "total": 6,
+                "average": 1.2
+              }
+            }
+          },
+          "league": {
+            "form_string": "DWDWLWWDLDLLLDLLLWLDWLLLWDWWDD",
+            "fixtures": {
+              "played": {
+                "home": 15,
+                "away": 15,
+                "total": 30
+              },
+              "wins": {
+                "home": 5,
+                "away": 4,
+                "total": 9
+              },
+              "draws": {
+                "home": 6,
+                "away": 3,
+                "total": 9
+              },
+              "losses": {
+                "home": 4,
+                "away": 8,
+                "total": 12
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 17,
+                  "away": 14,
+                  "total": 31
+                },
+                "average": {
+                  "home": 1.1,
+                  "away": 0.9,
+                  "total": 1.0
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 4,
+                    "percentage": 0.125
+                  },
+                  "16-30": {
+                    "total": 9,
+                    "percentage": 0.2813
+                  },
+                  "31-45": {
+                    "total": 5,
+                    "percentage": 0.1563
+                  },
+                  "46-60": {
+                    "total": 3,
+                    "percentage": 0.09380000000000001
+                  },
+                  "61-75": {
+                    "total": 7,
+                    "percentage": 0.2188
+                  },
+                  "76-90": {
+                    "total": 4,
+                    "percentage": 0.125
+                  },
+                  "91-105": {},
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 18,
+                    "under": 12
+                  },
+                  "1.5": {
+                    "over": 9,
+                    "under": 21
+                  },
+                  "2.5": {
+                    "over": 2,
+                    "under": 28
+                  },
+                  "3.5": {
+                    "over": 2,
+                    "under": 28
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 30
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 17,
+                  "away": 26,
+                  "total": 43
+                },
+                "average": {
+                  "home": 1.1,
+                  "away": 1.7,
+                  "total": 1.4
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 8,
+                    "percentage": 0.1905
+                  },
+                  "16-30": {
+                    "total": 8,
+                    "percentage": 0.1905
+                  },
+                  "31-45": {
+                    "total": 6,
+                    "percentage": 0.1429
+                  },
+                  "46-60": {
+                    "total": 6,
+                    "percentage": 0.1429
+                  },
+                  "61-75": {
+                    "total": 7,
+                    "percentage": 0.16670000000000001
+                  },
+                  "76-90": {
+                    "total": 5,
+                    "percentage": 0.11900000000000001
+                  },
+                  "91-105": {
+                    "total": 2,
+                    "percentage": 0.047599999999999996
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 22,
+                    "under": 8
+                  },
+                  "1.5": {
+                    "over": 10,
+                    "under": 20
+                  },
+                  "2.5": {
+                    "over": 6,
+                    "under": 24
+                  },
+                  "3.5": {
+                    "over": 3,
+                    "under": 27
+                  },
+                  "4.5": {
+                    "over": 1,
+                    "under": 29
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 2,
+                "draws": 1,
+                "losses": 3
+              },
+              "wins": {
+                "home": "2-1",
+                "away": "0-4"
+              },
+              "losses": {
+                "home": "0-2",
+                "away": "6-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 4,
+                  "away": 4
+                },
+                "against": {
+                  "home": 4,
+                  "away": 6
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 4,
+              "away": 4,
+              "total": 8
+            },
+            "failed_to_score": {
+              "home": 4,
+              "away": 8,
+              "total": 12
+            },
+            "penalty": {
+              "scored": {
+                "total": 3,
+                "percentage": 1.0
+              },
+              "missed": {
+                "total": 0,
+                "percentage": 0.0
+              },
+              "total": 3
+            },
+            "lineups": [
+              {
+                "formation": "3-4-2-1",
+                "played": 13
+              },
+              {
+                "formation": "3-4-3",
+                "played": 6
+              },
+              {
+                "formation": "3-5-2",
+                "played": 4
+              },
+              {
+                "formation": "4-2-3-1",
+                "played": 3
+              },
+              {
+                "formation": "4-4-2",
+                "played": 1
+              },
+              {
+                "formation": "4-5-1",
+                "played": 1
+              },
+              {
+                "formation": "4-3-3",
+                "played": 1
+              },
+              {
+                "formation": "5-4-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 2,
+                  "percentage": 0.030299999999999997
+                },
+                "16-30": {
+                  "total": 6,
+                  "percentage": 0.0909
+                },
+                "31-45": {
+                  "total": 9,
+                  "percentage": 0.1364
+                },
+                "46-60": {
+                  "total": 14,
+                  "percentage": 0.2121
+                },
+                "61-75": {
+                  "total": 7,
+                  "percentage": 0.1061
+                },
+                "76-90": {
+                  "total": 17,
+                  "percentage": 0.2576
+                },
+                "91-105": {
+                  "total": 11,
+                  "percentage": 0.16670000000000001
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {
+                  "total": 1,
+                  "percentage": 1.0
+                },
+                "46-60": {},
+                "61-75": {},
+                "76-90": {},
+                "91-105": {},
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "Union Berlin",
+        "country": "Germany",
+        "api_id": 182,
+        "game_type": "guest",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:46:09.250953",
+        "scrape_date_utc": "2025-04-22T17:46:09.250000",
+        "content_hash": "d47a19865bd3977f3d8ef395c3aade8d",
+        "general_statistics": {
+          "number of union berlin wins": 4,
+          "number of union berlin draws": 2,
+          "number of union berlin losses": 9,
+          "Average goals_scored per match": 0.87,
+          "Average goals_conceded per match": 1.8,
+          "Chance to score goal next match": 0.4,
+          "Chance to conceded goal next match": 0.73,
+          "Number of clean_sheets matches": 4,
+          "failed_to_score matches": 9,
+          "over 2.5 goals in": 8,
+          "under 2.5 goals in": 7,
+          "Time without scored goal": "132 min.",
+          "Time without conceded goal": "151 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "union berlin": 0.27,
+            "draw": 0.13,
+            "opponent": 0.6
+          },
+          "halftime bet_1x2_probabilities": {
+            "union berlin": 0.2,
+            "draw": 0.33,
+            "opponent": 0.47
+          },
+          "second half bet_1x2_probabilities": {
+            "union berlin": 0.27,
+            "draw": 0.13,
+            "opponent": 0.6
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.73,
+            "under": 0.27
+          },
+          "over/under 1.5 goals for union berlin only": {
+            "over": 0.33,
+            "under": 0.67
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.53,
+            "under": 0.47
+          },
+          "over/under 2.5 goals for union berlin only": {
+            "over": 0.07,
+            "under": 0.93
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.27,
+            "under": 0.73
+          },
+          "over/under 3.5 goals for union berlin only": {
+            "over": 0.07,
+            "under": 0.93
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.27,
+            "2-3": 0.47,
+            "4+": 0.27
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.27,
+            "only one": 0.6,
+            "neither": 0.13
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.53,
+            "even": 0.47
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.1,
+            "16-30 min.": 0.2,
+            "31-45 min.": 0.13,
+            "46-60 min.": 0.15,
+            "61-75 min.": 0.18,
+            "76-90 min.": 0.25
+          },
+          "union berlin goals only": {
+            "0-15 min.": 0.0,
+            "16-30 min.": 0.31,
+            "31-45 min.": 0.08,
+            "46-60 min.": 0.15,
+            "61-75 min.": 0.23,
+            "76-90 min.": 0.23
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.0,
+            "11-20 min.": 0.4,
+            "21-30 min.": 0.2,
+            "31-40 min.": 0.13,
+            "41-50 min.": 0.0,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.07,
+            "81-90 min.": 0.07,
+            "without goal": 0.13
+          },
+          "time of first union berlin goal": {
+            "0-10 min.": 0.0,
+            "11-20 min.": 0.07,
+            "21-30 min.": 0.2,
+            "31-40 min.": 0.07,
+            "41-50 min.": 0.0,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.6
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "union berlin": 0.2,
+            "opponent": 0.67,
+            "without goal": 0.13
+          },
+          "win after 15 minutes": {
+            "union berlin": 0.0,
+            "opponent": 0.27,
+            "draw": 0.73
+          },
+          "win after 30 minutes": {
+            "union berlin": 0.13,
+            "opponent": 0.4,
+            "draw": 0.47
+          },
+          "bet_halftime_result_probabilities": {
+            "union berlin": 0.2,
+            "opponent": 0.47,
+            "draw": 0.33
+          },
+          "win after 60 minutes": {
+            "union berlin": 0.2,
+            "opponent": 0.47,
+            "draw": 0.33
+          },
+          "win after 75 minutes": {
+            "union berlin": 0.2,
+            "opponent": 0.53,
+            "draw": 0.27
+          },
+          "bet_fulltime_result_probabilities": {
+            "union berlin": 0.27,
+            "opponent": 0.6,
+            "draw": 0.13
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.47,
+            "2-3 goals": 0.4,
+            "4+ goals": 0.13
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.6,
+            "second half": 0.27,
+            "tie": 0.13
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-12",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Bayer Leverkusen",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-30",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "SC Freiburg",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-09",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Eintracht Frankfurt",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-22",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Borussia Dortmund",
+            "team_goals": 0,
+            "opponent_goals": 6,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-08",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "1899 Hoffenheim",
+            "team_goals": 4,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-26",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "FC St. Pauli",
+            "team_goals": 0,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-11",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "FC Heidenheim",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-21",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Werder Bremen",
+            "team_goals": 1,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-06",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "VfB Stuttgart",
+            "team_goals": 2,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-23",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "VfL Wolfsburg",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-02",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Bayern Munich",
+            "team_goals": 0,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-30",
+            "competition": "Germany - Fa Cup 2024/2025",
+            "opponent": "Arminia Bielefeld",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-20",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Holstein Kiel",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-09-28",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "Borussia Monchengladbach",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-09-14",
+            "competition": "Germany - Bundesliga 2024/2025",
+            "opponent": "RB Leipzig",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:49:45.984000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 13,
+        "team": {
+          "id": 182,
+          "name": "Union Berlin",
+          "logo": "https://media.api-sports.io/football/teams/182.png"
+        },
+        "league_points": 35,
+        "goals_difference": -14,
+        "group": "Bundesliga",
+        "form_string": "DDWWD",
+        "status": "same",
+        "coverage_percentage": {
+          "played": 30,
+          "win": 9,
+          "draw": 8,
+          "loss": 13,
+          "goals": {
+            "for": 30,
+            "against": 44
+          }
+        },
+        "home": {
+          "played": 15,
+          "win": 5,
+          "draw": 5,
+          "loss": 5,
+          "goals": {
+            "for": 16,
+            "against": 18
+          }
+        },
+        "away": {
+          "played": 15,
+          "win": 4,
+          "draw": 3,
+          "loss": 8,
+          "goals": {
+            "for": 14,
+            "against": 26
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    }
+  },
+  "goals": {}
+}

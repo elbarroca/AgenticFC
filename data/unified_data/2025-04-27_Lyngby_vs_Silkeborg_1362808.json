@@ -1,0 +1,2182 @@
+{
+  "fixture_id": 1362808,
+  "match_date": "2025-04-27",
+  "league": {
+    "id": "None",
+    "statarea_id": "unknown"
+  },
+  "engineered_features": {
+    "home": {
+      "team_id": 625,
+      "team_name": "Lyngby",
+      "team_statarea_id": 625,
+      "base_league_id": "None",
+      "proc_league_id": 119,
+      "proc_league_name": "Superliga",
+      "proc_league_country": "Denmark",
+      "proc_league_season": 2024,
+      "proc_team_id": 625,
+      "proc_team_name": "Lyngby",
+      "weather_temp_celsius": 17.71,
+      "weather_temp_feels_like_celsius": 16.66,
+      "weather_pressure_hpa": 1027,
+      "weather_humidity_pct": 43,
+      "weather_wind_speed_mps": 4.83,
+      "weather_wind_direction_deg": 199,
+      "weather_cloud_coverage_pct": 48,
+      "weather_description": "scattered clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "host",
+      "hist_home_matches_played": 15,
+      "hist_home_average_goals_scored": 1.2,
+      "hist_home_average_goals_conceded": 1.267,
+      "hist_home_win_rate": 0.333,
+      "hist_home_draw_rate": 0.333,
+      "hist_home_loss_rate": 0.333,
+      "hist_home_both_teams_scored_rate": 0.4,
+      "hist_home_clean_sheet_rate": 0.4,
+      "hist_home_failed_to_score_rate": 0.4,
+      "hist_home_average_goal_difference": -0.067,
+      "hist_home_over_0_5_goals_rate": 0.8,
+      "hist_home_over_1_5_goals_rate": 0.667,
+      "hist_home_over_2_5_goals_rate": 0.467,
+      "hist_home_over_3_5_goals_rate": 0.267,
+      "hist_home_over_4_5_goals_rate": 0.133,
+      "hist_home_form_string": "LLWDWWWLDDDDWLL",
+      "hist_home_form_rating_points_pct": 0.444,
+      "hist_overall_l5_form_string": "LLWDW",
+      "hist_overall_l5_form_rating_points_pct": 0.467,
+      "hist_home_l3_form_string": "LLW",
+      "hist_home_l3_form_rating_points_pct": 0.333,
+      "hist_home_l3_avg_scored": 0.667,
+      "hist_home_l3_avg_conceded": 1.333,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "L 0-2 vs SonderjyskE (home)",
+          "L 1-2 vs Vejle (home)",
+          "W 1-0 vs FC Nordsjaelland (home)",
+          "D 0-0 vs Randers FC (home)",
+          "W 3-2 vs Banga Gargzdai (home)"
+        ],
+        "home_l3_matches": [
+          "L 0-2 vs SonderjyskE",
+          "L 1-2 vs Vejle",
+          "W 1-0 vs FC Nordsjaelland"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 5,
+      "hist_perf_by_result_win_avg_scored": 2.4,
+      "hist_perf_by_result_win_avg_conceded": 1.0,
+      "hist_perf_by_result_draw_matches": 5,
+      "hist_perf_by_result_draw_avg_scored": 0.8,
+      "hist_perf_by_result_draw_avg_conceded": 0.8,
+      "hist_perf_by_result_loss_matches": 5,
+      "hist_perf_by_result_loss_avg_scored": 0.4,
+      "hist_perf_by_result_loss_avg_conceded": 2.0,
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 2,
+          "proc_goals_scored_min_0_15_pct": 0.1,
+          "proc_goals_scored_min_16_30_count": 4,
+          "proc_goals_scored_min_16_30_pct": 0.2,
+          "proc_goals_scored_min_31_45_count": 3,
+          "proc_goals_scored_min_31_45_pct": 0.15,
+          "proc_goals_scored_min_46_60_count": 2,
+          "proc_goals_scored_min_46_60_pct": 0.1,
+          "proc_goals_scored_min_61_75_count": 5,
+          "proc_goals_scored_min_61_75_pct": 0.25,
+          "proc_goals_scored_min_76_90_count": 4,
+          "proc_goals_scored_min_76_90_pct": 0.2,
+          "proc_goals_scored_min_91_105_count": 1,
+          "proc_goals_scored_min_91_105_pct": 0.05
+        },
+        "card_stats": {
+          "yellow_avg": 2.296,
+          "red_avg": 0.037
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.25,
+          "proc_penalty_missed_pct": 0.75,
+          "proc_penalty_total_taken": 4
+        }
+      }
+    },
+    "away": {
+      "team_id": 2073,
+      "team_name": "Silkeborg",
+      "team_statarea_id": 2073,
+      "base_league_id": "None",
+      "proc_league_id": 119,
+      "proc_league_name": "Superliga",
+      "proc_league_country": "Denmark",
+      "proc_league_season": 2024,
+      "proc_team_id": 2073,
+      "proc_team_name": "Silkeborg",
+      "weather_temp_celsius": 17.71,
+      "weather_temp_feels_like_celsius": 16.66,
+      "weather_pressure_hpa": 1027,
+      "weather_humidity_pct": 43,
+      "weather_wind_speed_mps": 4.83,
+      "weather_wind_direction_deg": 199,
+      "weather_cloud_coverage_pct": 48,
+      "weather_description": "scattered clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "guest",
+      "hist_away_matches_played": 15,
+      "hist_away_average_goals_scored": 1.867,
+      "hist_away_average_goals_conceded": 1.533,
+      "hist_away_win_rate": 0.333,
+      "hist_away_draw_rate": 0.333,
+      "hist_away_loss_rate": 0.333,
+      "hist_away_both_teams_scored_rate": 0.6,
+      "hist_away_clean_sheet_rate": 0.2,
+      "hist_away_failed_to_score_rate": 0.267,
+      "hist_away_average_goal_difference": 0.333,
+      "hist_away_over_0_5_goals_rate": 0.933,
+      "hist_away_over_1_5_goals_rate": 0.867,
+      "hist_away_over_2_5_goals_rate": 0.8,
+      "hist_away_over_3_5_goals_rate": 0.533,
+      "hist_away_over_4_5_goals_rate": 0.2,
+      "hist_away_form_string": "WLLDWWLDWLDWDLD",
+      "hist_away_form_rating_points_pct": 0.444,
+      "hist_overall_l5_form_string": "WLLDW",
+      "hist_overall_l5_form_rating_points_pct": 0.467,
+      "hist_away_l3_form_string": "WLL",
+      "hist_away_l3_form_rating_points_pct": 0.333,
+      "hist_away_l3_avg_scored": 2.0,
+      "hist_away_l3_avg_conceded": 1.333,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "W 4-0 vs Vejle (away)",
+          "L 1-2 vs Viborg (away)",
+          "L 1-2 vs SonderjyskE (away)",
+          "D 2-2 vs Brondby (away)",
+          "W 3-1 vs SonderjyskE (away)"
+        ],
+        "away_l3_matches": [
+          "W 4-0 vs Vejle",
+          "L 1-2 vs Viborg",
+          "L 1-2 vs SonderjyskE"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 5,
+      "hist_perf_by_result_win_avg_scored": 3.8,
+      "hist_perf_by_result_win_avg_conceded": 0.6,
+      "hist_perf_by_result_draw_matches": 5,
+      "hist_perf_by_result_draw_avg_scored": 1.4,
+      "hist_perf_by_result_draw_avg_conceded": 1.4,
+      "hist_perf_by_result_loss_matches": 5,
+      "hist_perf_by_result_loss_avg_scored": 0.4,
+      "hist_perf_by_result_loss_avg_conceded": 2.6,
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 11,
+          "proc_goals_scored_min_0_15_pct": 0.22,
+          "proc_goals_scored_min_16_30_count": 9,
+          "proc_goals_scored_min_16_30_pct": 0.18,
+          "proc_goals_scored_min_31_45_count": 6,
+          "proc_goals_scored_min_31_45_pct": 0.12,
+          "proc_goals_scored_min_46_60_count": 6,
+          "proc_goals_scored_min_46_60_pct": 0.12,
+          "proc_goals_scored_min_61_75_count": 9,
+          "proc_goals_scored_min_61_75_pct": 0.18,
+          "proc_goals_scored_min_76_90_count": 5,
+          "proc_goals_scored_min_76_90_pct": 0.1,
+          "proc_goals_scored_min_91_105_count": 4,
+          "proc_goals_scored_min_91_105_pct": 0.08
+        },
+        "card_stats": {
+          "yellow_avg": 1.296,
+          "red_avg": 0.037
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 1.0,
+          "proc_penalty_missed_pct": 0.0,
+          "proc_penalty_total_taken": 4
+        }
+      }
+    }
+  },
+  "model_input_features": {
+    "eng_h_team_id": 625.0,
+    "eng_h_team_statarea_id": 625.0,
+    "eng_h_proc_league_id": 119.0,
+    "eng_h_proc_league_season": 2024.0,
+    "eng_h_proc_team_id": 625.0,
+    "eng_h_weather_temp_celsius": 17.71,
+    "eng_h_weather_temp_feels_like_celsius": 16.66,
+    "eng_h_weather_pressure_hpa": 1027.0,
+    "eng_h_weather_humidity_pct": 43.0,
+    "eng_h_weather_wind_speed_mps": 4.83,
+    "eng_h_weather_wind_direction_deg": 199.0,
+    "eng_h_weather_cloud_coverage_pct": 48.0,
+    "eng_h_weather_condition_main": "Clouds",
+    "eng_h_match_history_source": "statarea",
+    "eng_h_match_history_games_analyzed": 15.0,
+    "eng_h_match_history_venue_context": "host",
+    "eng_h_hist_home_matches_played": 15.0,
+    "eng_h_hist_home_average_goals_scored": 1.2,
+    "eng_h_hist_home_average_goals_conceded": 1.267,
+    "eng_h_hist_home_win_rate": 0.333,
+    "eng_h_hist_home_draw_rate": 0.333,
+    "eng_h_hist_home_loss_rate": 0.333,
+    "eng_h_hist_home_both_teams_scored_rate": 0.4,
+    "eng_h_hist_home_clean_sheet_rate": 0.4,
+    "eng_h_hist_home_failed_to_score_rate": 0.4,
+    "eng_h_hist_home_average_goal_difference": -0.067,
+    "eng_h_hist_home_over_0_5_goals_rate": 0.8,
+    "eng_h_hist_home_over_1_5_goals_rate": 0.667,
+    "eng_h_hist_home_over_2_5_goals_rate": 0.467,
+    "eng_h_hist_home_over_3_5_goals_rate": 0.267,
+    "eng_h_hist_home_over_4_5_goals_rate": 0.133,
+    "eng_h_hist_home_form_rating_points_pct": 0.444,
+    "eng_h_hist_overall_l5_form_rating_points_pct": 0.467,
+    "eng_h_hist_home_l3_form_rating_points_pct": 0.333,
+    "eng_h_hist_home_l3_avg_scored": 0.667,
+    "eng_h_hist_home_l3_avg_conceded": 1.333,
+    "eng_h_hist_perf_by_result_win_matches": 5.0,
+    "eng_h_hist_perf_by_result_win_avg_scored": 2.4,
+    "eng_h_hist_perf_by_result_win_avg_conceded": 1.0,
+    "eng_h_hist_perf_by_result_draw_matches": 5.0,
+    "eng_h_hist_perf_by_result_draw_avg_scored": 0.8,
+    "eng_h_hist_perf_by_result_draw_avg_conceded": 0.8,
+    "eng_h_hist_perf_by_result_loss_matches": 5.0,
+    "eng_h_hist_perf_by_result_loss_avg_scored": 0.4,
+    "eng_h_hist_perf_by_result_loss_avg_conceded": 2.0,
+    "eng_a_team_id": 2073.0,
+    "eng_a_team_statarea_id": 2073.0,
+    "eng_a_proc_league_id": 119.0,
+    "eng_a_proc_league_season": 2024.0,
+    "eng_a_proc_team_id": 2073.0,
+    "eng_a_weather_temp_celsius": 17.71,
+    "eng_a_weather_temp_feels_like_celsius": 16.66,
+    "eng_a_weather_pressure_hpa": 1027.0,
+    "eng_a_weather_humidity_pct": 43.0,
+    "eng_a_weather_wind_speed_mps": 4.83,
+    "eng_a_weather_wind_direction_deg": 199.0,
+    "eng_a_weather_cloud_coverage_pct": 48.0,
+    "eng_a_weather_condition_main": "Clouds",
+    "eng_a_match_history_source": "statarea",
+    "eng_a_match_history_games_analyzed": 15.0,
+    "eng_a_match_history_venue_context": "guest",
+    "eng_a_hist_away_matches_played": 15.0,
+    "eng_a_hist_away_average_goals_scored": 1.867,
+    "eng_a_hist_away_average_goals_conceded": 1.533,
+    "eng_a_hist_away_win_rate": 0.333,
+    "eng_a_hist_away_draw_rate": 0.333,
+    "eng_a_hist_away_loss_rate": 0.333,
+    "eng_a_hist_away_both_teams_scored_rate": 0.6,
+    "eng_a_hist_away_clean_sheet_rate": 0.2,
+    "eng_a_hist_away_failed_to_score_rate": 0.267,
+    "eng_a_hist_away_average_goal_difference": 0.333,
+    "eng_a_hist_away_over_0_5_goals_rate": 0.933,
+    "eng_a_hist_away_over_1_5_goals_rate": 0.867,
+    "eng_a_hist_away_over_2_5_goals_rate": 0.8,
+    "eng_a_hist_away_over_3_5_goals_rate": 0.533,
+    "eng_a_hist_away_over_4_5_goals_rate": 0.2,
+    "eng_a_hist_away_form_rating_points_pct": 0.444,
+    "eng_a_hist_overall_l5_form_rating_points_pct": 0.467,
+    "eng_a_hist_away_l3_form_rating_points_pct": 0.333,
+    "eng_a_hist_away_l3_avg_scored": 2.0,
+    "eng_a_hist_away_l3_avg_conceded": 1.333,
+    "eng_a_hist_perf_by_result_win_matches": 5.0,
+    "eng_a_hist_perf_by_result_win_avg_scored": 3.8,
+    "eng_a_hist_perf_by_result_win_avg_conceded": 0.6,
+    "eng_a_hist_perf_by_result_draw_matches": 5.0,
+    "eng_a_hist_perf_by_result_draw_avg_scored": 1.4,
+    "eng_a_hist_perf_by_result_draw_avg_conceded": 1.4,
+    "eng_a_hist_perf_by_result_loss_matches": 5.0,
+    "eng_a_hist_perf_by_result_loss_avg_scored": 0.4,
+    "eng_a_hist_perf_by_result_loss_avg_conceded": 2.6,
+    "eng_diff_weather_temp_celsius": 0.0,
+    "eng_ratio_weather_temp_celsius": 1.0,
+    "eng_diff_weather_humidity_pct": 0.0,
+    "eng_ratio_weather_humidity_pct": 1.0,
+    "eng_diff_proc_team_id": -1448.0,
+    "eng_ratio_proc_team_id": 0.3014954172696575,
+    "eng_diff_proc_league_season": 0.0,
+    "eng_ratio_proc_league_season": 1.0,
+    "eng_diff_hist_perf_by_result_win_avg_conceded": 0.4,
+    "eng_ratio_hist_perf_by_result_win_avg_conceded": 1.6666666666666667,
+    "eng_diff_match_history_games_analyzed": 0.0,
+    "eng_ratio_match_history_games_analyzed": 1.0,
+    "eng_diff_hist_perf_by_result_draw_avg_conceded": -0.5999999999999999,
+    "eng_ratio_hist_perf_by_result_draw_avg_conceded": 0.5714285714285715,
+    "eng_diff_team_id": -1448.0,
+    "eng_ratio_team_id": 0.3014954172696575,
+    "eng_diff_match_history_venue_context": -999.0,
+    "eng_ratio_match_history_venue_context": -999.0,
+    "eng_diff_weather_temp_feels_like_celsius": 0.0,
+    "eng_ratio_weather_temp_feels_like_celsius": 1.0,
+    "eng_diff_hist_perf_by_result_draw_matches": 0.0,
+    "eng_ratio_hist_perf_by_result_draw_matches": 1.0,
+    "eng_diff_weather_wind_speed_mps": 0.0,
+    "eng_ratio_weather_wind_speed_mps": 1.0,
+    "eng_diff_hist_perf_by_result_loss_avg_conceded": -0.6000000000000001,
+    "eng_ratio_hist_perf_by_result_loss_avg_conceded": 0.7692307692307692,
+    "eng_diff_weather_pressure_hpa": 0.0,
+    "eng_ratio_weather_pressure_hpa": 1.0,
+    "eng_diff_hist_perf_by_result_win_matches": 0.0,
+    "eng_ratio_hist_perf_by_result_win_matches": 1.0,
+    "eng_diff_weather_condition_main": -999.0,
+    "eng_ratio_weather_condition_main": -999.0,
+    "eng_diff_hist_perf_by_result_draw_avg_scored": -0.5999999999999999,
+    "eng_ratio_hist_perf_by_result_draw_avg_scored": 0.5714285714285715,
+    "eng_diff_hist_overall_l5_form_rating_points_pct": 0.0,
+    "eng_ratio_hist_overall_l5_form_rating_points_pct": 1.0,
+    "eng_diff_hist_perf_by_result_win_avg_scored": -1.4,
+    "eng_ratio_hist_perf_by_result_win_avg_scored": 0.631578947368421,
+    "eng_diff_hist_perf_by_result_loss_matches": 0.0,
+    "eng_ratio_hist_perf_by_result_loss_matches": 1.0,
+    "eng_diff_hist_perf_by_result_loss_avg_scored": 0.0,
+    "eng_ratio_hist_perf_by_result_loss_avg_scored": 1.0,
+    "eng_diff_weather_cloud_coverage_pct": 0.0,
+    "eng_ratio_weather_cloud_coverage_pct": 1.0,
+    "eng_diff_match_history_source": -999.0,
+    "eng_ratio_match_history_source": -999.0,
+    "eng_diff_team_statarea_id": -1448.0,
+    "eng_ratio_team_statarea_id": 0.3014954172696575,
+    "eng_diff_weather_wind_direction_deg": 0.0,
+    "eng_ratio_weather_wind_direction_deg": 1.0,
+    "eng_diff_proc_league_id": 0.0,
+    "eng_ratio_proc_league_id": 1.0
+  },
+  "fixture_meta": {
+    "id": 1362808,
+    "date_utc": "2025-04-27T12:00:00+00:00",
+    "timestamp_utc": 1745755200,
+    "referee": "L. Graagaard",
+    "venue": {
+      "name": "Lyngby Stadion",
+      "city": "Lyngby"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "coord": {
+        "lon": 10.0398,
+        "lat": 56.8436
+      },
+      "weather": [
+        {
+          "id": 802,
+          "main": "Clouds",
+          "description": "scattered clouds",
+          "icon": "03d"
+        }
+      ],
+      "base": "stations",
+      "main": {
+        "temperature": 17.71,
+        "temperature_feels_like": 16.66,
+        "temperature_min": 17.71,
+        "temperature_max": 17.71,
+        "air_pressure": 1027,
+        "humidity": 43,
+        "pressure_sea_level": 1027,
+        "pressure_ground_level": 1024
+      },
+      "visibility": 10000,
+      "wind": {
+        "speed_mps": 4.83,
+        "direction_degrees": 199,
+        "gust": 5.34
+      },
+      "clouds": {
+        "coverage_percentage": 48
+      },
+      "dt": 1745751016,
+      "sys": {
+        "type": 2,
+        "id": 2019789,
+        "country": "DK",
+        "sunrise": 1745725296,
+        "sunset": 1745779983
+      },
+      "timezone": 7200,
+      "id": 2624886,
+      "name": "Lyngby",
+      "cod": 200,
+      "summary": "Clouds: scattered clouds, Temp: 17.71°C"
+    }
+  },
+  "raw_data": {
+    "home": {
+      "basic_info": {
+        "id": 625,
+        "name": "Lyngby",
+        "logo": "https://media.api-sports.io/football/teams/625.png",
+        "statarea_id": 625
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 119,
+          "name": "Superliga",
+          "country": "Denmark",
+          "logo": "https://media.api-sports.io/football/leagues/119.png",
+          "flag": "https://media.api-sports.io/flags/dk.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 625,
+          "name": "Lyngby",
+          "logo": "https://media.api-sports.io/football/teams/625.png"
+        },
+        "form_string": "LDLDLLWLDDDDLLDLLLDDWWLLDLD",
+        "fixtures": {
+          "played": {
+            "home": 13,
+            "away": 14,
+            "total": 27
+          },
+          "wins": {
+            "home": 2,
+            "away": 1,
+            "total": 3
+          },
+          "draws": {
+            "home": 5,
+            "away": 6,
+            "total": 11
+          },
+          "losses": {
+            "home": 6,
+            "away": 7,
+            "total": 13
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 8,
+              "away": 12,
+              "total": 20
+            },
+            "average": {
+              "home": 0.6,
+              "away": 0.9,
+              "total": 0.7
+            },
+            "minute": {
+              "0-15": {
+                "total": 2,
+                "percentage": 0.09519999999999999
+              },
+              "16-30": {
+                "total": 4,
+                "percentage": 0.1905
+              },
+              "31-45": {
+                "total": 3,
+                "percentage": 0.1429
+              },
+              "46-60": {
+                "total": 2,
+                "percentage": 0.09519999999999999
+              },
+              "61-75": {
+                "total": 5,
+                "percentage": 0.23809999999999998
+              },
+              "76-90": {
+                "total": 4,
+                "percentage": 0.1905
+              },
+              "91-105": {
+                "total": 1,
+                "percentage": 0.047599999999999996
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 17,
+                "under": 10
+              },
+              "1.5": {
+                "over": 3,
+                "under": 24
+              },
+              "2.5": {
+                "over": 0,
+                "under": 27
+              },
+              "3.5": {
+                "over": 0,
+                "under": 27
+              },
+              "4.5": {
+                "over": 0,
+                "under": 27
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 16,
+              "away": 19,
+              "total": 35
+            },
+            "average": {
+              "home": 1.2,
+              "away": 1.4,
+              "total": 1.3
+            },
+            "minute": {
+              "0-15": {
+                "total": 9,
+                "percentage": 0.2647
+              },
+              "16-30": {
+                "total": 7,
+                "percentage": 0.2059
+              },
+              "31-45": {
+                "total": 2,
+                "percentage": 0.0588
+              },
+              "46-60": {
+                "total": 5,
+                "percentage": 0.1471
+              },
+              "61-75": {
+                "total": 3,
+                "percentage": 0.0882
+              },
+              "76-90": {
+                "total": 3,
+                "percentage": 0.0882
+              },
+              "91-105": {
+                "total": 5,
+                "percentage": 0.1471
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 21,
+                "under": 6
+              },
+              "1.5": {
+                "over": 14,
+                "under": 13
+              },
+              "2.5": {
+                "over": 0,
+                "under": 27
+              },
+              "3.5": {
+                "over": 0,
+                "under": 27
+              },
+              "4.5": {
+                "over": 0,
+                "under": 27
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 2,
+            "draws": 4,
+            "losses": 3
+          },
+          "wins": {
+            "home": "1-0",
+            "away": "0-1"
+          },
+          "losses": {
+            "home": "0-2",
+            "away": "2-0"
+          },
+          "goals": {
+            "for": {
+              "home": 2,
+              "away": 2
+            },
+            "against": {
+              "home": 2,
+              "away": 2
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 5,
+          "away": 1,
+          "total": 6
+        },
+        "failed_to_score": {
+          "home": 7,
+          "away": 3,
+          "total": 10
+        },
+        "penalty": {
+          "scored": {
+            "total": 1,
+            "percentage": 0.25
+          },
+          "missed": {
+            "total": 3,
+            "percentage": 0.75
+          },
+          "total": 4
+        },
+        "lineups": [
+          {
+            "formation": "3-4-3",
+            "played": 8
+          },
+          {
+            "formation": "4-1-4-1",
+            "played": 8
+          },
+          {
+            "formation": "3-4-2-1",
+            "played": 4
+          },
+          {
+            "formation": "4-3-3",
+            "played": 3
+          },
+          {
+            "formation": "5-4-1",
+            "played": 2
+          },
+          {
+            "formation": "3-5-2",
+            "played": 1
+          },
+          {
+            "formation": "4-5-1",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 1,
+              "percentage": 0.0161
+            },
+            "16-30": {
+              "total": 9,
+              "percentage": 0.1452
+            },
+            "31-45": {
+              "total": 9,
+              "percentage": 0.1452
+            },
+            "46-60": {
+              "total": 8,
+              "percentage": 0.129
+            },
+            "61-75": {
+              "total": 4,
+              "percentage": 0.0645
+            },
+            "76-90": {
+              "total": 19,
+              "percentage": 0.3065
+            },
+            "91-105": {
+              "total": 12,
+              "percentage": 0.1935
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {},
+            "46-60": {},
+            "61-75": {},
+            "76-90": {},
+            "91-105": {
+              "total": 1,
+              "percentage": 1.0
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 625,
+          "name": "Lyngby",
+          "logo": "https://media.api-sports.io/football/teams/625.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.13,
+            "att": 0.28,
+            "def": 0.5,
+            "goals": {
+              "for": {
+                "total": 5,
+                "average": 1.0
+              },
+              "against": {
+                "total": 9,
+                "average": 1.8
+              }
+            }
+          },
+          "league": {
+            "form_string": "LDLDLLWLDDDDLLDLLLDDWWLLDLD",
+            "fixtures": {
+              "played": {
+                "home": 13,
+                "away": 14,
+                "total": 27
+              },
+              "wins": {
+                "home": 2,
+                "away": 1,
+                "total": 3
+              },
+              "draws": {
+                "home": 5,
+                "away": 6,
+                "total": 11
+              },
+              "losses": {
+                "home": 6,
+                "away": 7,
+                "total": 13
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 8,
+                  "away": 12,
+                  "total": 20
+                },
+                "average": {
+                  "home": 0.6,
+                  "away": 0.9,
+                  "total": 0.7
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 2,
+                    "percentage": 0.09519999999999999
+                  },
+                  "16-30": {
+                    "total": 4,
+                    "percentage": 0.1905
+                  },
+                  "31-45": {
+                    "total": 3,
+                    "percentage": 0.1429
+                  },
+                  "46-60": {
+                    "total": 2,
+                    "percentage": 0.09519999999999999
+                  },
+                  "61-75": {
+                    "total": 5,
+                    "percentage": 0.23809999999999998
+                  },
+                  "76-90": {
+                    "total": 4,
+                    "percentage": 0.1905
+                  },
+                  "91-105": {
+                    "total": 1,
+                    "percentage": 0.047599999999999996
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 17,
+                    "under": 10
+                  },
+                  "1.5": {
+                    "over": 3,
+                    "under": 24
+                  },
+                  "2.5": {
+                    "over": 0,
+                    "under": 27
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 27
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 27
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 16,
+                  "away": 19,
+                  "total": 35
+                },
+                "average": {
+                  "home": 1.2,
+                  "away": 1.4,
+                  "total": 1.3
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 9,
+                    "percentage": 0.2647
+                  },
+                  "16-30": {
+                    "total": 7,
+                    "percentage": 0.2059
+                  },
+                  "31-45": {
+                    "total": 2,
+                    "percentage": 0.0588
+                  },
+                  "46-60": {
+                    "total": 5,
+                    "percentage": 0.1471
+                  },
+                  "61-75": {
+                    "total": 3,
+                    "percentage": 0.0882
+                  },
+                  "76-90": {
+                    "total": 3,
+                    "percentage": 0.0882
+                  },
+                  "91-105": {
+                    "total": 5,
+                    "percentage": 0.1471
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 21,
+                    "under": 6
+                  },
+                  "1.5": {
+                    "over": 14,
+                    "under": 13
+                  },
+                  "2.5": {
+                    "over": 0,
+                    "under": 27
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 27
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 27
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 2,
+                "draws": 4,
+                "losses": 3
+              },
+              "wins": {
+                "home": "1-0",
+                "away": "0-1"
+              },
+              "losses": {
+                "home": "0-2",
+                "away": "2-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 2,
+                  "away": 2
+                },
+                "against": {
+                  "home": 2,
+                  "away": 2
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 5,
+              "away": 1,
+              "total": 6
+            },
+            "failed_to_score": {
+              "home": 7,
+              "away": 3,
+              "total": 10
+            },
+            "penalty": {
+              "scored": {
+                "total": 1,
+                "percentage": 0.25
+              },
+              "missed": {
+                "total": 3,
+                "percentage": 0.75
+              },
+              "total": 4
+            },
+            "lineups": [
+              {
+                "formation": "3-4-3",
+                "played": 8
+              },
+              {
+                "formation": "4-1-4-1",
+                "played": 8
+              },
+              {
+                "formation": "3-4-2-1",
+                "played": 4
+              },
+              {
+                "formation": "4-3-3",
+                "played": 3
+              },
+              {
+                "formation": "5-4-1",
+                "played": 2
+              },
+              {
+                "formation": "3-5-2",
+                "played": 1
+              },
+              {
+                "formation": "4-5-1",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 1,
+                  "percentage": 0.0161
+                },
+                "16-30": {
+                  "total": 9,
+                  "percentage": 0.1452
+                },
+                "31-45": {
+                  "total": 9,
+                  "percentage": 0.1452
+                },
+                "46-60": {
+                  "total": 8,
+                  "percentage": 0.129
+                },
+                "61-75": {
+                  "total": 4,
+                  "percentage": 0.0645
+                },
+                "76-90": {
+                  "total": 19,
+                  "percentage": 0.3065
+                },
+                "91-105": {
+                  "total": 12,
+                  "percentage": 0.1935
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {},
+                "46-60": {},
+                "61-75": {},
+                "76-90": {},
+                "91-105": {
+                  "total": 1,
+                  "percentage": 1.0
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "Lyngby",
+        "country": "Denmark",
+        "api_id": 625,
+        "game_type": "host",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:46:45.021309",
+        "scrape_date_utc": "2025-04-22T17:46:45.021000",
+        "content_hash": "e945eee0090b3b6140d7391f7ad25979",
+        "general_statistics": {
+          "number of lyngby wins": 5,
+          "number of lyngby draws": 5,
+          "number of lyngby losses": 5,
+          "Average goals_scored per match": 1.2,
+          "Average goals_conceded per match": 1.27,
+          "Chance to score goal next match": 0.6,
+          "Chance to conceded goal next match": 0.6,
+          "Number of clean_sheets matches": 6,
+          "failed_to_score matches": 6,
+          "over 2.5 goals in": 7,
+          "under 2.5 goals in": 8,
+          "Time without scored goal": "177 min.",
+          "Time without conceded goal": "6 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "Lyngby": 0.33,
+            "draw": 0.33,
+            "opponent": 0.33
+          },
+          "halftime bet_1x2_probabilities": {
+            "Lyngby": 0.27,
+            "draw": 0.47,
+            "opponent": 0.27
+          },
+          "second half bet_1x2_probabilities": {
+            "Lyngby": 0.27,
+            "draw": 0.47,
+            "opponent": 0.27
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.67,
+            "under": 0.33
+          },
+          "over/under 1.5 goals for lyngby only": {
+            "over": 0.33,
+            "under": 0.67
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.47,
+            "under": 0.53
+          },
+          "over/under 2.5 goals for lyngby only": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.27,
+            "under": 0.73
+          },
+          "over/under 3.5 goals for lyngby only": {
+            "over": 0.07,
+            "under": 0.93
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.33,
+            "2-3": 0.4,
+            "4+": 0.27
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.4,
+            "only one": 0.4,
+            "neither": 0.2
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.47,
+            "even": 0.53
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.16,
+            "16-30 min.": 0.16,
+            "31-45 min.": 0.08,
+            "46-60 min.": 0.11,
+            "61-75 min.": 0.11,
+            "76-90 min.": 0.38
+          },
+          "Lyngby goals only": {
+            "0-15 min.": 0.17,
+            "16-30 min.": 0.17,
+            "31-45 min.": 0.06,
+            "46-60 min.": 0.11,
+            "61-75 min.": 0.11,
+            "76-90 min.": 0.39
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.27,
+            "11-20 min.": 0.13,
+            "21-30 min.": 0.13,
+            "31-40 min.": 0.0,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.2,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.2
+          },
+          "time of first lyngby goal": {
+            "0-10 min.": 0.2,
+            "11-20 min.": 0.07,
+            "21-30 min.": 0.07,
+            "31-40 min.": 0.0,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.07,
+            "81-90 min.": 0.0,
+            "without goal": 0.4
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "Lyngby": 0.47,
+            "opponent": 0.33,
+            "without goal": 0.2
+          },
+          "win after 15 minutes": {
+            "Lyngby": 0.13,
+            "opponent": 0.13,
+            "draw": 0.73
+          },
+          "win after 30 minutes": {
+            "Lyngby": 0.27,
+            "opponent": 0.27,
+            "draw": 0.47
+          },
+          "bet_halftime_result_probabilities": {
+            "Lyngby": 0.27,
+            "opponent": 0.27,
+            "draw": 0.47
+          },
+          "win after 60 minutes": {
+            "Lyngby": 0.2,
+            "opponent": 0.27,
+            "draw": 0.53
+          },
+          "win after 75 minutes": {
+            "Lyngby": 0.27,
+            "opponent": 0.33,
+            "draw": 0.4
+          },
+          "bet_fulltime_result_probabilities": {
+            "Lyngby": 0.33,
+            "opponent": 0.33,
+            "draw": 0.33
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.73,
+            "2-3 goals": 0.27,
+            "4+ goals": 0.0
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.33,
+            "second half": 0.33,
+            "tie": 0.33
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-17",
+            "competition": "Denmark - Superligaen Relegation Group 2024/2025",
+            "opponent": "SonderjyskE",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-30",
+            "competition": "Denmark - Superligaen Relegation Group 2024/2025",
+            "opponent": "Vejle",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-16",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "FC Nordsjaelland",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-21",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Randers FC",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-10",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Banga Gargzdai",
+            "team_goals": 3,
+            "opponent_goals": 2,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-08",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "FC Ararat-Armenia",
+            "team_goals": 4,
+            "opponent_goals": 3,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-04",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "FK Zalgiris Kaunas",
+            "team_goals": 3,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-12-01",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "SonderjyskE",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-10",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Aalborg",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-10-20",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Viborg",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-09-29",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Silkeborg",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-09-22",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "AGF",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2024-08-30",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Vejle",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-08-16",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "FC Midtjylland",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-08-04",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Brondby",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:48:47.531000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {}
+    },
+    "away": {
+      "basic_info": {
+        "id": 2073,
+        "name": "Silkeborg",
+        "logo": "https://media.api-sports.io/football/teams/2073.png",
+        "statarea_id": 2073
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 119,
+          "name": "Superliga",
+          "country": "Denmark",
+          "logo": "https://media.api-sports.io/football/leagues/119.png",
+          "flag": "https://media.api-sports.io/flags/dk.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 2073,
+          "name": "Silkeborg",
+          "logo": "https://media.api-sports.io/football/teams/2073.png"
+        },
+        "form_string": "WLWWWWLDDDDDDDWLDLWWLDLWLWW",
+        "fixtures": {
+          "played": {
+            "home": 13,
+            "away": 14,
+            "total": 27
+          },
+          "wins": {
+            "home": 6,
+            "away": 5,
+            "total": 11
+          },
+          "draws": {
+            "home": 4,
+            "away": 5,
+            "total": 9
+          },
+          "losses": {
+            "home": 3,
+            "away": 4,
+            "total": 7
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 23,
+              "away": 27,
+              "total": 50
+            },
+            "average": {
+              "home": 1.8,
+              "away": 1.9,
+              "total": 1.9
+            },
+            "minute": {
+              "0-15": {
+                "total": 11,
+                "percentage": 0.22
+              },
+              "16-30": {
+                "total": 9,
+                "percentage": 0.18
+              },
+              "31-45": {
+                "total": 6,
+                "percentage": 0.12
+              },
+              "46-60": {
+                "total": 6,
+                "percentage": 0.12
+              },
+              "61-75": {
+                "total": 9,
+                "percentage": 0.18
+              },
+              "76-90": {
+                "total": 5,
+                "percentage": 0.1
+              },
+              "91-105": {
+                "total": 4,
+                "percentage": 0.08
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 24,
+                "under": 3
+              },
+              "1.5": {
+                "over": 14,
+                "under": 13
+              },
+              "2.5": {
+                "over": 8,
+                "under": 19
+              },
+              "3.5": {
+                "over": 4,
+                "under": 23
+              },
+              "4.5": {
+                "over": 0,
+                "under": 27
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 16,
+              "away": 18,
+              "total": 34
+            },
+            "average": {
+              "home": 1.2,
+              "away": 1.3,
+              "total": 1.3
+            },
+            "minute": {
+              "0-15": {
+                "total": 5,
+                "percentage": 0.1471
+              },
+              "16-30": {
+                "total": 5,
+                "percentage": 0.1471
+              },
+              "31-45": {
+                "total": 6,
+                "percentage": 0.1765
+              },
+              "46-60": {
+                "total": 5,
+                "percentage": 0.1471
+              },
+              "61-75": {
+                "total": 4,
+                "percentage": 0.1176
+              },
+              "76-90": {
+                "total": 7,
+                "percentage": 0.2059
+              },
+              "91-105": {
+                "total": 2,
+                "percentage": 0.0588
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 22,
+                "under": 5
+              },
+              "1.5": {
+                "over": 10,
+                "under": 17
+              },
+              "2.5": {
+                "over": 2,
+                "under": 25
+              },
+              "3.5": {
+                "over": 0,
+                "under": 27
+              },
+              "4.5": {
+                "over": 0,
+                "under": 27
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 4,
+            "draws": 7,
+            "losses": 1
+          },
+          "wins": {
+            "home": "4-0",
+            "away": "0-4"
+          },
+          "losses": {
+            "home": "1-3",
+            "away": "2-1"
+          },
+          "goals": {
+            "for": {
+              "home": 4,
+              "away": 4
+            },
+            "against": {
+              "home": 3,
+              "away": 2
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 3,
+          "away": 2,
+          "total": 5
+        },
+        "failed_to_score": {
+          "home": 2,
+          "away": 1,
+          "total": 3
+        },
+        "penalty": {
+          "scored": {
+            "total": 4,
+            "percentage": 1.0
+          },
+          "missed": {
+            "total": 0,
+            "percentage": 0.0
+          },
+          "total": 4
+        },
+        "lineups": [
+          {
+            "formation": "4-3-2-1",
+            "played": 14
+          },
+          {
+            "formation": "4-3-3",
+            "played": 13
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 2,
+              "percentage": 0.0571
+            },
+            "16-30": {
+              "total": 5,
+              "percentage": 0.1429
+            },
+            "31-45": {
+              "total": 4,
+              "percentage": 0.1143
+            },
+            "46-60": {
+              "total": 3,
+              "percentage": 0.0857
+            },
+            "61-75": {
+              "total": 7,
+              "percentage": 0.2
+            },
+            "76-90": {
+              "total": 10,
+              "percentage": 0.2857
+            },
+            "91-105": {
+              "total": 4,
+              "percentage": 0.1143
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {},
+            "46-60": {},
+            "61-75": {},
+            "76-90": {},
+            "91-105": {
+              "total": 1,
+              "percentage": 1.0
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 2073,
+          "name": "Silkeborg",
+          "logo": "https://media.api-sports.io/football/teams/2073.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.6,
+            "att": 0.67,
+            "def": 0.72,
+            "goals": {
+              "for": {
+                "total": 12,
+                "average": 2.4
+              },
+              "against": {
+                "total": 5,
+                "average": 1.0
+              }
+            }
+          },
+          "league": {
+            "form_string": "WLWWWWLDDDDDDDWLDLWWLDLWLWW",
+            "fixtures": {
+              "played": {
+                "home": 13,
+                "away": 14,
+                "total": 27
+              },
+              "wins": {
+                "home": 6,
+                "away": 5,
+                "total": 11
+              },
+              "draws": {
+                "home": 4,
+                "away": 5,
+                "total": 9
+              },
+              "losses": {
+                "home": 3,
+                "away": 4,
+                "total": 7
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 23,
+                  "away": 27,
+                  "total": 50
+                },
+                "average": {
+                  "home": 1.8,
+                  "away": 1.9,
+                  "total": 1.9
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 11,
+                    "percentage": 0.22
+                  },
+                  "16-30": {
+                    "total": 9,
+                    "percentage": 0.18
+                  },
+                  "31-45": {
+                    "total": 6,
+                    "percentage": 0.12
+                  },
+                  "46-60": {
+                    "total": 6,
+                    "percentage": 0.12
+                  },
+                  "61-75": {
+                    "total": 9,
+                    "percentage": 0.18
+                  },
+                  "76-90": {
+                    "total": 5,
+                    "percentage": 0.1
+                  },
+                  "91-105": {
+                    "total": 4,
+                    "percentage": 0.08
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 24,
+                    "under": 3
+                  },
+                  "1.5": {
+                    "over": 14,
+                    "under": 13
+                  },
+                  "2.5": {
+                    "over": 8,
+                    "under": 19
+                  },
+                  "3.5": {
+                    "over": 4,
+                    "under": 23
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 27
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 16,
+                  "away": 18,
+                  "total": 34
+                },
+                "average": {
+                  "home": 1.2,
+                  "away": 1.3,
+                  "total": 1.3
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 5,
+                    "percentage": 0.1471
+                  },
+                  "16-30": {
+                    "total": 5,
+                    "percentage": 0.1471
+                  },
+                  "31-45": {
+                    "total": 6,
+                    "percentage": 0.1765
+                  },
+                  "46-60": {
+                    "total": 5,
+                    "percentage": 0.1471
+                  },
+                  "61-75": {
+                    "total": 4,
+                    "percentage": 0.1176
+                  },
+                  "76-90": {
+                    "total": 7,
+                    "percentage": 0.2059
+                  },
+                  "91-105": {
+                    "total": 2,
+                    "percentage": 0.0588
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 22,
+                    "under": 5
+                  },
+                  "1.5": {
+                    "over": 10,
+                    "under": 17
+                  },
+                  "2.5": {
+                    "over": 2,
+                    "under": 25
+                  },
+                  "3.5": {
+                    "over": 0,
+                    "under": 27
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 27
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 4,
+                "draws": 7,
+                "losses": 1
+              },
+              "wins": {
+                "home": "4-0",
+                "away": "0-4"
+              },
+              "losses": {
+                "home": "1-3",
+                "away": "2-1"
+              },
+              "goals": {
+                "for": {
+                  "home": 4,
+                  "away": 4
+                },
+                "against": {
+                  "home": 3,
+                  "away": 2
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 3,
+              "away": 2,
+              "total": 5
+            },
+            "failed_to_score": {
+              "home": 2,
+              "away": 1,
+              "total": 3
+            },
+            "penalty": {
+              "scored": {
+                "total": 4,
+                "percentage": 1.0
+              },
+              "missed": {
+                "total": 0,
+                "percentage": 0.0
+              },
+              "total": 4
+            },
+            "lineups": [
+              {
+                "formation": "4-3-2-1",
+                "played": 14
+              },
+              {
+                "formation": "4-3-3",
+                "played": 13
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 2,
+                  "percentage": 0.0571
+                },
+                "16-30": {
+                  "total": 5,
+                  "percentage": 0.1429
+                },
+                "31-45": {
+                  "total": 4,
+                  "percentage": 0.1143
+                },
+                "46-60": {
+                  "total": 3,
+                  "percentage": 0.0857
+                },
+                "61-75": {
+                  "total": 7,
+                  "percentage": 0.2
+                },
+                "76-90": {
+                  "total": 10,
+                  "percentage": 0.2857
+                },
+                "91-105": {
+                  "total": 4,
+                  "percentage": 0.1143
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {},
+                "46-60": {},
+                "61-75": {},
+                "76-90": {},
+                "91-105": {
+                  "total": 1,
+                  "percentage": 1.0
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "Silkeborg",
+        "country": "Denmark",
+        "api_id": 2073,
+        "game_type": "guest",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:44:52.012937",
+        "scrape_date_utc": "2025-04-22T17:44:52.012000",
+        "content_hash": "fba551704a2dd5513a48ee5ebf0bcdc6",
+        "general_statistics": {
+          "number of silkeborg wins": 5,
+          "number of silkeborg draws": 5,
+          "number of silkeborg losses": 5,
+          "Average goals_scored per match": 1.87,
+          "Average goals_conceded per match": 1.53,
+          "Chance to score goal next match": 0.73,
+          "Chance to conceded goal next match": 0.8,
+          "Number of clean_sheets matches": 3,
+          "failed_to_score matches": 4,
+          "over 2.5 goals in": 12,
+          "under 2.5 goals in": 3,
+          "Time without scored goal": "5 min.",
+          "Time without conceded goal": "91 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "Silkeborg": 0.33,
+            "draw": 0.33,
+            "opponent": 0.33
+          },
+          "halftime bet_1x2_probabilities": {
+            "Silkeborg": 0.47,
+            "draw": 0.27,
+            "opponent": 0.27
+          },
+          "second half bet_1x2_probabilities": {
+            "Silkeborg": 0.33,
+            "draw": 0.27,
+            "opponent": 0.4
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.87,
+            "under": 0.13
+          },
+          "over/under 1.5 goals for silkeborg only": {
+            "over": 0.53,
+            "under": 0.47
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.8,
+            "under": 0.2
+          },
+          "over/under 2.5 goals for silkeborg only": {
+            "over": 0.27,
+            "under": 0.73
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.53,
+            "under": 0.47
+          },
+          "over/under 3.5 goals for silkeborg only": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.13,
+            "2-3": 0.33,
+            "4+": 0.53
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.6,
+            "only one": 0.33,
+            "neither": 0.07
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.47,
+            "even": 0.53
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.16,
+            "16-30 min.": 0.18,
+            "31-45 min.": 0.2,
+            "46-60 min.": 0.18,
+            "61-75 min.": 0.06,
+            "76-90 min.": 0.24
+          },
+          "Silkeborg goals only": {
+            "0-15 min.": 0.11,
+            "16-30 min.": 0.21,
+            "31-45 min.": 0.18,
+            "46-60 min.": 0.21,
+            "61-75 min.": 0.04,
+            "76-90 min.": 0.25
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.4,
+            "11-20 min.": 0.27,
+            "21-30 min.": 0.13,
+            "31-40 min.": 0.07,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.07
+          },
+          "time of first silkeborg goal": {
+            "0-10 min.": 0.13,
+            "11-20 min.": 0.27,
+            "21-30 min.": 0.2,
+            "31-40 min.": 0.07,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.27
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "Silkeborg": 0.47,
+            "opponent": 0.47,
+            "without goal": 0.07
+          },
+          "win after 15 minutes": {
+            "Silkeborg": 0.13,
+            "opponent": 0.27,
+            "draw": 0.6
+          },
+          "win after 30 minutes": {
+            "Silkeborg": 0.4,
+            "opponent": 0.2,
+            "draw": 0.4
+          },
+          "bet_halftime_result_probabilities": {
+            "Silkeborg": 0.47,
+            "opponent": 0.27,
+            "draw": 0.27
+          },
+          "win after 60 minutes": {
+            "Silkeborg": 0.47,
+            "opponent": 0.27,
+            "draw": 0.27
+          },
+          "win after 75 minutes": {
+            "Silkeborg": 0.4,
+            "opponent": 0.27,
+            "draw": 0.33
+          },
+          "bet_fulltime_result_probabilities": {
+            "Silkeborg": 0.33,
+            "opponent": 0.33,
+            "draw": 0.33
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.6,
+            "2-3 goals": 0.2,
+            "4+ goals": 0.2
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.33,
+            "second half": 0.33,
+            "tie": 0.33
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-21",
+            "competition": "Denmark - Superligaen Relegation Group 2024/2025",
+            "opponent": "Vejle",
+            "team_goals": 4,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-04-13",
+            "competition": "Denmark - Superligaen Relegation Group 2024/2025",
+            "opponent": "Viborg",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-30",
+            "competition": "Denmark - Superligaen Relegation Group 2024/2025",
+            "opponent": "SonderjyskE",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-16",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Brondby",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-02",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "SonderjyskE",
+            "team_goals": 3,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-24",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Viborg",
+            "team_goals": 4,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-01",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "FC Copenhagen",
+            "team_goals": 0,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-29",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Murcia",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-16",
+            "competition": "Denmark - Fa Cup 2024/2025",
+            "opponent": "Aalborg",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-25",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "FC Midtjylland",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-04",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "FC Copenhagen",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-29",
+            "competition": "Denmark - Fa Cup 2024/2025",
+            "opponent": "Holbaek",
+            "team_goals": 6,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-20",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "FC Nordsjaelland",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-10",
+            "competition": "Friendly Games - Club Friendlies 2023/2024",
+            "opponent": "Holstein Kiel",
+            "team_goals": 0,
+            "opponent_goals": 5,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-09-29",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Lyngby",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "away"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:49:32.742000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {}
+    }
+  },
+  "goals": {}
+}

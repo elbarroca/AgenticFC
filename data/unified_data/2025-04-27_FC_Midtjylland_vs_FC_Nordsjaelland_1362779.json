@@ -1,0 +1,2273 @@
+{
+  "fixture_id": 1362779,
+  "match_date": "2025-04-27",
+  "league": {
+    "id": "None",
+    "statarea_id": "unknown"
+  },
+  "engineered_features": {
+    "home": {
+      "team_id": 397,
+      "team_name": "FC Midtjylland",
+      "team_statarea_id": 397,
+      "base_league_id": "None",
+      "proc_league_id": 119,
+      "proc_league_name": "Superliga",
+      "proc_league_country": "Denmark",
+      "proc_league_season": 2024,
+      "proc_team_id": 397,
+      "proc_team_name": "FC Midtjylland",
+      "weather_temp_celsius": 15,
+      "weather_temp_feels_like_celsius": 13.73,
+      "weather_pressure_hpa": 1027,
+      "weather_humidity_pct": 45,
+      "weather_wind_speed_mps": 5.05,
+      "weather_wind_direction_deg": 240,
+      "weather_cloud_coverage_pct": 34,
+      "weather_precipitation_probability": 0,
+      "weather_description": "scattered clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "host",
+      "hist_home_matches_played": 15,
+      "hist_home_average_goals_scored": 1.867,
+      "hist_home_average_goals_conceded": 1.467,
+      "hist_home_win_rate": 0.667,
+      "hist_home_draw_rate": 0.067,
+      "hist_home_loss_rate": 0.267,
+      "hist_home_both_teams_scored_rate": 0.667,
+      "hist_home_clean_sheet_rate": 0.267,
+      "hist_home_failed_to_score_rate": 0.067,
+      "hist_home_average_goal_difference": 0.4,
+      "hist_home_over_0_5_goals_rate": 1.0,
+      "hist_home_over_1_5_goals_rate": 0.8,
+      "hist_home_over_2_5_goals_rate": 0.667,
+      "hist_home_over_3_5_goals_rate": 0.4,
+      "hist_home_over_4_5_goals_rate": 0.267,
+      "hist_home_form_string": "WLWWWLWDWLWLWWW",
+      "hist_home_form_rating_points_pct": 0.689,
+      "hist_overall_l5_form_string": "WLWWW",
+      "hist_overall_l5_form_rating_points_pct": 0.8,
+      "hist_home_l3_form_string": "WLW",
+      "hist_home_l3_form_rating_points_pct": 0.667,
+      "hist_home_l3_avg_scored": 2.667,
+      "hist_home_l3_avg_conceded": 2.0,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "W 4-2 vs FC Copenhagen (home)",
+          "L 0-2 vs Brondby (home)",
+          "W 4-2 vs Randers FC (home)",
+          "W 2-1 vs FC Nordsjaelland (home)",
+          "W 1-0 vs Lyngby (home)"
+        ],
+        "home_l3_matches": [
+          "W 4-2 vs FC Copenhagen",
+          "L 0-2 vs Brondby",
+          "W 4-2 vs Randers FC"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 10,
+      "hist_perf_by_result_win_avg_scored": 2.3,
+      "hist_perf_by_result_win_avg_conceded": 0.9,
+      "hist_perf_by_result_draw_matches": 1,
+      "hist_perf_by_result_draw_avg_scored": 2.0,
+      "hist_perf_by_result_draw_avg_conceded": 2.0,
+      "hist_perf_by_result_loss_matches": 4,
+      "hist_perf_by_result_loss_avg_scored": 0.75,
+      "hist_perf_by_result_loss_avg_conceded": 2.75,
+      "standings_league_rank": 2,
+      "standings_league_points": 49,
+      "standings_goals_difference": 13,
+      "standings_form_string": "LWDLL",
+      "standings_group_name": "Superliga: Championship Round",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 6,
+          "proc_goals_scored_min_0_15_pct": 0.12,
+          "proc_goals_scored_min_16_30_count": 5,
+          "proc_goals_scored_min_16_30_pct": 0.1,
+          "proc_goals_scored_min_31_45_count": 11,
+          "proc_goals_scored_min_31_45_pct": 0.22,
+          "proc_goals_scored_min_46_60_count": 6,
+          "proc_goals_scored_min_46_60_pct": 0.12,
+          "proc_goals_scored_min_61_75_count": 7,
+          "proc_goals_scored_min_61_75_pct": 0.14,
+          "proc_goals_scored_min_76_90_count": 12,
+          "proc_goals_scored_min_76_90_pct": 0.24,
+          "proc_goals_scored_min_91_105_count": 4,
+          "proc_goals_scored_min_91_105_pct": 0.08
+        },
+        "card_stats": {
+          "yellow_avg": 1.519,
+          "red_avg": 0.111
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 1.0,
+          "proc_penalty_missed_pct": 0.0,
+          "proc_penalty_total_taken": 5
+        }
+      }
+    },
+    "away": {
+      "team_id": 398,
+      "team_name": "FC Nordsjaelland",
+      "team_statarea_id": 398,
+      "base_league_id": "None",
+      "proc_league_id": 119,
+      "proc_league_name": "Superliga",
+      "proc_league_country": "Denmark",
+      "proc_league_season": 2024,
+      "proc_team_id": 398,
+      "proc_team_name": "FC Nordsjaelland",
+      "weather_temp_celsius": 15,
+      "weather_temp_feels_like_celsius": 13.73,
+      "weather_pressure_hpa": 1027,
+      "weather_humidity_pct": 45,
+      "weather_wind_speed_mps": 5.05,
+      "weather_wind_direction_deg": 240,
+      "weather_cloud_coverage_pct": 34,
+      "weather_precipitation_probability": 0,
+      "weather_description": "scattered clouds",
+      "weather_condition_main": "Clouds",
+      "match_history_source": "statarea",
+      "match_history_games_analyzed": 15,
+      "match_history_venue_context": "guest",
+      "hist_away_matches_played": 15,
+      "hist_away_average_goals_scored": 2.333,
+      "hist_away_average_goals_conceded": 2.467,
+      "hist_away_win_rate": 0.267,
+      "hist_away_draw_rate": 0.133,
+      "hist_away_loss_rate": 0.6,
+      "hist_away_both_teams_scored_rate": 0.667,
+      "hist_away_clean_sheet_rate": 0.133,
+      "hist_away_failed_to_score_rate": 0.267,
+      "hist_away_average_goal_difference": -0.133,
+      "hist_away_over_0_5_goals_rate": 0.933,
+      "hist_away_over_1_5_goals_rate": 0.867,
+      "hist_away_over_2_5_goals_rate": 0.733,
+      "hist_away_over_3_5_goals_rate": 0.6,
+      "hist_away_over_4_5_goals_rate": 0.467,
+      "hist_away_form_string": "DLLLWWLDLLWWLLL",
+      "hist_away_form_rating_points_pct": 0.311,
+      "hist_overall_l5_form_string": "DLLLW",
+      "hist_overall_l5_form_rating_points_pct": 0.267,
+      "hist_away_l3_form_string": "DLL",
+      "hist_away_l3_form_rating_points_pct": 0.111,
+      "hist_away_l3_avg_scored": 0.0,
+      "hist_away_l3_avg_conceded": 1.0,
+      "rolling_stats_details": {
+        "overall_l5_matches": [
+          "D 0-0 vs Brondby (away)",
+          "L 0-2 vs AGF (away)",
+          "L 0-1 vs Lyngby (away)",
+          "L 1-2 vs FC Midtjylland (away)",
+          "W 2-1 vs Aalborg (away)"
+        ],
+        "away_l3_matches": [
+          "D 0-0 vs Brondby",
+          "L 0-2 vs AGF",
+          "L 0-1 vs Lyngby"
+        ]
+      },
+      "hist_perf_by_result_win_matches": 4,
+      "hist_perf_by_result_win_avg_scored": 4.5,
+      "hist_perf_by_result_win_avg_conceded": 0.75,
+      "hist_perf_by_result_draw_matches": 2,
+      "hist_perf_by_result_draw_avg_scored": 0.5,
+      "hist_perf_by_result_draw_avg_conceded": 0.5,
+      "hist_perf_by_result_loss_matches": 9,
+      "hist_perf_by_result_loss_avg_scored": 1.778,
+      "hist_perf_by_result_loss_avg_conceded": 3.667,
+      "standings_league_rank": 5,
+      "standings_league_points": 42,
+      "standings_goals_difference": 4,
+      "standings_form_string": "WDWLL",
+      "standings_group_name": "Superliga: Championship Round",
+      "processor_supplemental_stats": {
+        "goal_timing_stats": {
+          "proc_goals_scored_min_0_15_count": 10,
+          "proc_goals_scored_min_0_15_pct": 0.2128,
+          "proc_goals_scored_min_16_30_count": 12,
+          "proc_goals_scored_min_16_30_pct": 0.2553,
+          "proc_goals_scored_min_31_45_count": 7,
+          "proc_goals_scored_min_31_45_pct": 0.1489,
+          "proc_goals_scored_min_46_60_count": 4,
+          "proc_goals_scored_min_46_60_pct": 0.0851,
+          "proc_goals_scored_min_61_75_count": 1,
+          "proc_goals_scored_min_61_75_pct": 0.0213,
+          "proc_goals_scored_min_76_90_count": 9,
+          "proc_goals_scored_min_76_90_pct": 0.1915,
+          "proc_goals_scored_min_91_105_count": 3,
+          "proc_goals_scored_min_91_105_pct": 0.0638
+        },
+        "card_stats": {
+          "yellow_avg": 1.667,
+          "red_avg": 0.037
+        },
+        "penalty_stats": {
+          "proc_penalty_scored_pct": 0.4,
+          "proc_penalty_missed_pct": 0.6,
+          "proc_penalty_total_taken": 5
+        }
+      }
+    }
+  },
+  "model_input_features": {
+    "eng_h_team_id": 397.0,
+    "eng_h_team_statarea_id": 397.0,
+    "eng_h_proc_league_id": 119.0,
+    "eng_h_proc_league_season": 2024.0,
+    "eng_h_proc_team_id": 397.0,
+    "eng_h_weather_temp_celsius": 15.0,
+    "eng_h_weather_temp_feels_like_celsius": 13.73,
+    "eng_h_weather_pressure_hpa": 1027.0,
+    "eng_h_weather_humidity_pct": 45.0,
+    "eng_h_weather_wind_speed_mps": 5.05,
+    "eng_h_weather_wind_direction_deg": 240.0,
+    "eng_h_weather_cloud_coverage_pct": 34.0,
+    "eng_h_weather_precipitation_probability": 0.0,
+    "eng_h_weather_condition_main": "Clouds",
+    "eng_h_match_history_source": "statarea",
+    "eng_h_match_history_games_analyzed": 15.0,
+    "eng_h_match_history_venue_context": "host",
+    "eng_h_hist_home_matches_played": 15.0,
+    "eng_h_hist_home_average_goals_scored": 1.867,
+    "eng_h_hist_home_average_goals_conceded": 1.467,
+    "eng_h_hist_home_win_rate": 0.667,
+    "eng_h_hist_home_draw_rate": 0.067,
+    "eng_h_hist_home_loss_rate": 0.267,
+    "eng_h_hist_home_both_teams_scored_rate": 0.667,
+    "eng_h_hist_home_clean_sheet_rate": 0.267,
+    "eng_h_hist_home_failed_to_score_rate": 0.067,
+    "eng_h_hist_home_average_goal_difference": 0.4,
+    "eng_h_hist_home_over_0_5_goals_rate": 1.0,
+    "eng_h_hist_home_over_1_5_goals_rate": 0.8,
+    "eng_h_hist_home_over_2_5_goals_rate": 0.667,
+    "eng_h_hist_home_over_3_5_goals_rate": 0.4,
+    "eng_h_hist_home_over_4_5_goals_rate": 0.267,
+    "eng_h_hist_home_form_rating_points_pct": 0.689,
+    "eng_h_hist_overall_l5_form_rating_points_pct": 0.8,
+    "eng_h_hist_home_l3_form_rating_points_pct": 0.667,
+    "eng_h_hist_home_l3_avg_scored": 2.667,
+    "eng_h_hist_home_l3_avg_conceded": 2.0,
+    "eng_h_hist_perf_by_result_win_matches": 10.0,
+    "eng_h_hist_perf_by_result_win_avg_scored": 2.3,
+    "eng_h_hist_perf_by_result_win_avg_conceded": 0.9,
+    "eng_h_hist_perf_by_result_draw_matches": 1.0,
+    "eng_h_hist_perf_by_result_draw_avg_scored": 2.0,
+    "eng_h_hist_perf_by_result_draw_avg_conceded": 2.0,
+    "eng_h_hist_perf_by_result_loss_matches": 4.0,
+    "eng_h_hist_perf_by_result_loss_avg_scored": 0.75,
+    "eng_h_hist_perf_by_result_loss_avg_conceded": 2.75,
+    "eng_h_standings_league_rank": 2.0,
+    "eng_h_standings_league_points": 49.0,
+    "eng_h_standings_goals_difference": 13.0,
+    "eng_a_team_id": 398.0,
+    "eng_a_team_statarea_id": 398.0,
+    "eng_a_proc_league_id": 119.0,
+    "eng_a_proc_league_season": 2024.0,
+    "eng_a_proc_team_id": 398.0,
+    "eng_a_weather_temp_celsius": 15.0,
+    "eng_a_weather_temp_feels_like_celsius": 13.73,
+    "eng_a_weather_pressure_hpa": 1027.0,
+    "eng_a_weather_humidity_pct": 45.0,
+    "eng_a_weather_wind_speed_mps": 5.05,
+    "eng_a_weather_wind_direction_deg": 240.0,
+    "eng_a_weather_cloud_coverage_pct": 34.0,
+    "eng_a_weather_precipitation_probability": 0.0,
+    "eng_a_weather_condition_main": "Clouds",
+    "eng_a_match_history_source": "statarea",
+    "eng_a_match_history_games_analyzed": 15.0,
+    "eng_a_match_history_venue_context": "guest",
+    "eng_a_hist_away_matches_played": 15.0,
+    "eng_a_hist_away_average_goals_scored": 2.333,
+    "eng_a_hist_away_average_goals_conceded": 2.467,
+    "eng_a_hist_away_win_rate": 0.267,
+    "eng_a_hist_away_draw_rate": 0.133,
+    "eng_a_hist_away_loss_rate": 0.6,
+    "eng_a_hist_away_both_teams_scored_rate": 0.667,
+    "eng_a_hist_away_clean_sheet_rate": 0.133,
+    "eng_a_hist_away_failed_to_score_rate": 0.267,
+    "eng_a_hist_away_average_goal_difference": -0.133,
+    "eng_a_hist_away_over_0_5_goals_rate": 0.933,
+    "eng_a_hist_away_over_1_5_goals_rate": 0.867,
+    "eng_a_hist_away_over_2_5_goals_rate": 0.733,
+    "eng_a_hist_away_over_3_5_goals_rate": 0.6,
+    "eng_a_hist_away_over_4_5_goals_rate": 0.467,
+    "eng_a_hist_away_form_rating_points_pct": 0.311,
+    "eng_a_hist_overall_l5_form_rating_points_pct": 0.267,
+    "eng_a_hist_away_l3_form_rating_points_pct": 0.111,
+    "eng_a_hist_away_l3_avg_scored": 0.0,
+    "eng_a_hist_away_l3_avg_conceded": 1.0,
+    "eng_a_hist_perf_by_result_win_matches": 4.0,
+    "eng_a_hist_perf_by_result_win_avg_scored": 4.5,
+    "eng_a_hist_perf_by_result_win_avg_conceded": 0.75,
+    "eng_a_hist_perf_by_result_draw_matches": 2.0,
+    "eng_a_hist_perf_by_result_draw_avg_scored": 0.5,
+    "eng_a_hist_perf_by_result_draw_avg_conceded": 0.5,
+    "eng_a_hist_perf_by_result_loss_matches": 9.0,
+    "eng_a_hist_perf_by_result_loss_avg_scored": 1.778,
+    "eng_a_hist_perf_by_result_loss_avg_conceded": 3.667,
+    "eng_a_standings_league_rank": 5.0,
+    "eng_a_standings_league_points": 42.0,
+    "eng_a_standings_goals_difference": 4.0,
+    "eng_diff_weather_temp_celsius": 0.0,
+    "eng_ratio_weather_temp_celsius": 1.0,
+    "eng_diff_weather_humidity_pct": 0.0,
+    "eng_ratio_weather_humidity_pct": 1.0,
+    "eng_diff_proc_team_id": -1.0,
+    "eng_ratio_proc_team_id": 0.9974874371859297,
+    "eng_diff_proc_league_season": 0.0,
+    "eng_ratio_proc_league_season": 1.0,
+    "eng_diff_hist_perf_by_result_win_avg_conceded": 0.15000000000000002,
+    "eng_ratio_hist_perf_by_result_win_avg_conceded": 1.2,
+    "eng_diff_match_history_games_analyzed": 0.0,
+    "eng_ratio_match_history_games_analyzed": 1.0,
+    "eng_diff_weather_precipitation_probability": 0.0,
+    "eng_ratio_weather_precipitation_probability": -998.0,
+    "eng_diff_hist_perf_by_result_draw_avg_conceded": 1.5,
+    "eng_ratio_hist_perf_by_result_draw_avg_conceded": 4.0,
+    "eng_diff_team_id": -1.0,
+    "eng_ratio_team_id": 0.9974874371859297,
+    "eng_diff_match_history_venue_context": -999.0,
+    "eng_ratio_match_history_venue_context": -999.0,
+    "eng_diff_weather_temp_feels_like_celsius": 0.0,
+    "eng_ratio_weather_temp_feels_like_celsius": 1.0,
+    "eng_diff_standings_goals_difference": 9.0,
+    "eng_ratio_standings_goals_difference": 3.25,
+    "eng_diff_hist_perf_by_result_draw_matches": -1.0,
+    "eng_ratio_hist_perf_by_result_draw_matches": 0.5,
+    "eng_diff_weather_wind_speed_mps": 0.0,
+    "eng_ratio_weather_wind_speed_mps": 1.0,
+    "eng_diff_hist_perf_by_result_loss_avg_conceded": -0.9169999999999998,
+    "eng_ratio_hist_perf_by_result_loss_avg_conceded": 0.7499318243796019,
+    "eng_diff_weather_pressure_hpa": 0.0,
+    "eng_ratio_weather_pressure_hpa": 1.0,
+    "eng_diff_hist_perf_by_result_win_matches": 6.0,
+    "eng_ratio_hist_perf_by_result_win_matches": 2.5,
+    "eng_diff_weather_condition_main": -999.0,
+    "eng_ratio_weather_condition_main": -999.0,
+    "eng_diff_hist_perf_by_result_draw_avg_scored": 1.5,
+    "eng_ratio_hist_perf_by_result_draw_avg_scored": 4.0,
+    "eng_diff_hist_overall_l5_form_rating_points_pct": 0.533,
+    "eng_ratio_hist_overall_l5_form_rating_points_pct": 2.9962546816479403,
+    "eng_diff_hist_perf_by_result_win_avg_scored": -2.2,
+    "eng_ratio_hist_perf_by_result_win_avg_scored": 0.5111111111111111,
+    "eng_diff_hist_perf_by_result_loss_matches": -5.0,
+    "eng_ratio_hist_perf_by_result_loss_matches": 0.4444444444444444,
+    "eng_diff_hist_perf_by_result_loss_avg_scored": -1.028,
+    "eng_ratio_hist_perf_by_result_loss_avg_scored": 0.421822272215973,
+    "eng_diff_standings_league_rank": -3.0,
+    "eng_ratio_standings_league_rank": 0.4,
+    "eng_diff_standings_league_points": 7.0,
+    "eng_ratio_standings_league_points": 1.1666666666666667,
+    "eng_diff_weather_cloud_coverage_pct": 0.0,
+    "eng_ratio_weather_cloud_coverage_pct": 1.0,
+    "eng_diff_match_history_source": -999.0,
+    "eng_ratio_match_history_source": -999.0,
+    "eng_diff_team_statarea_id": -1.0,
+    "eng_ratio_team_statarea_id": 0.9974874371859297,
+    "eng_diff_weather_wind_direction_deg": 0.0,
+    "eng_ratio_weather_wind_direction_deg": 1.0,
+    "eng_diff_proc_league_id": 0.0,
+    "eng_ratio_proc_league_id": 1.0
+  },
+  "fixture_meta": {
+    "id": 1362779,
+    "date_utc": "2025-04-27T16:00:00+00:00",
+    "timestamp_utc": 1745769600,
+    "referee": "M. Krogh",
+    "venue": {
+      "name": "MCH Arena",
+      "city": "Herning"
+    },
+    "status": {
+      "long": "Not Started",
+      "short": "NS"
+    },
+    "weather_forecast": {
+      "dt": 1745766000,
+      "main": {
+        "temperature": 15,
+        "temperature_feels_like": 13.73,
+        "temperature_min": 15,
+        "temperature_max": 15.12,
+        "air_pressure": 1027,
+        "pressure_sea_level": 1027,
+        "pressure_ground_level": 1020,
+        "humidity": 45,
+        "temp_kf": -0.12
+      },
+      "weather": [
+        {
+          "id": 802,
+          "main": "Clouds",
+          "description": "scattered clouds",
+          "icon": "03d"
+        }
+      ],
+      "clouds": {
+        "coverage_percentage": 34
+      },
+      "wind": {
+        "speed_mps": 5.05,
+        "direction_degrees": 240,
+        "gust": 4.85
+      },
+      "visibility": 10000,
+      "probability_of_precipitation": 0,
+      "sys": {
+        "pod": "d"
+      },
+      "dt_txt": "2025-04-27 15:00:00",
+      "city": {
+        "name": "Herning",
+        "country": "DK"
+      },
+      "summary": "Clouds: scattered clouds, Temp: 15°C"
+    }
+  },
+  "raw_data": {
+    "home": {
+      "basic_info": {
+        "id": 397,
+        "name": "FC Midtjylland",
+        "logo": "https://media.api-sports.io/football/teams/397.png",
+        "statarea_id": 397
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 119,
+          "name": "Superliga",
+          "country": "Denmark",
+          "logo": "https://media.api-sports.io/football/leagues/119.png",
+          "flag": "https://media.api-sports.io/flags/dk.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 397,
+          "name": "FC Midtjylland",
+          "logo": "https://media.api-sports.io/football/teams/397.png"
+        },
+        "form_string": "DDWWWWWWDWLLWLLWWWLWWWLLDWL",
+        "fixtures": {
+          "played": {
+            "home": 13,
+            "away": 14,
+            "total": 27
+          },
+          "wins": {
+            "home": 11,
+            "away": 4,
+            "total": 15
+          },
+          "draws": {
+            "home": 0,
+            "away": 4,
+            "total": 4
+          },
+          "losses": {
+            "home": 2,
+            "away": 6,
+            "total": 8
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 27,
+              "away": 23,
+              "total": 50
+            },
+            "average": {
+              "home": 2.1,
+              "away": 1.6,
+              "total": 1.9
+            },
+            "minute": {
+              "0-15": {
+                "total": 6,
+                "percentage": 0.1176
+              },
+              "16-30": {
+                "total": 5,
+                "percentage": 0.098
+              },
+              "31-45": {
+                "total": 11,
+                "percentage": 0.2157
+              },
+              "46-60": {
+                "total": 6,
+                "percentage": 0.1176
+              },
+              "61-75": {
+                "total": 7,
+                "percentage": 0.1373
+              },
+              "76-90": {
+                "total": 12,
+                "percentage": 0.2353
+              },
+              "91-105": {
+                "total": 4,
+                "percentage": 0.0784
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 23,
+                "under": 4
+              },
+              "1.5": {
+                "over": 17,
+                "under": 10
+              },
+              "2.5": {
+                "over": 7,
+                "under": 20
+              },
+              "3.5": {
+                "over": 3,
+                "under": 24
+              },
+              "4.5": {
+                "over": 0,
+                "under": 27
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 16,
+              "away": 21,
+              "total": 37
+            },
+            "average": {
+              "home": 1.2,
+              "away": 1.5,
+              "total": 1.4
+            },
+            "minute": {
+              "0-15": {
+                "total": 6,
+                "percentage": 0.16670000000000001
+              },
+              "16-30": {
+                "total": 4,
+                "percentage": 0.11109999999999999
+              },
+              "31-45": {
+                "total": 6,
+                "percentage": 0.16670000000000001
+              },
+              "46-60": {
+                "total": 10,
+                "percentage": 0.2778
+              },
+              "61-75": {
+                "total": 5,
+                "percentage": 0.1389
+              },
+              "76-90": {
+                "total": 5,
+                "percentage": 0.1389
+              },
+              "91-105": {},
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 21,
+                "under": 6
+              },
+              "1.5": {
+                "over": 11,
+                "under": 16
+              },
+              "2.5": {
+                "over": 3,
+                "under": 24
+              },
+              "3.5": {
+                "over": 1,
+                "under": 26
+              },
+              "4.5": {
+                "over": 1,
+                "under": 26
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 6,
+            "draws": 2,
+            "losses": 2
+          },
+          "wins": {
+            "home": "4-2",
+            "away": "1-4"
+          },
+          "losses": {
+            "home": "1-5",
+            "away": "2-0"
+          },
+          "goals": {
+            "for": {
+              "home": 4,
+              "away": 4
+            },
+            "against": {
+              "home": 5,
+              "away": 3
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 5,
+          "away": 1,
+          "total": 6
+        },
+        "failed_to_score": {
+          "home": 1,
+          "away": 3,
+          "total": 4
+        },
+        "penalty": {
+          "scored": {
+            "total": 5,
+            "percentage": 1.0
+          },
+          "missed": {
+            "total": 0,
+            "percentage": 0.0
+          },
+          "total": 5
+        },
+        "lineups": [
+          {
+            "formation": "4-4-2",
+            "played": 13
+          },
+          {
+            "formation": "4-3-3",
+            "played": 10
+          },
+          {
+            "formation": "4-2-3-1",
+            "played": 3
+          },
+          {
+            "formation": "3-5-2",
+            "played": 1
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 1,
+              "percentage": 0.024399999999999998
+            },
+            "16-30": {
+              "total": 5,
+              "percentage": 0.122
+            },
+            "31-45": {
+              "total": 2,
+              "percentage": 0.048799999999999996
+            },
+            "46-60": {
+              "total": 4,
+              "percentage": 0.09759999999999999
+            },
+            "61-75": {
+              "total": 6,
+              "percentage": 0.1463
+            },
+            "76-90": {
+              "total": 11,
+              "percentage": 0.2683
+            },
+            "91-105": {
+              "total": 12,
+              "percentage": 0.2927
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {},
+            "46-60": {},
+            "61-75": {
+              "total": 1,
+              "percentage": 0.3333
+            },
+            "76-90": {
+              "total": 1,
+              "percentage": 0.3333
+            },
+            "91-105": {
+              "total": 1,
+              "percentage": 0.3333
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 397,
+          "name": "FC Midtjylland",
+          "logo": "https://media.api-sports.io/football/teams/397.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.27,
+            "att": 0.44,
+            "def": 0.44,
+            "goals": {
+              "for": {
+                "total": 8,
+                "average": 1.6
+              },
+              "against": {
+                "total": 10,
+                "average": 2.0
+              }
+            }
+          },
+          "league": {
+            "form_string": "DDWWWWWWDWLLWLLWWWLWWWLLDWL",
+            "fixtures": {
+              "played": {
+                "home": 13,
+                "away": 14,
+                "total": 27
+              },
+              "wins": {
+                "home": 11,
+                "away": 4,
+                "total": 15
+              },
+              "draws": {
+                "home": 0,
+                "away": 4,
+                "total": 4
+              },
+              "losses": {
+                "home": 2,
+                "away": 6,
+                "total": 8
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 27,
+                  "away": 23,
+                  "total": 50
+                },
+                "average": {
+                  "home": 2.1,
+                  "away": 1.6,
+                  "total": 1.9
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 6,
+                    "percentage": 0.1176
+                  },
+                  "16-30": {
+                    "total": 5,
+                    "percentage": 0.098
+                  },
+                  "31-45": {
+                    "total": 11,
+                    "percentage": 0.2157
+                  },
+                  "46-60": {
+                    "total": 6,
+                    "percentage": 0.1176
+                  },
+                  "61-75": {
+                    "total": 7,
+                    "percentage": 0.1373
+                  },
+                  "76-90": {
+                    "total": 12,
+                    "percentage": 0.2353
+                  },
+                  "91-105": {
+                    "total": 4,
+                    "percentage": 0.0784
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 23,
+                    "under": 4
+                  },
+                  "1.5": {
+                    "over": 17,
+                    "under": 10
+                  },
+                  "2.5": {
+                    "over": 7,
+                    "under": 20
+                  },
+                  "3.5": {
+                    "over": 3,
+                    "under": 24
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 27
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 16,
+                  "away": 21,
+                  "total": 37
+                },
+                "average": {
+                  "home": 1.2,
+                  "away": 1.5,
+                  "total": 1.4
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 6,
+                    "percentage": 0.16670000000000001
+                  },
+                  "16-30": {
+                    "total": 4,
+                    "percentage": 0.11109999999999999
+                  },
+                  "31-45": {
+                    "total": 6,
+                    "percentage": 0.16670000000000001
+                  },
+                  "46-60": {
+                    "total": 10,
+                    "percentage": 0.2778
+                  },
+                  "61-75": {
+                    "total": 5,
+                    "percentage": 0.1389
+                  },
+                  "76-90": {
+                    "total": 5,
+                    "percentage": 0.1389
+                  },
+                  "91-105": {},
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 21,
+                    "under": 6
+                  },
+                  "1.5": {
+                    "over": 11,
+                    "under": 16
+                  },
+                  "2.5": {
+                    "over": 3,
+                    "under": 24
+                  },
+                  "3.5": {
+                    "over": 1,
+                    "under": 26
+                  },
+                  "4.5": {
+                    "over": 1,
+                    "under": 26
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 6,
+                "draws": 2,
+                "losses": 2
+              },
+              "wins": {
+                "home": "4-2",
+                "away": "1-4"
+              },
+              "losses": {
+                "home": "1-5",
+                "away": "2-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 4,
+                  "away": 4
+                },
+                "against": {
+                  "home": 5,
+                  "away": 3
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 5,
+              "away": 1,
+              "total": 6
+            },
+            "failed_to_score": {
+              "home": 1,
+              "away": 3,
+              "total": 4
+            },
+            "penalty": {
+              "scored": {
+                "total": 5,
+                "percentage": 1.0
+              },
+              "missed": {
+                "total": 0,
+                "percentage": 0.0
+              },
+              "total": 5
+            },
+            "lineups": [
+              {
+                "formation": "4-4-2",
+                "played": 13
+              },
+              {
+                "formation": "4-3-3",
+                "played": 10
+              },
+              {
+                "formation": "4-2-3-1",
+                "played": 3
+              },
+              {
+                "formation": "3-5-2",
+                "played": 1
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 1,
+                  "percentage": 0.024399999999999998
+                },
+                "16-30": {
+                  "total": 5,
+                  "percentage": 0.122
+                },
+                "31-45": {
+                  "total": 2,
+                  "percentage": 0.048799999999999996
+                },
+                "46-60": {
+                  "total": 4,
+                  "percentage": 0.09759999999999999
+                },
+                "61-75": {
+                  "total": 6,
+                  "percentage": 0.1463
+                },
+                "76-90": {
+                  "total": 11,
+                  "percentage": 0.2683
+                },
+                "91-105": {
+                  "total": 12,
+                  "percentage": 0.2927
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {},
+                "46-60": {},
+                "61-75": {
+                  "total": 1,
+                  "percentage": 0.3333
+                },
+                "76-90": {
+                  "total": 1,
+                  "percentage": 0.3333
+                },
+                "91-105": {
+                  "total": 1,
+                  "percentage": 0.3333
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "FC Midtjylland",
+        "country": "Denmark",
+        "api_id": 397,
+        "game_type": "host",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:45:04.381157",
+        "scrape_date_utc": "2025-04-22T17:45:04.381000",
+        "content_hash": "e12479df0f8f704baaf9f0bc2487ddf6",
+        "general_statistics": {
+          "number of fc midtjylland wins": 10,
+          "number of fc midtjylland draws": 1,
+          "number of fc midtjylland losses": 4,
+          "Average goals_scored per match": 1.87,
+          "Average goals_conceded per match": 1.47,
+          "Chance to score goal next match": 0.93,
+          "Chance to conceded goal next match": 0.73,
+          "Number of clean_sheets matches": 4,
+          "failed_to_score matches": 1,
+          "over 2.5 goals in": 10,
+          "under 2.5 goals in": 5,
+          "Time without scored goal": "0 min.",
+          "Time without conceded goal": "12 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "fc midtjylland": 0.67,
+            "draw": 0.07,
+            "opponent": 0.27
+          },
+          "halftime bet_1x2_probabilities": {
+            "fc midtjylland": 0.4,
+            "draw": 0.4,
+            "opponent": 0.2
+          },
+          "second half bet_1x2_probabilities": {
+            "fc midtjylland": 0.33,
+            "draw": 0.47,
+            "opponent": 0.2
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.8,
+            "under": 0.2
+          },
+          "over/under 1.5 goals for fc midtjylland only": {
+            "over": 0.53,
+            "under": 0.47
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.67,
+            "under": 0.33
+          },
+          "over/under 2.5 goals for fc midtjylland only": {
+            "over": 0.27,
+            "under": 0.73
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.4,
+            "under": 0.6
+          },
+          "over/under 3.5 goals for fc midtjylland only": {
+            "over": 0.13,
+            "under": 0.87
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.2,
+            "2-3": 0.4,
+            "4+": 0.4
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.67,
+            "only one": 0.33,
+            "neither": 0.0
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.53,
+            "even": 0.47
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.12,
+            "16-30 min.": 0.12,
+            "31-45 min.": 0.24,
+            "46-60 min.": 0.22,
+            "61-75 min.": 0.12,
+            "76-90 min.": 0.18
+          },
+          "fc midtjylland goals only": {
+            "0-15 min.": 0.11,
+            "16-30 min.": 0.18,
+            "31-45 min.": 0.25,
+            "46-60 min.": 0.11,
+            "61-75 min.": 0.14,
+            "76-90 min.": 0.21
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.2,
+            "11-20 min.": 0.2,
+            "21-30 min.": 0.27,
+            "31-40 min.": 0.2,
+            "41-50 min.": 0.07,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.0
+          },
+          "time of first fc midtjylland goal": {
+            "0-10 min.": 0.07,
+            "11-20 min.": 0.13,
+            "21-30 min.": 0.2,
+            "31-40 min.": 0.33,
+            "41-50 min.": 0.13,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.07
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "fc midtjylland": 0.67,
+            "opponent": 0.33,
+            "without goal": 0.0
+          },
+          "win after 15 minutes": {
+            "fc midtjylland": 0.13,
+            "opponent": 0.2,
+            "draw": 0.67
+          },
+          "win after 30 minutes": {
+            "fc midtjylland": 0.4,
+            "opponent": 0.27,
+            "draw": 0.33
+          },
+          "bet_halftime_result_probabilities": {
+            "fc midtjylland": 0.4,
+            "opponent": 0.2,
+            "draw": 0.4
+          },
+          "win after 60 minutes": {
+            "fc midtjylland": 0.47,
+            "opponent": 0.33,
+            "draw": 0.2
+          },
+          "win after 75 minutes": {
+            "fc midtjylland": 0.6,
+            "opponent": 0.33,
+            "draw": 0.07
+          },
+          "bet_fulltime_result_probabilities": {
+            "fc midtjylland": 0.67,
+            "opponent": 0.27,
+            "draw": 0.07
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.6,
+            "2-3 goals": 0.33,
+            "4+ goals": 0.07
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.67,
+            "second half": 0.27,
+            "tie": 0.07
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-17",
+            "competition": "Denmark - Superligaen Championship Playoff 2024/2025",
+            "opponent": "FC Copenhagen",
+            "team_goals": 4,
+            "opponent_goals": 2,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-30",
+            "competition": "Denmark - Superligaen Championship Playoff 2024/2025",
+            "opponent": "Brondby",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-16",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Randers FC",
+            "team_goals": 4,
+            "opponent_goals": 2,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-03-02",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "FC Nordsjaelland",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-16",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Lyngby",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-13",
+            "competition": "Europe (uefa) - Uefa Europa League 2024/2025",
+            "opponent": "Real Sociedad",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2025-02-08",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Vejle",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-30",
+            "competition": "Europe (uefa) - Uefa Europa League 2024/2025",
+            "opponent": "Fenerbahce",
+            "team_goals": 2,
+            "opponent_goals": 2,
+            "result": "draw",
+            "venue": "home"
+          },
+          {
+            "date": "2025-01-15",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Red Bull Salzburg",
+            "team_goals": 3,
+            "opponent_goals": 2,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-28",
+            "competition": "Europe (uefa) - Uefa Europa League 2024/2025",
+            "opponent": "Eintracht Frankfurt",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-25",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Silkeborg",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-11-03",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Brondby",
+            "team_goals": 1,
+            "opponent_goals": 5,
+            "result": "loss",
+            "venue": "home"
+          },
+          {
+            "date": "2024-10-27",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "AGF",
+            "team_goals": 2,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-10-24",
+            "competition": "Europe (uefa) - Uefa Europa League 2024/2025",
+            "opponent": "Union St. Gilloise",
+            "team_goals": 1,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "home"
+          },
+          {
+            "date": "2024-09-29",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Viborg",
+            "team_goals": 3,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "home"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:48:11.362000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 2,
+        "team": {
+          "id": 397,
+          "name": "FC Midtjylland",
+          "logo": "https://media.api-sports.io/football/teams/397.png"
+        },
+        "league_points": 49,
+        "goals_difference": 13,
+        "group": "Superliga: Championship Round",
+        "form_string": "LWDLL",
+        "status": "down",
+        "description": "Promotion - Champions League (Qualification)",
+        "coverage_percentage": {
+          "played": 27,
+          "win": 15,
+          "draw": 4,
+          "loss": 8,
+          "goals": {
+            "for": 50,
+            "against": 37
+          }
+        },
+        "home": {
+          "played": 2,
+          "win": 1,
+          "draw": 0,
+          "loss": 1,
+          "goals": {
+            "for": 4,
+            "against": 4
+          }
+        },
+        "away": {
+          "played": 3,
+          "win": 0,
+          "draw": 1,
+          "loss": 2,
+          "goals": {
+            "for": 4,
+            "against": 6
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    },
+    "away": {
+      "basic_info": {
+        "id": 398,
+        "name": "FC Nordsjaelland",
+        "logo": "https://media.api-sports.io/football/teams/398.png",
+        "statarea_id": 398
+      },
+      "match_processor_snapshot": {
+        "league": {
+          "id": 119,
+          "name": "Superliga",
+          "country": "Denmark",
+          "logo": "https://media.api-sports.io/football/leagues/119.png",
+          "flag": "https://media.api-sports.io/flags/dk.svg",
+          "season": 2024
+        },
+        "team": {
+          "id": 398,
+          "name": "FC Nordsjaelland",
+          "logo": "https://media.api-sports.io/football/teams/398.png"
+        },
+        "form_string": "WDWDLWLDLWWDLWDWLWWLWLLLWDW",
+        "fixtures": {
+          "played": {
+            "home": 14,
+            "away": 13,
+            "total": 27
+          },
+          "wins": {
+            "home": 9,
+            "away": 3,
+            "total": 12
+          },
+          "draws": {
+            "home": 4,
+            "away": 2,
+            "total": 6
+          },
+          "losses": {
+            "home": 1,
+            "away": 8,
+            "total": 9
+          }
+        },
+        "goals": {
+          "for": {
+            "total": {
+              "home": 32,
+              "away": 15,
+              "total": 47
+            },
+            "average": {
+              "home": 2.3,
+              "away": 1.2,
+              "total": 1.7
+            },
+            "minute": {
+              "0-15": {
+                "total": 10,
+                "percentage": 0.21739999999999998
+              },
+              "16-30": {
+                "total": 12,
+                "percentage": 0.2609
+              },
+              "31-45": {
+                "total": 7,
+                "percentage": 0.1522
+              },
+              "46-60": {
+                "total": 4,
+                "percentage": 0.087
+              },
+              "61-75": {
+                "total": 1,
+                "percentage": 0.0217
+              },
+              "76-90": {
+                "total": 9,
+                "percentage": 0.1957
+              },
+              "91-105": {
+                "total": 3,
+                "percentage": 0.0652
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 22,
+                "under": 5
+              },
+              "1.5": {
+                "over": 13,
+                "under": 14
+              },
+              "2.5": {
+                "over": 8,
+                "under": 19
+              },
+              "3.5": {
+                "over": 3,
+                "under": 24
+              },
+              "4.5": {
+                "over": 1,
+                "under": 26
+              }
+            }
+          },
+          "against": {
+            "total": {
+              "home": 17,
+              "away": 26,
+              "total": 43
+            },
+            "average": {
+              "home": 1.2,
+              "away": 2.0,
+              "total": 1.6
+            },
+            "minute": {
+              "0-15": {
+                "total": 6,
+                "percentage": 0.1364
+              },
+              "16-30": {
+                "total": 4,
+                "percentage": 0.0909
+              },
+              "31-45": {
+                "total": 10,
+                "percentage": 0.2273
+              },
+              "46-60": {
+                "total": 7,
+                "percentage": 0.1591
+              },
+              "61-75": {
+                "total": 7,
+                "percentage": 0.1591
+              },
+              "76-90": {
+                "total": 8,
+                "percentage": 0.1818
+              },
+              "91-105": {
+                "total": 2,
+                "percentage": 0.0455
+              },
+              "106-120": {}
+            },
+            "under_over": {
+              "0.5": {
+                "over": 23,
+                "under": 4
+              },
+              "1.5": {
+                "over": 12,
+                "under": 15
+              },
+              "2.5": {
+                "over": 5,
+                "under": 22
+              },
+              "3.5": {
+                "over": 3,
+                "under": 24
+              },
+              "4.5": {
+                "over": 0,
+                "under": 27
+              }
+            }
+          }
+        },
+        "biggest": {
+          "streak": {
+            "wins": 2,
+            "draws": 1,
+            "losses": 3
+          },
+          "wins": {
+            "home": "5-2",
+            "away": "1-4"
+          },
+          "losses": {
+            "home": "0-1",
+            "away": "4-0"
+          },
+          "goals": {
+            "for": {
+              "home": 5,
+              "away": 4
+            },
+            "against": {
+              "home": 2,
+              "away": 4
+            }
+          }
+        },
+        "clean_sheet": {
+          "home": 2,
+          "away": 2,
+          "total": 4
+        },
+        "failed_to_score": {
+          "home": 1,
+          "away": 4,
+          "total": 5
+        },
+        "penalty": {
+          "scored": {
+            "total": 2,
+            "percentage": 0.4
+          },
+          "missed": {
+            "total": 3,
+            "percentage": 0.6
+          },
+          "total": 5
+        },
+        "lineups": [
+          {
+            "formation": "4-3-3",
+            "played": 23
+          },
+          {
+            "formation": "4-3-2-1",
+            "played": 4
+          }
+        ],
+        "cards": {
+          "yellow": {
+            "0-15": {
+              "total": 3,
+              "percentage": 0.0667
+            },
+            "16-30": {
+              "total": 3,
+              "percentage": 0.0667
+            },
+            "31-45": {
+              "total": 3,
+              "percentage": 0.0667
+            },
+            "46-60": {
+              "total": 11,
+              "percentage": 0.2444
+            },
+            "61-75": {
+              "total": 11,
+              "percentage": 0.2444
+            },
+            "76-90": {
+              "total": 10,
+              "percentage": 0.22219999999999998
+            },
+            "91-105": {
+              "total": 4,
+              "percentage": 0.0889
+            },
+            "106-120": {}
+          },
+          "red": {
+            "0-15": {},
+            "16-30": {},
+            "31-45": {},
+            "46-60": {},
+            "61-75": {},
+            "76-90": {},
+            "91-105": {
+              "total": 1,
+              "percentage": 1.0
+            },
+            "106-120": {}
+          }
+        },
+        "predictions_snapshot": {
+          "id": 398,
+          "name": "FC Nordsjaelland",
+          "logo": "https://media.api-sports.io/football/teams/398.png",
+          "last_5": {
+            "played": 5,
+            "form_string": 0.47,
+            "att": 0.44,
+            "def": 0.61,
+            "goals": {
+              "for": {
+                "total": 8,
+                "average": 1.6
+              },
+              "against": {
+                "total": 7,
+                "average": 1.4
+              }
+            }
+          },
+          "league": {
+            "form_string": "WDWDLWLDLWWDLWDWLWWLWLLLWDW",
+            "fixtures": {
+              "played": {
+                "home": 14,
+                "away": 13,
+                "total": 27
+              },
+              "wins": {
+                "home": 9,
+                "away": 3,
+                "total": 12
+              },
+              "draws": {
+                "home": 4,
+                "away": 2,
+                "total": 6
+              },
+              "losses": {
+                "home": 1,
+                "away": 8,
+                "total": 9
+              }
+            },
+            "goals": {
+              "for": {
+                "total": {
+                  "home": 32,
+                  "away": 15,
+                  "total": 47
+                },
+                "average": {
+                  "home": 2.3,
+                  "away": 1.2,
+                  "total": 1.7
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 10,
+                    "percentage": 0.21739999999999998
+                  },
+                  "16-30": {
+                    "total": 12,
+                    "percentage": 0.2609
+                  },
+                  "31-45": {
+                    "total": 7,
+                    "percentage": 0.1522
+                  },
+                  "46-60": {
+                    "total": 4,
+                    "percentage": 0.087
+                  },
+                  "61-75": {
+                    "total": 1,
+                    "percentage": 0.0217
+                  },
+                  "76-90": {
+                    "total": 9,
+                    "percentage": 0.1957
+                  },
+                  "91-105": {
+                    "total": 3,
+                    "percentage": 0.0652
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 22,
+                    "under": 5
+                  },
+                  "1.5": {
+                    "over": 13,
+                    "under": 14
+                  },
+                  "2.5": {
+                    "over": 8,
+                    "under": 19
+                  },
+                  "3.5": {
+                    "over": 3,
+                    "under": 24
+                  },
+                  "4.5": {
+                    "over": 1,
+                    "under": 26
+                  }
+                }
+              },
+              "against": {
+                "total": {
+                  "home": 17,
+                  "away": 26,
+                  "total": 43
+                },
+                "average": {
+                  "home": 1.2,
+                  "away": 2.0,
+                  "total": 1.6
+                },
+                "minute": {
+                  "0-15": {
+                    "total": 6,
+                    "percentage": 0.1364
+                  },
+                  "16-30": {
+                    "total": 4,
+                    "percentage": 0.0909
+                  },
+                  "31-45": {
+                    "total": 10,
+                    "percentage": 0.2273
+                  },
+                  "46-60": {
+                    "total": 7,
+                    "percentage": 0.1591
+                  },
+                  "61-75": {
+                    "total": 7,
+                    "percentage": 0.1591
+                  },
+                  "76-90": {
+                    "total": 8,
+                    "percentage": 0.1818
+                  },
+                  "91-105": {
+                    "total": 2,
+                    "percentage": 0.0455
+                  },
+                  "106-120": {}
+                },
+                "under_over": {
+                  "0.5": {
+                    "over": 23,
+                    "under": 4
+                  },
+                  "1.5": {
+                    "over": 12,
+                    "under": 15
+                  },
+                  "2.5": {
+                    "over": 5,
+                    "under": 22
+                  },
+                  "3.5": {
+                    "over": 3,
+                    "under": 24
+                  },
+                  "4.5": {
+                    "over": 0,
+                    "under": 27
+                  }
+                }
+              }
+            },
+            "biggest": {
+              "streak": {
+                "wins": 2,
+                "draws": 1,
+                "losses": 3
+              },
+              "wins": {
+                "home": "5-2",
+                "away": "1-4"
+              },
+              "losses": {
+                "home": "0-1",
+                "away": "4-0"
+              },
+              "goals": {
+                "for": {
+                  "home": 5,
+                  "away": 4
+                },
+                "against": {
+                  "home": 2,
+                  "away": 4
+                }
+              }
+            },
+            "clean_sheet": {
+              "home": 2,
+              "away": 2,
+              "total": 4
+            },
+            "failed_to_score": {
+              "home": 1,
+              "away": 4,
+              "total": 5
+            },
+            "penalty": {
+              "scored": {
+                "total": 2,
+                "percentage": 0.4
+              },
+              "missed": {
+                "total": 3,
+                "percentage": 0.6
+              },
+              "total": 5
+            },
+            "lineups": [
+              {
+                "formation": "4-3-3",
+                "played": 23
+              },
+              {
+                "formation": "4-3-2-1",
+                "played": 4
+              }
+            ],
+            "cards": {
+              "yellow": {
+                "0-15": {
+                  "total": 3,
+                  "percentage": 0.0667
+                },
+                "16-30": {
+                  "total": 3,
+                  "percentage": 0.0667
+                },
+                "31-45": {
+                  "total": 3,
+                  "percentage": 0.0667
+                },
+                "46-60": {
+                  "total": 11,
+                  "percentage": 0.2444
+                },
+                "61-75": {
+                  "total": 11,
+                  "percentage": 0.2444
+                },
+                "76-90": {
+                  "total": 10,
+                  "percentage": 0.22219999999999998
+                },
+                "91-105": {
+                  "total": 4,
+                  "percentage": 0.0889
+                },
+                "106-120": {}
+              },
+              "red": {
+                "0-15": {},
+                "16-30": {},
+                "31-45": {},
+                "46-60": {},
+                "61-75": {},
+                "76-90": {},
+                "91-105": {
+                  "total": 1,
+                  "percentage": 1.0
+                },
+                "106-120": {}
+              }
+            }
+          }
+        }
+      },
+      "statarea_snapshot": {
+        "team": "FC Nordsjaelland",
+        "country": "Denmark",
+        "api_id": 398,
+        "game_type": "guest",
+        "period": 15,
+        "scrape_date": "2025-04-22T17:45:11.246245",
+        "scrape_date_utc": "2025-04-22T17:45:11.246000",
+        "content_hash": "e7f092e0ba49e47404fc449ccc0c8788",
+        "general_statistics": {
+          "number of fc nordsjaelland wins": 4,
+          "number of fc nordsjaelland draws": 3,
+          "number of fc nordsjaelland losses": 8,
+          "Average goals_scored per match": 1.8,
+          "Average goals_conceded per match": 1.87,
+          "Chance to score goal next match": 0.73,
+          "Chance to conceded goal next match": 0.87,
+          "Number of clean_sheets matches": 2,
+          "failed_to_score matches": 4,
+          "over 2.5 goals in": 10,
+          "under 2.5 goals in": 5,
+          "Time without scored goal": "284 min.",
+          "Time without conceded goal": "124 min."
+        },
+        "team_bet_statistics": {
+          "bet_1x2_probabilities": {
+            "fc nordsjaelland": 0.27,
+            "draw": 0.2,
+            "opponent": 0.53
+          },
+          "halftime bet_1x2_probabilities": {
+            "fc nordsjaelland": 0.33,
+            "draw": 0.4,
+            "opponent": 0.27
+          },
+          "second half bet_1x2_probabilities": {
+            "fc nordsjaelland": 0.33,
+            "draw": 0.13,
+            "opponent": 0.53
+          },
+          "bet_o1.5_total_probabilities": {
+            "over": 0.87,
+            "under": 0.13
+          },
+          "over/under 1.5 goals for fc nordsjaelland only": {
+            "over": 0.4,
+            "under": 0.6
+          },
+          "bet_o2.5_total_probabilities": {
+            "over": 0.67,
+            "under": 0.33
+          },
+          "over/under 2.5 goals for fc nordsjaelland only": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "bet_o3.5_total_probabilities": {
+            "over": 0.53,
+            "under": 0.47
+          },
+          "over/under 3.5 goals for fc nordsjaelland only": {
+            "over": 0.2,
+            "under": 0.8
+          },
+          "bet_goal_bands_probabilities": {
+            "0-1": 0.13,
+            "2-3": 0.33,
+            "4+": 0.53
+          },
+          "bet_both_teams_to_score_probabilities": {
+            "both": 0.67,
+            "only one": 0.27,
+            "neither": 0.07
+          },
+          "bet_odd_even_probabilities": {
+            "odd": 0.47,
+            "even": 0.53
+          },
+          "coverage_percentage goals in matches": {
+            "0-15 min.": 0.16,
+            "16-30 min.": 0.05,
+            "31-45 min.": 0.29,
+            "46-60 min.": 0.09,
+            "61-75 min.": 0.15,
+            "76-90 min.": 0.25
+          },
+          "fc nordsjaelland goals only": {
+            "0-15 min.": 0.19,
+            "16-30 min.": 0.07,
+            "31-45 min.": 0.33,
+            "46-60 min.": 0.04,
+            "61-75 min.": 0.11,
+            "76-90 min.": 0.26
+          },
+          "Time of bet_first_goal_scorer_probabilities": {
+            "0-10 min.": 0.27,
+            "11-20 min.": 0.27,
+            "21-30 min.": 0.0,
+            "31-40 min.": 0.13,
+            "41-50 min.": 0.13,
+            "51-60 min.": 0.07,
+            "61-70 min.": 0.07,
+            "71-80 min.": 0.0,
+            "81-90 min.": 0.0,
+            "without goal": 0.07
+          },
+          "time of first fc nordsjaelland goal": {
+            "0-10 min.": 0.13,
+            "11-20 min.": 0.2,
+            "21-30 min.": 0.07,
+            "31-40 min.": 0.07,
+            "41-50 min.": 0.2,
+            "51-60 min.": 0.0,
+            "61-70 min.": 0.0,
+            "71-80 min.": 0.07,
+            "81-90 min.": 0.0,
+            "without goal": 0.27
+          },
+          "bet_first_goal_scorer_probabilities": {
+            "fc nordsjaelland": 0.47,
+            "opponent": 0.47,
+            "without goal": 0.07
+          },
+          "win after 15 minutes": {
+            "fc nordsjaelland": 0.27,
+            "opponent": 0.2,
+            "draw": 0.53
+          },
+          "win after 30 minutes": {
+            "fc nordsjaelland": 0.27,
+            "opponent": 0.13,
+            "draw": 0.6
+          },
+          "bet_halftime_result_probabilities": {
+            "fc nordsjaelland": 0.33,
+            "opponent": 0.27,
+            "draw": 0.4
+          },
+          "win after 60 minutes": {
+            "fc nordsjaelland": 0.33,
+            "opponent": 0.4,
+            "draw": 0.27
+          },
+          "win after 75 minutes": {
+            "fc nordsjaelland": 0.27,
+            "opponent": 0.47,
+            "draw": 0.27
+          },
+          "bet_fulltime_result_probabilities": {
+            "fc nordsjaelland": 0.27,
+            "opponent": 0.53,
+            "draw": 0.2
+          },
+          "bet_goal_difference_probabilities": {
+            "0-1 goal": 0.47,
+            "2-3 goals": 0.33,
+            "4+ goals": 0.2
+          },
+          "bet_half_most_goals_probabilities": {
+            "first half": 0.53,
+            "second half": 0.27,
+            "tie": 0.2
+          }
+        },
+        "match_history": [
+          {
+            "date": "2025-04-18",
+            "competition": "Denmark - Superligaen Championship Playoff 2024/2025",
+            "opponent": "Brondby",
+            "team_goals": 0,
+            "opponent_goals": 0,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-30",
+            "competition": "Denmark - Superligaen Championship Playoff 2024/2025",
+            "opponent": "AGF",
+            "team_goals": 0,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-16",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Lyngby",
+            "team_goals": 0,
+            "opponent_goals": 1,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-03-02",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "FC Midtjylland",
+            "team_goals": 1,
+            "opponent_goals": 2,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2025-02-26",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Aalborg",
+            "team_goals": 2,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2025-01-25",
+            "competition": "Friendly Games - Friendly Clubs 2024/2025",
+            "opponent": "Lech Poznan",
+            "team_goals": 7,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-12-02",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "FC Copenhagen",
+            "team_goals": 1,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-11-10",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Brondby",
+            "team_goals": 1,
+            "opponent_goals": 1,
+            "result": "draw",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-28",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Randers FC",
+            "team_goals": 0,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-23",
+            "competition": "Denmark - Fa Cup 2024/2025",
+            "opponent": "Brabrand",
+            "team_goals": 9,
+            "opponent_goals": 10,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-10-06",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "SonderjyskE",
+            "team_goals": 4,
+            "opponent_goals": 1,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-09-25",
+            "competition": "Denmark - Fa Cup 2024/2025",
+            "opponent": "Fremad Amager",
+            "team_goals": 5,
+            "opponent_goals": 0,
+            "result": "win",
+            "venue": "away"
+          },
+          {
+            "date": "2024-09-20",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Viborg",
+            "team_goals": 2,
+            "opponent_goals": 3,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-08-31",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "AGF",
+            "team_goals": 2,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "away"
+          },
+          {
+            "date": "2024-08-18",
+            "competition": "Denmark - Superligaen 2024/2025",
+            "opponent": "Silkeborg",
+            "team_goals": 1,
+            "opponent_goals": 4,
+            "result": "loss",
+            "venue": "away"
+          }
+        ],
+        "last_updated_db_utc": "2025-04-22T16:48:11.967000"
+      },
+      "recent_matches_raw": [],
+      "standings_snapshot_raw": {
+        "league_rank": 5,
+        "team": {
+          "id": 398,
+          "name": "FC Nordsjaelland",
+          "logo": "https://media.api-sports.io/football/teams/398.png"
+        },
+        "league_points": 42,
+        "goals_difference": 4,
+        "group": "Superliga: Championship Round",
+        "form_string": "WDWLL",
+        "status": "up",
+        "coverage_percentage": {
+          "played": 27,
+          "win": 12,
+          "draw": 6,
+          "loss": 9,
+          "goals": {
+            "for": 47,
+            "against": 43
+          }
+        },
+        "home": {
+          "played": 3,
+          "win": 2,
+          "draw": 0,
+          "loss": 1,
+          "goals": {
+            "for": 8,
+            "against": 5
+          }
+        },
+        "away": {
+          "played": 2,
+          "win": 0,
+          "draw": 1,
+          "loss": 1,
+          "goals": {
+            "for": 0,
+            "against": 2
+          }
+        },
+        "update": "2025-04-27T00:00:00+00:00"
+      }
+    }
+  },
+  "goals": {}
+}
