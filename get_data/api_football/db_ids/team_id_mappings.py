@@ -1,26 +1,25 @@
-# Team ID Mapping: Team Name | Statarea ID | MongoDB ID 
 
 TEAM_ID_MAPPING = {
-    # 1899 Hoffenheim | 167 | 167
-    "1899 Hoffenheim": {
+    # Renamed from "1899_Hoffenheim"
+    "Hoffenheim": {
         "statarea_id": "167",
         "mongodb_id": "167",
         "country": "Germany"
     },
-    # AC Milan | 489 | 489
-    "AC Milan": {
+    # Renamed from "AC_Milan"
+    "Milan": { # Note: Encoder uses "Milan", not "AC Milan"
         "statarea_id": "489",
         "mongodb_id": "489",
         "country": "Italy"
     },
-    # ADO Den Haag | 198 | 198
-    "ADO Den Haag": {
+    # Renamed from "ADO_Den_Haag"
+    "Den Haag": { # Note: Encoder uses "Den Haag"
         "statarea_id": "198",
         "mongodb_id": "198",
         "country": "Netherlands"
     },
     # AFC Hermannstadt | 2579 | 2579
-    "AFC Hermannstadt": {
+    "AFC_Hermannstadt": {
         "statarea_id": "2579",
         "mongodb_id": "2579",
         "country": "Romania"
@@ -31,49 +30,49 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "201",
         "country": "Netherlands"
     },
-    # Aalborg | 402 | 402
+    # Matches "Aalborg"
     "Aalborg": {
         "statarea_id": "402",
         "mongodb_id": "402",
         "country": "Denmark"
     },
     # Academico Viseu | 238 | 238
-    "Academico Viseu": {
+    "Academico_Viseu": {
         "statarea_id": "238",
         "mongodb_id": "238",
         "country": "Portugal"
     },
     # Ajaccio | 98 | 98
-    "Ajaccio": {
+    "Ajaccio GFCO": {
         "statarea_id": "98",
         "mongodb_id": "98",
         "country": "France"
     },
-    # Ajax | 194 | 194
+    # Matches "Ajax"
     "Ajax": {
         "statarea_id": "194",
         "mongodb_id": "194",
         "country": "Netherlands"
     },
-    # Alanyaspor | 996 | 996
+    # Matches "Alanyaspor"
     "Alanyaspor": {
         "statarea_id": "996",
         "mongodb_id": "996",
         "country": "Turkey"
     },
-    # Albacete | 722 | 722
+    # Matches "Albacete"
     "Albacete": {
         "statarea_id": "722",
         "mongodb_id": "722",
         "country": "Spain"
     },
-    # Almere City FC | 419 | 419
-    "Almere City FC": {
+    # Renamed from "Almere_City_FC"
+    "Almere City": { # Note: Encoder uses "Almere City"
         "statarea_id": "419",
         "mongodb_id": "419",
         "country": "Netherlands"
     },
-    # Almeria | 723 | 723
+    # Matches "Almeria"
     "Almeria": {
         "statarea_id": "723",
         "mongodb_id": "723",
@@ -91,31 +90,31 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "87",
         "country": "France"
     },
-    # Anderlecht | 554 | 554
+    # Matches "Anderlecht"
     "Anderlecht": {
         "statarea_id": "554",
         "mongodb_id": "554",
         "country": "Belgium"
     },
-    # Angers | 77 | 77
+    # Matches "Angers"
     "Angers": {
         "statarea_id": "77",
         "mongodb_id": "77",
         "country": "France"
     },
-    # Annecy | 3012 | 3012
+    # Matches "Annecy"
     "Annecy": {
         "statarea_id": "3012",
         "mongodb_id": "3012",
         "country": "France"
     },
-    # Antalyaspor | 1005 | 1005
+    # Matches "Antalyaspor"
     "Antalyaspor": {
         "statarea_id": "1005",
         "mongodb_id": "1005",
         "country": "Turkey"
     },
-    # Antwerp | 740 | 740
+    # Matches "Antwerp"
     "Antwerp": {
         "statarea_id": "740",
         "mongodb_id": "740",
@@ -133,44 +132,44 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "240",
         "country": "Portugal"
     },
-    # Arsenal | 42 | 42
+    # Matches "Arsenal"
     "Arsenal": {
         "statarea_id": "42",
         "mongodb_id": "42",
         "country": "England"
     },
-    # Aston Villa | 66 | 66
-    "Aston Villa": {
+    # Renamed from "Aston_Villa"
+    "Aston Villa": { # Note: Space, not underscore
         "statarea_id": "66",
         "mongodb_id": "66",
         "country": "England"
     },
-    # Atalanta | 499 | 499
+    # Matches "Atalanta"
     "Atalanta": {
         "statarea_id": "499",
         "mongodb_id": "499",
         "country": "Italy"
     },
-    # Athletic Club | 531 | 531
-    "Athletic Club": {
+    # Renamed from "Athletic_Club"
+    "Ath Bilbao": { # Note: Encoder uses "Ath Bilbao"
         "statarea_id": "531",
         "mongodb_id": "531",
         "country": "Spain"
     },
-    # Atletico Madrid | 530 | 530
-    "Atletico Madrid": {
+    # Renamed from "Atletico_Madrid"
+    "Ath Madrid": { # Note: Encoder uses "Ath Madrid"
         "statarea_id": "530",
         "mongodb_id": "530",
         "country": "Spain"
     },
-    # Auxerre | 108 | 108
+    # Matches "Auxerre"
     "Auxerre": {
         "statarea_id": "108",
         "mongodb_id": "108",
         "country": "France"
     },
     # BB Bodrumspor | 3583 | 3583
-    "BB Bodrumspor": {
+    "BB_Bodrumspor": {
         "statarea_id": "3583",
         "mongodb_id": "3583",
         "country": "Turkey"
@@ -181,38 +180,38 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "529",
         "country": "Spain"
     },
-    # Bari | 508 | 508
+    # Matches "Bari"
     "Bari": {
         "statarea_id": "508",
         "mongodb_id": "508",
         "country": "Italy"
     },
-    # Bastia | 1305 | 1305
+    # Matches "Bastia"
     "Bastia": {
         "statarea_id": "1305",
         "mongodb_id": "1305",
         "country": "France"
     },
-    # Bayer Leverkusen | 168 | 168
-    "Bayer Leverkusen": {
+    # Renamed from "Bayer_Leverkusen"
+    "Leverkusen": { # Note: Encoder uses "Leverkusen"
         "statarea_id": "168",
         "mongodb_id": "168",
         "country": "Germany"
     },
-    # Beerschot Wilrijk | 263 | 263
-    "Beerschot Wilrijk": {
+    # Renamed from "Beerschot_Wilrijk"
+    "Beerschot VA": { # Note: Encoder uses "Beerschot VA"
         "statarea_id": "263",
         "mongodb_id": "263",
         "country": "Belgium"
     },
-    # Benfica | 211 | 211
+    # Matches "Benfica"
     "Benfica": {
         "statarea_id": "211",
         "mongodb_id": "211",
         "country": "Portugal"
     },
     # Benfica B | 229 | 229
-    "Benfica B": {
+    "Benfica_B": {
         "statarea_id": "229",
         "mongodb_id": "229",
         "country": "Portugal"
@@ -223,68 +222,68 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "549",
         "country": "Turkey"
     },
-    # Betis | 543 | 543
+    # Matches "Betis"
     "Betis": {
         "statarea_id": "543",
         "mongodb_id": "543",
         "country": "Spain"
     },
-    # Blackburn | 67 | 67
+    # Matches "Blackburn"
     "Blackburn": {
         "statarea_id": "67",
         "mongodb_id": "67",
         "country": "England"
     },
-    # Boavista | 222 | 222
+    # Matches "Boavista"
     "Boavista": {
         "statarea_id": "222",
         "mongodb_id": "222",
         "country": "Portugal"
     },
-    # Bologna | 500 | 500
+    # Matches "Bologna"
     "Bologna": {
         "statarea_id": "500",
         "mongodb_id": "500",
         "country": "Italy"
     },
-    # Borussia Dortmund | 165 | 165
-    "Borussia Dortmund": {
+    # Renamed from "Borussia_Dortmund"
+    "Dortmund": { # Note: Encoder uses "Dortmund"
         "statarea_id": "165",
         "mongodb_id": "165",
         "country": "Germany"
     },
-    # Borussia Monchengladbach | 163 | 163
-    "Borussia Monchengladbach": {
+    # Renamed from "Borussia_Monchengladbach"
+    "M'gladbach": { # Note: Encoder uses "M'gladbach"
         "statarea_id": "163",
         "mongodb_id": "163",
         "country": "Germany"
     },
-    # Bournemouth | 35 | 35
+    # Matches "Bournemouth"
     "Bournemouth": {
         "statarea_id": "35",
         "mongodb_id": "35",
         "country": "England"
     },
-    # Brentford | 55 | 55
+    # Matches "Brentford"
     "Brentford": {
         "statarea_id": "55",
         "mongodb_id": "55",
         "country": "England"
     },
-    # Brescia | 518 | 518
+    # Matches "Brescia"
     "Brescia": {
         "statarea_id": "518",
         "mongodb_id": "518",
         "country": "Italy"
     },
-    # Brighton | 51 | 51
+    # Matches "Brighton"
     "Brighton": {
         "statarea_id": "51",
         "mongodb_id": "51",
         "country": "England"
     },
-    # Bristol City | 56 | 56
-    "Bristol City": {
+    # Renamed from "Bristol_City"
+    "Bristol City": { # Note: Space
         "statarea_id": "56",
         "mongodb_id": "56",
         "country": "England"
@@ -301,55 +300,46 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "9580",
         "country": "Spain"
     },
-    # Burnley | 44 | 44
+    # Matches "Burnley"
     "Burnley": {
         "statarea_id": "44",
         "mongodb_id": "44",
         "country": "England"
     },
-    # CD Eldense | 9692 | 9692
-    "CD Eldense": {
+    # CD Eldense | 9692 | 9692 -> Encoder uses "Eldense"
+    "Eldense": {
         "statarea_id": "9692",
         "mongodb_id": "9692",
         "country": "Spain"
     },
-    # CFR 1907 Cluj | 2246 | 2246
-    "CFR 1907 Cluj": {
-        "statarea_id": "2246",
-        "mongodb_id": "2246",
-        "country": "Romania"
-    },
-    # CS Universitatea Craiova | 632 | 632
-    "CS Universitatea Craiova": {
-        "statarea_id": "632",
-        "mongodb_id": "632",
-        "country": "Romania"
-    },
-    # Cadiz | 724 | 724
+    # CFR 1907 Cluj | 2246 | 2246 - Not found in encoder list
+    # CS Universitatea Craiova | 632 | 632 - Not found in encoder list
+
+    # Matches "Cadiz"
     "Cadiz": {
         "statarea_id": "724",
         "mongodb_id": "724",
         "country": "Spain"
     },
-    # Caen | 88 | 88
+    # Matches "Caen"
     "Caen": {
         "statarea_id": "88",
         "mongodb_id": "88",
         "country": "France"
     },
-    # Cagliari | 490 | 490
+    # Matches "Cagliari"
     "Cagliari": {
         "statarea_id": "490",
         "mongodb_id": "490",
         "country": "Italy"
     },
-    # Cambuur | 420 | 420
+    # Matches "Cambuur"
     "Cambuur": {
         "statarea_id": "420",
         "mongodb_id": "420",
         "country": "Netherlands"
     },
-    # Cardiff | 43 | 43
+    # Matches "Cardiff"
     "Cardiff": {
         "statarea_id": "43",
         "mongodb_id": "43",
@@ -367,110 +357,110 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "5262",
         "country": "Spain"
     },
-    # Casa Pia | 4716 | 4716
-    "Casa Pia": {
+    # Renamed from "Casa_Pia"
+    "Casa Pia": { # Note: Space
         "statarea_id": "4716",
         "mongodb_id": "4716",
         "country": "Portugal"
     },
-    # Castellon | 5254 | 5254
+    # Matches "Castellon"
     "Castellon": {
         "statarea_id": "5254",
         "mongodb_id": "5254",
         "country": "Spain"
     },
-    # Catanzaro | 1687 | 1687
+    # Matches "Catanzaro"
     "Catanzaro": {
         "statarea_id": "1687",
         "mongodb_id": "1687",
         "country": "Italy"
     },
-    # Celta Vigo | 538 | 538
-    "Celta Vigo": {
+    # Renamed from "Celta_Vigo"
+    "Celta": { # Note: Encoder uses "Celta"
         "statarea_id": "538",
         "mongodb_id": "538",
         "country": "Spain"
     },
-    # Celtic | 247 | 247
+    # Matches "Celtic"
     "Celtic": {
         "statarea_id": "247",
         "mongodb_id": "247",
         "country": "Scotland"
     },
-    # Cercle Brugge | 741 | 741
-    "Cercle Brugge": {
+    # Renamed from "Cercle_Brugge"
+    "Cercle Brugge": { # Note: Space
         "statarea_id": "741",
         "mongodb_id": "741",
         "country": "Belgium"
     },
-    # Cesena | 509 | 509
+    # Matches "Cesena"
     "Cesena": {
         "statarea_id": "509",
         "mongodb_id": "509",
         "country": "Italy"
     },
-    # Charleroi | 736 | 736
+    # Matches "Charleroi"
     "Charleroi": {
         "statarea_id": "736",
         "mongodb_id": "736",
         "country": "Belgium"
     },
-    # Chaves | 223 | 223
+    # Matches "Chaves"
     "Chaves": {
         "statarea_id": "223",
         "mongodb_id": "223",
         "country": "Portugal"
     },
-    # Chelsea | 49 | 49
+    # Matches "Chelsea"
     "Chelsea": {
         "statarea_id": "49",
         "mongodb_id": "49",
         "country": "England"
     },
-    # Cittadella | 510 | 510
+    # Matches "Cittadella"
     "Cittadella": {
         "statarea_id": "510",
         "mongodb_id": "510",
         "country": "Italy"
     },
-    # Clermont Foot | 99 | 99
-    "Clermont Foot": {
+    # Renamed from "Clermont_Foot"
+    "Clermont": { # Note: Encoder uses "Clermont"
         "statarea_id": "99",
         "mongodb_id": "99",
         "country": "France"
     },
-    # Club Brugge | 569 | 569
-    "Club Brugge": {
+    # Renamed from "Club_Brugge"
+    "Club Brugge": { # Note: Space
         "statarea_id": "569",
         "mongodb_id": "569",
         "country": "Belgium"
     },
-    # Como | 895 | 895
+    # Matches "Como"
     "Como": {
         "statarea_id": "895",
         "mongodb_id": "895",
         "country": "Italy"
     },
-    # Cordoba | 713 | 713
+    # Matches "Cordoba"
     "Cordoba": {
         "statarea_id": "713",
         "mongodb_id": "713",
         "country": "Spain"
     },
-    # Cosenza | 10137 | 10137
+    # Matches "Cosenza"
     "Cosenza": {
         "statarea_id": "10137",
         "mongodb_id": "10137",
         "country": "Italy"
     },
-    # Coventry | 1346 | 1346
+    # Matches "Coventry"
     "Coventry": {
         "statarea_id": "1346",
         "mongodb_id": "1346",
         "country": "England"
     },
     # Cracovia Krakow | 350 | 350
-    "Cracovia Krakow": {
+    "Cracovia_Krakow": {
         "statarea_id": "350",
         "mongodb_id": "350",
         "country": "Poland"
@@ -482,7 +472,7 @@ TEAM_ID_MAPPING = {
         "country": "Italy"
     },
     # Crvena Zvezda | 598 | 598
-    "Crvena Zvezda": {
+    "Crvena_Zvezda": {
         "statarea_id": "598",
         "mongodb_id": "598",
         "country": "Serbia"
@@ -493,37 +483,38 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "52",
         "country": "England"
     },
-    # De Graafschap | 199 | 199
-    "De Graafschap": {
+    # Renamed from "De_Graafschap"
+    "Graafschap": { # Note: Encoder uses "Graafschap"
         "statarea_id": "199",
         "mongodb_id": "199",
         "country": "Netherlands"
     },
     # Den Bosch | 421 | 421
-    "Den Bosch": {
+    "Den_Bosch": {
         "statarea_id": "421",
         "mongodb_id": "421",
         "country": "Netherlands"
     },
     # Deportivo Alaves | 542 | 542
-    "Deportivo Alaves": {
+    "Alaves": {
         "statarea_id": "542",
         "mongodb_id": "542",
         "country": "Spain"
     },
-    # Deportivo La Coruna | 544 | 544
-    "Deportivo La Coruna": {
+    # Renamed from "Deportivo_La_Coruna"
+    "La Coruna": { # Note: Encoder uses "La Coruna"
         "statarea_id": "544",
         "mongodb_id": "544",
         "country": "Spain"
     },
-    # Derby | 69 | 69
+    # Matches "Derby"
     "Derby": {
         "statarea_id": "69",
         "mongodb_id": "69",
         "country": "England"
     },
     # Dinamo Bucuresti | 635 | 635
+ 
     "Dinamo Bucuresti": {
         "statarea_id": "635",
         "mongodb_id": "635",
@@ -535,79 +526,79 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "409",
         "country": "Netherlands"
     },
-    # Dunkerque | 1304 | 1304
+    # Matches "Dunkerque"
     "Dunkerque": {
         "statarea_id": "1304",
         "mongodb_id": "1304",
         "country": "France"
     },
-    # Eibar | 545 | 545
+    # Matches "Eibar"
     "Eibar": {
         "statarea_id": "545",
         "mongodb_id": "545",
         "country": "Spain"
     },
-    # Eintracht Braunschweig | 744 | 744
-    "Eintracht Braunschweig": {
+    # Renamed from "Eintracht Braunschweig"
+    "Braunschweig": { # Note: Encoder uses "Braunschweig"
         "statarea_id": "744",
         "mongodb_id": "744",
         "country": "Germany"
     },
-    # Eintracht Frankfurt | 169 | 169
-    "Eintracht Frankfurt": {
+    # Renamed from "Eintracht Frankfurt"
+    "Ein Frankfurt": { # Note: Encoder uses "Ein Frankfurt"
         "statarea_id": "169",
         "mongodb_id": "169",
         "country": "Germany"
     },
-    # Elche | 797 | 797
+    # Matches "Elche"
     "Elche": {
         "statarea_id": "797",
         "mongodb_id": "797",
         "country": "Spain"
     },
-    # Emmen | 208 | 208
-    "Emmen": {
+    # Renamed from "Emmen"
+    "FC Emmen": { # Note: Encoder uses "FC Emmen"
         "statarea_id": "208",
         "mongodb_id": "208",
         "country": "Netherlands"
     },
-    # Empoli | 511 | 511
+    # Matches "Empoli"
     "Empoli": {
         "statarea_id": "511",
         "mongodb_id": "511",
         "country": "Italy"
     },
-    # Espanyol | 540 | 540
-    "Espanyol": {
+    # Renamed from "Espanyol"
+    "Espanol": { # Note: Encoder uses "Espanol"
         "statarea_id": "540",
         "mongodb_id": "540",
         "country": "Spain"
     },
-    # Estac Troyes | 110 | 110
-    "Estac Troyes": {
+    # Renamed from "Estac Troyes"
+    "Troyes": { # Note: Encoder uses "Troyes"
         "statarea_id": "110",
         "mongodb_id": "110",
         "country": "France"
     },
-    # Estoril | 230 | 230
+    # Matches "Estoril"
     "Estoril": {
         "statarea_id": "230",
         "mongodb_id": "230",
         "country": "Portugal"
     },
-    # Estrela Da Amadora | 15130 | 15130
-    "Estrela Da Amadora": {
+    # Renamed from "Estrela Da Amadora"
+    "Estrela": { # Note: Encoder uses "Estrela"
         "statarea_id": "15130",
         "mongodb_id": "15130",
         "country": "Portugal"
     },
-    # Everton | 45 | 45
+    # Matches "Everton"
     "Everton": {
         "statarea_id": "45",
         "mongodb_id": "45",
         "country": "England"
     },
-    # Excelsior | 196 | 196
+    # Matches "Excelsior"
     "Excelsior": {
         "statarea_id": "196",
         "mongodb_id": "196",
@@ -620,7 +611,7 @@ TEAM_ID_MAPPING = {
         "country": "Turkey"
     },
     # FC Augsburg | 170 | 170
-    "FC Augsburg": {
+    "Augsburg": {
         "statarea_id": "170",
         "mongodb_id": "170",
         "country": "Germany"
@@ -674,25 +665,25 @@ TEAM_ID_MAPPING = {
         "country": "Denmark"
     },
     # FC Porto | 212 | 212
-    "FC Porto": {
+    "Porto": {
         "statarea_id": "212",
         "mongodb_id": "212",
         "country": "Portugal"
     },
     # FC Porto B | 212 | 243
-    "FC Porto B": {
+    "Porto B": {
         "statarea_id": "212",
         "mongodb_id": "243",
         "country": "Portugal"
     },
     # FC Schalke 04 | 174 | 174
-    "FC Schalke 04": {
+    "Schalke 04": {
         "statarea_id": "174",
         "mongodb_id": "174",
         "country": "Germany"
     },
-    # FC St. Pauli | 186 | 186
-    "FC St. Pauli": {
+    # Renamed from "FC St. Pauli"
+    "St Pauli": { # Note: Encoder uses "St Pauli" (no dot)
         "statarea_id": "186",
         "mongodb_id": "186",
         "country": "Germany"
@@ -704,18 +695,18 @@ TEAM_ID_MAPPING = {
         "country": "Romania"
     },
     # FSV Mainz 05 | 164 | 164
-    "FSV Mainz 05": {
+    "Mainz 05": {
         "statarea_id": "164",
         "mongodb_id": "164",
         "country": "Germany"
     },
-    # Famalicao | 242 | 242
+    # Matches "Famalicao"
     "Famalicao": {
         "statarea_id": "242",
         "mongodb_id": "242",
         "country": "Portugal"
     },
-    # Farense | 231 | 231
+    # Matches "Farense"
     "Farense": {
         "statarea_id": "231",
         "mongodb_id": "231",
@@ -757,31 +748,31 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "209",
         "country": "Netherlands"
     },
-    # Fiorentina | 502 | 502
+    # Matches "Fiorentina"
     "Fiorentina": {
         "statarea_id": "502",
         "mongodb_id": "502",
         "country": "Italy"
     },
-    # Fortuna Dusseldorf | 158 | 158
+    # Matches "Fortuna Dusseldorf"
     "Fortuna Dusseldorf": {
         "statarea_id": "158",
         "mongodb_id": "158",
         "country": "Germany"
     },
-    # Fortuna Sittard | 205 | 205
-    "Fortuna Sittard": {
+    # Renamed from "Fortuna Sittard"
+    "For Sittard": { # Note: Encoder uses "For Sittard"
         "statarea_id": "205",
         "mongodb_id": "205",
         "country": "Netherlands"
     },
-    # Frosinone | 512 | 512
+    # Matches "Frosinone"
     "Frosinone": {
         "statarea_id": "512",
         "mongodb_id": "512",
         "country": "Italy"
     },
-    # Fulham | 36 | 36
+    # Matches "Fulham"
     "Fulham": {
         "statarea_id": "36",
         "mongodb_id": "36",
@@ -799,37 +790,37 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "645",
         "country": "Turkey"
     },
-    # Genk | 742 | 742
+    # Matches "Genk"
     "Genk": {
         "statarea_id": "742",
         "mongodb_id": "742",
         "country": "Belgium"
     },
-    # Genoa | 495 | 495
+    # Matches "Genoa"
     "Genoa": {
         "statarea_id": "495",
         "mongodb_id": "495",
         "country": "Italy"
     },
-    # Gent | 631 | 631
+    # Matches "Gent"
     "Gent": {
         "statarea_id": "631",
         "mongodb_id": "631",
         "country": "Belgium"
     },
-    # Getafe | 546 | 546
+    # Matches "Getafe"
     "Getafe": {
         "statarea_id": "546",
         "mongodb_id": "546",
         "country": "Spain"
     },
-    # Gil Vicente | 762 | 762
+    # Matches "Gil Vicente"
     "Gil Vicente": {
         "statarea_id": "762",
         "mongodb_id": "762",
         "country": "Portugal"
     },
-    # Girona | 547 | 547
+    # Matches "Girona"
     "Girona": {
         "statarea_id": "547",
         "mongodb_id": "547",
@@ -853,37 +844,37 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "340",
         "country": "Poland"
     },
-    # Goztepe | 994 | 994
-    "Goztepe": {
+    # Goztep | 994 | 994
+    "Goztep": {
         "statarea_id": "994",
         "mongodb_id": "994",
         "country": "Turkey"
     },
-    # Granada CF | 715 | 715
-    "Granada CF": {
+    # Renamed from "Granada CF"
+    "Granada": { # Note: Encoder uses "Granada"
         "statarea_id": "715",
         "mongodb_id": "715",
         "country": "Spain"
     },
-    # Grenoble Foot 38 | 101 | 101
-    "Grenoble Foot 38": {
+    # Renamed from "Grenoble Foot 38"
+    "Grenoble": { # Note: Encoder uses "Grenoble"
         "statarea_id": "101",
         "mongodb_id": "101",
         "country": "France"
     },
-    # Groningen | 202 | 202
+    # Matches "Groningen"
     "Groningen": {
         "statarea_id": "202",
         "mongodb_id": "202",
         "country": "Netherlands"
     },
-    # Guimaraes | 224 | 224
+    # Matches "Guimaraes"
     "Guimaraes": {
         "statarea_id": "224",
         "mongodb_id": "224",
         "country": "Portugal"
     },
-    # Guingamp | 90 | 90
+    # Matches "Guingamp"
     "Guingamp": {
         "statarea_id": "90",
         "mongodb_id": "90",
@@ -908,24 +899,24 @@ TEAM_ID_MAPPING = {
         "country": "Croatia"
     },
     # Hamburger SV | 175 | 175
-    "Hamburger SV": {
+    "Hamburg": {
         "statarea_id": "175",
         "mongodb_id": "175",
         "country": "Germany"
     },
-    # Hannover 96 | 166 | 166
-    "Hannover 96": {
+    # Renamed from "Hannover 96"
+    "Hannover": { # Note: Encoder uses "Hannover"
         "statarea_id": "166",
         "mongodb_id": "166",
         "country": "Germany"
     },
-    # Hatayspor | 3575 | 3575
+    # Matches "Hatayspor"
     "Hatayspor": {
         "statarea_id": "3575",
         "mongodb_id": "3575",
         "country": "Turkey"
     },
-    # Heerenveen | 210 | 210
+    # Matches "Heerenveen"
     "Heerenveen": {
         "statarea_id": "210",
         "mongodb_id": "210",
@@ -943,38 +934,38 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "206",
         "country": "Netherlands"
     },
-    # Holstein Kiel | 191 | 191
+    # Matches "Holstein Kiel"
     "Holstein Kiel": {
         "statarea_id": "191",
         "mongodb_id": "191",
         "country": "Germany"
     },
-    # Huesca | 726 | 726
+    # Matches "Huesca"
     "Huesca": {
         "statarea_id": "726",
         "mongodb_id": "726",
         "country": "Spain"
     },
-    # Hull City | 64 | 64
-    "Hull City": {
+    # Renamed from "Hull City"
+    "Hull": { # Note: Encoder uses "Hull"
         "statarea_id": "64",
         "mongodb_id": "64",
         "country": "England"
     },
-    # Inter | 505 | 505
+    # Matches "Inter"
     "Inter": {
         "statarea_id": "505",
         "mongodb_id": "505",
         "country": "Italy"
     },
-    # Ipswich | 57 | 57
+    # Matches "Ipswich"
     "Ipswich": {
         "statarea_id": "57",
         "mongodb_id": "57",
         "country": "England"
     },
-    # Istanbul Basaksehir | 564 | 564
-    "Istanbul Basaksehir": {
+    # Renamed from "Istanbul Basaksehir"
+    "Buyuksehyr": { # Note: Encoder uses "Buyuksehyr"
         "statarea_id": "564",
         "mongodb_id": "564",
         "country": "Turkey"
@@ -986,7 +977,7 @@ TEAM_ID_MAPPING = {
         "country": "Poland"
     },
     # Jahn Regensburg | 177 | 177
-    "Jahn Regensburg": {
+    "Regensburg": {
         "statarea_id": "177",
         "mongodb_id": "177",
         "country": "Germany"
@@ -1021,43 +1012,43 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "863",
         "country": "Italy"
     },
-    # Juventus | 496 | 496
+    # Matches "Juventus"
     "Juventus": {
         "statarea_id": "496",
         "mongodb_id": "496",
         "country": "Italy"
     },
-    # KV Mechelen | 266 | 266
-    "KV Mechelen": {
+    # Renamed from "KV Mechelen"
+    "Mechelen": { # Note: Encoder uses "Mechelen"
         "statarea_id": "266",
         "mongodb_id": "266",
         "country": "Belgium"
     },
-    # KVC Westerlo | 261 | 261
-    "KVC Westerlo": {
+    # Renamed from "KVC Westerlo"
+    "Westerlo": { # Note: Encoder uses "Westerlo"
         "statarea_id": "261",
         "mongodb_id": "261",
         "country": "Belgium"
     },
-    # Karlsruher SC | 785 | 785
-    "Karlsruher SC": {
+    # Renamed from "Karlsruher SC"
+    "Karlsruhe": { # Note: Encoder uses "Karlsruhe"
         "statarea_id": "785",
         "mongodb_id": "785",
         "country": "Germany"
     },
-    # Kasimpasa | 1004 | 1004
+    # Matches "Kasimpasa"
     "Kasimpasa": {
         "statarea_id": "1004",
         "mongodb_id": "1004",
         "country": "Turkey"
     },
-    # Kayserispor | 1001 | 1001
+    # Matches "Kayserispor"
     "Kayserispor": {
         "statarea_id": "1001",
         "mongodb_id": "1001",
         "country": "Turkey"
     },
-    # Konyaspor | 607 | 607
+    # Matches "Konyaspor"
     "Konyaspor": {
         "statarea_id": "607",
         "mongodb_id": "607",
@@ -1075,31 +1066,31 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "734",
         "country": "Belgium"
     },
-    # Las Palmas | 534 | 534
+    # Matches "Las Palmas"
     "Las Palmas": {
         "statarea_id": "534",
         "mongodb_id": "534",
         "country": "Spain"
     },
-    # Laval | 433 | 433
+    # Matches "Laval"
     "Laval": {
         "statarea_id": "433",
         "mongodb_id": "433",
         "country": "France"
     },
-    # Lazio | 487 | 487
+    # Matches "Lazio"
     "Lazio": {
         "statarea_id": "487",
         "mongodb_id": "487",
         "country": "Italy"
     },
-    # Le Havre | 111 | 111
+    # Matches "Le Havre"
     "Le Havre": {
         "statarea_id": "111",
         "mongodb_id": "111",
         "country": "France"
     },
-    # Lecce | 867 | 867
+    # Matches "Lecce"
     "Lecce": {
         "statarea_id": "867",
         "mongodb_id": "867",
@@ -1123,7 +1114,7 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "63",
         "country": "England"
     },
-    # Leganes | 537 | 537
+    # Matches "Leganes"
     "Leganes": {
         "statarea_id": "537",
         "mongodb_id": "537",
@@ -1153,37 +1144,37 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "244",
         "country": "Portugal"
     },
-    # Lens | 116 | 116
+    # Matches "Lens"
     "Lens": {
         "statarea_id": "116",
         "mongodb_id": "116",
         "country": "France"
     },
-    # Levante | 539 | 539
+    # Matches "Levante"
     "Levante": {
         "statarea_id": "539",
         "mongodb_id": "539",
         "country": "Spain"
     },
-    # Lille | 79 | 79
+    # Matches "Lille"
     "Lille": {
         "statarea_id": "79",
         "mongodb_id": "79",
         "country": "France"
     },
-    # Liverpool | 40 | 40
+    # Matches "Liverpool"
     "Liverpool": {
         "statarea_id": "40",
         "mongodb_id": "40",
         "country": "England"
     },
-    # Lorient | 97 | 97
+    # Matches "Lorient"
     "Lorient": {
         "statarea_id": "97",
         "mongodb_id": "97",
         "country": "France"
     },
-    # Luton | 1359 | 1359
+    # Matches "Luton"
     "Luton": {
         "statarea_id": "1359",
         "mongodb_id": "1359",
@@ -1213,26 +1204,26 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "245",
         "country": "Portugal"
     },
-    # Malaga | 535 | 535
+    # Matches "Malaga"
     "Malaga": {
         "statarea_id": "535",
         "mongodb_id": "535",
         "country": "Spain"
     },
-    # Mallorca | 798 | 798
+    # Matches "Mallorca"
     "Mallorca": {
         "statarea_id": "798",
         "mongodb_id": "798",
         "country": "Spain"
     },
-    # Manchester City | 50 | 50
-    "Manchester City": {
+    # Renamed from "Manchester City"
+    "Man City": { # Note: Encoder uses "Man City"
         "statarea_id": "50",
         "mongodb_id": "50",
         "country": "England"
     },
-    # Manchester Utd | 33 | 33
-    "Manchester Utd": {
+    # Renamed from "Manchester Utd"
+    "Man United": { # Note: Encoder uses "Man United"
         "statarea_id": "33",
         "mongodb_id": "33",
         "country": "England"
@@ -1249,7 +1240,7 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "214",
         "country": "Portugal"
     },
-    # Marseille | 81 | 81
+    # Matches "Marseille"
     "Marseille": {
         "statarea_id": "81",
         "mongodb_id": "81",
@@ -1267,49 +1258,49 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "112",
         "country": "France"
     },
-    # Middlesbrough | 70 | 70
+    # Matches "Middlesbrough"
     "Middlesbrough": {
         "statarea_id": "70",
         "mongodb_id": "70",
         "country": "England"
     },
-    # Millwall | 58 | 58
+    # Matches "Millwall"
     "Millwall": {
         "statarea_id": "58",
         "mongodb_id": "58",
         "country": "England"
     },
-    # Mirandes | 799 | 799
+    # Matches "Mirandes"
     "Mirandes": {
         "statarea_id": "799",
         "mongodb_id": "799",
         "country": "Spain"
     },
-    # Modena | 899 | 899
+    # Matches "Modena"
     "Modena": {
         "statarea_id": "899",
         "mongodb_id": "899",
         "country": "Italy"
     },
-    # Monaco | 91 | 91
+    # Matches "Monaco"
     "Monaco": {
         "statarea_id": "91",
         "mongodb_id": "91",
         "country": "France"
     },
-    # Montpellier | 82 | 82
+    # Matches "Montpellier"
     "Montpellier": {
         "statarea_id": "82",
         "mongodb_id": "82",
         "country": "France"
     },
-    # Monza | 1579 | 1579
+    # Matches "Monza"
     "Monza": {
         "statarea_id": "1579",
         "mongodb_id": "1579",
         "country": "Italy"
     },
-    # Moreirense | 215 | 215
+    # Matches "Moreirense"
     "Moreirense": {
         "statarea_id": "215",
         "mongodb_id": "215",
@@ -1327,8 +1318,8 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "203",
         "country": "Netherlands"
     },
-    # NEC Nijmegen | 413 | 413
-    "NEC Nijmegen": {
+    # Renamed from "NEC Nijmegen"
+    "Nijmegen": { # Note: Encoder uses "Nijmegen"
         "statarea_id": "413",
         "mongodb_id": "413",
         "country": "Netherlands"
@@ -1369,109 +1360,99 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "225",
         "country": "Portugal"
     },
-    # Nantes | 83 | 83
+    # Matches "Nantes"
     "Nantes": {
         "statarea_id": "83",
         "mongodb_id": "83",
         "country": "France"
     },
-    # Napoli | 492 | 492
+    # Matches "Napoli"
     "Napoli": {
         "statarea_id": "492",
         "mongodb_id": "492",
         "country": "Italy"
     },
-    # Newcastle | 34 | 34
+    # Matches "Newcastle"
     "Newcastle": {
         "statarea_id": "34",
         "mongodb_id": "34",
         "country": "England"
     },
-    # Nice | 84 | 84
+    # Matches "Nice"
     "Nice": {
         "statarea_id": "84",
         "mongodb_id": "84",
         "country": "France"
     },
-    # Norwich | 71 | 71
+    # Matches "Norwich"
     "Norwich": {
         "statarea_id": "71",
         "mongodb_id": "71",
         "country": "England"
     },
-    # Nottingham Forest | 65 | 65
-    "Nottingham Forest": {
+    # Renamed from "Nottingham Forest"
+    "Nott'm Forest": { # Note: Abbreviation and apostrophe
         "statarea_id": "65",
         "mongodb_id": "65",
         "country": "England"
     },
-    # OH Leuven | 260 | 260
-    "OH Leuven": {
+    # Renamed from "OH Leuven"
+    "Oud-Heverlee Leuven": { # Note: Encoder uses full name
         "statarea_id": "260",
         "mongodb_id": "260",
         "country": "Belgium"
     },
-    # Oliveirense | 233 | 233
+    # Matches "Oliveirense"
     "Oliveirense": {
         "statarea_id": "233",
         "mongodb_id": "233",
         "country": "Portugal"
     },
-    # Olympiakos Piraeus | 553 | 553
-    "Olympiakos Piraeus": {
+    # Renamed from "Olympiakos Piraeus"
+    "Olympiakos": { # Note: Encoder uses "Olympiakos"
         "statarea_id": "553",
         "mongodb_id": "553",
         "country": "Greece"
     },
-    # Omonia | 3402 | 3402
-    "Omonia": {
-        "statarea_id": "3402",
-        "mongodb_id": "3402",
-        "country": "Cyprus"
-    },
-    # Osasuna | 727 | 727
+    # Omonia | 3402 | 3402 - Not found in encoder list
+    # Matches "Osasuna"
     "Osasuna": {
         "statarea_id": "727",
         "mongodb_id": "727",
         "country": "Spain"
     },
-    # Otelul Galati | 6886 | 6886
-    "Otelul Galati": {
-        "statarea_id": "6886",
-        "mongodb_id": "6886",
-        "country": "Romania"
-    },
-    # Oviedo | 718 | 718
+    # Otelul Galati | 6886 | 6886 - Not found in encoder list
+    # Matches "Oviedo"
     "Oviedo": {
         "statarea_id": "718",
         "mongodb_id": "718",
         "country": "Spain"
     },
-    # Oxford United | 1338 | 1338
-    "Oxford United": {
+    # Renamed from "Oxford United"
+    "Oxford": { # Note: Encoder uses "Oxford"
         "statarea_id": "1338",
         "mongodb_id": "1338",
         "country": "England"
     },
-    # PAOK | 619 | 619
+    # Matches "PAOK"
     "PAOK": {
         "statarea_id": "619",
         "mongodb_id": "619",
         "country": "Greece"
     },
-    # PEC Zwolle | 193 | 193
-    "PEC Zwolle": {
+    # Renamed from "PEC Zwolle"
+    "Zwolle": { # Note: Encoder uses "Zwolle"
         "statarea_id": "193",
         "mongodb_id": "193",
         "country": "Netherlands"
     },
-    # PSV | 197 | 197
-    "PSV": {
+    # Matches "PSV" - Assuming this maps correctly, encoder uses "PSV Eindhoven"
+    "PSV Eindhoven": { # Using the full name from encoder
         "statarea_id": "197",
         "mongodb_id": "197",
         "country": "Netherlands"
     },
-    # Pacos Ferreira | 234 | 234
+    # Matches "Pacos Ferreira"
     "Pacos Ferreira": {
         "statarea_id": "234",
         "mongodb_id": "234",
@@ -1489,37 +1470,37 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "522",
         "country": "Italy"
     },
-    # Panathinaikos | 617 | 617
+    # Matches "Panathinaikos"
     "Panathinaikos": {
         "statarea_id": "617",
         "mongodb_id": "617",
         "country": "Greece"
     },
-    # Paris FC | 114 | 114
+    # Matches "Paris FC"
     "Paris FC": {
         "statarea_id": "114",
         "mongodb_id": "114",
         "country": "France"
     },
-    # Paris Saint Germain | 85 | 85
-    "Paris Saint Germain": {
+    # Renamed from "Paris Saint Germain"
+    "Paris SG": { # Note: Encoder uses "Paris SG"
         "statarea_id": "85",
         "mongodb_id": "85",
         "country": "France"
     },
-    # Parma | 523 | 523
+    # Matches "Parma"
     "Parma": {
         "statarea_id": "523",
         "mongodb_id": "523",
         "country": "Italy"
     },
-    # Pau | 1297 | 1297
-    "Pau": {
+    # Renamed from "Pau"
+    "Pau FC": { # Note: Encoder uses "Pau FC"
         "statarea_id": "1297",
         "mongodb_id": "1297",
         "country": "France"
     },
-    # Penafiel | 235 | 235
+    # Matches "Penafiel"
     "Penafiel": {
         "statarea_id": "235",
         "mongodb_id": "235",
@@ -1537,7 +1518,7 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "801",
         "country": "Italy"
     },
-    # Plymouth | 1357 | 1357
+    # Matches "Plymouth"
     "Plymouth": {
         "statarea_id": "1357",
         "mongodb_id": "1357",
@@ -1555,32 +1536,32 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "216",
         "country": "Portugal"
     },
-    # Portsmouth | 1355 | 1355
+    # Matches "Portsmouth"
     "Portsmouth": {
         "statarea_id": "1355",
         "mongodb_id": "1355",
         "country": "England"
     },
-    # Preston | 59 | 59
+    # Matches "Preston"
     "Preston": {
         "statarea_id": "59",
         "mongodb_id": "59",
         "country": "England"
     },
-    # QPR | 72 | 72
+    # Matches "QPR"
     "QPR": {
         "statarea_id": "72",
         "mongodb_id": "72",
         "country": "England"
     },
-    # RB Leipzig | 173 | 173
+    # Matches "RB Leipzig"
     "RB Leipzig": {
         "statarea_id": "173",
         "mongodb_id": "173",
         "country": "Germany"
     },
-    # Racing Santander | 4665 | 4665
-    "Racing Santander": {
+    # Renamed from "Racing Santander"
+    "Santander": { # Note: Encoder uses "Santander"
         "statarea_id": "4665",
         "mongodb_id": "4665",
         "country": "Spain"
@@ -1622,91 +1603,91 @@ TEAM_ID_MAPPING = {
         "country": "Austria"
     },
     # Rayo Vallecano | 728 | 728
-    "Rayo Vallecano": {
+    "Vallecano": {
         "statarea_id": "728",
         "mongodb_id": "728",
         "country": "Spain"
     },
-    # Real Madrid | 541 | 541
+    # Matches "Real Madrid"
     "Real Madrid": {
         "statarea_id": "541",
         "mongodb_id": "541",
         "country": "Spain"
     },
-    # Real Sociedad | 548 | 548
-    "Real Sociedad": {
+    # Renamed from "Real Sociedad"
+    "Sociedad": { # Note: Encoder uses "Sociedad"
         "statarea_id": "548",
         "mongodb_id": "548",
         "country": "Spain"
     },
-    # Red Star | 104 | 104
+    # Matches "Red Star"
     "Red Star": {
         "statarea_id": "104",
         "mongodb_id": "104",
         "country": "France"
     },
-    # Reggiana | 880 | 880
+    # Matches "Reggiana"
     "Reggiana": {
         "statarea_id": "880",
         "mongodb_id": "880",
         "country": "Italy"
     },
-    # Reims | 93 | 93
+    # Matches "Reims"
     "Reims": {
         "statarea_id": "93",
         "mongodb_id": "93",
         "country": "France"
     },
-    # Rennes | 94 | 94
+    # Matches "Rennes"
     "Rennes": {
         "statarea_id": "94",
         "mongodb_id": "94",
         "country": "France"
     },
-    # Rio Ave | 226 | 226
+    # Matches "Rio Ave"
     "Rio Ave": {
         "statarea_id": "226",
         "mongodb_id": "226",
         "country": "Portugal"
     },
-    # Rizespor | 1007 | 1007
+    # Matches "Rizespor"
     "Rizespor": {
         "statarea_id": "1007",
         "mongodb_id": "1007",
         "country": "Turkey"
     },
-    # Roda | 414 | 414
+    # Matches "Roda"
     "Roda": {
         "statarea_id": "414",
         "mongodb_id": "414",
         "country": "Netherlands"
     },
-    # Rodez | 1301 | 1301
+    # Matches "Rodez"
     "Rodez": {
         "statarea_id": "1301",
         "mongodb_id": "1301",
         "country": "France"
     },
-    # Roma | 497 | 497
+    # Matches "Roma"
     "Roma": {
         "statarea_id": "497",
         "mongodb_id": "497",
         "country": "Italy"
     },
-    # SC Braga | 217 | 217
-    "SC Braga": {
+    # Renamed from "SC Braga"
+    "Sp Braga": { # Note: Encoder uses "Sp Braga"
         "statarea_id": "217",
         "mongodb_id": "217",
         "country": "Portugal"
     },
-    # SC Freiburg | 160 | 160
-    "SC Freiburg": {
+    # Renamed from "SC Freiburg"
+    "Freiburg": { # Note: Encoder uses "Freiburg"
         "statarea_id": "160",
         "mongodb_id": "160",
         "country": "Germany"
     },
-    # SC Paderborn 07 | 185 | 185
-    "SC Paderborn 07": {
+    # Renamed from "SC Paderborn 07"
+    "Paderborn": { # Note: Encoder uses "Paderborn"
         "statarea_id": "185",
         "mongodb_id": "185",
         "country": "Germany"
@@ -1718,42 +1699,42 @@ TEAM_ID_MAPPING = {
         "country": "Germany"
     },
     # SV Darmstadt 98 | 181 | 181
-    "SV Darmstadt 98": {
+    "Darmstadt": {
         "statarea_id": "181",
         "mongodb_id": "181",
         "country": "Germany"
     },
-    # SV Elversberg | 1660 | 1660
-    "SV Elversberg": {
+    # Renamed from "SV Elversberg"
+    "Elversberg": { # Note: Encoder uses "Elversberg"
         "statarea_id": "1660",
         "mongodb_id": "1660",
         "country": "Germany"
     },
-    # Salernitana | 514 | 514
+    # Matches "Salernitana"
     "Salernitana": {
         "statarea_id": "514",
         "mongodb_id": "514",
         "country": "Italy"
     },
-    # Sampdoria | 498 | 498
+    # Matches "Sampdoria"
     "Sampdoria": {
         "statarea_id": "498",
         "mongodb_id": "498",
         "country": "Italy"
     },
-    # Samsunspor | 3603 | 3603
+    # Matches "Samsunspor"
     "Samsunspor": {
         "statarea_id": "3603",
         "mongodb_id": "3603",
         "country": "Turkey"
     },
-    # Santa Clara | 227 | 227
+    # Matches "Santa Clara"
     "Santa Clara": {
         "statarea_id": "227",
         "mongodb_id": "227",
         "country": "Portugal"
     },
-    # Sassuolo | 488 | 488
+    # Matches "Sassuolo"
     "Sassuolo": {
         "statarea_id": "488",
         "mongodb_id": "488",
@@ -1771,15 +1752,15 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "536",
         "country": "Spain"
     },
-    # Sheffield Utd | 62 | 62
-    "Sheffield Utd": {
+    # Renamed from "Sheffield Utd"
+    "Sheffield United": { # Note: Encoder uses full name
         "statarea_id": "62",
         "mongodb_id": "62",
         "country": "England"
     },
-    # Sheffield Wed | 62 | 74
-    "Sheffield Wed": {
-        "statarea_id": "62",
+    # Renamed from "Sheffield Wed"
+    "Sheffield Weds": { # Note: Encoder uses "Sheffield Weds"
+        "statarea_id": "62", # Check if statarea_id is correct, DB ID is 74
         "mongodb_id": "74",
         "country": "England"
     },
@@ -1825,44 +1806,44 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "41",
         "country": "England"
     },
-    # SpVgg Greuther Furth | 178 | 178
-    "SpVgg Greuther Furth": {
+    # Renamed from "SpVgg Greuther Furth"
+    "Greuther Furth": { # Note: Encoder uses "Greuther Furth"
         "statarea_id": "178",
         "mongodb_id": "178",
         "country": "Germany"
     },
-    # Sparta Rotterdam | 426 | 426
+    # Matches "Sparta Rotterdam"
     "Sparta Rotterdam": {
         "statarea_id": "426",
         "mongodb_id": "426",
         "country": "Netherlands"
     },
-    # Spezia | 515 | 515
+    # Matches "Spezia"
     "Spezia": {
         "statarea_id": "515",
         "mongodb_id": "515",
         "country": "Italy"
     },
-    # Sporting CP | 228 | 228
-    "Sporting CP": {
+    # Renamed from "Sporting CP"
+    "Sp Lisbon": { # Note: Encoder uses "Sp Lisbon"
         "statarea_id": "228",
         "mongodb_id": "228",
         "country": "Portugal"
     },
-    # Sporting Gijon | 731 | 731
-    "Sporting Gijon": {
+    # Renamed from "Sporting Gijon"
+    "Sp Gijon": { # Note: Encoder uses "Sp Gijon"
         "statarea_id": "731",
         "mongodb_id": "731",
         "country": "Spain"
     },
-    # St Truiden | 735 | 735
+    # Matches "St Truiden"
     "St Truiden": {
         "statarea_id": "735",
         "mongodb_id": "735",
         "country": "Belgium"
     },
-    # Stade Brestois 29 | 106 | 106
-    "Stade Brestois 29": {
+    # Renamed from "Stade Brestois 29"
+    "Brest": { # Note: Encoder uses "Brest"
         "statarea_id": "106",
         "mongodb_id": "106",
         "country": "France"
@@ -1874,18 +1855,18 @@ TEAM_ID_MAPPING = {
         "country": "Poland"
     },
     # Standard Liege | 733 | 733
-    "Standard Liege": {
+    "Standard": {
         "statarea_id": "733",
         "mongodb_id": "733",
         "country": "Belgium"
     },
-    # Stoke City | 75 | 75
-    "Stoke City": {
+    # Renamed from "Stoke City"
+    "Stoke": { # Note: Encoder uses "Stoke"
         "statarea_id": "75",
         "mongodb_id": "75",
         "country": "England"
     },
-    # Strasbourg | 95 | 95
+    # Matches "Strasbourg"
     "Strasbourg": {
         "statarea_id": "95",
         "mongodb_id": "95",
@@ -1903,13 +1884,13 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "1578",
         "country": "Italy"
     },
-    # Sunderland | 746 | 746
+    # Matches "Sunderland"
     "Sunderland": {
         "statarea_id": "746",
         "mongodb_id": "746",
         "country": "England"
     },
-    # Swansea | 76 | 76
+    # Matches "Swansea"
     "Swansea": {
         "statarea_id": "76",
         "mongodb_id": "76",
@@ -1927,49 +1908,49 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "427",
         "country": "Netherlands"
     },
-    # Tenerife | 719 | 719
+    # Matches "Tenerife"
     "Tenerife": {
         "statarea_id": "719",
         "mongodb_id": "719",
         "country": "Spain"
     },
-    # Tondela | 218 | 218
+    # Matches "Tondela"
     "Tondela": {
         "statarea_id": "218",
         "mongodb_id": "218",
         "country": "Portugal"
     },
-    # Torino | 503 | 503
+    # Matches "Torino"
     "Torino": {
         "statarea_id": "503",
         "mongodb_id": "503",
         "country": "Italy"
     },
-    # Torreense | 4799 | 4799
+    # Matches "Torreense"
     "Torreense": {
         "statarea_id": "4799",
         "mongodb_id": "4799",
         "country": "Portugal"
     },
-    # Tottenham | 47 | 47
+    # Matches "Tottenham"
     "Tottenham": {
         "statarea_id": "47",
         "mongodb_id": "47",
         "country": "England"
     },
-    # Toulouse | 96 | 96
+    # Matches "Toulouse"
     "Toulouse": {
         "statarea_id": "96",
         "mongodb_id": "96",
         "country": "France"
     },
-    # Trabzonspor | 998 | 998
+    # Matches "Trabzonspor"
     "Trabzonspor": {
         "statarea_id": "998",
         "mongodb_id": "998",
         "country": "Turkey"
     },
-    # Twente | 415 | 415
+    # Matches "Twente"
     "Twente": {
         "statarea_id": "415",
         "mongodb_id": "415",
@@ -1987,20 +1968,20 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "494",
         "country": "Italy"
     },
-    # Union Berlin | 182 | 182
+    # Matches "Union Berlin"
     "Union Berlin": {
         "statarea_id": "182",
         "mongodb_id": "182",
         "country": "Germany"
     },
-    # Union St. Gilloise | 1393 | 1393
-    "Union St. Gilloise": {
+    # Renamed from "Union St. Gilloise"
+    "St. Gilloise": { # Note: Encoder uses "St. Gilloise"
         "statarea_id": "1393",
         "mongodb_id": "1393",
         "country": "Belgium"
     },
-    # Unione Venezia | 517 | 517
-    "Unione Venezia": {
+    # Renamed from "Unione Venezia"
+    "Venezia": { # Note: Encoder uses "Venezia"
         "statarea_id": "517",
         "mongodb_id": "517",
         "country": "Italy"
@@ -2017,19 +1998,19 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "207",
         "country": "Netherlands"
     },
-    # VVV Venlo | 204 | 204
+    # Matches "VVV Venlo"
     "VVV Venlo": {
         "statarea_id": "204",
         "mongodb_id": "204",
         "country": "Netherlands"
     },
-    # Valencia | 532 | 532
+    # Matches "Valencia"
     "Valencia": {
         "statarea_id": "532",
         "mongodb_id": "532",
         "country": "Spain"
     },
-    # Valladolid | 720 | 720
+    # Matches "Valladolid"
     "Valladolid": {
         "statarea_id": "720",
         "mongodb_id": "720",
@@ -2047,20 +2028,20 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "504",
         "country": "Italy"
     },
-    # VfB Stuttgart | 172 | 172
-    "VfB Stuttgart": {
+    # Renamed from "VfB Stuttgart"
+    "Stuttgart": { # Note: Encoder uses "Stuttgart"
         "statarea_id": "172",
         "mongodb_id": "172",
         "country": "Germany"
     },
-    # VfL Bochum | 176 | 176
-    "VfL Bochum": {
+    # Renamed from "VfL Bochum"
+    "Bochum": { # Note: Encoder uses "Bochum"
         "statarea_id": "176",
         "mongodb_id": "176",
         "country": "Germany"
     },
-    # VfL Wolfsburg | 161 | 161
-    "VfL Wolfsburg": {
+    # Renamed from "VfL Wolfsburg"
+    "Wolfsburg": { # Note: Encoder uses "Wolfsburg"
         "statarea_id": "161",
         "mongodb_id": "161",
         "country": "Germany"
@@ -2083,61 +2064,61 @@ TEAM_ID_MAPPING = {
         "mongodb_id": "533",
         "country": "Spain"
     },
-    # Vitesse | 200 | 200
+    # Matches "Vitesse"
     "Vitesse": {
         "statarea_id": "200",
         "mongodb_id": "200",
         "country": "Netherlands"
     },
-    # Vizela | 810 | 810
+    # Matches "Vizela"
     "Vizela": {
         "statarea_id": "810",
         "mongodb_id": "810",
         "country": "Portugal"
     },
-    # Volendam | 416 | 416
+    # Matches "Volendam"
     "Volendam": {
         "statarea_id": "416",
         "mongodb_id": "416",
         "country": "Netherlands"
     },
-    # Waalwijk | 417 | 417
+    # Matches "Waalwijk"
     "Waalwijk": {
         "statarea_id": "417",
         "mongodb_id": "417",
         "country": "Netherlands"
     },
-    # Watford | 38 | 38
+    # Matches "Watford"
     "Watford": {
         "statarea_id": "38",
         "mongodb_id": "38",
         "country": "England"
     },
-    # Werder Bremen | 162 | 162
+    # Matches "Werder Bremen"
     "Werder Bremen": {
         "statarea_id": "162",
         "mongodb_id": "162",
         "country": "Germany"
     },
-    # West Brom | 60 | 60
+    # Matches "West Brom"
     "West Brom": {
         "statarea_id": "60",
         "mongodb_id": "60",
         "country": "England"
     },
-    # West Ham | 48 | 48
+    # Matches "West Ham"
     "West Ham": {
         "statarea_id": "48",
         "mongodb_id": "48",
         "country": "England"
     },
-    # Willem II | 195 | 195
+    # Matches "Willem II"
     "Willem II": {
         "statarea_id": "195",
         "mongodb_id": "195",
         "country": "Netherlands"
     },
-    # Wolves | 39 | 39
+    # Matches "Wolves"
     "Wolves": {
         "statarea_id": "39",
         "mongodb_id": "39",
@@ -2156,3 +2137,4 @@ TEAM_ID_MAPPING = {
         "country": "Spain"
     },
 }
+

@@ -22,3 +22,4 @@ safetensors>=0.4.0
 mlflow
 pyarrow
 cvxpy>=1.4.0
+dnspython
