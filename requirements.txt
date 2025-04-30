@@ -23,3 +23,4 @@ mlflow
 pyarrow
 cvxpy>=1.4.0
 dnspython
+tensorflow
