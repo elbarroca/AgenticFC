@@ -933,6 +933,49 @@ class MongoDBManager:
             logger.error(f"Error retrieving match processor data for fixture {fixture_id}: {e}")
             return None
 
+    def get_fixture_seasons_bulk(self, fixture_ids: Set[str]) -> Dict[str, int]:
+        """
+        Retrieves the season for a bulk set of fixture IDs from the 'matches' collection.
+
+        Args:
+            fixture_ids: A set of fixture ID strings.
+
+        Returns:
+            A dictionary mapping fixture_id (str) to season (int).
+            Returns an empty dict if DB is not initialized or on error.
+        """
+        if not self._initialized or self._matches_collection is None:
+            logger.error("MongoDBManager not initialized or matches_collection is None. Cannot fetch fixture seasons.")
+            return {}
+
+        if not fixture_ids:
+            logger.debug("No fixture IDs provided to get_fixture_seasons_bulk.")
+            return {}
+
+        fixture_season_map: Dict[str, int] = {}
+        try:
+            query = {"_id": {"$in": list(fixture_ids)}}
+            # Project only the necessary fields: _id and season
+            projection = {"_id": 1, "season": 1}
+
+            cursor = self._matches_collection.find(query, projection)
+
+            for doc in cursor:
+                fixture_id_str = doc.get("_id")
+                season = doc.get("season")
+                if fixture_id_str and isinstance(season, int):
+                    fixture_season_map[fixture_id_str] = season
+                elif fixture_id_str:
+                     logger.warning(f"Fixture {fixture_id_str} found but missing valid integer 'season' field.")
+
+
+            logger.info(f"Retrieved season mapping for {len(fixture_season_map)} out of {len(fixture_ids)} requested fixture IDs.")
+            return fixture_season_map
+
+        except Exception as e:
+            logger.error(f"Error retrieving bulk fixture seasons: {e}", exc_info=True)
+            return {}
+
 
 # Singleton instance (initialization happens on first call)
 # Ensure initialization uses the desired DB name if not default

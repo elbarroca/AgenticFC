@@ -421,7 +421,7 @@ async def run_full_historical_fetch(
     start_time = time.time()
 
     # --- Step 1: Identify Missing Details ---
-    logger.info("--- Step 1: Identifying Missing Fixture Details ---")
+    logger.info("--- Step 1 (run_full): Identifying Missing Fixture Details ---")
 
     # Get IDs of matches already present in the 'matches' collection from the target set
     existing_match_ids_str: Set[str] = await loop.run_in_executor(
@@ -453,7 +453,7 @@ async def run_full_historical_fetch(
 
     # --- Step 2: Process Details for Missing Fixtures ---
     sorted_fixtures_to_process = sorted(list(fixtures_to_process_int))
-    logger.info(f"--- Step 2: Processing Details for {total_fixtures_to_process} Missing Fixtures ---")
+    logger.info(f"--- Step 2 (run_full): Processing Details for {total_fixtures_to_process} Missing Fixtures ---")
 
     process_tasks = [
         process_fixture_async(session, semaphore, fixture_id, loop)
@@ -486,7 +486,8 @@ async def run_full_historical_fetch(
              if processed_count % 100 == 0 or processed_count == total_fixtures_to_process:
                   elapsed_time = time.time() - process_start_time
                   rate = processed_count / elapsed_time if elapsed_time > 0 else 0
-                  logger.info(f"Processed {processed_count}/{total_fixtures_to_process} missing fixture details... ({rate:.2f} fix/sec)")
+                  remaining_count = total_fixtures_to_process - processed_count # Calculate remaining
+                  logger.info(f"Detail Fetch Progress: Processed {processed_count}/{total_fixtures_to_process} ({remaining_count} remaining). Rate: {rate:.2f} fix/sec")
 
     end_time = time.time()
     processed_or_existing_ids.update(successfully_saved_ids) # Add newly saved IDs
@@ -515,14 +516,169 @@ async def run_full_historical_fetch(
          logger.info(f"     - Detail Process Errors: {summary['ERROR_PROCESS']}")
          logger.info(f"     - Uncaught Errors: {summary['ERROR_UNCAUGHT']}")
     logger.info(f"Total Execution Time: {end_time - start_time:.2f} seconds")
-    logger.info("--- Historical Detail Fetch Complete ---")
+    logger.info("--- Historical Data Detail Fetch Complete (End of run_full) ---")
 
     return processed_or_existing_ids # Return all relevant IDs
 
 
-# New async main function to orchestrate the steps
-async def main_fetch_pipeline(target_league_ids: List[int], target_seasons: List[int]):
-    """Runs the multi-step historical data fetching pipeline for target leagues."""
+# --- New Async Function for Fetching Odds ---
+async def process_fixture_odds_async(
+    session: aiohttp.ClientSession,
+    semaphore: asyncio.Semaphore,
+    fixture_id: int,
+    loop: asyncio.AbstractEventLoop
+) -> str:
+    """
+    Fetches odds for a fixture ID, checks the 'odds' DB collection, and saves if new.
+    Returns a status string like "SAVED_ODDS", "SKIPPED_ODDS", "ERROR_ODDS".
+    """
+    fixture_id_str = str(fixture_id)
+    logger.debug(f"Processing odds for fixture ID: {fixture_id_str}")
+    status = "INIT"
+
+    # 1. Check DB if odds already exist for this fixture
+    try:
+        # Assumes db_manager has check_odds_exist(fixture_id_str) -> bool
+        odds_exist = await loop.run_in_executor(None, db_manager.check_odds_exist, fixture_id_str)
+        if odds_exist:
+            logger.debug(f"Odds for fixture {fixture_id_str} already exist in DB. Skipping fetch.")
+            return "SKIPPED_ODDS"
+        else:
+             logger.debug(f"Odds for fixture {fixture_id_str} need fetching.")
+    except AttributeError:
+         logger.error("db_manager does not have 'check_odds_exist' method. Cannot check for existing odds.")
+         logger.warning(f"Proceeding to fetch odds for {fixture_id_str} without checking existence.")
+    except Exception as db_check_err:
+         logger.error(f"Error checking DB for odds for fixture {fixture_id_str}: {db_check_err}. Cannot proceed reliably.", exc_info=True)
+         return "ERROR_ODDS_DB_CHECK"
+
+    # 2. Fetch Odds Data (Standard /odds endpoint)
+    # NOTE: Prematch odds for recent seasons might be handled elsewhere (e.g., process_fixture_async)
+    logger.info(f"Fetching historical odds data (standard /odds) for fixture {fixture_id_str}")
+    params_fixture = {"fixture": fixture_id_str}
+    odds_resp = await _make_async_api_request(session, semaphore, "odds", params_fixture)
+
+    # 3. Process and Save Odds
+    if odds_resp and odds_resp.get("response"):
+        odds_data_to_save = {
+            "_id": fixture_id_str, # Use fixture_id as the document ID
+            "fixture_id": fixture_id_str,
+            "odds_data": odds_resp["response"], # Store the list of odds/bookmakers
+            "fetch_timestamp_utc": datetime.now(timezone.utc)
+            # Consider adding season/league info here if available and useful for the odds collection
+        }
+        try:
+            # Wrap the call in a lambda to pass the dictionary correctly to the refactored method
+            success = await loop.run_in_executor(
+                None,
+                lambda: db_manager.save_odds_data(odds_data_to_save) # Pass dict via lambda
+            )
+            if success:
+                logger.info(f"Successfully saved historical odds for fixture {fixture_id_str}")
+                status = "SAVED_ODDS"
+            else:
+                logger.error(f"db_manager.save_odds_data indicated failure for odds fixture {fixture_id_str}.")
+                status = "ERROR_ODDS_SAVE"
+        except AttributeError:
+             logger.error("db_manager does not have 'save_odds_data' method. Cannot save odds.")
+             status = "ERROR_ODDS_SAVE_MISSING_METHOD"
+        except Exception as db_save_err:
+            logger.error(f"Exception during MongoDB historical odds save for fixture {fixture_id_str}: {db_save_err}", exc_info=True)
+            status = "ERROR_ODDS_SAVE"
+    elif odds_resp and odds_resp.get("results") == 0:
+         logger.warning(f"No historical odds data found (results: 0) for fixture {fixture_id_str}.")
+         status = "SKIPPED_ODDS_NO_DATA"
+    else:
+        logger.error(f"Failed to fetch or parse historical odds response for fixture {fixture_id_str}.")
+        status = "ERROR_ODDS_FETCH"
+
+    return status
+
+
+# --- New Async Function for Fetching Standings ---
+async def fetch_league_season_standings_async(
+    session: aiohttp.ClientSession,
+    semaphore: asyncio.Semaphore,
+    league_id: int,
+    season: int,
+    loop: asyncio.AbstractEventLoop
+) -> str:
+    """
+    Fetches standings for a league/season, checks DB, and saves if new.
+    Returns status like "SAVED_STANDINGS", "SKIPPED_STANDINGS", "ERROR_STANDINGS".
+    """
+    logger.debug(f"Processing standings for League: {league_id}, Season: {season}")
+    status = "INIT"
+    standings_key = f"{league_id}_{season}" # Example key for DB check/save
+
+    # 1. Check DB if standings already exist
+    try:
+        # Assume db_manager.check_standings_exist(league_id, season)
+        standings_exist = await loop.run_in_executor(None, db_manager.check_standings_exist, league_id, season)
+        if standings_exist:
+            logger.debug(f"Standings for {standings_key} already exist. Skipping fetch.")
+            return "SKIPPED_STANDINGS"
+        else:
+            logger.debug(f"Standings for {standings_key} need fetching.")
+    except AttributeError:
+        logger.error("db_manager does not have 'check_standings_exist' method.")
+        logger.warning(f"Proceeding to fetch standings for {standings_key} without checking existence.")
+    except Exception as db_check_err:
+         logger.error(f"Error checking DB for standings {standings_key}: {db_check_err}. Cannot proceed reliably.", exc_info=True)
+         return "ERROR_STANDINGS_DB_CHECK"
+
+    # 2. Fetch Standings Data
+    logger.info(f"Fetching standings data for League: {league_id}, Season: {season}")
+    params = {"league": str(league_id), "season": str(season)}
+    standings_resp = await _make_async_api_request(session, semaphore, "standings", params)
+
+    # 3. Process and Save Standings
+    if standings_resp and standings_resp.get("response"):
+        if len(standings_resp["response"]) > 0:
+            standings_data_raw = standings_resp["response"][0]
+            standings_data_to_save = {
+                "_id": standings_key,
+                "league_id": league_id,
+                "season": season,
+                "standings_data": standings_data_raw,
+                "fetch_timestamp_utc": datetime.now(timezone.utc)
+            }
+            try:
+                # Wrap the call in a lambda for the refactored method
+                success = await loop.run_in_executor(
+                    None,
+                    lambda: db_manager.save_standings_data(standings_data_to_save) # Pass dict via lambda
+                )
+                if success:
+                    logger.info(f"Successfully saved standings for {standings_key}")
+                    status = "SAVED_STANDINGS"
+                else:
+                    logger.error(f"db_manager.save_standings_data failed for {standings_key}.")
+                    status = "ERROR_STANDINGS_SAVE"
+            except AttributeError:
+                logger.error("db_manager does not have 'save_standings_data' method.")
+                status = "ERROR_STANDINGS_SAVE_MISSING_METHOD"
+            except Exception as db_save_err:
+                logger.error(f"Exception during MongoDB standings save for {standings_key}: {db_save_err}", exc_info=True)
+                status = "ERROR_STANDINGS_SAVE"
+        else:
+             logger.warning(f"Standings response for {standings_key} was empty.")
+             status = "SKIPPED_STANDINGS_EMPTY_RESP"
+    elif standings_resp and standings_resp.get("results") == 0:
+         logger.warning(f"No standings data found (results: 0) for {standings_key}.")
+         status = "SKIPPED_STANDINGS_NO_DATA"
+    else:
+        logger.error(f"Failed to fetch or parse standings response for {standings_key}.")
+        status = "ERROR_STANDINGS_FETCH"
+
+    return status
+
+
+# --- Modified Main Async Orchestration Logic ---
+
+async def main_fetch_pipeline(target_seasons: List[int]): # Removed target_league_ids
+    """Runs the multi-step historical data fetching pipeline based on teams."""
+    logger.info("=== PIPELINE START ===") # Overall start
     logger.info("Attempting to initialize DB Manager...")
     db_initialized = False
     match_processor_instance = None
@@ -544,52 +700,196 @@ async def main_fetch_pipeline(target_league_ids: List[int], target_seasons: List
         else:
             logger.warning("MatchProcessor could not be initialized. Proceeding without MatchProcessor step.")
 
-        logger.info(f"Target Leagues: {target_league_ids}")
+        # --- Get Team IDs from Mapping ---
+        if not TEAM_ID_MAPPING:
+             logger.error("TEAM_ID_MAPPING is empty. Cannot determine target teams. Check import.")
+             return
+        target_team_ids = [int(team_info["mongodb_id"]) for team_info in TEAM_ID_MAPPING.values() if team_info.get("mongodb_id")]
+        if not target_team_ids:
+             logger.error("No valid 'mongodb_id' found in TEAM_ID_MAPPING. Cannot determine target teams.")
+             return
+        logger.info(f"Target Teams based on TEAM_ID_MAPPING: {len(target_team_ids)}")
         logger.info(f"Target Seasons: {target_seasons}")
+
 
         # --- Shared Async Resources ---
         semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
-        # Increased connector limits slightly
         connector = aiohttp.TCPConnector(limit=MAX_CONCURRENT_REQUESTS * 2 + 5, limit_per_host=MAX_CONCURRENT_REQUESTS + 5)
-        # Increased overall timeout
         async with aiohttp.ClientSession(connector=connector, timeout=aiohttp.ClientTimeout(total=90)) as session:
             loop = asyncio.get_running_loop()
 
-            logger.info("--- STEP 1: Fetching Target Fixture IDs ---")
-            all_target_fixture_ids = await fetch_target_league_fixtures(
-                session, semaphore, target_league_ids, target_seasons
+            # --- STEP 1: Fetching Target Fixture IDs from DB based on Teams/Seasons ---
+            logger.info("--- PIPELINE STAGE: STEP 1 - Fetching Target Fixture IDs from DB ---")
+            step1_start = time.time()
+            # Fetch fixture IDs associated with the target teams and seasons from the database
+            all_target_fixture_ids_int: Set[int] = await loop.run_in_executor(
+                None,
+                db_manager.get_fixture_ids_for_teams_seasons,
+                target_team_ids,
+                target_seasons
             )
+            # Convert to strings for consistency with DB operations that use string IDs
+            all_target_fixture_ids_str: Set[str] = {str(fid) for fid in all_target_fixture_ids_int}
+            logger.info(f"Step 1 completed in {time.time() - step1_start:.2f}s. Found {len(all_target_fixture_ids_str)} unique fixture IDs in DB for target teams/seasons.")
 
-            if not all_target_fixture_ids:
-                logger.warning("No fixture IDs found for the target leagues/seasons. Exiting pipeline.")
-                return
+            if not all_target_fixture_ids_str:
+                logger.warning("No fixture IDs found in the database for the target teams/seasons. Pipeline might fetch details if API has newer data not reflected in team lists, or exit if no new fixtures found by API.")
+                # We might still proceed to Step 2 which checks the API based on these teams/seasons directly,
+                # but it's more efficient if team_season_fixtures is populated first.
+                # For now, let's proceed to Step 2 which uses all_target_fixture_ids_int
+                # Re-convert back to int set for run_full_historical_fetch which expects Set[int]
+                all_target_fixture_ids_int = {int(fid_str) for fid_str in all_target_fixture_ids_str}
+                # Let's reconsider this. run_full_historical_fetch takes Set[int]. Let's keep using ints internally where possible.
+                # The original fetch_target_league_fixtures returned List[int], which was converted to Set[int].
+                # Let's stick to Set[int] for all_target_fixture_ids.
 
-            logger.info(f"--- STEP 2: Running Historical Fetch for Fixture Details ---")
-            # Pass session, semaphore, loop, and the fetched IDs
-            processed_fixture_ids = await run_full_historical_fetch(
-                session, semaphore, loop, all_target_fixture_ids
-            )
-
-            if not processed_fixture_ids:
-                 logger.warning("No fixtures were processed or found existing in Step 2. Skipping MatchProcessor step.")
+            if not all_target_fixture_ids_int:
+                 logger.warning("No fixture IDs found in the database for the target teams/seasons. Exiting pipeline as no fixtures identified.")
                  return
 
-            # --- STEP 3: Run MatchProcessor ---
-            if match_processor_instance:
-                logger.info(f"--- STEP 3: Running MatchProcessor for {len(processed_fixture_ids)} Fixtures ---")
-                # Convert set to list for MatchProcessor
-                fixture_id_list_for_processor = list(processed_fixture_ids)
-                try:
-                     # Pass force_reprocess=False to avoid re-fetching data already processed by it
-                     processor_results = await match_processor_instance.process_fixtures(
-                         fixture_id_list_for_processor,
-                         force_reprocess=False
-                     )
-                     logger.info(f"MatchProcessor finished. Results: {processor_results}")
-                except Exception as mp_err:
-                     logger.error(f"Error running MatchProcessor: {mp_err}", exc_info=True)
+
+            # --- STEP 2: Running Historical Fetch for Core Fixture Details ---
+            logger.info(f"--- PIPELINE STAGE: STEP 2 - Fetching/Verifying Core Fixture Details ({len(all_target_fixture_ids_int)} fixtures) ---")
+            step2_start = time.time()
+            # This function fetches details (basic, stats, events, etc.) and saves to 'matches' collection
+            # It returns the set of IDs that were successfully processed OR already existed with details.
+            # It takes Set[int] and returns Set[int].
+            processed_fixture_ids_int: Set[int] = await run_full_historical_fetch(
+                session, semaphore, loop, all_target_fixture_ids_int # Pass the Set[int]
+            )
+            processed_fixture_ids_str: Set[str] = {str(fid) for fid in processed_fixture_ids_int} # Convert to strings for next steps
+            logger.info(f"Step 2 completed in {time.time() - step2_start:.2f}s. {len(processed_fixture_ids_str)} fixtures now have details in DB.")
+
+            if not processed_fixture_ids_str:
+                 logger.warning("No fixtures were processed or found with details in Step 2. Skipping remaining steps.")
+                 return
+
+            # --- STEP 2.5: Get Season Info for Processed Fixtures ---
+            logger.info(f"--- PIPELINE STAGE: STEP 2.5 - Fetching Season Info for {len(processed_fixture_ids_str)} Processed Fixtures ---")
+            step2_5_start = time.time()
+            fixture_season_map: Dict[str, int] = await loop.run_in_executor(
+                None,
+                db_manager.get_fixture_seasons_bulk,
+                processed_fixture_ids_str # Pass the Set[str]
+            )
+            logger.info(f"Step 2.5 completed in {time.time() - step2_5_start:.2f}s. Found season info for {len(fixture_season_map)} fixtures.")
+
+
+            # --- STEP 3: Fetching Odds Data ---
+            # Fetch odds for all fixtures that were processed or already existed.
+            # No conditional logic based on year here, fetch for all.
+            total_odds_to_process = len(processed_fixture_ids_int) # Define total here
+            logger.info(f"--- PIPELINE STAGE: STEP 3 - Fetching Odds Data ({total_odds_to_process} potential fixtures) ---")
+            step3_start = time.time()
+            odds_tasks = [
+                process_fixture_odds_async(session, semaphore, fixture_id, loop)
+                for fixture_id in processed_fixture_ids_int # Use the int IDs here as process_fixture_odds_async expects int
+            ]
+            odds_results = []
+            processed_odds_count = 0
+
+            for f in asyncio.as_completed(odds_tasks):
+                 try:
+                     result = await f
+                     odds_results.append(result)
+                 except Exception as e:
+                     logger.error(f"Critical error awaiting odds task result: {e}", exc_info=True)
+                     odds_results.append("ERROR_ODDS_UNCAUGHT")
+                 finally:
+                     processed_odds_count += 1
+                     if processed_odds_count % 500 == 0 or processed_odds_count == total_odds_to_process:
+                          elapsed_time = time.time() - step3_start
+                          rate = processed_odds_count / elapsed_time if elapsed_time > 0 else 0
+                          remaining_count = total_odds_to_process - processed_odds_count # Calculate remaining
+                          logger.info(f"Odds Fetch Progress: Processed {processed_odds_count}/{total_odds_to_process} ({remaining_count} remaining). Rate: {rate:.2f} odds/sec")
+
+
+            # Summarize Odds Results
+            odds_summary = {status: odds_results.count(status) for status in set(odds_results)}
+            logger.info(f"Step 3 (Odds Fetch) completed in {time.time() - step3_start:.2f}s.")
+            logger.info(f"Odds Fetch Summary: {odds_summary}")
+
+
+            # --- STEP 4: Fetching Standings Data ---
+            # Standings are league/season based, independent of specific fixtures.
+            # We need target_league_ids for this. We can derive them from the team mapping.
+            league_ids_from_teams = set()
+            if TEAM_ID_MAPPING:
+                # Assuming team mapping might be incomplete, let's get leagues from processed fixtures
+                 # We need league IDs. Let's get them from the processed fixtures' details.
+                 # This requires another DB call or modifying get_fixture_seasons_bulk.
+                 # Alternative: Re-introduce TARGET_LEAGUE_IDS globally for standings fetch.
+                 # Let's use the globally defined TARGET_LEAGUE_IDS for simplicity here.
+                 standings_target_league_ids = TARGET_LEAGUE_IDS # Use globally defined leagues for standings
+                 logger.info(f"Using globally defined TARGET_LEAGUE_IDS for standings: {standings_target_league_ids}")
+
             else:
-                 logger.info("--- STEP 3: Skipped (MatchProcessor not available) ---")
+                 standings_target_league_ids = []
+                 logger.warning("Cannot determine target leagues for standings (TEAM_ID_MAPPING empty or global list missing). Skipping standings fetch.")
+
+
+            if standings_target_league_ids:
+                logger.info(f"--- PIPELINE STAGE: STEP 4 - Fetching Standings Data ({len(standings_target_league_ids)} leagues x {len(target_seasons)} seasons) ---")
+                step4_start = time.time()
+                standings_tasks = []
+                for league_id in standings_target_league_ids:
+                    for season in target_seasons:
+                        standings_tasks.append(
+                            fetch_league_season_standings_async(session, semaphore, league_id, season, loop)
+                        )
+
+                standings_results = []
+                processed_standings_count = 0
+                total_standings_to_process = len(standings_tasks)
+
+                for f in asyncio.as_completed(standings_tasks):
+                     try:
+                         result = await f
+                         standings_results.append(result)
+                     except Exception as e:
+                         logger.error(f"Critical error awaiting standings task result: {e}", exc_info=True)
+                         standings_results.append("ERROR_STANDINGS_UNCAUGHT")
+                     finally:
+                         processed_standings_count += 1
+                         if processed_standings_count % 50 == 0 or processed_standings_count == total_standings_to_process:
+                               elapsed_time = time.time() - step4_start
+                               rate = processed_standings_count / elapsed_time if elapsed_time > 0 else 0
+                               logger.info(f"Processed {processed_standings_count}/{total_standings_to_process} standings requests... ({rate:.2f} standing/sec)")
+
+
+                # Summarize Standings Results
+                standings_summary = {status: standings_results.count(status) for status in set(standings_results)}
+                logger.info(f"Step 4 (Standings Fetch) completed in {time.time() - step4_start:.2f}s.")
+                logger.info(f"Standings Fetch Summary: {standings_summary}")
+            else:
+                 logger.info("--- PIPELINE STAGE: STEP 4 - Skipped (No target leagues identified for standings) ---")
+
+
+            # --- STEP 5: Run MatchProcessor (Conditional) ---
+            if match_processor_instance:
+                 # Filter fixtures based on season (>= 2023) using the map from Step 2.5
+                 fixture_ids_for_processor_int = [
+                     int(fid_str) for fid_str, season in fixture_season_map.items()
+                     if season >= 2023
+                 ]
+
+                 if fixture_ids_for_processor_int:
+                     logger.info(f"--- PIPELINE STAGE: STEP 5 - Running MatchProcessor for {len(fixture_ids_for_processor_int)} Fixtures (Season >= 2023) ---")
+                     step5_start = time.time()
+                     try:
+                         # Assuming MatchProcessor.process_fixtures takes a list of integers
+                         processor_results = await match_processor_instance.process_fixtures(
+                             fixture_ids_for_processor_int,
+                             force_reprocess=False
+                         )
+                         logger.info(f"MatchProcessor finished. Results: {processor_results}")
+                         logger.info(f"Step 5 (MatchProcessor) completed in {time.time() - step5_start:.2f}s.")
+                     except Exception as mp_err:
+                         logger.error(f"Error running MatchProcessor: {mp_err}", exc_info=True)
+                 else:
+                      logger.warning(f"--- PIPELINE STAGE: STEP 5 - Skipped (No processed fixtures found from season 2023 onwards) ---")
+            else:
+                 logger.info("--- PIPELINE STAGE: STEP 5 - Skipped (MatchProcessor not available) ---")
 
 
     except ConnectionFailure as cf:
@@ -598,21 +898,31 @@ async def main_fetch_pipeline(target_league_ids: List[int], target_seasons: List
          traceback.print_exc()
     except Exception as e:
         logger.error(f"Critical error during fetch pipeline execution: {e}", exc_info=True)
-    # Note: DB connection closure is handled in the __main__ block's finally clause
+    finally:
+        logger.info("=== PIPELINE END ===") # Overall end
+        # Ensure connection closure happens even if main_fetch_pipeline fails early
+        if 'db_manager' in locals() and hasattr(db_manager, '_initialized') and db_manager._initialized and hasattr(db_manager, '_client') and db_manager._client:
+             db_manager.close_connection()
+             logger.info("DB Connection closed.")
+        elif 'db_manager' in locals() and hasattr(db_manager, '_initialized') and not db_manager._initialized:
+             logger.info("DB Manager was not initialized, no connection to close.")
+        else:
+             logger.info("DB connection was likely already closed or not established.") 
 
 
 if __name__ == "__main__":
     # --- Configuration for the run ---
-    TARGET_SEASONS = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006] # Seasons from 2024 to 2006
+    TARGET_SEASONS = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000] # Seasons from 2024 to 2000
 
-    # Use the TARGET_LEAGUE_IDS defined globally near the top
-    logger.info(f"Selected Target Leagues: {TARGET_LEAGUE_IDS}")
+    # TARGET_LEAGUE_IDS is still used for Standings Fetch (Step 4)
+    logger.info(f"Selected Target Leagues (for Standings): {TARGET_LEAGUE_IDS}")
     logger.info(f"Selected Target Seasons: {TARGET_SEASONS}")
-    # logger.info(f"Processing teams from TEAM_ID_MAPPING (ensure db_ids/team_id_mappings.py exists and is importable)")
+    logger.info(f"Fetching fixtures based on teams in TEAM_ID_MAPPING.")
+
 
     try:
-        # Run the entire async pipeline with the target leagues and seasons
-        asyncio.run(main_fetch_pipeline(TARGET_LEAGUE_IDS, TARGET_SEASONS))
+        # Run the entire async pipeline with the target seasons (leagues are derived or used globally)
+        asyncio.run(main_fetch_pipeline(TARGET_SEASONS)) # Pass only seasons
 
     except Exception as e:
         # Catch any broad exceptions during asyncio.run() setup or teardown if any
