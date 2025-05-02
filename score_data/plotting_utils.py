@@ -2,8 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import logging
-from typing import Dict, Any, Tuple, Optional
+from typing import Dict, Any, Tuple, Optional, List
 from scipy.stats import levy_stable # Import Levy Stable distribution
+from decimal import Decimal, InvalidOperation # Added InvalidOperation
 
 logger = logging.getLogger(__name__)
 
@@ -324,3 +325,153 @@ def create_combined_fixture_plot(
         # Ensure figure is closed regardless of saving success
         if plt.fignum_exists(fig.number):
             plt.close(fig) 
+
+
+def get_metric_value(paper: Dict[str, Any], metric_key: str) -> Optional[float]:
+    """Helper function to get metric values from paper data."""
+    try:
+        # First check paper_metrics
+        if metric_key in paper.get('paper_metrics', {}):
+            return float(paper['paper_metrics'][metric_key])
+        # Then check top level
+        elif metric_key in paper:
+            return float(paper[metric_key])
+        return None
+    except (ValueError, TypeError):
+        return None
+
+
+def plot_paper_scatter_mpl(papers_data: list, output_file: str,
+                           x_axis_metric: str, y_axis_metric: str,
+                           color_metric: str = None, size_metric: str = None,
+                           title: str = "Betting Paper Analysis",
+                           default_size: int = 30, size_multiplier: float = 500.0,
+                           x_log: bool = False, y_log: bool = False):
+    """
+    Generates a scatter plot of betting papers using Matplotlib.
+
+    Args:
+        papers_data: List of paper dictionaries (output from generate_papers).
+        output_file: Path to save the generated PNG plot.
+        x_axis_metric: Key for the metric on the x-axis (from paper_metrics or top-level).
+        y_axis_metric: Key for the metric on the y-axis.
+        color_metric: Key for the metric determining marker color (optional).
+        size_metric: Key for the metric determining marker size (optional).
+        title: Title for the plot.
+        default_size: Default marker size if size_metric is not used or invalid.
+        size_multiplier: Factor to scale the size_metric values for visibility.
+        x_log: Whether to use a logarithmic scale for the x-axis.
+        y_log: Whether to use a logarithmic scale for the y-axis.
+    """
+    if not papers_data:
+        logger.warning("No paper data provided for plotting. Skipping plot generation.")
+        return
+
+    x_values, y_values, colors, sizes = [], [], [], []
+    valid_points = 0
+
+    for paper in papers_data:
+        x = get_metric_value(paper, x_axis_metric)
+        y = get_metric_value(paper, y_axis_metric)
+
+        # Skip points with invalid essential coordinates
+        if x is None or y is None:
+            logger.debug(f"Skipping point for paper {paper.get('paper_id')}: Missing X ({x_axis_metric}={x}) or Y ({y_axis_metric}={y}).")
+            continue
+        # Skip points if log scale is requested and value is non-positive
+        if (x_log and x <= 0) or (y_log and y <= 0):
+            logger.debug(f"Skipping point for paper {paper.get('paper_id')} due to non-positive value for log scale axis (X:{x}, Y:{y}).")
+            continue
+
+        x_values.append(x)
+        y_values.append(y)
+
+        # Determine color
+        c_val = None
+        if color_metric:
+            c_val = get_metric_value(paper, color_metric)
+            # Handle cases like 'num_legs' which might be discrete
+            if c_val is None and color_metric == 'num_legs':
+                c_val = paper.get('paper_metrics', {}).get('num_legs') # Get directly if metric helper fails
+
+        colors.append(c_val if c_val is not None else np.nan) # Use NaN for missing color values
+
+        # Determine size
+        s_val = None
+        if size_metric:
+            s_val = get_metric_value(paper, size_metric)
+        # Scale size, use default if invalid/missing, ensure non-negative
+        size = default_size
+        if s_val is not None and s_val > 0:
+            size = max(5, s_val * size_multiplier) # Ensure a minimum size, scale positive values
+        elif s_val is not None and s_val <= 0 and size_metric == 'average_edge':
+            # Special handling: small size for zero/negative edge
+            size = 5
+        sizes.append(size)
+        valid_points += 1
+
+    if not valid_points:
+        logger.warning(f"No valid data points found for plotting '{title}'. Skipping plot generation.")
+        return
+
+    logger.info(f"Plotting {valid_points} valid data points for '{title}'.")
+
+    fig, ax = plt.subplots(figsize=(12, 8))
+
+    # Choose colormap - Viridis is good for sequential data, coolwarm for diverging (like edge)
+    cmap = 'viridis'
+    norm = None
+    scatter_args = {'alpha': 0.7}
+
+    # Handle color mapping
+    valid_colors = [c for c in colors if c is not None and not np.isnan(c)]
+    if color_metric and valid_colors:
+        min_c, max_c = min(valid_colors), max(valid_colors)
+        # Discrete colors for num_legs (or similar low-cardinality metrics)
+        if color_metric == 'num_legs' and len(set(valid_colors)) < 10:
+            unique_legs = sorted(list(set(int(l) for l in valid_colors)))
+            cmap = plt.get_cmap('viridis', len(unique_legs)) # Discrete colormap
+            norm = plt.colors.BoundaryNorm(np.arange(min(unique_legs)-0.5, max(unique_legs)+1.5, 1), cmap.N)
+            scatter_args['cmap'] = cmap
+            scatter_args['norm'] = norm
+        else: # Continuous color mapping
+            norm = plt.colors.Normalize(vmin=min_c, vmax=max_c)
+            scatter_args['cmap'] = cmap
+            scatter_args['norm'] = norm
+        scatter_args['c'] = colors # Pass the list of color values
+    else:
+        scatter_args['c'] = 'blue' # Default color if no metric or no valid data
+
+    # Handle size mapping
+    scatter_args['s'] = sizes # Pass the list of calculated sizes
+
+    # Create the scatter plot
+    sc = ax.scatter(x_values, y_values, **scatter_args)
+
+    # Add colorbar if color metric was used and valid
+    if color_metric and valid_colors:
+        cbar = fig.colorbar(sc, label=color_metric.replace('_', ' ').title())
+        if color_metric == 'num_legs' and isinstance(norm, plt.colors.BoundaryNorm):
+            # Set ticks for discrete colorbar
+            tick_locs = np.array(unique_legs)
+            cbar.set_ticks(tick_locs)
+            cbar.set_ticklabels(unique_legs)
+
+    ax.set_xlabel(x_axis_metric.replace('_', ' ').title())
+    ax.set_ylabel(y_axis_metric.replace('_', ' ').title())
+    ax.set_title(title)
+
+    # Apply log scale if requested
+    if x_log: ax.set_xscale('log')
+    if y_log: ax.set_yscale('log')
+
+    ax.grid(True, linestyle='--', alpha=0.6)
+    plt.tight_layout()
+
+    try:
+        plt.savefig(output_file, dpi=150, bbox_inches='tight')
+        logger.info(f"Plot saved successfully to: {output_file}")
+    except Exception as e:
+        logger.error(f"Failed to save plot {output_file}: {e}")
+    finally:
+        plt.close(fig) # Close the figure to free memory

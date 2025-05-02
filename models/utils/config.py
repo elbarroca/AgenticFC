@@ -6,7 +6,7 @@ import os
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # Go up 3 levels from utils/config.py
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 RAW_CSV_DIR = os.path.join(PROJECT_ROOT, 'football_data_db')  # Directory containing CSV files
-UNIFIED_DATA_PATH = os.path.join(DATA_DIR, 'unified_data', 'unified_matches.parquet')
+UNIFIED_DATA_PATH = os.path.join(DATA_DIR, 'unified_data', 'mongo.parquet')
 
 # MongoDB Configuration
 MONGO_URI = 'mongodb://admin888:admin888@127.0.0.1:27017/?authSource=admin'  

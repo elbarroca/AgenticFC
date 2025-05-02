@@ -13,8 +13,8 @@ import numpy as np
 
 # --- Configure Logging ---
 logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    handlers=[logging.StreamHandler(sys.stdout)]) # Ensure logs go to console
+format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+handlers=[logging.StreamHandler(sys.stdout)]) # Ensure logs go to console
 logger = logging.getLogger(__name__)
 
 # --- Add project root AND relevant subdirectories to sys.path for imports ---

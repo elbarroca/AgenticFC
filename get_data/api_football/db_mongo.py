@@ -363,6 +363,22 @@ class MongoDBManager:
             logger.error(f"Error retrieving standings for league {league_id}, season {season}: {e}")
             return None
 
+    def check_standings_exist(self, league_id: int, season: int) -> bool:
+        """Checks if standings data exists for a given league and season."""
+        if not self._initialized or self._standings_collection is None:
+            logger.error("DB not initialized or standings collection missing. Assuming standings don't exist.")
+            return False
+
+        standings_key = f"{league_id}_{season}"
+        try:
+            count = self._standings_collection.count_documents({"_id": standings_key}, limit=1)
+            exists = count > 0
+            logger.debug(f"Checked standings existence for {standings_key}. Found: {exists}")
+            return exists
+        except Exception as e:
+            logger.error(f"Error checking standings existence for {standings_key}: {e}", exc_info=True)
+            return False # Assume false on error
+
     def save_odds_data(self, date_str: str, fixture_id: str, odds_payload: Dict[str, Any]):
         """Saves or updates odds data for a specific fixture in the 'odds' collection."""
         if not self._initialized or self._odds_collection is None: return False
@@ -384,15 +400,35 @@ class MongoDBManager:
         except Exception as e:
             logger.error(f"Error saving odds for fixture {fixture_id} to MongoDB: {e}", exc_info=True)
             return False
-
-    def get_odds_data(self, fixture_id: str) -> Optional[Dict[str, Any]]:
-        """Retrieves odds data for a specific fixture using _id."""
-        if not self._initialized or self._odds_collection is None: return None
-        try:
-            return self._odds_collection.find_one({"_id": str(fixture_id)})
-        except Exception as e:
-            logger.error(f"Error retrieving odds for fixture {fixture_id}: {e}")
+    def get_odds_data(self, fixture_id: str) -> Optional[Dict]:
+        """Gets odds data for a given fixture ID."""
+        if not self._initialized or self._odds_collection is None:
+            logger.error("DB not initialized or odds collection missing.")
             return None
+        try:
+            odds_data = self._odds_collection.find_one({"_id": str(fixture_id)})
+            if odds_data:
+                logger.debug(f"Retrieved odds data for fixture {fixture_id}")
+                return odds_data
+            logger.debug(f"No odds data found for fixture {fixture_id}")
+            return None
+        except Exception as e:
+            logger.error(f"Error retrieving odds data for fixture {fixture_id}: {e}", exc_info=True)
+            return None
+
+    def check_odds_exist(self, fixture_id: str) -> bool:
+        """Checks if odds data exists for a given fixture ID."""
+        if not self._initialized or self._odds_collection is None:
+            logger.error("DB not initialized or odds collection missing. Assuming odds don't exist.")
+            return False
+        try:
+            count = self._odds_collection.count_documents({"_id": str(fixture_id)}, limit=1)
+            exists = count > 0
+            logger.debug(f"Checked odds existence for fixture {fixture_id}. Found: {exists}")
+            return exists
+        except Exception as e:
+            logger.error(f"Error checking odds existence for fixture {fixture_id}: {e}", exc_info=True)
+            return False # Assume false on error
 
     def save_team_season_fixture_list(self, team_id: int, season: int, fixture_ids: List[int]):
         """Saves or updates the list of fixture IDs for a specific team and season."""
@@ -976,137 +1012,50 @@ class MongoDBManager:
             logger.error(f"Error retrieving bulk fixture seasons: {e}", exc_info=True)
             return {}
 
+    def get_fixture_dates_bulk(self, fixture_ids: Set[str]) -> Dict[str, str]:
+        """
+        Retrieves the date string ('date_str') for a bulk set of fixture IDs from the 'matches' collection.
+
+        Args:
+            fixture_ids: A set of fixture ID strings.
+
+        Returns:
+            A dictionary mapping fixture_id (str) to date_str (str).
+            Returns an empty dict if DB is not initialized or on error.
+        """
+        if not self._initialized or self._matches_collection is None:
+            logger.error("MongoDBManager not initialized or matches_collection is None. Cannot fetch fixture dates.")
+            return {}
+
+        if not fixture_ids:
+            logger.debug("No fixture IDs provided to get_fixture_dates_bulk.")
+            return {}
+
+        fixture_date_map: Dict[str, str] = {}
+        try:
+            query = {"_id": {"$in": list(fixture_ids)}}
+            # Project only the necessary fields: _id and date_str
+            projection = {"_id": 1, "date_str": 1}
+
+            cursor = self._matches_collection.find(query, projection)
+
+            for doc in cursor:
+                fixture_id_str = doc.get("_id")
+                date_str = doc.get("date_str")
+                if fixture_id_str and isinstance(date_str, str) and date_str: # Check date_str is a non-empty string
+                    fixture_date_map[fixture_id_str] = date_str
+                elif fixture_id_str:
+                     logger.warning(f"Fixture {fixture_id_str} found but missing valid non-empty string 'date_str' field.")
+
+            logger.info(f"Retrieved date_str mapping for {len(fixture_date_map)} out of {len(fixture_ids)} requested fixture IDs.")
+            return fixture_date_map
+
+        except Exception as e:
+            logger.error(f"Error retrieving bulk fixture dates: {e}", exc_info=True)
+            return {}
+
 
 # Singleton instance (initialization happens on first call)
 # Ensure initialization uses the desired DB name if not default
 db_manager = MongoDBManager(db_name="agenticfc") # Explicitly set db_name
 
-# --- Basic Test Function Update ---
-async def run_db_test():
-    """Tests writing and reading from the MongoDB structure, including StatArea."""
-    logger.info("--- Running MongoDB Test ---")
-    try:
-        # Ensure manager is initialized (it should be by accessing the singleton)
-        if not db_manager._initialized:
-             logger.error("Test failed: MongoDBManager singleton could not be initialized.")
-             # Try explicit init? Depends on desired behavior. Let's assume singleton access initializes.
-             # db_manager.__init__(db_name="agenticfc") # Or try explicit init
-             # if not db_manager._initialized: return # Exit if still not initialized
-             return
-
-
-        test_date = datetime.now().strftime("%Y-%m-%d")
-        test_fixture_id = "test_api_fixture_123"
-        test_league_id = "test_league_999"
-        test_season = datetime.now().year
-        test_statarea_api_id = "statarea_test_team_1"
-        test_statarea_team = "Statarea Test United"
-        test_statarea_country = "Testland"
-
-        # --- Test StatArea ---
-        logger.info(f"Testing save_statarea_data for {test_statarea_api_id}...")
-        statarea_doc_host_10 = {
-            "api_id": test_statarea_api_id,
-            "team": test_statarea_team,
-            "country": test_statarea_country,
-            "game_type": "host",
-            "period": 10,
-            "scrape_date": datetime.now(timezone.utc).isoformat(),
-            "general_statistics": {"Goals Scored": "1.5"},
-            "team_bet_statistics": {"Over/Under 2.5": {"Over": "60%"}}
-        }
-        statarea_saved_host_10 = db_manager.save_statarea_data(statarea_doc_host_10)
-        if statarea_saved_host_10: logger.info(" StatArea save successful (host, 10).")
-        else: logger.error(" StatArea save failed (host, 10).")
-
-        statarea_doc_guest_15 = {
-            "api_id": test_statarea_api_id,
-            "team": test_statarea_team,
-            "country": test_statarea_country,
-            "game_type": "guest",
-            "period": 15,
-            "scrape_date": datetime.now(timezone.utc).isoformat(),
-            "general_statistics": {"Goals Conceded": "1.2"},
-            "team_bet_statistics": {"Both Teams To Score": {"Yes": "55%"}},
-            "match_history": [{"date": "2023-10-01", "opponent": "Rival FC", "result": "win"}, {"date": "2023-09-25", "opponent": "Local XI", "result": "draw"}]
-        }
-        statarea_saved_guest_15 = db_manager.save_statarea_data(statarea_doc_guest_15)
-        if statarea_saved_guest_15: logger.info(" StatArea save successful (guest, 15 with history).")
-        else: logger.error(" StatArea save failed (guest, 15).")
-
-        logger.info(f"Testing check_statarea_data_needs_update...")
-        needs_update_recent = db_manager.check_statarea_data_needs_update(test_statarea_api_id, "host", 10, cache_expire_days=1)
-        if not needs_update_recent: logger.info(" Check needs update successful (recent data -> False).")
-        else: logger.error(" Check needs update failed (recent data -> True).")
-
-        needs_update_old_cache = db_manager.check_statarea_data_needs_update(test_statarea_api_id, "guest", 15, cache_expire_days=0) # Force expiry
-        if needs_update_old_cache: logger.info(" Check needs update successful (expired cache -> True).")
-        else: logger.error(" Check needs update failed (expired cache -> False).")
-
-        needs_update_missing = db_manager.check_statarea_data_needs_update("nonexistent_id", "host", 10, cache_expire_days=1)
-        if needs_update_missing: logger.info(" Check needs update successful (missing data -> True).")
-        else: logger.error(" Check needs update failed (missing data -> False).")
-
-        logger.info(f"Testing get_statarea_match_history...")
-        retrieved_history = db_manager.get_statarea_match_history(test_statarea_api_id, "guest", 15)
-        if retrieved_history and len(retrieved_history) == 2:
-            logger.info(f" StatArea history retrieve successful: Found {len(retrieved_history)} matches.")
-        elif retrieved_history is not None:
-             logger.error(f" StatArea history retrieve failed (wrong count: {len(retrieved_history)}).")
-        else:
-            logger.error(" StatArea history retrieve failed (returned None).")
-
-        retrieved_history_wrong_period = db_manager.get_statarea_match_history(test_statarea_api_id, "host", 10)
-        if retrieved_history_wrong_period is None:
-            logger.info(" StatArea history retrieve successful (no history expected for period 10 -> None).")
-        else:
-            logger.error(" StatArea history retrieve failed (expected None for period 10, got data).")
-
-
-        # --- Test Other Collections (Keep brief) ---
-        logger.info(f"Testing save_match_data for fixture {test_fixture_id}...")
-        # Use a realistic structure matching game_details if possible
-        match_data_payload = {
-            "fixture_id": int(test_fixture_id.split('_')[-1]), # Assuming integer ID if possible
-            "teams": {"home": {"id": 1, "name": "Test Home"}, "away": {"id": 2, "name": "Test Away"}},
-            "goals": {"home": 1, "away": 0},
-            "league": {"id": int(test_league_id.split('_')[-1]), "season": test_season},
-            "fixture": {"date": f"{test_date}T12:00:00+00:00"}, # ISO string for date
-            "_id": test_fixture_id, # Keep string _id for consistency
-            "date_str": test_date, # Maintain for potential use elsewhere
-            # Add date_utc and fetch_timestamp_utc which save_match_data expects or creates
-        }
-        match_saved = db_manager.save_match_data(match_data_payload)
-        if match_saved: logger.info(" Match save successful.")
-        else: logger.error(" Match save failed.")
-
-        # ... (Keep other tests brief or remove if redundant for this task) ...
-
-        logger.info("Cleaning up test data...")
-        if db_manager._matches_collection:
-             # Use _id which is string
-            delete_match_result = db_manager._matches_collection.delete_one({"_id": test_fixture_id})
-            logger.debug(f"Deleted {delete_match_result.deleted_count} match test documents.")
-        # ... (Keep other cleanup) ...
-        if db_manager._statarea_collection:
-             # Use _id which is composite string
-            delete_statarea_result = db_manager._statarea_collection.delete_many({"api_id": test_statarea_api_id})
-            logger.debug(f"Deleted {delete_statarea_result.deleted_count} StatArea test documents.")
-
-        logger.info("Test data cleanup finished.")
-
-    except Exception as e:
-        logger.error(f"An error occurred during the DB test: {e}", exc_info=True)
-    finally:
-        logger.info("--- MongoDB Test Finished ---")
-        # Consider closing the connection if this test runs standalone
-        # db_manager.close_connection()
-
-# Keep the main block for running tests if needed
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    import asyncio
-    # Make sure the event loop is running for async operations if any dependencies require it
-    # Although run_db_test itself is async, the calls inside might not be if db_manager methods are synchronous
-    # asyncio.run(run_db_test()) should work fine here.
-    asyncio.run(run_db_test())
