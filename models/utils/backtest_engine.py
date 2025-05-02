@@ -108,15 +108,25 @@ class BacktestEngine:
         return defaults
 
     def _get_default_betting_config(self, config_in: Optional[Dict]) -> Dict:
-        """Provides default betting simulation parameters."""
+        """Provides default betting simulation parameters with available odds columns."""
+        # Find available odds columns in the data instead of hardcoding 
+        available_odds_cols = [col for col in self.full_data.columns if 
+                              any(col.startswith(prefix) for prefix in ['B365', 'BW', 'IW', 'PS', 'WH', 'VC'])]
+        
+        if not available_odds_cols:
+            logging.warning("No recognized odds columns found in data")
+            available_odds_cols = []  # Empty list if none found
+        
         defaults = {
-            'enabled': False,
-            'odds_cols': getattr(config, 'ODDS_COLUMNS', ['B365H', 'B365D', 'B365A']), # Get from config if possible
-            'threshold': getattr(config, 'ROI_BET_THRESHOLD', 0.05),
-            'stake': getattr(config, 'ROI_STAKE', 1.0)
+            'enabled': len(available_odds_cols) > 0,  # Only enable if odds columns exist
+            'odds_cols': available_odds_cols[:3] if len(available_odds_cols) >= 3 else available_odds_cols,
+            'threshold': 0.05,
+            'stake': 1.0
         }
+        
         if config_in:
             defaults.update(config_in)
+        
         return defaults
 
     def _get_time_splits(self) -> List[Tuple[pd.Timestamp, pd.Timestamp, pd.Timestamp, pd.Timestamp]]:
@@ -172,83 +182,38 @@ class BacktestEngine:
              logging.info(f"Last split: Train {splits[-1][0]} - {splits[-1][1]}, Test {splits[-1][2]} - {splits[-1][3]}")
         return splits
 
-    def _prepare_data_for_split(self, train_indices: pd.Index, test_indices: pd.Index) -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.Series]:
+    def _prepare_data_for_split(self, train_indices, test_indices):
         """
         Prepares features and targets for a single train/test split.
-
-        **CRITICAL NOTE:** Feature generation (esp. rolling stats) must avoid leakage.
-        This implementation assumes `features.generate_features` can be called on the
-        combined train+test data for the *current* split, BUT that the feature generation
-        logic itself is time-aware (e.g., rolling calculations use `closed='left'` or similar).
-        A truly robust implementation might require fitting feature transformers (scalers,
-        imputers) ONLY on train data and applying to test, and calculating rolling features
-        iteratively or within `generate_features` based on the split dates. This blueprint
-        uses a simplified approach assuming `generate_features` handles some time awareness.
-
-        Args:
-            train_indices (pd.Index): Indices for the training data in self.full_data.
-            test_indices (pd.Index): Indices for the test data in self.full_data.
-
-        Returns:
-            Tuple: (X_train, y_train, X_test, y_test) ready for model fitting/prediction.
-                   Returns (None, None, None, None) if feature generation fails.
         """
         try:
             train_data = self.full_data.loc[train_indices].copy()
             test_data = self.full_data.loc[test_indices].copy()
 
-            # --- Feature Generation ---
-            # Ideally, fit transformers (scalers etc.) ONLY on train_data here
-            # For simplicity, we call generate_features, assuming it's somewhat time-aware
-            # A more robust approach might pass train/test data separately to generate_features
-            # or perform scaling/imputation explicitly here.
-
+            # Generate features for combined data
             logging.debug(f"Generating features for split (Train size: {len(train_data)}, Test size: {len(test_data)})...")
-            # Combine temporarily for feature generation that might need context,
-            # but ensure generate_features respects time boundaries internally if possible.
             combined_data_for_features = pd.concat([train_data, test_data])
+            all_features_df = features.generate_features(combined_data_for_features)
 
-            # --- Elo Calculation (Example: Recalculate up to train_end for this split) ---
-            # This ensures Elo reflects state *before* test period
-            split_train_end_date = train_data[self.date_col].max()
-            elo_calc = features.EloCalculator( # Assuming EloCalculator is in features or utils
-                 k_factor=self.feature_config.get('ELO_K_FACTOR', config.ELO_K_FACTOR),
-                 home_advantage=self.feature_config.get('ELO_HOME_ADVANTAGE', config.ELO_HOME_ADVANTAGE)
-            )
-            # Calculate Elo only on data up to the end of the training period for this split
-            elo_data_for_split = elo_calc.calculate_historical_elos(
-                 self.full_data[self.full_data[self.date_col] <= split_train_end_date],
-                 date_col=self.date_col
-            )
-
-            # --- Generate other features using combined data ---
-            # Pass the correctly calculated Elo data for this split
-            # Note: generate_features needs to handle merging based on index or keys
-            all_features_df = features.generate_features(
-                combined_data_for_features,
-                elo_df=elo_data_for_split, # Pass the time-aware Elo data
-                odds_cols=self.betting_config.get('odds_cols', config.ODDS_COLUMNS),
-                rolling_window=self.feature_config.get('ROLLING_WINDOW_SIZE', config.ROLLING_WINDOW_SIZE)
-            )
-
-            # --- Separate Train/Test Features and Targets ---
+            # Separate Train/Test Features and Targets
             X_train = all_features_df.loc[train_indices]
-            y_train = train_data[self.target_col]
             X_test = all_features_df.loc[test_indices]
-            y_test = test_data[self.target_col]
+            
+            # Special handling for Monte Carlo model which needs both goals columns
+            if 'monte_carlo' in self.model_names:
+                logging.info("Preparing targets for Monte Carlo model (FTHG and FTAG)")
+                y_train = train_data[['FTR', 'FTHG', 'FTAG']]
+                y_test = test_data[['FTR', 'FTHG', 'FTAG']]
+            else:
+                y_train = train_data[self.target_col]
+                y_test = test_data[self.target_col]
 
-            # --- Handle NaNs resulting from feature generation (e.g., initial rolling windows) ---
-            # Option 1: Drop rows with NaNs (might lose early test data)
-            # Option 2: Impute (fit imputer ONLY on X_train, transform X_train & X_test)
-            # Simple approach: Fill with 0 (as done in generate_features example) - check if appropriate
+            # Handle NaNs if any
             if X_train.isnull().values.any() or X_test.isnull().values.any():
-                 logging.warning("NaNs found after feature generation for split. Check imputation/feature logic.")
-                 # Applying fillna(0) again if generate_features didn't handle it fully
-                 X_train = X_train.fillna(0)
-                 X_test = X_test.fillna(0)
+                logging.warning("NaNs found after feature generation. Filling with 0.")
+                X_train = X_train.fillna(0)
+                X_test = X_test.fillna(0)
 
-
-            logging.debug("Data preparation for split complete.")
             return X_train, y_train, X_test, y_test
 
         except Exception as e:
@@ -390,204 +355,4 @@ class BacktestEngine:
 
         logging.info("Backtest run finished.")
 
-    def _evaluate_predictions(self, y_true: pd.Series, predictions_df: pd.DataFrame) -> Dict:
-        """Calculates evaluation metrics based on configuration."""
-        eval_results = {}
-        y_pred = predictions_df.get('prediction', None)
-
-        for metric_name in self.evaluation_metrics:
-            try:
-                metric_func = getattr(metrics, metric_name, None)
-                if metric_func is None:
-                    logging.warning(f"Metric function '{metric_name}' not found in utils.metrics. Skipping.")
-                    continue
-
-                # Pass appropriate arguments based on metric name convention
-                if 'logloss' in metric_name:
-                     # Assumes probability columns exist (e.g., prob_H, prob_D, prob_A or prob_1)
-                     if 'multi' in metric_name:
-                         eval_results[metric_name] = metric_func(y_true, predictions_df)
-                     else: # binary
-                         prob_col = next((c for c in predictions_df.columns if c.startswith('prob_') and c != 'prob_0'), 'prob_1') # Heuristic
-                         if prob_col in predictions_df:
-                              eval_results[metric_name] = metric_func(y_true, predictions_df[prob_col])
-                         else: logging.warning(f"Could not find positive probability column for {metric_name}.")
-                elif metric_name == 'accuracy':
-                     if y_pred is not None:
-                         eval_results[metric_name] = metric_func(y_true, y_pred)
-                     else: logging.warning(f"Cannot calculate accuracy without 'prediction' column.")
-                # Add other metric handling here (e.g., RMSE, MAE for regression)
-                else:
-                     # Default: assume metric takes y_true, y_pred
-                     if y_pred is not None:
-                          eval_results[metric_name] = metric_func(y_true, y_pred)
-                     else: logging.warning(f"Cannot calculate {metric_name} without 'prediction' column.")
-
-            except Exception as e:
-                logging.error(f"Error calculating metric '{metric_name}': {e}")
-                eval_results[metric_name] = None # Indicate failure
-
-        return eval_results
-
-    def _simulate_betting(self, results_with_odds_df: pd.DataFrame) -> Dict:
-        """Simulates betting based on the configuration."""
-        if not self.betting_config['enabled']:
-            return {}
-
-        try:
-            # Use the ROI function from metrics module
-            roi_results = metrics.calculate_roi(
-                results_with_odds_df,
-                # Assuming classification probabilities are present
-                prob_col_h=next((c for c in results_with_odds_df.columns if c.endswith('_H')), 'prob_H'),
-                prob_col_d=next((c for c in results_with_odds_df.columns if c.endswith('_D')), 'prob_D'),
-                prob_col_a=next((c for c in results_with_odds_df.columns if c.endswith('_A')), 'prob_A'),
-                odds_col_h=self.betting_config['odds_cols'][0],
-                odds_col_d=self.betting_config['odds_cols'][1],
-                odds_col_a=self.betting_config['odds_cols'][2],
-                true_result_col=self.target_col, # Assumes target is FTR for ROI calc
-                bet_threshold=self.betting_config['threshold'],
-                stake=self.betting_config['stake']
-            )
-            # Rename keys slightly for clarity in results
-            return {
-                'bets_placed': roi_results.get('bets_placed', 0),
-                'betting_stake': roi_results.get('total_staked', 0.0),
-                'betting_return': roi_results.get('total_returned', 0.0),
-                'betting_roi': roi_results.get('roi', 0.0)
-            }
-        except Exception as e:
-            logging.error(f"Error during betting simulation: {e}")
-            return {'bets_placed': 0, 'betting_stake': 0.0, 'betting_return': 0.0, 'betting_roi': None}
-
-
-    def get_results(self) -> pd.DataFrame:
-        """Returns the collected backtest results as a DataFrame."""
-        if not self.results:
-            logging.warning("No results collected yet. Run run_backtest() first.")
-            return pd.DataFrame()
-        return pd.DataFrame(self.results)
-
-    def summary(self, group_by: str = 'model_name') -> pd.DataFrame:
-        """Generates a summary of the backtest results, aggregated by model or split."""
-        results_df = self.get_results()
-        if results_df.empty:
-            return pd.DataFrame()
-
-        if 'status' in results_df.columns and 'FAILED' in results_df['status'].unique():
-             logging.warning("Some models/splits failed during backtesting. Summary might be incomplete.")
-             results_df = results_df[results_df['status'] != 'FAILED'].copy() # Exclude failed runs from summary stats
-
-        if results_df.empty:
-             logging.warning("No successful runs found to summarize.")
-             return pd.DataFrame()
-
-
-        numeric_cols = results_df.select_dtypes(include=np.number).columns.tolist()
-        # Exclude split number from averaging if grouping by model
-        cols_to_agg = [col for col in numeric_cols if col not in ['split', 'num_train_samples', 'num_test_samples']]
-
-        if not cols_to_agg:
-             logging.warning("No numeric metric columns found to aggregate.")
-             return pd.DataFrame()
-
-        # Define aggregation functions
-        agg_funcs = {col: 'mean' for col in cols_to_agg}
-        # Add specific aggregations if needed (e.g., total stake/return for ROI)
-        if 'betting_stake' in results_df.columns: agg_funcs['betting_stake'] = 'sum'
-        if 'betting_return' in results_df.columns: agg_funcs['betting_return'] = 'sum'
-        if 'bets_placed' in results_df.columns: agg_funcs['bets_placed'] = 'sum'
-        agg_funcs['num_test_samples'] = 'sum' # Total samples tested
-
-        summary_df = results_df.groupby(group_by).agg(agg_funcs)
-
-        # Recalculate overall ROI if betting was enabled
-        if 'betting_stake' in summary_df.columns and 'betting_return' in summary_df.columns:
-            summary_df['overall_roi'] = summary_df.apply(
-                lambda row: ((row['betting_return'] - row['betting_stake']) / row['betting_stake']) * 100 if row['betting_stake'] > 0 else 0,
-                axis=1
-            )
-            # Maybe drop the averaged ROI column if overall is calculated
-            if 'betting_roi' in summary_df.columns:
-                 summary_df = summary_df.drop(columns=['betting_roi'])
-
-
-        return summary_df.round(4) # Round for display
-
-
-# Example Usage (Illustrative - requires actual data and configured components)
-if __name__ == '__main__':
-    print("\n--- BacktestEngine Example ---")
-    # --- 1. Load Dummy Data (replace with your actual data loading) ---
-    # Create minimal dummy data for structure
-    dates = pd.to_datetime(pd.date_range(start='2022-01-01', periods=100, freq='W'))
-    dummy_data = pd.DataFrame({
-        'Date': dates,
-        'HomeTeam': [f'Team{i % 10}' for i in range(100)],
-        'AwayTeam': [f'Team{(i+5) % 10}' for i in range(100)],
-        'FTHG': np.random.randint(0, 4, 100),
-        'FTAG': np.random.randint(0, 4, 100),
-        'B365H': np.random.uniform(1.5, 5.0, 100),
-        'B365D': np.random.uniform(3.0, 4.5, 100),
-        'B365A': np.random.uniform(1.8, 6.0, 100),
-        # Add other raw stats if needed by feature generation
-        'HS': np.random.randint(5, 20, 100), 'AS': np.random.randint(5, 20, 100),
-        'HST': np.random.randint(1, 10, 100), 'AST': np.random.randint(1, 10, 100),
-        'HC': np.random.randint(1, 10, 100), 'AC': np.random.randint(1, 10, 100),
-    })
-    dummy_data['FTR'] = np.select([dummy_data['FTHG'] > dummy_data['FTAG'], dummy_data['FTHG'] < dummy_data['FTAG']], ['H', 'A'], default='D')
-    print(f"Loaded dummy data: {len(dummy_data)} rows")
-
-    # --- 2. Configure Backtest ---
-    # Define models to test (ensure they exist in your registry)
-    models_to_test = ['random_forest'] # Add 'gradient_boosting', 'poisson' etc. if available
-
-    # Define specific model parameters (optional, otherwise defaults from model class are used)
-    custom_model_params = {
-        'random_forest': {'n_estimators': 50, 'max_depth': 8, 'random_state': config.RANDOM_SEED}
-        # 'gradient_boosting': {'n_estimators': 75, 'learning_rate': 0.08}
-    }
-
-    # Define backtest windowing strategy
-    bt_config = {
-        'train_window_size': '180d', # Use strings or Timedeltas
-        'test_window_size': '30d',
-        'step_size': '30d',
-        'strategy': 'rolling'
-    }
-
-    # Define betting simulation (optional)
-    bet_config = {
-        'enabled': True,
-        'odds_cols': ['B365H', 'B365D', 'B365A'],
-        'threshold': 0.05,
-        'stake': 10
-    }
-
-    # --- 3. Initialize and Run Engine ---
-    try:
-        backtester = BacktestEngine(
-            full_historical_data=dummy_data,
-            date_col='Date',
-            target_col='FTR',
-            model_names=models_to_test,
-            model_params=custom_model_params,
-            backtest_config=bt_config,
-            betting_config=bet_config,
-            evaluation_metrics=['accuracy', 'multi_logloss'] # Add more from metrics.py
-        )
-        backtester.run_backtest()
-
-        # --- 4. Get and Display Results ---
-        results_df = backtester.get_results()
-        print("\n--- Raw Backtest Results (Sample) ---")
-        print(results_df.head())
-
-        summary_df = backtester.summary()
-        print("\n--- Backtest Summary (Aggregated by Model) ---")
-        print(summary_df)
-
-    except ImportError:
-         print("\nNote: Could not run example because project components (models, utils) were not found.")
-    except Exception as e:
-         logging.error(f"An error occurred during the backtest example: {e}", exc_info=True)
+   
