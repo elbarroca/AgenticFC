@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-  Clean Sheet ratio / league avg golas ratio / 
 import pandas as pd
 import numpy as np
 import os

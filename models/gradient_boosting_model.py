@@ -1,454 +1,391 @@
-# models/gradient_boosting_model.py
-import warnings
+import sys
 import pandas as pd
 import numpy as np
-import xgboost as xgb
-from sklearn.exceptions import NotFittedError
-from sklearn.utils.validation import check_is_fitted
-from sklearn.preprocessing import LabelEncoder
-import joblib
-from typing import List, Optional, Dict, Any, Union, Tuple
+import lightgbm as lgb # Using LightGBM
+from sklearn.model_selection import TimeSeriesSplit
+from sklearn.metrics import log_loss, brier_score_loss
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler # Optional
+import warnings
+import gc # Garbage collector
 
-from .base_model import BaseModel # Assuming base_model.py defines the interface
+warnings.filterwarnings('ignore', category=UserWarning)
+warnings.filterwarnings('ignore', category=FutureWarning)
+pd.set_option('display.max_columns', None)
 
-class GradientBoostingModel(BaseModel):
-    """
-    Gradient Boosting Machine (XGBoost) model for predicting soccer outcomes
-    (e.g., H/D/A classification, goal regression) using structured, tabular data.
+# --- Configuration ---
+N_SPLITS = 8           # Number of folds for TimeSeriesSplit
+RANDOM_SEED = 42
+# Define which outcomes to model directly
+# Add more 'Actual_...' columns here if defined earlier and desired
+TARGET_COLUMNS = {
+    # Basic match outcomes
+    'HDA': 'Actual_FTR_Numeric', # Multiclass (Home/Draw/Away)
+    'Home_Win': 'Actual_Home_Win', # Home win only
+    'Draw': 'Actual_Draw', # Draw only  
+    'Away_Win': 'Actual_Away_Win', # Away win only
+    'Home_WinOrDraw': 'Actual_Home_WinOrDraw', # 1X
+    'Away_WinOrDraw': 'Actual_Away_WinOrDraw', # X2
+    
+    # Goals totals
+    'Over0.5': 'Actual_Over0.5',
+    'Over1.5': 'Actual_Over1.5',
+    'Over2.5': 'Actual_Over2.5', 
+    'Over3.5': 'Actual_Over3.5',
+    'Over4.5': 'Actual_Over4.5',
+    'Under0.5': 'Actual_Under0.5',
+    'Under1.5': 'Actual_Under1.5',
+    'Under2.5': 'Actual_Under2.5',
+    'Under3.5': 'Actual_Under3.5',
+    'Under4.5': 'Actual_Under4.5',
+    
+    # Both teams to score
+    'BTTS_Yes': 'Actual_BTTS_Yes',
+    'BTTS_No': 'Actual_BTTS_No',
+    
+    # Combined outcomes
+    'H_and_O15': 'Actual_H_and_O15', # Home & Over 1.5
+    'H_and_O25': 'Actual_H_and_O25', # Home & Over 2.5
+    'H_and_O35': 'Actual_H_and_O35', # Home & Over 3.5
+    'H_and_U25': 'Actual_H_and_U25', # Home & Under 2.5
+    'H_and_U35': 'Actual_H_and_U35', # Home & Under 3.5
+    'H_and_BTTS': 'Actual_H_and_BTTS', # Home & BTTS
+    
+    'D_and_O15': 'Actual_D_and_O15', # Draw & Over 1.5
+    'D_and_O25': 'Actual_D_and_O25', # Draw & Over 2.5
+    'D_and_U25': 'Actual_D_and_U25', # Draw & Under 2.5
+    'D_and_BTTS': 'Actual_D_and_BTTS', # Draw & BTTS
+    
+    'A_and_O15': 'Actual_A_and_O15', # Away & Over 1.5
+    'A_and_O25': 'Actual_A_and_O25', # Away & Over 2.5
+    'A_and_O35': 'Actual_A_and_O35', # Away & Over 3.5
+    'A_and_U25': 'Actual_A_and_U25', # Away & Under 2.5
+    'A_and_U35': 'Actual_A_and_U35', # Away & Under 3.5
+    'A_and_BTTS': 'Actual_A_and_BTTS', # Away & BTTS
+    
+    # Double chance combinations
+    '1X_and_O15': 'Actual_1X_and_O15', # Home/Draw & Over 1.5
+    '1X_and_O25': 'Actual_1X_and_O25', # Home/Draw & Over 2.5
+    '1X_and_U25': 'Actual_1X_and_U25', # Home/Draw & Under 2.5
+    '1X_and_U35': 'Actual_1X_and_U35', # Home/Draw & Under 3.5
+    '1X_and_BTTS': 'Actual_1X_and_BTTS', # Home/Draw & BTTS
+    
+    'X2_and_O15': 'Actual_X2_and_O15', # Draw/Away & Over 1.5
+    'X2_and_O25': 'Actual_X2_and_O25', # Draw/Away & Over 2.5
+    'X2_and_U25': 'Actual_X2_and_U25', # Draw/Away & Under 2.5
+    'X2_and_U35': 'Actual_X2_and_U35', # Draw/Away & Under 3.5
+    'X2_and_BTTS': 'Actual_X2_and_BTTS', # Draw/Away & BTTS
+}
 
-    Leverages the XGBoost library for high performance and flexibility.
-    Assumes input features (X) are preprocessed and numerical.
-    """
+# --- Load Data ---
+print("Loading data...")
+try:
+    # *** Make sure this path is correct ***
+    file_path = '/Users/barroca888/Downloads/Agenticfc/AgenticFC888/models/parquets/final_data.parquet'
+    df = pd.read_parquet(file_path)
+    print(f"Successfully loaded data from: {file_path}")
 
-    def __init__(self,
-                 target_type: str = 'classification', # 'classification', 'binary', 'regression'
-                 n_estimators: int = 100,
-                 learning_rate: float = 0.1,
-                 max_depth: int = 5,
-                 subsample: float = 0.8,
-                 colsample_bytree: float = 0.8,
-                 gamma: float = 0,
-                 reg_alpha: float = 0,
-                 reg_lambda: float = 1,
-                 objective: Optional[str] = None, # Auto-set based on target_type if None
-                 eval_metric: Optional[Union[str, List[str]]] = None, # Auto-set if None
-                 early_stopping_rounds: Optional[int] = None, # Enable early stopping during fit
-                 random_state: Optional[int] = 42,
-                 n_jobs: int = -1,
-                 **kwargs):
-        """
-        Initializes the GradientBoostingModel (XGBoost).
+    if 'Timestamp' not in df.columns:
+        raise ValueError("Error: 'Timestamp' column not found.")
+    df = df.sort_values('Timestamp').reset_index(drop=True)
+    print(f"Data loaded and sorted: {df.shape[0]} matches")
 
-        Args:
-            target_type (str): Task type: 'classification', 'binary', 'regression'.
-            n_estimators (int): Number of boosting rounds (trees).
-            learning_rate (float): Step size shrinkage. Lower values require more estimators.
-            max_depth (int): Maximum depth of a tree.
-            subsample (float): Fraction of samples used per tree. Prevents overfitting.
-            colsample_bytree (float): Fraction of features used per tree.
-            gamma (float): Minimum loss reduction required to make a further partition (pruning).
-            reg_alpha (float): L1 regularization term on weights.
-            reg_lambda (float): L2 regularization term on weights (default=1).
-            objective (Optional[str]): XGBoost objective function. If None, inferred from target_type.
-                                       Examples: 'multi:softprob', 'binary:logistic', 'reg:squarederror'.
-            eval_metric (Optional[Union[str, List[str]]]): Metric(s) for evaluation during training
-                                       and early stopping. If None, inferred.
-                                       Examples: 'mlogloss', 'logloss', 'rmse', 'mae'.
-            early_stopping_rounds (Optional[int]): Activates early stopping if validation data is provided
-                                                   during fit. Training stops if eval_metric doesn't improve.
-            random_state (Optional[int]): Seed for reproducibility.
-            n_jobs (int): Number of parallel threads. -1 uses all available cores.
-            **kwargs: Additional keyword arguments passed directly to XGBClassifier/XGBRegressor.
-        """
-        if target_type not in ['classification', 'binary', 'regression']:
-            raise ValueError("target_type must be 'classification', 'binary', or 'regression'")
+    required_outcome_cols = ['FTR', 'FTHG', 'FTAG']
+    if not all(col in df.columns for col in required_outcome_cols):
+        missing_cols = [col for col in required_outcome_cols if col not in df.columns]
+        raise ValueError(f"Error: Missing required columns for defining base outcomes: {missing_cols}")
 
-        self.target_type = target_type
-        self.early_stopping_rounds = early_stopping_rounds # Store separately for fit logic
-        self.params = {
-            'n_estimators': n_estimators,
-            'learning_rate': learning_rate,
-            'max_depth': max_depth,
-            'subsample': subsample,
-            'colsample_bytree': colsample_bytree,
-            'gamma': gamma,
-            'reg_alpha': reg_alpha,
-            'reg_lambda': reg_lambda,
-            'random_state': random_state,
-            'n_jobs': n_jobs,
-            **kwargs
-        }
+except Exception as e:
+    print(f"Error during data loading or initial checks: {e}")
+    sys.exit(1)
 
-        # --- Auto-configure objective and eval_metric if not provided ---
-        if objective is None:
-            if target_type == 'classification':
-                self.params['objective'] = 'multi:softprob' # Output probabilities
-            elif target_type == 'binary':
-                self.params['objective'] = 'binary:logistic'
-            elif target_type == 'regression':
-                self.params['objective'] = 'reg:squarederror'
+# --- Define Evaluation Outcomes (Targets) ---
+print("Defining evaluation outcomes...")
+
+# Basic match outcomes
+df['Actual_FTR_Numeric'] = df['FTR'].map({'H': 0, 'D': 1, 'A': 2}).astype('Int64')
+df['Actual_Home_Win'] = (df['FTR'] == 'H').astype(int)
+df['Actual_Draw'] = (df['FTR'] == 'D').astype(int)
+df['Actual_Away_Win'] = (df['FTR'] == 'A').astype(int)
+df['Actual_Home_WinOrDraw'] = ((df['FTR'] == 'H') | (df['FTR'] == 'D')).astype(int)
+df['Actual_Away_WinOrDraw'] = ((df['FTR'] == 'A') | (df['FTR'] == 'D')).astype(int)
+
+# Goals-related outcomes
+df['Actual_TotalGoals'] = df['FTHG'] + df['FTAG']
+# Over/Under goals
+df['Actual_Over0.5'] = (df['Actual_TotalGoals'] > 0.5).astype(int)
+df['Actual_Over1.5'] = (df['Actual_TotalGoals'] > 1.5).astype(int)
+df['Actual_Over2.5'] = (df['Actual_TotalGoals'] > 2.5).astype(int)
+df['Actual_Over3.5'] = (df['Actual_TotalGoals'] > 3.5).astype(int)
+df['Actual_Over4.5'] = (df['Actual_TotalGoals'] > 4.5).astype(int)
+df['Actual_Under0.5'] = (df['Actual_TotalGoals'] < 0.5).astype(int)
+df['Actual_Under1.5'] = (df['Actual_TotalGoals'] < 1.5).astype(int)
+df['Actual_Under2.5'] = (df['Actual_TotalGoals'] < 2.5).astype(int)
+df['Actual_Under3.5'] = (df['Actual_TotalGoals'] < 3.5).astype(int)
+df['Actual_Under4.5'] = (df['Actual_TotalGoals'] < 4.5).astype(int)
+
+# BTTS (Both Teams To Score)
+df['Actual_BTTS_Yes'] = ((df['FTHG'] > 0) & (df['FTAG'] > 0)).astype(int)
+df['Actual_BTTS_No'] = 1 - df['Actual_BTTS_Yes']
+
+# Combined outcomes - Home Win combinations
+df['Actual_H_and_O15'] = (df['Actual_Home_Win'] & df['Actual_Over1.5']).astype(int)
+df['Actual_H_and_O25'] = (df['Actual_Home_Win'] & df['Actual_Over2.5']).astype(int)
+df['Actual_H_and_O35'] = (df['Actual_Home_Win'] & df['Actual_Over3.5']).astype(int)
+df['Actual_H_and_U25'] = (df['Actual_Home_Win'] & df['Actual_Under2.5']).astype(int)
+df['Actual_H_and_U35'] = (df['Actual_Home_Win'] & df['Actual_Under3.5']).astype(int)
+df['Actual_H_and_BTTS'] = (df['Actual_Home_Win'] & df['Actual_BTTS_Yes']).astype(int)
+
+# Combined outcomes - Draw combinations
+df['Actual_D_and_O15'] = (df['Actual_Draw'] & df['Actual_Over1.5']).astype(int)
+df['Actual_D_and_O25'] = (df['Actual_Draw'] & df['Actual_Over2.5']).astype(int)
+df['Actual_D_and_U25'] = (df['Actual_Draw'] & df['Actual_Under2.5']).astype(int)
+df['Actual_D_and_BTTS'] = (df['Actual_Draw'] & df['Actual_BTTS_Yes']).astype(int)
+
+# Combined outcomes - Away Win combinations
+df['Actual_A_and_O15'] = (df['Actual_Away_Win'] & df['Actual_Over1.5']).astype(int)
+df['Actual_A_and_O25'] = (df['Actual_Away_Win'] & df['Actual_Over2.5']).astype(int)
+df['Actual_A_and_O35'] = (df['Actual_Away_Win'] & df['Actual_Over3.5']).astype(int)
+df['Actual_A_and_U25'] = (df['Actual_Away_Win'] & df['Actual_Under2.5']).astype(int)
+df['Actual_A_and_U35'] = (df['Actual_Away_Win'] & df['Actual_Under3.5']).astype(int)
+df['Actual_A_and_BTTS'] = (df['Actual_Away_Win'] & df['Actual_BTTS_Yes']).astype(int)
+
+# Double chance combinations
+df['Actual_1X_and_O15'] = (df['Actual_Home_WinOrDraw'] & df['Actual_Over1.5']).astype(int)
+df['Actual_1X_and_O25'] = (df['Actual_Home_WinOrDraw'] & df['Actual_Over2.5']).astype(int)
+df['Actual_1X_and_U25'] = (df['Actual_Home_WinOrDraw'] & df['Actual_Under2.5']).astype(int)
+df['Actual_1X_and_U35'] = (df['Actual_Home_WinOrDraw'] & df['Actual_Under3.5']).astype(int)
+df['Actual_1X_and_BTTS'] = (df['Actual_Home_WinOrDraw'] & df['Actual_BTTS_Yes']).astype(int)
+
+df['Actual_X2_and_O15'] = (df['Actual_Away_WinOrDraw'] & df['Actual_Over1.5']).astype(int)
+df['Actual_X2_and_O25'] = (df['Actual_Away_WinOrDraw'] & df['Actual_Over2.5']).astype(int)
+df['Actual_X2_and_U25'] = (df['Actual_Away_WinOrDraw'] & df['Actual_Under2.5']).astype(int)
+df['Actual_X2_and_U35'] = (df['Actual_Away_WinOrDraw'] & df['Actual_Under3.5']).astype(int)
+df['Actual_X2_and_BTTS'] = (df['Actual_Away_WinOrDraw'] & df['Actual_BTTS_Yes']).astype(int)
+
+# Check if all target columns exist
+missing_targets = [tgt for tgt in TARGET_COLUMNS.values() if tgt not in df.columns]
+if missing_targets:
+    print(f"Error: The following target columns defined in TARGET_COLUMNS are missing from the DataFrame: {missing_targets}")
+    sys.exit(1)
+
+# --- Feature Selection ---
+print("Selecting features...")
+time_windows = ['Last5', 'Last10']
+home_features_base = [
+    'AvgGoalsScored', 'AvgGoalsConceded', 'AvgShotsFor', 'AvgShotsAgainst',
+    'AvgShotsTargetFor', 'AvgShotsTargetAgainst', 'AvgPossessionFor',
+    'AvgPossessionAgainst', 'AvgCornersFor', 'AvgCornersAgainst',
+    'FormPoints', 'BTTS_Ratio', 'W_Count', 'D_Count', 'L_Count'
+]
+
+# First, let's see what columns we actually have
+print("\nChecking available features in DataFrame:")
+print("Total columns in DataFrame:", len(df.columns))
+print("Available columns:", sorted(df.columns.tolist()))
+
+# Initialize lists for valid features
+valid_features = []
+
+# Check each potential feature and only include if it exists
+for base in home_features_base:
+    for window in time_windows:
+        for team in ['Home', 'Away']:
+            feature = f"{team}_{base}_Total_{window}"
+            if feature in df.columns:
+                valid_features.append(feature)
+            else:
+                print(f"Warning: Expected feature '{feature}' not found in DataFrame")
+
+# Use only valid features
+all_features = sorted(valid_features)
+
+if not all_features:
+    raise ValueError("No valid features found in DataFrame. Check feature naming convention.")
+
+print(f"\nValid features found: {len(all_features)}")
+print("Features to be used:")
+for f in all_features:
+    print(f"- {f}")
+
+# --- Preprocessing & Model Definition ---
+preprocessor = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    # ('scaler', StandardScaler()) # Optional for LightGBM
+])
+
+# LightGBM parameters (tune these for better performance)
+lgbm_params_binary = {
+    'objective': 'binary',
+    'metric': 'binary_logloss', # Logloss is good for probability calibration
+    'n_estimators': 1000, # High number, use early stopping
+    'learning_rate': 0.05,
+    'feature_fraction': 0.8, # alias: colsample_bytree
+    'bagging_fraction': 0.8, # alias: subsample
+    'bagging_freq': 1,
+    'lambda_l1': 0.1, # L1 reg
+    'lambda_l2': 0.1, # L2 reg
+    'num_leaves': 31, # Default
+    'verbose': -1, # Suppress verbose output
+    'n_jobs': -1, # Use all cores
+    'seed': RANDOM_SEED,
+    'boosting_type': 'gbdt',
+}
+
+lgbm_params_multi = lgbm_params_binary.copy()
+lgbm_params_multi['objective'] = 'multiclass'
+lgbm_params_multi['metric'] = 'multi_logloss'
+lgbm_params_multi['num_class'] = 3 # For H, D, A
+
+# --- Time Series Cross-Validation ---
+print("Starting Time Series Cross-Validation...")
+tscv = TimeSeriesSplit(n_splits=N_SPLITS)
+all_fold_results = []
+trained_models = {} # To store models from the last fold if needed
+
+for fold, (train_index, test_index) in enumerate(tscv.split(df)):
+    print(f"\n--- Fold {fold + 1}/{N_SPLITS} ---")
+    print(f"Train size: {len(train_index)}, Test size: {len(test_index)}")
+
+    # Prepare feature data for this fold
+    # Fit preprocessor on training data ONLY
+    X_train = preprocessor.fit_transform(df.iloc[train_index][all_features])
+    X_test = preprocessor.transform(df.iloc[test_index][all_features])
+
+    fold_predictions = {'MatchID': df.iloc[test_index]['MatchID'].values}
+    fold_models = {} # Store models trained in this fold
+
+    # Train a model for each target
+    for model_name, target_col in TARGET_COLUMNS.items():
+        print(f"  Training model for: {model_name} (Target: {target_col})...")
+        y_train = df.iloc[train_index][target_col]
+        y_test = df.iloc[test_index][target_col] # Needed for eval_set
+
+        # Select parameters based on target type
+        is_multiclass = (model_name == 'HDA')
+        params = lgbm_params_multi if is_multiclass else lgbm_params_binary
+        model = lgb.LGBMClassifier(**params)
+
+        # Define callbacks for LightGBM early stopping
+        callbacks = [lgb.early_stopping(stopping_rounds=50, verbose=False)]
+
+        # Fit the model
+        model.fit(
+            X_train, y_train,
+            eval_set=[(X_test, y_test)],
+            eval_metric=params['metric'], # Use the metric defined in params
+            callbacks=callbacks
+            # Add categorical_feature='auto' or list of names if using categoricals directly
+        )
+
+        # Store the trained model for this fold
+        fold_models[model_name] = model
+
+        # Predict probabilities on the test set
+        print(f"    Predicting probabilities for {model_name}...")
+        probs = model.predict_proba(X_test)
+
+        # Store probabilities
+        if is_multiclass:
+            fold_predictions['P_H'] = probs[:, 0]
+            fold_predictions['P_D'] = probs[:, 1]
+            fold_predictions['P_A'] = probs[:, 2]
         else:
-            self.params['objective'] = objective
+            # For binary, predict_proba returns [P(0), P(1)]
+            # We store the probability of the positive class (usually 1)
+            fold_predictions[f'P_{model_name}'] = probs[:, 1]
 
-        if eval_metric is None:
-            if target_type == 'classification':
-                self.params['eval_metric'] = 'mlogloss'
-            elif target_type == 'binary':
-                self.params['eval_metric'] = 'logloss'
-            elif target_type == 'regression':
-                self.params['eval_metric'] = 'rmse' # Root Mean Squared Error
-        else:
-             self.params['eval_metric'] = eval_metric
+        print(f"    Best iteration for {model_name}: {model.best_iteration_}")
+        gc.collect() # Clean memory after training each model
 
-        # Initialize internal state
-        self.model: Optional[Union[xgb.XGBClassifier, xgb.XGBRegressor]] = None
-        self.is_fitted: bool = False
-        self.feature_names_: Optional[List[str]] = None
-        self.classes_: Optional[np.ndarray] = None # Original class labels (e.g., 'H', 'D', 'A')
-        self.label_encoder_: Optional[LabelEncoder] = None # Used for classification targets
-        self.num_class_: Optional[int] = None # Number of classes for multiclass
+    # Combine predictions for this fold into a DataFrame
+    fold_results_df = pd.DataFrame(fold_predictions)
+    all_fold_results.append(fold_results_df)
+    trained_models = fold_models # Keep models from the last fold
 
-    def fit(self, X_train: pd.DataFrame, y_train: pd.Series,
-            eval_set: Optional[List[Tuple[pd.DataFrame, pd.Series]]] = None,
-            verbose: bool = False):
-        """
-        Trains the XGBoost model.
+    print(f"Fold {fold + 1} completed.")
+    del X_train, X_test, y_train, y_test, fold_models, fold_predictions, fold_results_df
+    gc.collect()
 
-        Args:
-            X_train (pd.DataFrame): Features for training (numerical). Handle NaNs before fit.
-            y_train (pd.Series): Target labels ('H', 'D', 'A'; 0, 1; or continuous values).
-            eval_set (Optional[List[Tuple[pd.DataFrame, pd.Series]]]): List of (X, y) pairs for evaluation
-                                       during training, enabling early stopping.
-                                       Example: [(X_val, y_val)].
-            verbose (bool): If True, prints evaluation metrics during training (if eval_set is provided).
-        """
-        print(f"Fitting GradientBoostingModel (XGBoost, target_type='{self.target_type}')...")
+# --- Combine Results & Evaluate ---
+print("\nCombining results from all folds...")
+results_df = pd.concat(all_fold_results).reset_index(drop=True)
 
-        # --- Input Validation ---
-        # (Similar validation as RandomForestModel: check types, NaNs, lengths)
-        if not isinstance(X_train, pd.DataFrame): raise TypeError("X_train must be a pandas DataFrame.")
-        if not isinstance(y_train, pd.Series):
-             if isinstance(y_train, np.ndarray): y_train = pd.Series(y_train)
-             else: raise TypeError("y_train must be a pandas Series or numpy array.")
-        if X_train.isnull().values.any(): raise ValueError("X_train contains NaN values.")
-        if y_train.isnull().values.any(): raise ValueError("y_train contains NaN values.")
-        if len(X_train) != len(y_train): raise ValueError("X_train and y_train lengths mismatch.")
+# Define actual outcome columns needed for evaluation based on TARGET_COLUMNS
+actual_cols_to_merge = ['MatchID'] + list(TARGET_COLUMNS.values())
+# Add any other actual columns needed for metrics (like FTR for mapping HDA)
+if 'Actual_FTR_Numeric' not in actual_cols_to_merge:
+     actual_cols_to_merge.append('Actual_FTR_Numeric')
 
-        # --- Store Metadata & Prepare Target ---
-        self.feature_names_ = list(X_train.columns)
-        y_train_encoded = y_train.copy() # Default for regression/binary
+actuals_to_merge = df[actual_cols_to_merge].copy()
 
-        if self.target_type in ['classification', 'binary']:
-            self.label_encoder_ = LabelEncoder()
-            y_train_encoded = self.label_encoder_.fit_transform(y_train)
-            self.classes_ = self.label_encoder_.classes_
-            if self.target_type == 'classification':
-                self.num_class_ = len(self.classes_)
-                # Add num_class to params if objective is multi:* and not already set
-                if 'multi' in self.params['objective'] and 'num_class' not in self.params:
-                    self.params['num_class'] = self.num_class_
-            print(f"  Target classes found and encoded: {dict(zip(self.classes_, range(len(self.classes_))))}")
-        else: # Regression
-             self.classes_ = None # Not applicable
-             self.label_encoder_ = None
-             self.num_class_ = None
+# Merge results with actuals
+print("Merging predictions with actual outcomes...")
+final_eval_df = pd.merge(results_df, actuals_to_merge, on='MatchID', how='left')
+
+# Drop rows where essential actual outcomes might be missing
+essential_actuals = list(TARGET_COLUMNS.values())
+final_eval_df = final_eval_df.dropna(subset=essential_actuals)
+if 'Actual_FTR_Numeric' in final_eval_df.columns:
+    final_eval_df['Actual_FTR_Numeric'] = final_eval_df['Actual_FTR_Numeric'].astype(int)
+
+if final_eval_df.empty:
+     print("Error: No matching predictions and actuals found after merge. Check MatchIDs or data integrity.")
+else:
+    print(f"Evaluating on {len(final_eval_df)} matches.")
+
+    # --- Calculate Average Predicted Probabilities ---
+    avg_pred_cols = [col for col in final_eval_df.columns if col.startswith('P_')]
+    avg_metrics = final_eval_df[avg_pred_cols].mean()
+    print("\n--- Average Predicted Probabilities ---")
+    print(avg_metrics.sort_index())
+
+    # --- Calculate Actual Frequencies ---
+    print("\n--- Actual Frequencies in Test Sets ---")
+    actual_freq = {}
+    for model_name, target_col in TARGET_COLUMNS.items():
+         if model_name != 'HDA': # Handle binary targets
+             actual_freq[f'Actual_{model_name}'] = final_eval_df[target_col].mean()
+    # Handle HDA separately
+    if 'Actual_FTR_Numeric' in final_eval_df.columns:
+         actual_freq['Actual_H'] = (final_eval_df['Actual_FTR_Numeric'] == 0).mean()
+         actual_freq['Actual_D'] = (final_eval_df['Actual_FTR_Numeric'] == 1).mean()
+         actual_freq['Actual_A'] = (final_eval_df['Actual_FTR_Numeric'] == 2).mean()
+    print(pd.Series(actual_freq).sort_index())
 
 
-        # --- Initialize Model ---
-        if self.target_type == 'regression':
-            self.model = xgb.XGBRegressor(**self.params)
-        else: # classification or binary
-            self.model = xgb.XGBClassifier(**self.params)
+    # --- Evaluation Metrics ---
+    print("\n--- Performance Evaluation ---")
+    evaluation_scores = {}
 
-        # --- Prepare Fit Arguments (Early Stopping) ---
-        fit_params = {}
-        if self.early_stopping_rounds is not None and eval_set is not None:
-            processed_eval_set = []
-            for i, (X_val, y_val) in enumerate(eval_set):
-                # Validate validation set features
-                if list(X_val.columns) != self.feature_names_:
-                     raise ValueError(f"Validation set {i} features mismatch training features.")
-                if X_val.isnull().values.any():
-                     raise ValueError(f"Validation set {i} contains NaN values.")
-                # Encode validation target if needed
-                y_val_encoded = y_val
-                if self.label_encoder_:
-                    try:
-                        # Use transform only, assumes validation labels are subset of train labels
-                        y_val_encoded = self.label_encoder_.transform(y_val)
-                    except ValueError as e:
-                        unseen = set(y_val) - set(self.label_encoder_.classes_)
-                        raise ValueError(f"Validation set {i} contains unseen labels: {unseen}") from e
-                processed_eval_set.append((X_val, y_val_encoded))
+    # Brier Scores for Binary Classifiers
+    for model_name, target_col in TARGET_COLUMNS.items():
+         if model_name != 'HDA':
+             pred_col = f'P_{model_name}'
+             if pred_col in final_eval_df.columns and target_col in final_eval_df.columns:
+                 score = brier_score_loss(final_eval_df[target_col], final_eval_df[pred_col])
+                 print(f"Brier Score ({model_name}): {score:.4f}")
+                 evaluation_scores[f'Brier_{model_name}'] = score
+             else:
+                 print(f"Warning: Cannot calculate Brier score for {model_name}. Columns missing.")
 
-            fit_params['eval_set'] = processed_eval_set
-            fit_params['early_stopping_rounds'] = self.early_stopping_rounds
-            fit_params['verbose'] = verbose
-        elif self.early_stopping_rounds is not None:
-             warnings.warn("early_stopping_rounds is set, but no eval_set provided. Early stopping inactive.")
+    # Log Loss for HDA (Multiclass)
+    if 'P_H' in final_eval_df.columns and 'Actual_FTR_Numeric' in final_eval_df.columns:
+         hda_probs = final_eval_df[['P_H', 'P_D', 'P_A']].values
+         hda_actuals = final_eval_df['Actual_FTR_Numeric'].values
+         hda_probs = np.clip(hda_probs, 1e-15, 1 - 1e-15) # Clipping
+         if hda_probs.sum(axis=1).min() > 0:
+             hda_probs /= hda_probs.sum(axis=1)[:, np.newaxis] # Normalize row sums to 1
+             logloss_hda = log_loss(hda_actuals, hda_probs, labels=[0, 1, 2])
+             print(f"Log Loss (HDA): {logloss_hda:.4f}")
+             evaluation_scores['LogLoss_HDA'] = logloss_hda
+         else:
+             print("Warning: Could not calculate Log Loss HDA due to probability sum being zero.")
+    else:
+        print("Warning: Cannot calculate Log Loss HDA. Columns missing.")
 
-        # --- Train Model ---
-        print(f"  Training with objective='{self.model.objective}', eval_metric='{self.model.eval_metric}'...")
-        self.model.fit(X_train, y_train_encoded, **fit_params)
-        self.is_fitted = True
-        print("Fitting complete.")
-        if self.early_stopping_rounds and eval_set and hasattr(self.model, 'best_iteration'):
-             print(f"  Best iteration (early stopping): {self.model.best_iteration}")
-
-
-    def predict_proba(self, X_test: pd.DataFrame) -> pd.DataFrame:
-        """
-        Predicts class probabilities for classification/binary tasks.
-
-        Args:
-            X_test (pd.DataFrame): Features for prediction.
-
-        Returns:
-            pd.DataFrame: DataFrame with probability columns (e.g., 'prob_H', 'prob_D', 'prob_A').
-
-        Raises:
-            TypeError: If model target_type is 'regression'.
-            NotFittedError: If model is not fitted.
-        """
-        check_is_fitted(self, ['model', 'feature_names_'])
-        if self.target_type == 'regression':
-            raise TypeError("predict_proba is not available for regression models.")
-        if self.label_encoder_ is None or self.classes_ is None:
-             raise RuntimeError("Class labels/encoder not available. Model might be regression type or fit failed.")
-
-        # Validate X_test (features, NaNs) - simplified here, robust check needed
-        if list(X_test.columns) != self.feature_names_:
-             X_test = X_test[self.feature_names_] # Attempt reorder/select
-        if X_test.isnull().values.any(): raise ValueError("X_test contains NaN values.")
-
-        probabilities = self.model.predict_proba(X_test)
-        prob_cols = [f"prob_{cls}" for cls in self.classes_]
-        prob_df = pd.DataFrame(probabilities, columns=prob_cols, index=X_test.index)
-        return prob_df
-
-    def predict(self, X_test: pd.DataFrame) -> pd.DataFrame:
-        """
-        Makes predictions using the trained XGBoost model.
-
-        Args:
-            X_test (pd.DataFrame): Features for prediction. Handle NaNs beforehand.
-
-        Returns:
-            pd.DataFrame: DataFrame containing predictions.
-                          - Classification/Binary: 'prediction' (original label), 'prob_...' columns.
-                          - Regression: 'prediction' column with continuous values.
-        """
-        check_is_fitted(self, ['model', 'feature_names_'])
-
-        # Validate X_test (features, NaNs) - simplified here
-        if list(X_test.columns) != self.feature_names_:
-             try:
-                 X_test = X_test[self.feature_names_]
-             except KeyError as e:
-                 missing = set(self.feature_names_) - set(X_test.columns)
-                 raise ValueError(f"Feature mismatch: Missing {missing}") from e
-        if X_test.isnull().values.any(): raise ValueError("X_test contains NaN values.")
-
-        print(f"Predicting on {len(X_test)} samples...")
-        if self.target_type == 'regression':
-            predictions = self.model.predict(X_test)
-            results_df = pd.DataFrame({'prediction': predictions}, index=X_test.index)
-        else: # Classification or Binary
-            # Get probabilities first
-            prob_df = self.predict_proba(X_test)
-            # Get integer predictions from the model
-            int_predictions = self.model.predict(X_test)
-            # Decode integer predictions back to original labels
-            decoded_predictions = self.label_encoder_.inverse_transform(int_predictions)
-            pred_df = pd.DataFrame({'prediction': decoded_predictions}, index=X_test.index)
-            results_df = pd.concat([pred_df, prob_df], axis=1)
-
-            # Attempt standard H/D/A reordering for classification
-            if self.target_type == 'classification':
-                standard_order = ['H', 'D', 'A']
-                ordered_cols = ['prediction']
-                present_classes = [str(c) for c in self.classes_]
-                if all(str(c) in present_classes for c in standard_order):
-                    ordered_cols.extend([f"prob_{c}" for c in standard_order])
-                else:
-                    ordered_cols.extend(prob_df.columns) # Keep original prob columns
-                try:
-                    results_df = results_df[ordered_cols]
-                except KeyError:
-                    pass # Keep original if reorder fails
-
-        print("Prediction complete.")
-        return results_df
-
-    def feature_importance(self, importance_type: str = 'gain') -> pd.Series:
-        """
-        Returns feature importances from the trained XGBoost model.
-
-        Args:
-            importance_type (str): Type of importance to return ('weight', 'gain', 'cover', 'total_gain', 'total_cover').
-                                   'gain' is often a good default. Defaults to 'gain'.
-
-        Returns:
-            pd.Series: Feature importances, indexed by feature name, sorted descending.
-        """
-        check_is_fitted(self, ['model', 'feature_names_'])
-        try:
-            # Use the model's built-in method if available (newer XGBoost versions)
-            # score = self.model.get_booster().get_score(importance_type=importance_type)
-            # For compatibility, access the attribute directly:
-            importances = self.model.feature_importances_ # Note: Default importance type might vary by XGB version/model type
-            # If you need specific types like 'gain', you might need to access the booster:
-            # booster = self.model.get_booster()
-            # score_dict = booster.get_score(importance_type=importance_type)
-            # # Need to map back to original feature names if booster renames them
-            # importances = pd.Series(score_dict).reindex(self.feature_names_, fill_value=0)
-
-        except AttributeError:
-             raise NotFittedError("Could not retrieve feature importances. Model might not be fitted or type incompatible.")
-
-        return pd.Series(importances, index=self.feature_names_).sort_values(ascending=False)
-
-    def save_model(self, filepath: str):
-        """
-        Saves the trained model state (model, feature names, encoder, etc.) using joblib.
-
-        Args:
-            filepath (str): Path to save the model file (e.g., 'xgb_model.joblib').
-        """
-        if not self.is_fitted:
-            raise NotFittedError("Cannot save an unfitted model.")
-        print(f"Saving GradientBoostingModel (XGBoost) state to {filepath}...")
-        state = {
-            'model': self.model,
-            'feature_names_': self.feature_names_,
-            'classes_': self.classes_,
-            'label_encoder_': self.label_encoder_,
-            'target_type': self.target_type,
-            'params': self.params, # Save init params
-            'num_class_': self.num_class_
-        }
-        joblib.dump(state, filepath)
-        print("Model state saved successfully.")
-
-    @classmethod
-    def load_model(cls, filepath: str):
-        """
-        Loads a trained model state from a file.
-
-        Args:
-            filepath (str): Path to the saved model file.
-
-        Returns:
-            GradientBoostingModel: An instance of the class with the loaded state.
-        """
-        print(f"Loading GradientBoostingModel (XGBoost) state from {filepath}...")
-        state = joblib.load(filepath)
-        # Create instance with saved config
-        instance = cls(target_type=state.get('target_type', 'classification'), **state.get('params', {}))
-        # Load the fitted attributes
-        instance.model = state['model']
-        instance.feature_names_ = state['feature_names_']
-        instance.classes_ = state['classes_']
-        instance.label_encoder_ = state['label_encoder_']
-        instance.num_class_ = state.get('num_class_')
-        instance.is_fitted = True
-        print("Model state loaded successfully.")
-        return instance
-
-# Example Usage
-if __name__ == '__main__':
-    from sklearn.model_selection import train_test_split
-    from sklearn.metrics import classification_report, accuracy_score, log_loss
-
-    # --- 1. Create Dummy Data (Using same setup as RF example) ---
-    print("\n--- GradientBoostingModel (XGBoost) Example ---")
-    np.random.seed(42)
-    data_size = 500
-    X = pd.DataFrame({
-        'ImpliedProbH': np.random.uniform(0.2, 0.7, data_size), 'ImpliedProbD': np.random.uniform(0.2, 0.4, data_size),
-        'ImpliedProbA': 1.0 - (np.random.uniform(0.2, 0.7, data_size) + np.random.uniform(0.2, 0.4, data_size)),
-        'HomeFormPts_L5': np.random.randint(0, 16, data_size), 'AwayFormPts_L5': np.random.randint(0, 16, data_size),
-        'HomeGoalDiff_L5': np.random.randint(-5, 6, data_size), 'AwayGoalDiff_L5': np.random.randint(-5, 6, data_size),
-        'LeaguePosDiff': np.random.randint(-19, 20, data_size), 'H2H_HomeWinRatio': np.random.rand(data_size)
-    })
-    X['ImpliedProbA'] = X['ImpliedProbA'].clip(lower=0.05); X['ImpliedProbH'] = (1.0 - X['ImpliedProbD'] - X['ImpliedProbA']).clip(lower=0.05)
-    prob_H_true = X['ImpliedProbH'] * 1.2 + (X['HomeFormPts_L5'] - X['AwayFormPts_L5']) / 30 - X['LeaguePosDiff'] / 40
-    prob_A_true = X['ImpliedProbA'] * 1.2 + (X['AwayFormPts_L5'] - X['HomeFormPts_L5']) / 30 + X['LeaguePosDiff'] / 40
-    prob_D_true = X['ImpliedProbD'] * 1.1 + (1 - abs(X['LeaguePosDiff'] / 20)) * 0.1
-    total_prob = (prob_H_true + prob_D_true + prob_A_true).clip(lower=1e-6); p_H = (prob_H_true / total_prob).clip(0, 1)
-    p_D = (prob_D_true / total_prob).clip(0, 1); p_A = 1.0 - p_H - p_D
-    y_cat = [];
-    for p_h, p_d, p_a in zip(p_H, p_D, p_A): probs = np.array([p_h, p_d, p_a]); probs /= probs.sum(); y_cat.append(np.random.choice(['H', 'D', 'A'], p=probs))
-    y = pd.Series(y_cat)
-
-    print("Dummy Data Generated (Features):"); print(X.head())
-    print("\nTarget Distribution:"); print(y.value_counts(normalize=True))
-
-    # --- 2. Split Data (Train, Validation, Test) ---
-    X_train_val, X_test, y_train_val, y_test = train_test_split(X, y, test_size=0.20, random_state=42, stratify=y)
-    X_train, X_val, y_train, y_val = train_test_split(X_train_val, y_train_val, test_size=0.25, random_state=42, stratify=y_train_val)
-    print(f"\nTrain size: {len(X_train)}, Val size: {len(X_val)}, Test size: {len(X_test)}")
-
-    # --- 3. Initialize and Fit Model (with early stopping) ---
-    xgb_model = GradientBoostingModel(
-        target_type='classification',
-        n_estimators=500, # Higher number for early stopping
-        learning_rate=0.05,
-        max_depth=4,
-        subsample=0.7,
-        colsample_bytree=0.7,
-        gamma=0.1,
-        early_stopping_rounds=50, # Enable early stopping
-        random_state=42
-    )
-    # Note: For early stopping, XGBoost needs the eval_set during fit
-    xgb_model.fit(X_train, y_train, eval_set=[(X_val, y_val)], verbose=False)
-
-    # --- 4. Predict ---
-    predictions_df = xgb_model.predict(X_test)
-    print("\nPredictions on Test Set (Top 5):")
-    print(predictions_df.head())
-
-    # --- 5. Evaluate ---
-    print("\nEvaluation:")
-    accuracy = accuracy_score(y_test, predictions_df['prediction'])
-    # Need probabilities for log loss - use predict_proba
-    try:
-        prob_df = xgb_model.predict_proba(X_test)
-         # Ensure columns match the order expected by log_loss based on original labels
-        logloss = log_loss(y_test, prob_df[[f"prob_{c}" for c in xgb_model.label_encoder_.classes_]])
-        print(f"Accuracy: {accuracy:.4f}")
-        print(f"Log Loss: {logloss:.4f}")
-    except Exception as e:
-        print(f"Could not calculate Log Loss: {e}")
-        print(f"Accuracy: {accuracy:.4f}")
-
-
-    print("Classification Report:")
-    report = classification_report(y_test, predictions_df['prediction'], labels=xgb_model.classes_)
-    print(report)
-
-    # --- 6. Feature Importance ---
-    print("\nFeature Importances (default type):")
-    try:
-        importances = xgb_model.feature_importance()
-        print(importances)
-    except NotFittedError as e:
-        print(e)
-
-    # --- 7. Save and Load ---
-    model_path = "temp_xgb_model_prod.joblib"
-    xgb_model.save_model(model_path)
-    loaded_model = GradientBoostingModel.load_model(model_path)
-
-    # Verify loaded model makes same predictions
-    loaded_predictions_df = loaded_model.predict(X_test)
-    print("\nPredictions from Loaded Model (Top 5):")
-    print(loaded_predictions_df.head())
-    # Use appropriate comparison allowing for float tolerance
-    pd.testing.assert_frame_equal(predictions_df, loaded_predictions_df, check_exact=False, atol=1e-6)
-    print("\nSave/Load test passed.")
-
-    # Clean up
-    import os
-    if os.path.exists(model_path): os.remove(model_path)
+    print("\n--- Direct Probability Prediction Complete ---")
+    # Save results if needed
+    # final_eval_df.to_csv('gradient_boosting_results.csv', index=False)
+    # print("Results saved to gradient_boosting_results.csv")

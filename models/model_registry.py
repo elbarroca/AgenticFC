@@ -1,58 +1,70 @@
 # models/model_registry.py
+"""
+Registry of available prediction models.
+"""
 
-from typing import Dict, Type, Optional, List
+from typing import Dict, Type, Optional, List, Any
 import logging
+import sys
+import os
 
-# --- Import all specific model classes ---
-# Use relative imports assuming all model files are in the 'models' directory
+# Configure logging
+logging.basicConfig(level=logging.INFO, 
+                   format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Define BaseModel type for reference (even if not imported)
+class BaseModelType:
+    """Placeholder for BaseModel type if import fails"""
+    pass
+
+# Import BaseModel for type checking
 try:
-    from .base_model import BaseModel # Base class (optional dependency for type hinting)
-    from .poisson_model import PoissonModel
-    from .bayesian_model import BayesianModel
-    from .markov_model import MarkovModel
-    from .random_forest_model import RandomForestModel
-    from .gradient_boosting_model import GradientBoostingModel # Assuming XGBoost implementation
-    from .lstm_model import LSTMModel
-    # MonteCarlo might not inherit from BaseModel if it doesn't 'fit' data
-    from .monte_carlo_model import MonteCarloModel
-    # EnsembleModel is usually used differently (wraps other models)
-    # from .ensemble_model import EnsembleModel
-
-    # --- Define the Model Registry ---
-    # Maps string names to the actual model classes
-    MODEL_REGISTRY: Dict[str, Type[BaseModel] | Type] = {
-        # Models inheriting from BaseModel (or with compatible interface)
-        "poisson": PoissonModel,
-        "bayesian": BayesianModel,
-        "markov": MarkovModel, # MarkovModel for form transitions was adapted to BaseModel
-        "random_forest": RandomForestModel,
-        "gradient_boosting": GradientBoostingModel, # Assumes the XGBoost one
-        "lstm": LSTMModel,
-
-        # Models that might have a different interface (like MonteCarlo)
-        "monte_carlo": MonteCarloModel,
-
-        # Ensemble model is typically constructed with other models, not loaded directly via registry often
-        # "ensemble": EnsembleModel,
-    }
-    logging.info(f"Model registry initialized with keys: {list(MODEL_REGISTRY.keys())}")
-
+    # Try absolute import first
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    from base_model import BaseModel
+    BaseModelType = BaseModel
+    logging.info("Successfully imported BaseModel")
 except ImportError as e:
-    logging.error(f"Error importing model classes for registry: {e}. Ensure all model files exist in the 'models' directory.")
-    # Define an empty registry or raise error if imports fail critically
-    MODEL_REGISTRY = {}
-    # raise ImportError(f"Could not import model classes: {e}") from e
+    logging.warning(f"Could not import BaseModel: {e}")
+    # BaseModelType remains the placeholder class
 
+# Dictionary to store registered models
+MODEL_REGISTRY = {}
 
-def get_model_class(model_name: str) -> Optional[Type[BaseModel] | Type]:
+# First, try to import the Monte Carlo model
+try:
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'wrappers'))
+    from wrappers.monte_carlo import MonteCarloModel
+    MODEL_REGISTRY['monte_carlo'] = MonteCarloModel
+    logging.info("Successfully registered MonteCarloModel")
+except ImportError as e:
+    logging.warning(f"Could not import MonteCarloModel: {e}")
+
+# Try to import other models as available
+# These are commented out since they likely don't exist yet
+# try:
+#     from poisson_model import PoissonModel
+#     MODEL_REGISTRY['poisson'] = PoissonModel
+# except ImportError:
+#     pass
+
+# try:
+#     from random_forest_model import RandomForestModel
+#     MODEL_REGISTRY['random_forest'] = RandomForestModel
+# except ImportError:
+#     pass
+
+# Functions to access model registry
+
+def get_model_class(model_name: str) -> Optional[Any]:
     """
-    Retrieves a model class from the registry based on its string name.
-
+    Get model class by name from registry.
+    
     Args:
-        model_name (str): The registered name of the model (e.g., 'random_forest').
-
+        model_name: Name of the model to retrieve
+        
     Returns:
-        Optional[Type[BaseModel] | Type]: The corresponding model class, or None if not found.
+        Model class if found, None otherwise
     """
     model_name_lower = model_name.lower()
     model_class = MODEL_REGISTRY.get(model_name_lower)
@@ -61,33 +73,19 @@ def get_model_class(model_name: str) -> Optional[Type[BaseModel] | Type]:
     return model_class
 
 def list_available_models() -> List[str]:
-    """Returns a list of names of the models available in the registry."""
+    """
+    List all available model names.
+    
+    Returns:
+        List of model names available in the registry
+    """
     return list(MODEL_REGISTRY.keys())
 
-# Example Usage
+# Print available models when module is imported
+logging.info(f"Model registry initialized with models: {list_available_models()}")
+
+# Example usage when run directly
 if __name__ == '__main__':
-    print("\n--- Model Registry Example ---")
-    available = list_available_models()
-    print(f"Available models: {available}")
-
-    model_name_to_get = "random_forest"
-    RFModelClass = get_model_class(model_name_to_get)
-
-    if RFModelClass:
-        print(f"\nRetrieved class for '{model_name_to_get}': {RFModelClass}")
-        # You can now instantiate it (potentially using config)
-        # try:
-        #     # Example instantiation (requires config or default params)
-        #     # import config
-        #     # rf_instance = RFModelClass(**config.RF_PARAMS)
-        #     rf_instance = RFModelClass() # Using defaults if defined
-        #     print(f"Instantiated: {rf_instance}")
-        # except Exception as e:
-        #     print(f"Could not instantiate {RFModelClass.__name__}: {e}")
-    else:
-        print(f"\nCould not retrieve class for '{model_name_to_get}'.")
-
-    model_name_to_get = "non_existent_model"
-    NonExistentClass = get_model_class(model_name_to_get)
-    if NonExistentClass is None:
-        print(f"\nCorrectly handled non-existent model: '{model_name_to_get}'")
+    print("Available models:")
+    for model_name in list_available_models():
+        print(f"- {model_name}")

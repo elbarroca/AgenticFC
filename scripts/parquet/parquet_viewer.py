@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Define the path to your Parquet file
-file_path = '/Users/barroca888/Downloads/Agenticfc/AgenticFC888/data/unified_data/csv_unified_full_cols.parquet'
+file_path = '/Users/barroca888/Downloads/Agenticfc/AgenticFC888/models/parquets/final_data.parquet'
 
 try:
     # Read the Parquet file into a pandas DataFrame
