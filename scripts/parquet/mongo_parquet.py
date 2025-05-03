@@ -289,17 +289,17 @@ def load_and_standardize_mongo_data(mongo_uri: str, db_name: str, collection_nam
     logging.info(f"Successfully processed {len(mongo_df)} MongoDB documents into DataFrame.")
     return mongo_df
 
-def calculate_rolling_features(df: pd.DataFrame, windows: list = [5, 10, 15]) -> pd.DataFrame:
-    """ Calculates rolling features including Avg Goals Scored and BTTS Ratio, grouped by TeamID. """
+def calculate_rolling_features(df: pd.DataFrame, windows: list = [3, 5, 10, 15]) -> pd.DataFrame:
+    """ Calculates rolling features including Avg Goals Scored/Conceded, BTTS Ratio, and Clean Sheet Ratio, grouped by TeamID. """
     if df.empty: logging.warning("Input DF empty, skipping rolling features."); return df
 
     # Essential columns now include Team IDs
-    essential_cols = ['Date', 'HomeTeam', 'AwayTeam', 'HomeTeamID', 'AwayTeamID', 'FTR', 'MatchID', 'FTHG', 'FTAG']
+    essential_cols = ['Date', 'HomeTeam', 'AwayTeam', 'HomeTeamID', 'AwayTeamID', 'FTR', 'MatchID', 'FTHG', 'FTAG', 'LeagueID', 'Season'] # Added LeagueID/Season for potential future league calcs
     existing_match_stats = [col for col in ALL_MATCH_SPECIFIC_STATS_COLS if col in df.columns and pd.api.types.is_numeric_dtype(df[col])]
     missing_essentials = [col for col in essential_cols if col not in df.columns]
     if missing_essentials: logging.error(f"Missing essential columns for ID-based rolling features: {missing_essentials}. Skipping."); return df
 
-    logging.info(f"Calculating rolling features using TeamID (Windows: {windows}). Includes AvgGoalsScored & BTTS Ratio.")
+    logging.info(f"Calculating rolling features using TeamID (Windows: {windows}). Includes AvgGoalsScored/Conceded, BTTS Ratio, CleanSheet Ratio.")
 
     # 1. Ensure Chronological Order & Unique MatchID
     df = df.sort_values(by='Date').reset_index(drop=True)
@@ -420,6 +420,31 @@ def calculate_rolling_features(df: pd.DataFrame, windows: list = [5, 10, 15]) ->
     else:
         logging.warning("BTTS_Flag column creation failed or was skipped.")
 
+    # --- Add Clean Sheet Flag ---
+    # Ensure GoalsAgainst is numeric first
+    if 'GoalsAgainst' not in df_canonical.columns:
+        logging.error("'GoalsAgainst' column missing from canonical view. Cannot calculate Clean Sheets.")
+    else:
+        df_canonical['GoalsAgainst'] = pd.to_numeric(df_canonical['GoalsAgainst'], errors='coerce')
+        # Calculate CleanSheet flag (1 if GoalsAgainst is 0, 0 otherwise, NA if GoalsAgainst is NA)
+        cs_conditions = [
+            df_canonical['GoalsAgainst'] == 0,                  # Conceded 0 goals -> 1
+            pd.notna(df_canonical['GoalsAgainst'])              # Conceded > 0 goals -> 0
+        ]
+        cs_choices = [1, 0]
+        # Assign to a temporary column first
+        df_canonical['CleanSheet_Flag_temp'] = np.select(cs_conditions, cs_choices, default=np.nan)
+
+        # Convert to Int64
+        try:
+            df_canonical['CleanSheet_Flag'] = pd.to_numeric(df_canonical['CleanSheet_Flag_temp'], errors='coerce').astype('Int64')
+            logging.info(f"CleanSheet_Flag column created with dtype: {df_canonical['CleanSheet_Flag'].dtype}")
+        except Exception as e:
+            logging.error(f"Failed to convert CleanSheet_Flag_temp to Int64: {e}. Check intermediate values.")
+            df_canonical['CleanSheet_Flag'] = pd.to_numeric(df_canonical['CleanSheet_Flag_temp'], errors='coerce') # Fallback to float
+
+        if 'CleanSheet_Flag_temp' in df_canonical.columns:
+            df_canonical.drop(columns=['CleanSheet_Flag_temp'], inplace=True)
 
     # 4. Sort by TeamID, then Date (Crucial!)
     # Ensure Date is datetime for sorting
@@ -430,52 +455,87 @@ def calculate_rolling_features(df: pd.DataFrame, windows: list = [5, 10, 15]) ->
     # 5. Pre-calculate W/D/L flags
     for r_type in ['W', 'D', 'L']: df_canonical[f'Is_{r_type}'] = (df_canonical['Result'] == r_type).astype(int)
 
+    # --- Define stats needed for rolling averages ---
+    stats_to_avg = sorted([s for s in list_of_canonical_stats_for_avg if s != 'GoalsFor']) # Exclude GoalsFor as it's handled separately
+    # Explicitly define flags/metrics for ratios/averages
+    ratio_flags = ['BTTS_Flag', 'CleanSheet_Flag']
+    goal_metrics = ['GoalsFor', 'GoalsAgainst']
+    points_metrics = ['Points']
+    wdl_metrics = ['Is_W', 'Is_D', 'Is_L']
 
-    # --- Calculate Rolling Features - Corrected Approach (Inner function mostly unchanged, uses grouped data) ---
-    # The calculate_team_rolling_features_corrected function definition remains the same
-    # as it operates on the 'team_data' passed to it, which will be grouped by TeamID later.
-    # We might update logging inside it if needed.
-    def calculate_team_rolling_features_corrected(team_data, window_list, stats_to_avg):
+    # --- Calculate Rolling Features - Corrected Approach ---
+    def calculate_team_rolling_features_corrected(team_data, window_list, base_stats_to_avg, goal_stats, ratio_stats, points_stats, wdl_stats):
         # Get TeamID for logging
         team_id_for_log = team_data['TeamID'].iloc[0] if not team_data.empty and 'TeamID' in team_data.columns else 'Unknown ID'
+
+        # Convert necessary flag/metric columns to numeric before shifting/rolling
+        all_metrics_to_convert = base_stats_to_avg + goal_stats + ratio_stats + points_stats + wdl_stats
+        for col in all_metrics_to_convert:
+            if col in team_data.columns:
+                team_data[col] = pd.to_numeric(team_data[col], errors='coerce')
+            else:
+                logging.warning(f"Metric column '{col}' not found for TeamID {team_id_for_log} before rolling. Will result in NaNs.")
+                team_data[col] = np.nan # Ensure column exists even if missing
 
         team_data = team_data.set_index('Date', drop=False) # Use Date index for rolling
         if team_data.index.has_duplicates:
              logging.warning(f"Team ID {team_id_for_log} has duplicate dates. Aggregating values before rolling.")
-             # Aggregate values for duplicate dates
-             agg_funcs = {col: 'mean' for col in stats_to_avg if col != 'BTTS_Flag'} # Avg most stats
-             agg_funcs.update({col: 'sum' for col in ['Points', 'Is_W', 'Is_D', 'Is_L'] if col in team_data.columns})
-             agg_funcs.update({'BTTS_Flag': 'mean'})
-             # Keep other identifying columns like MatchID, Venue, TeamID etc. using 'first'
-             id_cols = ['MatchID', 'TeamID', 'OpponentID', 'Venue', 'Result', 'Date', 'TeamName', 'OpponentName'] # Added names
-             agg_funcs.update({col: 'first' for col in id_cols if col in team_data.columns and col != 'Date'}) # Exclude Date as it's index
+             # Simplified Aggregation: Focus on keeping necessary columns and numeric stats
+             agg_funcs = {}
+             # Average most numeric stats
+             for col in base_stats_to_avg + goal_stats:
+                 if col in team_data.columns: agg_funcs[col] = 'mean'
+             # Mean for ratios
+             for col in ratio_stats:
+                 if col in team_data.columns: agg_funcs[col] = 'mean'
+             # Sum for points/WDL counts
+             for col in points_stats + wdl_stats:
+                 if col in team_data.columns: agg_funcs[col] = 'sum'
+
+             # Keep identifying columns using 'first'
+             id_cols = ['MatchID', 'TeamID', 'OpponentID', 'Venue', 'Result', 'Date', 'TeamName', 'OpponentName']
+             agg_funcs.update({col: 'first' for col in id_cols if col in team_data.columns and col != 'Date'})
+
+             # Capture any other columns with 'first'
              other_cols = [c for c in team_data.columns if c not in agg_funcs and c not in id_cols]
              agg_funcs.update({col: 'first' for col in other_cols})
 
              try:
                  team_data = team_data.groupby(level=0).agg(agg_funcs)
-                 if team_data.index.name != 'Date':
-                      team_data = team_data.reset_index().set_index('Date', drop=False)
+                 if 'Date' not in team_data.columns: team_data.reset_index(inplace=True) # Ensure Date is a column if it became index name
+                 team_data = team_data.set_index('Date', drop=False) # Reset index after potential reset_index
                  logging.info(f"Aggregated duplicate dates for team ID {team_id_for_log}.")
              except Exception as agg_e:
                   logging.error(f"Error aggregating duplicate dates for team ID {team_id_for_log}: {agg_e}. Skipping aggregation.")
+                  # Drop duplicates based on index (Date) if aggregation fails
                   team_data = team_data[~team_data.index.duplicated(keep='first')]
 
+
         features_list = []
-        shifted_data = team_data.shift(1)
+        shifted_data = team_data.shift(1) # Shift AFTER potential aggregation and numeric conversion
 
         for current_date, current_row in team_data.iterrows():
-             # Use MatchID and Venue from the current row for linking features back
-             row_features = {'MatchID': current_row['MatchID'], 'Venue': current_row['Venue']}
-             if pd.isna(row_features['MatchID']) or pd.isna(row_features['Venue']):
-                 logging.warning(f"Missing MatchID or Venue for TeamID {team_id_for_log} on date {current_date}. Skipping row feature calculation.")
-                 continue # Skip if key identifiers are missing
+             row_features = {'MatchID': current_row['MatchID']} # Use MatchID only for linking
+             if pd.isna(row_features['MatchID']):
+                 logging.warning(f"Missing MatchID for TeamID {team_id_for_log} on date {current_date}. Cannot link features for this row.")
+                 continue # Skip if MatchID is missing
+
+             # Add Venue for context separation during merge later
+             row_features['Venue'] = current_row['Venue']
+             if pd.isna(row_features['Venue']):
+                 logging.warning(f"Missing Venue for TeamID {team_id_for_log}, MatchID {row_features['MatchID']} on date {current_date}. Defaulting to 'Unknown'.")
+                 row_features['Venue'] = 'Unknown'
+
 
              shifted_data.index = pd.to_datetime(shifted_data.index)
              current_date_ts = pd.to_datetime(current_date)
-             hist_data = shifted_data[shifted_data.index < current_date_ts]
+             # Ensure shifted_data index is strictly before current_date_ts
+             hist_data = shifted_data[shifted_data.index < current_date_ts].copy() # Use .copy() to avoid SettingWithCopyWarning
+
+             # Separate Home/Away based on the *historic* Venue column
              hist_home = hist_data[hist_data['Venue'] == 'Home']
              hist_away = hist_data[hist_data['Venue'] == 'Away']
+
 
              for W in window_list:
                 ws = f"_Last{W}"
@@ -483,49 +543,72 @@ def calculate_rolling_features(df: pd.DataFrame, windows: list = [5, 10, 15]) ->
                 hist_home_w = hist_home.tail(W)
                 hist_away_w = hist_away.tail(W)
 
-                # --- Total Context ---
-                ctx = '_Total'; pts_col = 'Points'; wdl_cols = ['Is_W', 'Is_D', 'Is_L']
-                if not hist_data_w.empty:
-                    if pts_col in hist_data_w: row_features[f'FormPoints{ctx}{ws}'] = pd.to_numeric(hist_data_w[pts_col], errors='coerce').sum(min_count=1)
-                    for r_col in wdl_cols:
-                        if r_col in hist_data_w: row_features[f'{r_col[3:]}_Count{ctx}{ws}'] = pd.to_numeric(hist_data_w[r_col], errors='coerce').sum(min_count=1)
-                    for stat in stats_to_avg:
-                        if stat in hist_data_w and stat != 'BTTS_Flag':
-                            avg_col_name = f'AvgGoalsScored{ctx}{ws}' if stat == 'GoalsFor' else f'Avg{stat}{ctx}{ws}'
-                            numeric_stat = pd.to_numeric(hist_data_w[stat], errors='coerce')
-                            row_features[avg_col_name] = numeric_stat.mean() if numeric_stat.notna().any() else np.nan
-                    if 'GoalsAgainst' in hist_data_w:
-                        numeric_stat_against = pd.to_numeric(hist_data_w['GoalsAgainst'], errors='coerce')
-                        row_features[f'AvgGoalsConceded{ctx}{ws}'] = numeric_stat_against.mean() if numeric_stat_against.notna().any() else np.nan
-                    if 'BTTS_Flag' in hist_data_w:
-                        btts_flag_numeric = pd.to_numeric(hist_data_w['BTTS_Flag'], errors='coerce')
-                        row_features[f'BTTS_Ratio{ctx}{ws}'] = btts_flag_numeric.mean() if btts_flag_numeric.notna().any() else np.nan
-                    else: row_features[f'BTTS_Ratio{ctx}{ws}'] = np.nan
-                # Add else block to explicitly set NaNs if hist_data_w is empty
-                else:
-                    if pts_col in team_data.columns: row_features[f'FormPoints{ctx}{ws}'] = np.nan
-                    for r_col in wdl_cols:
-                         if r_col in team_data.columns: row_features[f'{r_col[3:]}_Count{ctx}{ws}'] = np.nan
-                    for stat in stats_to_avg:
-                        if stat in team_data.columns and stat != 'BTTS_Flag':
-                             avg_col_name = f'AvgGoalsScored{ctx}{ws}' if stat == 'GoalsFor' else f'Avg{stat}{ctx}{ws}'
-                             row_features[avg_col_name] = np.nan
-                    if 'GoalsAgainst' in team_data.columns: row_features[f'AvgGoalsConceded{ctx}{ws}'] = np.nan
-                    if 'BTTS_Flag' in team_data.columns: row_features[f'BTTS_Ratio{ctx}{ws}'] = np.nan
+                for ctx_data, ctx_label in [(hist_data_w, '_Total'), (hist_home_w, '_Home'), (hist_away_w, '_Away')]:
+                    if ctx_data.empty:
+                        # Set all expected features for this context/window to NaN
+                        if 'Points' in team_data.columns: row_features[f'FormPoints{ctx_label}{ws}'] = np.nan
+                        for r_col in wdl_stats: row_features[f'{r_col[3:]}_Count{ctx_label}{ws}'] = np.nan
+                        for stat in base_stats_to_avg: row_features[f'Avg{stat}{ctx_label}{ws}'] = np.nan
+                        if 'GoalsFor' in team_data.columns: row_features[f'AvgGoalsScored{ctx_label}{ws}'] = np.nan
+                        if 'GoalsAgainst' in team_data.columns: row_features[f'AvgGoalsConceded{ctx_label}{ws}'] = np.nan # Add Conceded
+                        if 'BTTS_Flag' in team_data.columns: row_features[f'BTTS_Ratio{ctx_label}{ws}'] = np.nan
+                        if 'CleanSheet_Flag' in team_data.columns: row_features[f'CleanSheet_Ratio{ctx_label}{ws}'] = np.nan # Add CleanSheet
+                        continue # Skip calculations if no data for this context/window
 
+                    # --- Calculate Points/WDL Counts ---
+                    if 'Points' in ctx_data.columns:
+                        numeric_pts = pd.to_numeric(ctx_data['Points'], errors='coerce')
+                        row_features[f'FormPoints{ctx_label}{ws}'] = numeric_pts.sum(min_count=1) # Use min_count=1 to get sum even if some are NA
+                    for r_col in wdl_stats:
+                        if r_col in ctx_data.columns:
+                            numeric_wdl = pd.to_numeric(ctx_data[r_col], errors='coerce')
+                            row_features[f'{r_col[3:]}_Count{ctx_label}{ws}'] = numeric_wdl.sum(min_count=1)
+
+                    # --- Calculate Base Stat Averages ---
+                    for stat in base_stats_to_avg:
+                        if stat in ctx_data.columns:
+                            numeric_stat = pd.to_numeric(ctx_data[stat], errors='coerce')
+                            row_features[f'Avg{stat}{ctx_label}{ws}'] = numeric_stat.mean() # mean() handles NaNs correctly
+                        else: row_features[f'Avg{stat}{ctx_label}{ws}'] = np.nan
+
+                    # --- Calculate Goal Averages ---
+                    if 'GoalsFor' in ctx_data.columns:
+                        numeric_gf = pd.to_numeric(ctx_data['GoalsFor'], errors='coerce')
+                        row_features[f'AvgGoalsScored{ctx_label}{ws}'] = numeric_gf.mean()
+                    else: row_features[f'AvgGoalsScored{ctx_label}{ws}'] = np.nan
+
+                    if 'GoalsAgainst' in ctx_data.columns: # ADDED: Goals Conceded
+                        numeric_ga = pd.to_numeric(ctx_data['GoalsAgainst'], errors='coerce')
+                        row_features[f'AvgGoalsConceded{ctx_label}{ws}'] = numeric_ga.mean()
+                    else: row_features[f'AvgGoalsConceded{ctx_label}{ws}'] = np.nan
+
+                    # --- Calculate Ratios (BTTS, CleanSheet) ---
+                    if 'BTTS_Flag' in ctx_data.columns:
+                        numeric_btts = pd.to_numeric(ctx_data['BTTS_Flag'], errors='coerce')
+                        row_features[f'BTTS_Ratio{ctx_label}{ws}'] = numeric_btts.mean()
+                    else: row_features[f'BTTS_Ratio{ctx_label}{ws}'] = np.nan
+
+                    if 'CleanSheet_Flag' in ctx_data.columns: # ADDED: Clean Sheet Ratio
+                        numeric_cs = pd.to_numeric(ctx_data['CleanSheet_Flag'], errors='coerce')
+                        row_features[f'CleanSheet_Ratio{ctx_label}{ws}'] = numeric_cs.mean()
+                    else: row_features[f'CleanSheet_Ratio{ctx_label}{ws}'] = np.nan
 
              features_list.append(row_features)
 
         team_features_df = pd.DataFrame(features_list)
-        if 'MatchID' not in team_features_df.columns and not team_features_df.empty:
-             logging.error(f"MatchID lost during feature calculation for TeamID {team_id_for_log}. Check aggregation/processing logic.")
-             # Attempt recovery or return empty to signal failure
-             return pd.DataFrame() # Return empty if MatchID is lost
+        # Ensure MatchID and Venue are present for merging
+        if not team_features_df.empty:
+            if 'MatchID' not in team_features_df.columns:
+                 logging.error(f"MatchID lost during feature calculation for TeamID {team_id_for_log}. Returning empty DF.")
+                 return pd.DataFrame()
+            if 'Venue' not in team_features_df.columns:
+                 logging.error(f"Venue lost during feature calculation for TeamID {team_id_for_log}. Returning empty DF.")
+                 return pd.DataFrame()
 
         return team_features_df
 
 
-    logging.info("Applying rolling calculations per team ID (corrected method)...")
+    logging.info("Applying rolling calculations per team ID...")
     # Group by TeamID now
     df_canonical = df_canonical.sort_values(by=['TeamID', 'Date', 'MatchID'], ascending=[True, True, True]).reset_index(drop=True)
     # Check if TeamID column exists before grouping
@@ -535,16 +618,23 @@ def calculate_rolling_features(df: pd.DataFrame, windows: list = [5, 10, 15]) ->
     grouped_data = df_canonical.groupby('TeamID', group_keys=False, sort=False)
 
     all_teams_features_list = []
-    for team_id, group in grouped_data: # Iterate over team_id and group
+    processed_team_count = 0
+    for team_id, group in grouped_data:
+         processed_team_count += 1
          if group.empty:
              logging.warning(f"Group for team ID '{team_id}' is empty. Skipping rolling calculation.")
              continue
+         # if processed_team_count % 50 == 0: logging.info(f"Processing rolling features for team {processed_team_count}/{grouped_data.ngroups} (ID: {team_id})...")
          try:
-             team_features = calculate_team_rolling_features_corrected(group.copy(), windows, list_of_canonical_stats_for_avg)
+             # Pass the relevant stat lists to the inner function
+             team_features = calculate_team_rolling_features_corrected(
+                 group.copy(), windows, stats_to_avg, goal_metrics, ratio_flags, points_metrics, wdl_metrics
+             )
              if not team_features.empty:
                   all_teams_features_list.append(team_features)
              else:
-                  logging.warning(f"No features calculated for team ID '{team_id}'.")
+                  # Don't log warning if empty is expected (e.g., team has < window games)
+                  pass # logging.warning(f"No features calculated for team ID '{team_id}'.")
          except Exception as e:
              logging.error(f"Error calculating rolling features for team ID '{team_id}': {e}", exc_info=True)
 
@@ -552,82 +642,194 @@ def calculate_rolling_features(df: pd.DataFrame, windows: list = [5, 10, 15]) ->
     logging.info("Finished applying rolling calculations.")
 
     if not all_teams_features_list:
-        logging.error("No features calculated across all teams using TeamID. Problem during apply step or no valid data.")
+        logging.error("No features calculated across all teams. Problem during apply step or no valid data.")
+        # Return original df instead of empty if features fail, maybe some matches are still useful? Or keep returning df? Stick with current behavior for now.
         return df
 
     # Concatenate features from all teams
     rolling_features_df = pd.concat(all_teams_features_list, ignore_index=True)
-    logging.info(f"Concatenated rolling features shape (grouped by TeamID): {rolling_features_df.shape}")
+    logging.info(f"Concatenated rolling features shape: {rolling_features_df.shape}")
     if rolling_features_df.empty:
          logging.error("Concatenated rolling features DataFrame is empty.")
-         return df
+         return df # Return original df
 
-    # --- Merge features back to original match-centric DataFrame (using MatchID) ---
-    # This part remains the same as merging is based on MatchID, not TeamID
+    # --- Merge features back to original match-centric DataFrame (using MatchID and Venue) ---
     if 'MatchID' not in rolling_features_df.columns or 'Venue' not in rolling_features_df.columns:
-        logging.error("MatchID or Venue missing from calculated features DataFrame (TeamID grouped). Cannot merge back.")
-        logging.info(f"Columns in rolling_features_df: {rolling_features_df.columns.tolist()[:20]}...")
+        logging.error("MatchID or Venue missing from calculated features DataFrame. Cannot merge back.")
+        logging.info(f"Columns in rolling_features_df: {rolling_features_df.columns.tolist()[:30]}...") # Show more columns
+        return df # Return original df
+
+    # Ensure MatchID types match for merging
+    try:
+        rolling_features_df['MatchID'] = rolling_features_df['MatchID'].astype(str)
+        df['MatchID'] = df['MatchID'].astype(str)
+    except Exception as e:
+        logging.error(f"Failed to cast MatchID to string for merging: {e}")
         return df
 
-    rolling_features_df['MatchID'] = rolling_features_df['MatchID'].astype(str)
-    df['MatchID'] = df['MatchID'].astype(str)
-
+    # Identify all columns generated by the rolling function, excluding merge keys
     feature_cols = [col for col in rolling_features_df.columns if col not in ['MatchID', 'Venue']]
     if not feature_cols:
-        logging.error("No feature columns identified in rolling_features_df (TeamID grouped) after excluding MatchID/Venue.")
+        logging.error("No feature columns identified in rolling_features_df after excluding MatchID/Venue.")
         return df
 
+    # Separate features based on the Venue context they were calculated for
     df_home_rf = rolling_features_df[rolling_features_df['Venue'] == 'Home'].drop(columns=['Venue'])
     df_away_rf = rolling_features_df[rolling_features_df['Venue'] == 'Away'].drop(columns=['Venue'])
+    # Handle potential 'Unknown' venue if warnings occurred
+    df_unknown_rf = rolling_features_df[rolling_features_df['Venue'] == 'Unknown'].drop(columns=['Venue'])
+    if not df_unknown_rf.empty:
+        logging.warning(f"Found {len(df_unknown_rf)} rows with 'Unknown' venue in rolling features. These will not be merged.")
 
+
+    # Check for duplicates *within* the separated home/away feature sets before renaming
     if df_home_rf['MatchID'].duplicated().any():
-        logging.warning(f"Duplicate MatchIDs found in HOME rolling features (TeamID grouped). Keeping first.")
+        dup_count = df_home_rf['MatchID'].duplicated().sum()
+        logging.warning(f"Duplicate MatchIDs ({dup_count}) found in HOME rolling features. Keeping first.")
         df_home_rf = df_home_rf.drop_duplicates(subset=['MatchID'], keep='first')
     if df_away_rf['MatchID'].duplicated().any():
-        logging.warning(f"Duplicate MatchIDs found in AWAY rolling features (TeamID grouped). Keeping first.")
+        dup_count = df_away_rf['MatchID'].duplicated().sum()
+        logging.warning(f"Duplicate MatchIDs ({dup_count}) found in AWAY rolling features. Keeping first.")
         df_away_rf = df_away_rf.drop_duplicates(subset=['MatchID'], keep='first')
 
+    # Define renames
     home_rename = {col: f'Home_{col}' for col in feature_cols if col in df_home_rf}
     away_rename = {col: f'Away_{col}' for col in feature_cols if col in df_away_rf}
 
     df_home_rf = df_home_rf.rename(columns=home_rename)
     df_away_rf = df_away_rf.rename(columns=away_rename)
 
+    # Merge back
     merge_count_before = len(df)
-    original_cols = set(df.columns) # Store original columns before merge
+    original_cols = set(df.columns)
 
+    # Merge Home features
     if not df_home_rf.empty:
-        # Explicitly check if MatchID column exists before merge
         if 'MatchID' not in df_home_rf.columns:
              logging.error("MatchID missing from df_home_rf before merge.")
-             return df # Or handle error appropriately
-        df = pd.merge(df, df_home_rf, on='MatchID', how='left', suffixes=('', '_DROP_H'))
-        cols_to_drop_h = [c for c in df.columns if c.endswith('_DROP_H')]
-        if cols_to_drop_h:
-             logging.info(f"Dropping columns due to merge suffix _DROP_H: {cols_to_drop_h}")
-             df = df.drop(columns=cols_to_drop_h)
+        else:
+            df = pd.merge(df, df_home_rf, on='MatchID', how='left', suffixes=('', '_DROP_H'))
+            # Drop suffixed columns immediately after merge
+            cols_to_drop_h = [c for c in df.columns if c.endswith('_DROP_H')]
+            if cols_to_drop_h:
+                 # logging.info(f"Dropping columns due to merge suffix _DROP_H: {cols_to_drop_h}")
+                 df = df.drop(columns=cols_to_drop_h)
+            if len(df) != merge_count_before:
+                 logging.warning(f"Row count changed during HOME feature merge (Before: {merge_count_before}, After: {len(df)}). Check MatchIDs.")
+                 # Reset count for next merge check
+                 merge_count_before = len(df)
 
+
+    # Merge Away features
     if not df_away_rf.empty:
-         # Explicitly check if MatchID column exists before merge
         if 'MatchID' not in df_away_rf.columns:
              logging.error("MatchID missing from df_away_rf before merge.")
-             return df # Or handle error appropriately
-        df = pd.merge(df, df_away_rf, on='MatchID', how='left', suffixes=('', '_DROP_A'))
-        cols_to_drop_a = [c for c in df.columns if c.endswith('_DROP_A')]
-        if cols_to_drop_a:
-             logging.info(f"Dropping columns due to merge suffix _DROP_A: {cols_to_drop_a}")
-             df = df.drop(columns=cols_to_drop_a)
+        else:
+            df = pd.merge(df, df_away_rf, on='MatchID', how='left', suffixes=('', '_DROP_A'))
+            # Drop suffixed columns immediately after merge
+            cols_to_drop_a = [c for c in df.columns if c.endswith('_DROP_A')]
+            if cols_to_drop_a:
+                 # logging.info(f"Dropping columns due to merge suffix _DROP_A: {cols_to_drop_a}")
+                 df = df.drop(columns=cols_to_drop_a)
+            if len(df) != merge_count_before:
+                 logging.warning(f"Row count changed during AWAY feature merge (Before: {merge_count_before}, After: {len(df)}). Check MatchIDs.")
 
-
-    if len(df) != merge_count_before:
-        logging.warning(f"Row count changed during merge (Before: {merge_count_before}, After: {len(df)}). Check for MatchID issues.")
-
-    logging.info(f"Finished merging rolling features (grouped by TeamID). Final DF shape: {df.shape}")
-    new_cols_added = set(df.columns) - original_cols # Use original cols before merge
-    logging.info(f"Sample of newly added columns (TeamID grouped): {sorted(list(new_cols_added))[:20]}...") # Increased sample size
+    logging.info(f"Finished merging rolling features. Final DF shape: {df.shape}")
+    new_cols_added = set(df.columns) - original_cols
+    # Log sample of new columns, including the new ones
+    sample_new_cols = sorted([col for col in new_cols_added if 'CleanSheet' in col or 'Conceded' in col or 'BTTS' in col or 'Scored' in col or 'Points' in col])
+    logging.info(f"Sample of newly added rolling columns ({len(new_cols_added)} total): {sample_new_cols[:20]}...")
 
     return df
 
+def calculate_league_rolling_features(df: pd.DataFrame, windows: list = [3, 5, 10, 15]) -> pd.DataFrame:
+    """Calculates league-level rolling average features based on past matches within the same league and season."""
+    if df.empty: logging.warning("Input DF empty, skipping league rolling features."); return df
+
+    essential_cols = ['MatchID', 'LeagueID', 'Season', 'Date', 'FTHG', 'FTAG']
+    missing_essentials = [col for col in essential_cols if col not in df.columns]
+    if missing_essentials:
+        logging.error(f"Missing essential columns for league rolling features: {missing_essentials}. Skipping.")
+        return df
+
+    logging.info(f"Calculating league-level rolling features (Windows: {windows})...")
+
+    # Prepare data specifically for league calculations
+    league_df = df[essential_cols].copy()
+    league_df['Date'] = pd.to_datetime(league_df['Date'], errors='coerce')
+    league_df.dropna(subset=['Date', 'LeagueID', 'Season', 'FTHG', 'FTAG'], inplace=True)
+    if league_df.empty:
+        logging.warning("No valid data for league rolling feature calculation after dropping NaNs.")
+        return df
+
+    # Convert goals to numeric
+    league_df['FTHG'] = pd.to_numeric(league_df['FTHG'], errors='coerce')
+    league_df['FTAG'] = pd.to_numeric(league_df['FTAG'], errors='coerce')
+    league_df.dropna(subset=['FTHG', 'FTAG'], inplace=True) # Drop if goals couldn't be converted
+
+    # Calculate match-level metrics for the league view
+    league_df['League_TotalGoals'] = league_df['FTHG'] + league_df['FTAG']
+    league_df['League_BTTS_Flag'] = ((league_df['FTHG'] > 0) & (league_df['FTAG'] > 0)).astype(int)
+    league_df['League_HomeCleanSheet_Flag'] = (league_df['FTAG'] == 0).astype(int)
+    league_df['League_AwayCleanSheet_Flag'] = (league_df['FTHG'] == 0).astype(int)
+    league_df['League_AnyCleanSheet_Flag'] = ((league_df['FTHG'] == 0) | (league_df['FTAG'] == 0)).astype(int)
+
+    # Sort for rolling calculations
+    league_df = league_df.sort_values(by=['LeagueID', 'Season', 'Date', 'MatchID']).reset_index(drop=True)
+
+    # Define metrics to calculate rolling averages for
+    league_metrics = [
+        'FTHG', 'FTAG', 'League_TotalGoals', 'League_BTTS_Flag',
+        'League_HomeCleanSheet_Flag', 'League_AwayCleanSheet_Flag', 'League_AnyCleanSheet_Flag'
+    ]
+    league_feature_cols = [] # To store names of generated columns
+
+    # Group by league and season
+    grouped = league_df.groupby(['LeagueID', 'Season'], group_keys=False, sort=False)
+
+    # Apply rolling calculations
+    for W in windows:
+        ws = f"_Last{W}"
+        min_p = 1 # Set minimum periods to 1
+
+        for metric in league_metrics:
+            feature_name = f"LeagueAvg_{metric.replace('League_', '').replace('Flag', 'Ratio').replace('FTHG', 'HomeGoalsScored').replace('FTAG', 'AwayGoalsScored')}{ws}"
+            # Shift first, then apply rolling mean
+            league_df[feature_name] = grouped[metric].transform(
+                lambda x: x.shift(1).rolling(window=W, min_periods=min_p).mean()
+            )
+            league_feature_cols.append(feature_name)
+
+    logging.info(f"Finished calculating {len(league_feature_cols)} league rolling features.")
+
+    # Select only MatchID and the new features for merging
+    league_features_to_merge = league_df[['MatchID'] + league_feature_cols]
+
+    # Merge back into the original dataframe
+    merge_count_before = len(df)
+    original_cols = set(df.columns)
+
+    # Ensure MatchID is string in both for merging consistency
+    df['MatchID'] = df['MatchID'].astype(str)
+    league_features_to_merge['MatchID'] = league_features_to_merge['MatchID'].astype(str)
+
+    # Drop duplicates in features df just in case (shouldn't happen if grouping is correct)
+    league_features_to_merge = league_features_to_merge.drop_duplicates(subset=['MatchID'], keep='first')
+
+    df = pd.merge(df, league_features_to_merge, on='MatchID', how='left', suffixes=('', '_DROP_LEAGUE'))
+    cols_to_drop = [c for c in df.columns if c.endswith('_DROP_LEAGUE')]
+    if cols_to_drop:
+        # logging.info(f"Dropping columns due to merge suffix _DROP_LEAGUE: {cols_to_drop}")
+        df = df.drop(columns=cols_to_drop)
+
+    if len(df) != merge_count_before:
+        logging.warning(f"Row count changed during LEAGUE feature merge (Before: {merge_count_before}, After: {len(df)}). Check MatchIDs.")
+
+    new_cols_added = set(df.columns) - original_cols
+    logging.info(f"Successfully merged {len(new_cols_added)} league average features back into main DataFrame.")
+    logging.info(f"Sample of new league features: {sorted(list(new_cols_added))[:10]}...")
+
+    return df
 
 def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
     """Performs final cleaning, type casting, sorting, and column reordering."""
@@ -642,42 +844,63 @@ def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
     if 'Timestamp' in df.columns: df['Timestamp'] = pd.to_numeric(df['Timestamp'], errors='coerce')
 
     # --- Integer Columns ---
-    rolling_count_cols = [col for col in df.columns if 'Count_Last' in col or 'FormPoints_Last' in col]
+    rolling_count_cols = [col for col in df.columns if ('Count_Last' in col or 'FormPoints_Last' in col) and not col.startswith('LeagueAvg_')] # Exclude league counts if any
     match_int_stats = [col for col in df.columns if 'YellowCards' in col or 'RedCards' in col] # Example: Cards are usually int
     int_cols = ['FTHG', 'FTAG', 'HTHG', 'HTAG', 'StatusElapsed', 'Season'] + rolling_count_cols + match_int_stats
-    int_cols.extend(['HomeTeamID', 'AwayTeamID']) # Add integer Team IDs if keeping them
+    int_cols.extend(['HomeTeamID', 'AwayTeamID', 'LeagueID']) # Ensure LeagueID is Int
     int_cols = sorted(list(set([c for c in int_cols if c in df.columns]))) # Keep only existing cols
 
     for col in int_cols:
-        # Convert to numeric first, coercing errors. This might create floats (due to NaN).
         numeric_series = pd.to_numeric(df[col], errors='coerce')
-        # Round the series to handle any potential non-integer floats introduced.
-        # This assumes rounding is the correct approach for these integer columns.
-        # NaN values remain NaN after rounding.
-        rounded_series = numeric_series.round(0)
-        # Now, safely cast to nullable Int64. NaNs will become pd.NA.
+        # Round only if it's not an ID column
+        if 'ID' not in col and 'Season' not in col:
+             rounded_series = numeric_series.round(0)
+        else:
+             rounded_series = numeric_series # Keep IDs/Season as they are (or potentially NaN if coerce failed)
+
         try:
-            df[col] = rounded_series.astype('Int64')
-        except TypeError as e:
-             logging.error(f"Failed to cast column '{col}' to Int64 after rounding. Error: {e}. Check data for unexpected non-numeric values not handled by coerce/round.")
-             # Decide on fallback: leave as float, fillna(0).astype(int), etc. Leaving as float for now.
-             df[col] = rounded_series # Keep as float if Int64 cast fails even after rounding
+            # Attempt direct cast first for IDs/Season which might already be okay
+            if 'ID' in col or 'Season' in col:
+                 df[col] = rounded_series.astype('Int64')
+            else: # Cast others after potential rounding
+                 df[col] = rounded_series.astype('Int64')
+        except (TypeError, ValueError) as e:
+             logging.warning(f"Failed to cast column '{col}' to Int64. Error: {e}. Keeping as original type or float.")
+             # Fallback: Keep as potentially float if Int64 cast fails
+             if pd.api.types.is_numeric_dtype(rounded_series):
+                 df[col] = rounded_series
+             # If it failed conversion entirely, it might remain object, leave it as is.
+
 
     # --- Float Columns ---
-    rolling_avg_cols = [col for col in df.columns if 'Avg' in col and '_Last' in col]
+    # Capture all Avg/Ratio columns, including LeagueAvg ones
+    rolling_avg_cols = [col for col in df.columns if ('Avg' in col or 'Ratio' in col) and '_Last' in col]
     match_float_stats = [col for col in ALL_MATCH_SPECIFIC_STATS_COLS if col in df.columns and col not in int_cols and col not in ['FTHG', 'FTAG', 'HTHG', 'HTAG']]
     odds_cols = [col for col in ALL_ODDS_COLS if col in df.columns]
+    # Include xG if present
+    if 'HomeExpectedGoals' in df.columns: match_float_stats.append('HomeExpectedGoals')
+    if 'AwayExpectedGoals' in df.columns: match_float_stats.append('AwayExpectedGoals')
+
     float_cols = match_float_stats + odds_cols + rolling_avg_cols
     # Ensure we don't try to convert columns that failed the Int64 cast and remained float
-    float_cols = sorted(list(set([c for c in float_cols if c in df.columns and c not in int_cols])))
+    # Also explicitly ensure columns intended as Int don't get cast to float here
+    intended_int_cols = set(int_cols)
+    float_cols = sorted(list(set([c for c in float_cols if c in df.columns and c not in intended_int_cols])))
 
 
     for col in float_cols:
          # Check if it's not already numeric (it might be if it came from numeric_series)
-         if not pd.api.types.is_numeric_dtype(df[col]):
-             df[col] = pd.to_numeric(df[col], errors='coerce')
-         # Ensure it's float64 for consistency
-         df[col] = df[col].astype('float64')
+         if col in df.columns: # Check existence
+             if not pd.api.types.is_numeric_dtype(df[col]):
+                 df[col] = pd.to_numeric(df[col], errors='coerce')
+             # Ensure it's float64 for consistency, only if column still exists
+             if col in df.columns:
+                 try:
+                      df[col] = df[col].astype('float64')
+                 except (TypeError, ValueError) as e:
+                      logging.warning(f"Could not cast column {col} to float64: {e}")
+         else:
+              logging.warning(f"Column {col} intended for float conversion not found.")
 
 
     # --- Boolean Columns ---
@@ -686,11 +909,14 @@ def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
         if col in df.columns: df[col] = df[col].map({True: True, 1: True, False: False, 0: False}).astype('boolean')
 
     # --- String Columns ---
+    # Ensure IDs are not treated as strings if they were successfully cast to Int
+    current_int_cols_final = df.select_dtypes(include=['Int64', 'int64']).columns.tolist()
     string_cols = ['HomeTeam', 'AwayTeam', 'FTR', 'HTR', 'LeagueName', 'Country', 'Referee', 'VenueName', 'VenueCity', 'StatusLong', 'StatusShort', 'Round', 'HomeFormation', 'AwayFormation', 'MatchID']
-    if 'LeagueID' in df.columns and not pd.api.types.is_numeric_dtype(df['LeagueID']): string_cols.append('LeagueID')
-    string_cols = sorted(list(set([c for c in string_cols if c in df.columns]))) # Keep only existing cols
+    string_cols = sorted(list(set([c for c in string_cols if c in df.columns and c not in current_int_cols_final]))) # Keep only existing cols, exclude Ints
 
-    for col in string_cols: df[col] = df[col].astype(object).replace(['nan', 'NaN', 'None', '', np.nan], pd.NA).astype('string')
+    for col in string_cols:
+        if col in df.columns: # Check existence
+            df[col] = df[col].astype(object).replace(['nan', 'NaN', 'None', '', np.nan], pd.NA).astype('string')
 
     # --- Sort chronologically by Date ---
     try: df = df.sort_values(by='Date').reset_index(drop=True)
@@ -700,31 +926,29 @@ def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
     core_ordered = [col for col in CORE_COLS if col in df.columns]
     match_stats_ordered = [col for col in ALL_MATCH_SPECIFIC_STATS_COLS if col in df.columns]
     odds_ordered = [col for col in ALL_ODDS_COLS if col in df.columns]
-    rolling_features_ordered = sorted([col for col in df.columns if '_Last' in col]) # Group rolling features
-
-    # Recalculate final_ordered_cols based on actual dtypes after potential casting failures
-    current_int_cols = df.select_dtypes(include=['Int64', 'int64']).columns.tolist()
-    current_float_cols = df.select_dtypes(include=['float64']).columns.tolist()
-    current_bool_cols = df.select_dtypes(include=['boolean']).columns.tolist()
-    current_string_cols = df.select_dtypes(include=['string']).columns.tolist()
-    current_datetime_cols = df.select_dtypes(include=['datetime64[ns]']).columns.tolist()
-    current_other_cols = df.select_dtypes(exclude=['Int64', 'int64', 'float64', 'boolean', 'string', 'datetime64[ns]']).columns.tolist()
+    team_rolling_features_ordered = sorted([col for col in df.columns if ('_Last' in col) and not col.startswith('LeagueAvg_') and col not in core_ordered + match_stats_ordered + odds_ordered])
+    league_rolling_features_ordered = sorted([col for col in df.columns if col.startswith('LeagueAvg_') and '_Last' in col])
 
     # Define order preference
-    col_order_preference = core_ordered + match_stats_ordered + odds_ordered + rolling_features_ordered
+    col_order_preference = core_ordered + match_stats_ordered + odds_ordered + team_rolling_features_ordered + league_rolling_features_ordered
 
     # Build final list, ensuring all columns are included
     final_ordered_cols = [col for col in col_order_preference if col in df.columns]
     processed_cols = set(final_ordered_cols)
-    final_ordered_cols.extend(sorted([col for col in df.columns if col not in processed_cols]))
+    # Add any remaining columns (e.g., helper flags, columns that failed casting) alphabetically at the end
+    remaining_cols = sorted([col for col in df.columns if col not in processed_cols])
+    final_ordered_cols.extend(remaining_cols)
 
 
     if set(final_ordered_cols) != set(df.columns):
-        logging.warning(f"Column mismatch during reordering. Expected {len(final_ordered_cols)}, Found {len(df.columns)}. Using original columns as fallback.")
+        missing = set(df.columns) - set(final_ordered_cols)
+        extra = set(final_ordered_cols) - set(df.columns)
+        logging.warning(f"Column mismatch during reordering. Missing from order: {missing}. Extra in order: {extra}. Using detected columns as fallback.")
         final_ordered_cols = df.columns.tolist() # Fallback
     else:
         logging.info(f"Reordered {len(final_ordered_cols)} columns.")
 
+    # Apply final order
     df = df[final_ordered_cols]
 
 
@@ -746,27 +970,37 @@ if __name__ == "__main__":
     if master_data.empty: logging.error("Failed to load data from MongoDB. Exiting."); sys.exit(1)
     logging.info(f"Loaded MongoDB data shape: {master_data.shape}")
 
-    # 2. Calculate Rolling Features
-    master_data_with_features = calculate_rolling_features(master_data, windows=[5, 10, 15])
-    if master_data_with_features.empty: logging.error("Rolling feature calculation failed. Exiting."); sys.exit(1)
-    logging.info(f"Shape after adding rolling features: {master_data_with_features.shape}")
+    # 2. Calculate Team Rolling Features
+    master_data_with_team_features = calculate_rolling_features(master_data, windows=[3, 5, 10, 15])
+    if master_data_with_team_features.empty: logging.error("Team rolling feature calculation failed. Using data before team features."); # Decide whether to exit or continue
+    # Use the result from team features calculation for the next step
+    data_for_league_features = master_data_with_team_features if not master_data_with_team_features.empty else master_data
+    logging.info(f"Shape after adding team rolling features: {data_for_league_features.shape}")
 
-    # 3. Final Cleaning
-    final_data = final_clean_and_order(master_data_with_features)
+    # 3. Calculate League Rolling Features
+    master_data_with_all_features = calculate_league_rolling_features(data_for_league_features, windows=[3, 5, 10, 15])
+    if master_data_with_all_features.empty: logging.error("League rolling feature calculation failed. Using data before league features."); # Decide whether to exit or continue
+    # Use the result from league features for the next step
+    data_for_cleaning = master_data_with_all_features if not master_data_with_all_features.empty else data_for_league_features
+    logging.info(f"Shape after adding league rolling features: {data_for_cleaning.shape}")
+
+
+    # 4. Final Cleaning
+    final_data = final_clean_and_order(data_for_cleaning) # Pass the latest dataframe here
     if final_data.empty:
         logging.error("Final cleaning failed. Exiting.")
         sys.exit(1)
     logging.info(f"Shape after final cleaning: {final_data.shape}")
 
-    # 4. Save Data
+    # 5. Save Data
     try:
         # Define the output path for the Parquet file
-        output_dir = "output/parquet"
-        output_file = "mongo.parquet"
-        output_path = os.path.join(output_dir, output_file)
+        output_dir = "output/parquet" # Consider making this configurable
+        output_file = "mongo_features.parquet" # Changed name slightly
+        output_path = os.path.join(project_root, output_dir, output_file) # Use project_root for better path handling
 
         # Create the directory if it doesn't exist
-        os.makedirs(output_dir, exist_ok=True)
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         # Final safety check to remove duplicated columns
         final_data = final_data.loc[:, ~final_data.columns.duplicated(keep='first')]
@@ -775,7 +1009,7 @@ if __name__ == "__main__":
         # Save the DataFrame to a Parquet file
         final_data.to_parquet(output_path, index=False, engine='pyarrow', compression='snappy')
         logging.info(f"Successfully saved data to: {output_path}")
-        logging.info(f"Final DataFrame columns saved ({len(final_data.columns)}).")
+        logging.info(f"Final DataFrame columns saved ({len(final_data.columns)}). Sample: {final_data.columns[:10].tolist()}...") # Log sample cols
     except Exception as e:
         logging.error(f"Failed to save data: {e}", exc_info=True)
         sys.exit(1)

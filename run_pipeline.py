@@ -77,15 +77,20 @@ try:
     #    Refactor paper_generator.py if needed, or import its main logic.
     #    (This might require slight modification of paper_generator.py)
     from score_data.paper_generator import load_data as paper_load_data
-    from score_data.paper_generator import filter_game_selections as paper_filter_selections
-    from score_data.paper_generator import build_papers as paper_build
-    from score_data.paper_generator import optimize_paper_stakes as paper_optimize
+    from score_data.paper_generator import filter_and_score_game_selections as paper_filter_selections
+    from score_data.paper_generator import build_papers_greedy as paper_build_greedy
+    from score_data.paper_generator import build_papers_cvxpy as paper_build_cvxpy
+    from score_data.paper_generator import calculate_paper_metrics, calculate_paper_efficiency_score
+    from score_data.paper_generator import filter_papers as paper_filter_papers
     from score_data.paper_generator import convert_for_json as paper_convert_json
     from score_data.paper_generator import find_fixture_id as paper_find_fixture_id
+    from score_data.paper_generator import safe_get
     # Import constants/defaults from paper_generator needed for the flow
-    from score_data.paper_generator import DEFAULT_EDGE_THRESHOLD, DEFAULT_MIN_PROBABILITY, DEFAULT_MIN_ODDS, DEFAULT_MAX_ODDS
-    from score_data.paper_generator import DEFAULT_PAPER_SIZES, DEFAULT_MAX_PAPERS_PER_SIZE, DEFAULT_PAPER_BUILD_STRATEGY
-    from score_data.paper_generator import DEFAULT_KELLY_FRACTION, DEFAULT_RISK_AVERSION
+    from score_data.paper_generator import (
+        DEFAULT_EDGE_THRESHOLD, DEFAULT_MIN_PROBABILITY, DEFAULT_MIN_ODDS, DEFAULT_MAX_ODDS,
+        DEFAULT_PAPER_SIZES, DEFAULT_MAX_PAPERS_PER_SIZE_GREEDY, DEFAULT_PAPER_BUILD_STRATEGY, DEFAULT_TOP_N_PER_GAME,
+        DEFAULT_WEIGHT_PROB, DEFAULT_WEIGHT_EDGE, DEFAULT_WEIGHT_VALUE_RATIO
+    )
     from score_data.paper_generator import DEFAULT_OUTPUT_FILE as PAPER_OUTPUT_FILE
     from collections import defaultdict
 
@@ -98,6 +103,24 @@ async def run_full_workflow():
     """Orchestrates the execution of the entire AgenticFC pipeline."""
     logger.info("🚀 Starting AgenticFC Full Workflow Pipeline...")
     start_time = datetime.now()
+
+    # Add configuration parameters
+    debug_mode = False
+    use_cvxpy = False
+    top_n_per_game = DEFAULT_TOP_N_PER_GAME
+    efficiency_weights = {
+        'weight_prob': DEFAULT_WEIGHT_PROB,
+        'weight_edge': DEFAULT_WEIGHT_EDGE,
+        'weight_value_ratio': DEFAULT_WEIGHT_VALUE_RATIO
+    }
+    cvxpy_max_combined_odds = None
+    cvxpy_min_combined_prob = None
+    filter_leagues_normalized = None
+    filter_teams_normalized = None
+    filter_min_combined_odds = None
+    filter_max_combined_odds = None
+    filter_min_combined_prob = None
+    filter_min_avg_edge = None
 
     # === Step 1: Data Fetcher ===
     logger.info("--- Running Step 1: Data Fetcher ---")
@@ -292,54 +315,99 @@ async def run_full_workflow():
             if paper_batch_data is None:
                 logger.error("Failed to load data for Paper Generator. Skipping Step 5.")
             else:
-                # Filter Selections per Game
+                # --- 2. Filter Selections per Game, Calculate Score, Trim ---
+                logger.info("--- Stage 1: Filtering & Scoring Individual Selections ---")
                 all_filtered_selections_by_game = defaultdict(list)
+                all_selections_flat_list = [] # Combined list for CVXPY or analysis
                 processed_fixture_ids = set()
-                for match_data in paper_batch_data:
-                     fixture_id = paper_find_fixture_id(match_data)
-                     if not fixture_id: continue
-                     if fixture_id in processed_fixture_ids: continue
-                     processed_fixture_ids.add(fixture_id)
+                skipped_duplicates = 0
+                games_with_no_valid_selections = 0
+                total_selections_processed = 0
 
-                     game_selections = paper_filter_selections(
-                         match_data, fixture_id,
-                         DEFAULT_EDGE_THRESHOLD, DEFAULT_MIN_PROBABILITY, # Use defaults or load from config/args
-                         DEFAULT_MIN_ODDS, DEFAULT_MAX_ODDS
+                for i, match_data in enumerate(paper_batch_data):
+                    current_fixture_id = paper_find_fixture_id(match_data)
+                    if not current_fixture_id:
+                         logger.warning(f"Skipping entry {i+1}: Could not determine fixture ID.")
+                         continue
+
+                    # Handle potential duplicate fixture entries in input
+                    if current_fixture_id in processed_fixture_ids:
+                         logger.debug(f"Skipping duplicate fixture ID: {current_fixture_id}")
+                         skipped_duplicates += 1
+                         continue
+                    processed_fixture_ids.add(current_fixture_id)
+
+                    # Filter, score, enrich, and trim selections for this game
+                    game_selections = paper_filter_selections(
+                         match_data, current_fixture_id, DEFAULT_EDGE_THRESHOLD, DEFAULT_MIN_PROBABILITY,
+                         DEFAULT_MIN_ODDS, DEFAULT_MAX_ODDS, top_n_per_game, efficiency_weights
                      )
-                     if game_selections:
-                          all_filtered_selections_by_game[fixture_id] = game_selections
+                    total_selections_processed += len(safe_get(match_data, ['top_n_combined_selections'], [])) # Count before filtering
+
+                    if game_selections:
+                         all_filtered_selections_by_game[current_fixture_id] = game_selections
+                         all_selections_flat_list.extend(game_selections) # Add to flat list
+                    else:
+                         games_with_no_valid_selections += 1
 
                 # Build Papers
                 if not all_filtered_selections_by_game or len(all_filtered_selections_by_game) < min(DEFAULT_PAPER_SIZES):
                      logger.warning("Paper Generator: Not enough games with valid selections for minimum paper size. Skipping paper generation.")
                      papers_to_optimize = []
                 else:
-                     papers_to_optimize = paper_build(
-                         all_filtered_selections_by_game,
-                         paper_sizes=DEFAULT_PAPER_SIZES,
-                         max_papers_per_size=DEFAULT_MAX_PAPERS_PER_SIZE,
-                         strategy=DEFAULT_PAPER_BUILD_STRATEGY
-                     )
+                     if use_cvxpy:
+                         papers_to_optimize = paper_build_cvxpy(
+                             all_selections_flat_list,
+                             paper_sizes=DEFAULT_PAPER_SIZES,
+                             max_combined_odds=cvxpy_max_combined_odds,
+                             min_combined_prob=cvxpy_min_combined_prob,
+                             efficiency_weights=efficiency_weights,
+                             debug_mode=debug_mode
+                         )
+                     else:
+                         papers_to_optimize = paper_build_greedy(
+                             all_filtered_selections_by_game,
+                             paper_sizes=DEFAULT_PAPER_SIZES,
+                             max_papers_per_size=DEFAULT_MAX_PAPERS_PER_SIZE_GREEDY,
+                             strategy=DEFAULT_PAPER_BUILD_STRATEGY,
+                             filter_teams_normalized=filter_teams_normalized
+                         )
 
-                # Optimize Stakes
+                # Calculate metrics and efficiency scores for papers
                 optimized_papers = []
                 if papers_to_optimize:
                     for i, paper in enumerate(papers_to_optimize):
                         paper_id = f"Paper_{i+1}"
-                        optimized_result = paper_optimize(
-                            paper_selections=paper,
-                            kelly_fraction=DEFAULT_KELLY_FRACTION, # Use defaults or load
-                            risk_aversion=DEFAULT_RISK_AVERSION, # Use defaults or load
-                            paper_id=paper_id
-                        )
-                        if optimized_result:
-                            optimized_papers.append(optimized_result)
+                        metrics = calculate_paper_metrics(paper)
+                        paper_efficiency_score = calculate_paper_efficiency_score(metrics, efficiency_weights)
+                        
+                        optimized_papers.append({
+                            "paper_id": paper_id,
+                            "paper_metrics": metrics,
+                            "paper_efficiency_score": paper_efficiency_score,
+                            "selections": paper
+                        })
 
-                # Rank Papers (simple sort example)
+                # Filter papers based on criteria
                 if optimized_papers:
-                     # Example sort: by Sharpe Ratio descending
-                     optimized_papers.sort(key=lambda p: p.get('paper_summary', {}).get('sharpe_ratio', Decimal('-Infinity')), reverse=True)
-                     logger.info(f"Paper Generator ranked {len(optimized_papers)} papers.")
+                    filtered_papers = paper_filter_papers(
+                        optimized_papers,
+                        filter_leagues_normalized=filter_leagues_normalized,
+                        filter_teams_normalized=filter_teams_normalized,
+                        filter_min_combined_odds=filter_min_combined_odds,
+                        filter_max_combined_odds=filter_max_combined_odds,
+                        filter_min_combined_prob=filter_min_combined_prob,
+                        filter_min_avg_edge=filter_min_avg_edge
+                    )
+                    
+                    # Rank papers (simple sort example)
+                    if filtered_papers:
+                        # Sort by paper efficiency score descending
+                        filtered_papers.sort(
+                            key=lambda p: p.get('paper_efficiency_score', Decimal('-Infinity')),
+                            reverse=True
+                        )
+                        logger.info(f"Paper Generator ranked {len(filtered_papers)} papers.")
 
 
                 # Prepare Final Output
@@ -349,7 +417,7 @@ async def run_full_workflow():
                          "input_file": os.path.relpath(paper_input_file, project_root), # Use relative path for info
                          "output_file": os.path.relpath(paper_output_file_absolute, project_root) # Use relative path for info
                      },
-                     "optimized_papers": optimized_papers
+                     "optimized_papers": filtered_papers
                 }
 
                 # Write Output (using the robust absolute path)

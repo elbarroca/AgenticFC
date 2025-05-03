@@ -12,7 +12,7 @@ import numpy as np
 import cvxpy as cp
 import matplotlib # Import base library first
 # --- Add plotting utility import ---
-from .plotting_utils import plot_paper_scatter_mpl
+from plotting_utils import plot_paper_scatter_mpl
 
 # Set Decimal precision (important for calculations)
 getcontext().prec = 28 # Standard precision
