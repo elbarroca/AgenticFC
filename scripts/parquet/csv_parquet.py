@@ -359,6 +359,250 @@ def load_process_and_collect_csv_data(csv_dir: str, team_mapping: dict) -> pd.Da
 
     return combined_df
 
+def apply_feature_scaling(df: pd.DataFrame) -> tuple:
+    """
+    Apply appropriate feature scaling to different feature categories and create feature metadata.
+    """
+    if df.empty: 
+        logging.warning("Input DF to feature scaling is empty.")
+        return df, pd.DataFrame()
+    
+    logging.info("Applying feature scaling to harmonize feature magnitudes...")
+    
+    # Initialize metadata tracking
+    metadata_records = []
+    
+    # Create a copy for scaled features only
+    scaled_df = df.copy()
+    
+    # --- 1. Categorize Features ---
+    # Identify different feature types based on naming patterns
+    count_features = [col for col in df.columns if ('_Count' in col or 'FormPoints' in col 
+                                                   or col in ['HS', 'AS', 'HC', 'AC', 'HY', 'AY', 'HR', 'AR'])]
+    
+    ratio_features = [col for col in df.columns if ('_Ratio' in col or 'CleanSheet_Ratio' in col 
+                                                   or 'BTTS_Ratio' in col or 'Possession' in col)]
+    
+    # Keep odds in original decimal format - remove them from scaling
+    odds_columns = [col for col in df.columns if col.startswith(('B365', 'PS', 'WH', 'VC', 'IW', 'Bb', 'Avg', 'Max', 'Odds'))]
+    
+    # CSV-specific stats that should be treated as raw counts
+    csv_count_stats = ['HS', 'AS', 'HST', 'AST', 'HF', 'AF', 'HC', 'AC', 'HY', 'AY', 'HR', 'AR']
+    
+    # Core features that shouldn't be scaled
+    core_features = ['MatchID', 'Date', 'HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR', 
+                     'HTHG', 'HTAG', 'HTR', 'LeagueID', 'LeagueName', 'Referee']
+
+    # --- 2. Handle Odds Columns (Keep as Decimal) ---
+    for col in odds_columns:
+        if col in df.columns:
+            # Keep odds as float64 but don't scale them
+            scaled_df[col] = pd.to_numeric(df[col], errors='coerce').astype('float64')
+            
+            # Add to metadata
+            metadata_records.append({
+                'feature_name': col,
+                'feature_type': 'Odds (Decimal)',
+                'scaling_method': 'None - kept as decimal odds',
+                'original_mean': df[col].mean(),
+                'original_std': df[col].std(),
+                'original_min': df[col].min(),
+                'original_max': df[col].max(),
+                'original_nunique': df[col].nunique(),
+                'is_scaled': False
+            })
+
+    # --- 3. Apply Min-Max Scaling to Count Features ---
+    for col in count_features:
+        if col in df.columns:
+            # Calculate min and max, handling NaNs
+            col_min = df[col].min()
+            col_max = df[col].max()
+            
+            if pd.notna(col_min) and pd.notna(col_max) and (col_max - col_min) > 0:
+                metadata_records.append({
+                    'feature_name': col,
+                    'feature_type': 'Count',
+                    'scaling_method': 'Min-Max Scaling',
+                    'original_mean': df[col].mean(),
+                    'original_std': df[col].std(),
+                    'original_min': col_min,
+                    'original_max': col_max,
+                    'original_nunique': df[col].nunique(),
+                    'is_scaled': True
+                })
+                
+                scaled_df[col] = (df[col] - col_min) / (col_max - col_min)
+            else:
+                metadata_records.append({
+                    'feature_name': col,
+                    'feature_type': 'Count',
+                    'scaling_method': 'None - invalid statistics',
+                    'original_mean': df[col].mean(),
+                    'original_std': df[col].std(),
+                    'original_min': col_min,
+                    'original_max': col_max,
+                    'original_nunique': df[col].nunique(),
+                    'is_scaled': False
+                })
+
+    # --- 4. Apply Ratio Features (already in [0,1] range) ---
+    for col in ratio_features:
+        if col in df.columns:
+            # Add to metadata (preserved as-is)
+            metadata_records.append({
+                'feature_name': col,
+                'feature_type': 'Ratio',
+                'scaling_method': 'None - already in [0,1] range',
+                'original_mean': df[col].mean(),
+                'original_std': df[col].std(),
+                'original_min': df[col].min(),
+                'original_max': df[col].max(),
+                'original_nunique': df[col].nunique(),
+                'is_scaled': False
+            })
+
+    # --- 5. Add Metadata for Core Features (not scaled) ---
+    for col in core_features:
+        if col in df.columns:
+            metadata_records.append({
+                'feature_name': col,
+                'feature_type': 'Core',
+                'scaling_method': 'None - core feature',
+                'original_mean': df[col].mean() if pd.api.types.is_numeric_dtype(df[col]) else None,
+                'original_std': df[col].std() if pd.api.types.is_numeric_dtype(df[col]) else None,
+                'original_min': df[col].min() if pd.api.types.is_numeric_dtype(df[col]) else None,
+                'original_max': df[col].max() if pd.api.types.is_numeric_dtype(df[col]) else None,
+                'original_nunique': df[col].nunique(),
+                'is_scaled': False
+            })
+
+    # Create metadata DataFrame
+    metadata_df = pd.DataFrame(metadata_records)
+    
+    # Sort metadata by feature type and name for better organization
+    if not metadata_df.empty:
+        metadata_df = metadata_df.sort_values(['feature_type', 'feature_name']).reset_index(drop=True)
+    
+    logging.info(f"Feature scaling complete. Generated metadata for {len(metadata_df)} features.")
+    
+    return scaled_df, metadata_df
+
+def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Applies final type casting with optimized types for ML and analysis.
+    """
+    logging.info("Starting final cleaning and type optimization...")
+
+    # --- Core Match Info (Int64) ---
+    score_cols = ['FTHG', 'FTAG', 'HTHG', 'HTAG']
+    for col in score_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').astype('Int64')
+
+    # --- Match Stats (Int64) ---
+    int_stats = [
+        'HomeShots', 'AwayShots', 
+        'HomeShotsTarget', 'AwayShotsTarget',
+        'HomeFouls', 'AwayFouls',
+        'HomeCorners', 'AwayCorners',
+        'HomeYellowCards', 'AwayYellowCards',
+        'HomeRedCards', 'AwayRedCards'
+    ]
+    for col in int_stats:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').astype('Int64')
+
+    # --- Odds and Probabilities (float64) ---
+    # Main odds columns (high coverage >80%)
+    main_odds = [
+        'B365H', 'B365D', 'B365A',  # Coverage: 88.71%
+        'BWH', 'BWD', 'BWA',        # Coverage: 86.03%
+        'IWH', 'IWD', 'IWA',        # Coverage: 81.79%
+        'WHH', 'WHD', 'WHA',        # Coverage: 85.64%
+        'VCH', 'VCD', 'VCA',        # Coverage: 81.97%
+        'OddsH', 'OddsD', 'OddsA'   # Coverage: 88.97%
+    ]
+    
+    # Additional odds (lower coverage but still important)
+    additional_odds = [
+        'PSH', 'PSD', 'PSA',
+        'MaxH', 'MaxD', 'MaxA',
+        'AvgH', 'AvgD', 'AvgA',
+        'B365>2.5', 'B365<2.5',
+        'P>2.5', 'P<2.5',
+        'Max>2.5', 'Max<2.5',
+        'Avg>2.5', 'Avg<2.5',
+        'OddsOver2.5', 'OddsUnder2.5',
+        'OddsAHH', 'OddsAHA', 'OddsAHh'
+    ]
+
+    # Asian Handicap related
+    ah_odds = [
+        'AHh', 'B365AHH', 'B365AHA',
+        'PAHH', 'PAHA', 'MaxAHH', 'MaxAHA',
+        'AvgAHH', 'AvgAHA'
+    ]
+
+    # All odds columns combined
+    all_odds_cols = main_odds + additional_odds + ah_odds
+
+    for col in all_odds_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').astype('float64')
+
+    # --- Categorical Columns (low cardinality) ---
+    categorical_cols = {
+        'FTR': ['H', 'D', 'A'],           # Match result
+        'HTR': ['H', 'D', 'A'],           # Half-time result
+        'LeagueName': None,                # Will check cardinality
+        'Country': None                    # Will check cardinality
+    }
+
+    for col, allowed_values in categorical_cols.items():
+        if col in df.columns:
+            if allowed_values:
+                # For columns with known values, enforce them
+                df[col] = pd.Categorical(df[col], categories=allowed_values)
+            else:
+                # For others, check cardinality first
+                n_unique = df[col].nunique()
+                if n_unique < 100:  # Conservative threshold
+                    df[col] = df[col].astype('category')
+                else:
+                    df[col] = df[col].astype('string')
+
+    # --- String Columns (high cardinality) ---
+    string_cols = [
+        'HomeTeam', 'AwayTeam',    # Team names
+        'Referee',                  # Officials
+        'Time',                     # Match time
+        'MatchID'                   # Unique identifier
+    ]
+    
+    for col in string_cols:
+        if col in df.columns:
+            df[col] = df[col].astype(str).replace(['nan', 'None', ''], pd.NA).astype('string')
+
+    # --- Date Column ---
+    if 'Date' in df.columns:
+        df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+
+    # --- Season/ID Columns (Int64) ---
+    id_cols = ['Season']  # Add other ID columns if needed
+    for col in id_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').astype('Int64')
+
+    # --- Betting Exchange Columns (float64) ---
+    # These have low coverage but need precision
+    exchange_cols = [col for col in df.columns if col.startswith(('Bb', 'BF', '1XB'))]
+    for col in exchange_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').astype('float64')
+
+    logging.info("Type optimization complete.")
+    return df
 
 # --- Main Execution ---
 if __name__ == "__main__":
@@ -372,24 +616,41 @@ if __name__ == "__main__":
         team_mapping=TEAM_NAME_MAPPING
     )
 
-    # 2. Save Unified CSV Data to Parquet
+    # 2. Apply Feature Scaling
     if not csv_data_full.empty:
         try:
-            # Final check for duplicate column *names* before saving (safety check)
+            # Apply feature scaling
+            scaled_csv_data, feature_metadata = apply_feature_scaling(csv_data_full)
+            logging.info(f"Feature scaling applied. Shape: {scaled_csv_data.shape}")
+            
+            # Save raw data
+            raw_output_path = os.path.join(os.path.dirname(OUTPUT_PARQUET_PATH), "csv_unified_raw.parquet")
             csv_data_full = csv_data_full.loc[:, ~csv_data_full.columns.duplicated(keep='first')]
-            logging.info(f"Shape before saving to Parquet: {csv_data_full.shape}")
-
-            csv_data_full.to_parquet(OUTPUT_PARQUET_PATH, index=False, engine='pyarrow', compression='snappy')
-            logging.info(f"Successfully saved unified CSV data (all columns) to: {OUTPUT_PARQUET_PATH}")
-            logging.info(f"Final DataFrame columns saved ({len(csv_data_full.columns)}). Sample: {csv_data_full.columns.tolist()[:10]}...") # Log sample cols
+            csv_data_full.to_parquet(raw_output_path, index=False, engine='pyarrow', compression='snappy')
+            logging.info(f"Successfully saved raw CSV data to: {raw_output_path}")
+            
+            # Save scaled data
+            scaled_csv_data = scaled_csv_data.loc[:, ~scaled_csv_data.columns.duplicated(keep='first')]
+            scaled_csv_data.to_parquet(OUTPUT_PARQUET_PATH, index=False, engine='pyarrow', compression='snappy')
+            logging.info(f"Successfully saved scaled CSV data to: {OUTPUT_PARQUET_PATH}")
+            
+            # Save feature metadata
+            if not feature_metadata.empty:
+                metadata_output_path = os.path.join(os.path.dirname(OUTPUT_PARQUET_PATH), "csv_feature_metadata.parquet")
+                feature_metadata.to_parquet(metadata_output_path, index=False, engine='pyarrow', compression='snappy')
+                
+                # Also save as CSV for easier viewing
+                csv_metadata_path = os.path.join(os.path.dirname(OUTPUT_PARQUET_PATH), "csv_feature_metadata.csv")
+                feature_metadata.to_csv(csv_metadata_path, index=False)
+                logging.info(f"Saved feature metadata to: {metadata_output_path} and {csv_metadata_path}")
 
             # Log detailed info
             buffer = io.StringIO()
-            csv_data_full.info(buf=buffer, verbose=False, show_counts=True, memory_usage='deep') # Less verbose info
+            scaled_csv_data.info(buf=buffer, verbose=False, show_counts=True, memory_usage='deep')
             logging.info(f"Saved DataFrame info:\n{buffer.getvalue()}")
 
         except Exception as e:
-            logging.error(f"Failed to save unified CSV data to {OUTPUT_PARQUET_PATH}: {e}", exc_info=True)
+            logging.error(f"Failed to save unified CSV data: {e}", exc_info=True)
     else:
         logging.error("No data available after processing CSVs. Output file not saved.")
 

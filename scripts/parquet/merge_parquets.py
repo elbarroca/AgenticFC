@@ -237,139 +237,73 @@ def merge_data(csv_df: pd.DataFrame, mongo_df: pd.DataFrame) -> pd.DataFrame:
 # Update final_clean_and_order for robust casting and ML optimization
 def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Applies final type casting, sorting, and column ordering based on the
-    expected final schema. Optimizes types for memory and ML (float32, category).
-    Handles potential type casting errors robustly.
+    Applies final type casting with optimized types for ML and analysis.
     """
     logging.info(f"Starting final cleaning and ordering. Input shape: {df.shape}")
     original_cols = set(df.columns)
 
-    # --- Type Casting (Optimized for ML) ---
-    logging.debug("Applying type casting...")
-
-    # Datetime
+    # --- Odds and Probability Columns (float64) ---
+    odds_cols = [
+        # Basic odds
+        'B365H', 'B365D', 'B365A', 'BWH', 'BWD', 'BWA', 
+        'PSH', 'PSD', 'PSA', 'WHH', 'WHD', 'WHA',
+        # Over/Under
+        'B365>2.5', 'B365<2.5', 'P>2.5', 'P<2.5',
+        # Asian Handicap
+        'B365AHH', 'B365AHA', 'PAHH', 'PAHA',
+        # Averages and ratios
+        'MaxH', 'MaxD', 'MaxA', 'AvgH', 'AvgD', 'AvgA',
+        # Form ratios and probabilities
+        *[c for c in df.columns if '_Ratio' in c or '_Probability' in c]
+    ]
+    
+    for col in odds_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').astype('float64')
+    
+    # --- Integer Columns (Int64) ---
+    int_cols = [
+        # Core stats
+        'FTHG', 'FTAG', 'HTHG', 'HTAG',
+        'HomeYellowCards', 'AwayYellowCards',
+        'HomeRedCards', 'AwayRedCards',
+        # IDs and metadata
+        'Season', 'LeagueID', 'HomeTeamID', 'AwayTeamID',
+        'StatusElapsed',
+        # Count-based features
+        *[c for c in df.columns if '_Count' in c]
+    ]
+    
+    for col in int_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce').astype('Int64')
+    
+    # --- Categorical Columns ---
+    categorical_cols = [
+        'LeagueName', 'Country', 'Round',
+        'FTR', 'HTR', 'StatusShort',
+        'HomeFormation', 'AwayFormation'
+    ]
+    
+    for col in categorical_cols:
+        if col in df.columns and df[col].nunique() < 1000:
+            df[col] = df[col].astype('category')
+    
+    # --- String Columns ---
+    string_cols = [
+        'MatchID', 'HomeTeam', 'AwayTeam',
+        'Referee', 'VenueName', 'VenueCity',
+        'StatusLong'
+    ]
+    
+    for col in string_cols:
+        if col in df.columns:
+            df[col] = df[col].astype(str).replace(['nan', 'None', ''], pd.NA).astype('string')
+    
+    # --- Date Column ---
     if 'Date' in df.columns:
         df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
-
-    # Nullable Boolean
-    bool_cols = ['HomeTeamWinner', 'AwayTeamWinner']
-    for col in bool_cols:
-        if col in df.columns:
-            try:
-                # Attempt direct cast first, may work if already bool/numeric
-                df[col] = df[col].astype('boolean')
-            except TypeError:
-                # Fallback for strings 'True'/'False' etc.
-                logging.debug(f"Attempting flexible boolean conversion for {col}")
-                df[col] = df[col].map({'True': True, 'False': False, 'true': True, 'false': False, 1: True, 0: False, 1.0: True, 0.0: False, True: True, False: False}).astype('boolean')
-            except Exception as e:
-                 logging.warning(f"Could not cast column '{col}' to boolean: {e}. Leaving as is.")
-        else:
-            logging.warning(f"Expected Boolean column '{col}' not found for casting.")
-
-    # Nullable Integers (Robust Casting)
-    # Identify potential integer columns (adjust list as needed)
-    int_col_candidates = ['Season', 'LeagueID', 'HomeTeamID', 'AwayTeamID', 'FTHG', 'FTAG', 'HTHG', 'HTAG', 'StatusElapsed']
-    # Add rolling count columns and other potential ints
-    int_col_candidates.extend([c for c in df.columns if ('_Count_' in c or 'Bb1X2' in c or 'BbOU' in c or 'BbAH' in c) and c not in ['MatchID']])
-    # Maybe card counts? (Check if these stats are reliable integers)
-    # int_col_candidates.extend([c for c in ALL_EXPECTED_STATS_COLS if 'YellowCards' in c or 'RedCards' in c])
-
-    processed_as_int = []
-    for col in int_col_candidates:
-        if col in df.columns:
-            # Coerce to numeric first, handling errors by turning invalid entries to NaN
-            numeric_series = pd.to_numeric(df[col], errors='coerce')
-            # Check if all *non-missing* values are effectively integers
-            if numeric_series.isna().all() or numeric_series.dropna().apply(lambda x: x == np.round(x)).all():
-                try:
-                    # Attempt cast to Int64 (safe default nullable integer)
-                    df[col] = numeric_series.astype('Int64')
-                    processed_as_int.append(col)
-                    # logging.debug(f"Successfully cast '{col}' to Int64.")
-                except TypeError as te:
-                    # This catch might be redundant with the check above, but keep for safety
-                    logging.warning(f"Could not cast column '{col}' to Int64 despite checks ({te}). Casting to float32.")
-                    df[col] = numeric_series.astype('float32') # Fallback to float32
-                except Exception as e:
-                    logging.error(f"Unexpected error casting column '{col}' to Int64: {e}. Casting to float32.")
-                    df[col] = numeric_series.astype('float32')
-            else:
-                # Contains non-integer floats, cast to float32
-                logging.warning(f"Column '{col}' contains non-integer values or could not be coerced. Casting to float32 instead of Int64.")
-                df[col] = numeric_series.astype('float32')
-        # else: # No need to warn for every potential candidate not present
-             # logging.debug(f"Integer candidate column '{col}' not found for casting.")
-
-    # Floats (Optimized to float32)
-    # Identify remaining numeric columns (Stats, Odds, Rolling Features)
-    potential_float_cols = []
-    potential_float_cols.extend(ALL_EXPECTED_STATS_COLS)
-    potential_float_cols.extend(ALL_EXPECTED_ODDS_COLS)
-    potential_float_cols.extend([c for c in df.columns if ('_Avg' in c or '_Ratio' in c)])
-    # Add any other numeric columns not yet processed
-    potential_float_cols.extend([c for c in df.select_dtypes(include=np.number).columns if c not in processed_as_int and c not in bool_cols and c != 'Timestamp']) # Exclude already handled types
-
-    float_cols = list(set(potential_float_cols) - set(processed_as_int)) # Ensure no overlap with successfully cast integers
-
-    for col in float_cols:
-         if col in df.columns:
-            # Cast remaining numeric types to float32
-            if pd.api.types.is_numeric_dtype(df[col]):
-                 try:
-                    df[col] = pd.to_numeric(df[col], errors='coerce').astype('float32')
-                 except Exception as e:
-                    logging.error(f"Could not cast column '{col}' to float32: {e}. Leaving as is.")
-            # else: # Column might be object/string type but expected numeric - pd.to_numeric handles this
-            #      df[col] = pd.to_numeric(df[col], errors='coerce').astype('float32')
-         # else: # Don't warn for every potential column not present
-              # logging.debug(f"Expected Float column '{col}' not found for casting.")
-
-    # Categorical Types (for low-cardinality strings)
-    categorical_cols = [
-        'LeagueName', 'Country', 'Round', # Round might be high cardinality depending on format
-        'FTR', 'HTR', 'StatusShort', # StatusLong might be too verbose
-        'HomeFormation', 'AwayFormation', # Can have many unique values, but maybe useful as category
-        # 'Referee', # Often high cardinality
-    ]
-    for col in categorical_cols:
-         if col in df.columns:
-            # Check cardinality before converting
-            if df[col].nunique(dropna=False) < 1000: # Adjust threshold as needed
-                try:
-                    df[col] = df[col].astype('category')
-                    # logging.debug(f"Successfully cast '{col}' to category.")
-                except Exception as e:
-                    logging.error(f"Could not cast column '{col}' to category: {e}. Leaving as string.")
-                    df[col] = df[col].astype(str).replace('nan', pd.NA).astype('string') # Use Pandas string type
-            else:
-                 logging.warning(f"Column '{col}' has high cardinality ({df[col].nunique(dropna=False)} unique values). Keeping as string.")
-                 df[col] = df[col].astype(str).replace('nan', pd.NA).astype('string')
-         # else:
-         #    logging.debug(f"Categorical candidate column '{col}' not found.")
-
-
-    # Remaining String/Object columns -> Use Pandas nullable string type 'string'
-    # Start with remaining core cols, EXCLUDING Date and already processed types
-    string_cols_candidates = list(set(CORE_COLS_FINAL) - set(['Date']) - set(bool_cols) - set(processed_as_int) - set(categorical_cols))
-    string_cols_candidates.extend(['MatchID', 'HomeTeam', 'AwayTeam', 'Referee', 'VenueName', 'VenueCity', 'StatusLong']) # Add others explicitly
-    string_cols_candidates = list(set(string_cols_candidates)) # Unique
-
-    for col in string_cols_candidates:
-        if col in df.columns and not pd.api.types.is_categorical_dtype(df[col]): # Check if not already category
-             try:
-                 # Use Pandas nullable string type <--- Ensure this line uses pd.NA
-                 df[col] = df[col].astype(str).replace('nan', pd.NA).astype('string')
-             except Exception as e:
-                 logging.error(f"Could not cast column '{col}' to string: {e}. Leaving as is.")
-        # else:
-        #     logging.debug(f"String candidate column '{col}' not found or already category.")
-
-    # Final check on Timestamp type if it exists
-    if 'Timestamp' in df.columns:
-        if not pd.api.types.is_integer_dtype(df['Timestamp']):
-            df['Timestamp'] = pd.to_numeric(df['Timestamp'], errors='coerce').astype('Int64')
-
+    
     logging.info("Type casting finished.")
 
 

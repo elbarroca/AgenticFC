@@ -2,7 +2,7 @@ import pandas as pd
 import random
 
 # Define the path to your Parquet file
-file_path = '/Users/barroca888/Downloads/Agenticfc/AgenticFC888/output/parquet/mongo_features.parquet'
+file_path = '/Users/barroca888/Downloads/Agenticfc/AgenticFC888/scripts/data/unified_data/csv_unified_full_cols_optimized.parquet'
 
 try:
     # Read the Parquet file into a pandas DataFrame
@@ -38,7 +38,7 @@ try:
     total_size_mb = df.memory_usage(deep=True).sum() / (1024 * 1024)
     print(f"Total size of DataFrame: {total_size_mb:.2f} MB")
     print(f"Number of columns: {len(df.columns)}")
-    print(f"Number of data points: {len(df) * len(df.columns)}")
+    print(f"Number of data points: {df.notna().sum().sum()}")
 
 except FileNotFoundError:
     print(f"Error: File not found at {file_path}")

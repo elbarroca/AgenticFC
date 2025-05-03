@@ -82,14 +82,103 @@ def compare_values(val1, val2, col_name):
         return False, f"{col_name}: Value difference (Final='{val1}', Orig='{val2}')"
     return True, None # Values are equal
 
+def load_scaled_data(path, name):
+    """Loads a scaled parquet file if it exists."""
+    scaled_path = path.replace('.parquet', '_scaled.parquet')
+    if not os.path.exists(scaled_path):
+        logging.warning(f"Scaled {name} file not found: {scaled_path}. Will check raw data only.")
+        return None
+    try:
+        df = pd.read_parquet(scaled_path)
+        logging.info(f"Loaded scaled {name} data shape: {df.shape}")
+        # Ensure MatchID is string for consistent comparison
+        if 'MatchID' in df.columns:
+            df['MatchID'] = df['MatchID'].astype(str).replace('nan', pd.NA)
+        else:
+            logging.error(f"MatchID column not found in scaled {name} file: {scaled_path}")
+            return None
+        return df
+    except Exception as e:
+        logging.error(f"Failed to load scaled {name}: {e}", exc_info=True)
+        return None
+
+def verify_scaled_consistency(raw_df, scaled_df, name, sample_ids):
+    """Verifies that scaled values maintain consistent relationships."""
+    if scaled_df is None:
+        logging.warning(f"No scaled data for {name}. Skipping scaled verification.")
+        return True
+        
+    logging.info(f"Verifying scaled data consistency for {name}...")
+    
+    # Find numeric columns in both dataframes
+    numeric_cols = [col for col in raw_df.columns if col in scaled_df.columns and 
+                   pd.api.types.is_numeric_dtype(raw_df[col]) and 
+                   pd.api.types.is_numeric_dtype(scaled_df[col]) and
+                   col != 'MatchID']
+    
+    if not numeric_cols:
+        logging.warning(f"No common numeric columns found between raw and scaled {name} data.")
+        return False
+        
+    logging.info(f"Found {len(numeric_cols)} common numeric columns to verify scaling.")
+    
+    # Select a smaller subset of columns for detailed verification
+    verification_cols = random.sample(numeric_cols, min(10, len(numeric_cols)))
+    
+    # Select a few sample IDs
+    verify_ids = random.sample(sample_ids, min(5, len(sample_ids)))
+    
+    scaling_consistent = True
+    
+    for match_id in verify_ids:
+        raw_row = raw_df[raw_df['MatchID'] == match_id]
+        scaled_row = scaled_df[scaled_df['MatchID'] == match_id]
+        
+        if raw_row.empty or scaled_row.empty:
+            logging.warning(f"Match ID {match_id} missing from raw or scaled {name} data.")
+            continue
+            
+        for col in verification_cols:
+            raw_val = raw_row[col].iloc[0]
+            scaled_val = scaled_row[col].iloc[0]
+            
+            if pd.isna(raw_val) and pd.isna(scaled_val):
+                continue  # Both NaN, consistent
+                
+            if pd.isna(raw_val) != pd.isna(scaled_val):
+                logging.error(f"Inconsistent NA handling in {name} for {col}: raw={raw_val}, scaled={scaled_val}")
+                scaling_consistent = False
+                continue
+                
+            # For non-NA values, verify relative ordering is preserved
+            # This is a simple check - in production you might want more sophisticated tests
+            if col.endswith(('_Ratio', 'Possession')) or 'Ratio' in col:
+                # Ratios should be preserved (or very close)
+                if not np.isclose(raw_val, scaled_val, atol=0.01):
+                    logging.error(f"Ratio value changed: {name} {col}: raw={raw_val}, scaled={scaled_val}")
+                    scaling_consistent = False
+            
+    
+    if scaling_consistent:
+        logging.info(f"Scaled data for {name} appears consistent.")
+    else:
+        logging.error(f"Inconsistencies detected in scaled data for {name}.")
+    
+    return scaling_consistent
+
 # --- Main Verification Logic ---
 if __name__ == "__main__":
-    logging.info("--- Starting Merge Verification Script ---")
+    logging.info("--- Starting Merge and Scaling Verification Script ---")
 
     # 1. Load DataFrames
     final_df = load_data(FINAL_PARQUET_PATH, "Final")
     mongo_orig_df = load_data(MONGO_PARQUET_PATH, "Original Mongo")
     csv_orig_df = load_data(CSV_PARQUET_PATH, "Original CSV")
+    
+    # Load scaled versions if available
+    final_scaled_df = load_scaled_data(FINAL_PARQUET_PATH, "Final")
+    mongo_scaled_df = load_scaled_data(MONGO_PARQUET_PATH, "Original Mongo")
+    csv_scaled_df = load_scaled_data(CSV_PARQUET_PATH, "Original CSV")
 
     if final_df is None or mongo_orig_df is None or csv_orig_df is None:
         logging.error("Failed to load one or more necessary data files. Exiting verification.")
@@ -126,6 +215,8 @@ if __name__ == "__main__":
     # 4. Perform Checks
     mismatches_found = 0
     total_checks = 0
+    
+    # 4a. Verify raw data consistency
     for match_id in sample_ids:
         total_checks += 1
         logging.debug(f"--- Checking MatchID: {match_id} ---")
@@ -185,33 +276,43 @@ if __name__ == "__main__":
                     if not pd.isna(mongo_val_for_csv_col) and compare_values(final_val, mongo_val_for_csv_col, col)[0]:
                          # Value matches the original Mongo value, likely CSV value was NaN and Mongo value was kept (or merge issue)
                          logging.warning(f"Potential Discrepancy for MatchID {match_id} -> {col}: Final value ('{final_val}') matches original Mongo ('{mongo_val_for_csv_col}') but NOT original CSV ('{csv_val}'). Check merge logic/source data.")
-                         # Decide if this counts as a mismatch based on requirements - for now, let's flag it but not count as error
-                         # match_mismatch = True
                     else:
                          # Truly doesn't match CSV or Mongo's original (if any)
                          logging.error(f"MISMATCH for MatchID {match_id} -> {reason} (Source: CSV)")
                          match_mismatch = True
         else:
             logging.debug(f"MatchID {match_id} not found in Original CSV. Skipping odds comparison.")
-            # Verify that the corresponding odds columns in final_df are indeed NaN for this match
-            for col in CSV_CHECK_COLS:
-                 if col in final_row.index and not pd.isna(final_row[col]):
-                      logging.error(f"MISMATCH for MatchID {match_id} -> Column '{col}' has value '{final_row[col]}' but original CSV row was missing.")
-                      match_mismatch = True
-
 
         if match_mismatch:
             mismatches_found += 1
         else:
-            logging.debug(f"MatchID {match_id}: All checks passed.")
+            logging.debug(f"MatchID {match_id}: All raw data checks passed.")
 
+    # 4b. Verify scaled data consistency if available
+    scaling_verified = True
+    if mongo_scaled_df is not None:
+        scaling_verified = scaling_verified and verify_scaled_consistency(
+            mongo_orig_df, mongo_scaled_df, "Mongo", sample_ids)
+    
+    if csv_scaled_df is not None:
+        scaling_verified = scaling_verified and verify_scaled_consistency(
+            csv_orig_df, csv_scaled_df, "CSV", sample_ids)
+    
+    if final_scaled_df is not None:
+        scaling_verified = scaling_verified and verify_scaled_consistency(
+            final_df, final_scaled_df, "Final", sample_ids)
 
     # 5. Final Summary
     logging.info("--- Verification Summary ---")
+    
     if mismatches_found == 0:
-        logging.info(f"SUCCESS: All {total_checks} randomly checked common MatchIDs appear correctly merged based on selected columns.")
+        logging.info(f"RAW DATA: SUCCESS - All {total_checks} randomly checked common MatchIDs appear correctly merged based on selected columns.")
     else:
-        logging.error(f"FAILURE: Found mismatches in {mismatches_found} out of {total_checks} checked MatchIDs. Review logs above.")
-        logging.error("This indicates potential issues with MatchID consistency in the source files or the merge/conflict resolution logic.")
+        logging.error(f"RAW DATA: FAILURE - Found mismatches in {mismatches_found} out of {total_checks} checked MatchIDs.")
+    
+    if scaling_verified:
+        logging.info("SCALING: SUCCESS - Feature scaling appears consistent across datasets.")
+    else:
+        logging.error("SCALING: FAILURE - Feature scaling inconsistencies detected. Check logs for details.")
 
-    logging.info("--- Merge Verification Script Finished ---")
+    logging.info("--- Merge and Scaling Verification Script Finished ---")

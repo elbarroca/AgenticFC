@@ -7,6 +7,7 @@ import pandas as pd
 from datetime import datetime, timezone, timedelta
 from tqdm import tqdm
 import logging
+import pathlib
 
 # --- Configuration ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -22,13 +23,28 @@ COLLECTION_NAME = os.getenv("COLLECTION_NAME", "matches")
 # Example: TEAM_NAME_MAPPING = { "Man Utd": "Man United", "Inter": "Internazionale" }
 # Populate this based on the errors you see in the logs.
 TEAM_NAME_MAPPING = {
-    "FC OSS": "TOP Oss", # Example: Found 'TOP Oss' on clubelo.com for FC Oss
-    "FC Copenhagen": "FC København", # Example: Found 'FC København'
-    "Randers FC": "Randers", # Example: Found 'Randers'
-    "FC Heidenheim": "Heidenheim", # Example: Found 'Heidenheim'
-    "Neftchi Baku": "Neftchi", # Example: Found 'Neftchi'
-    "Vikingur Reykjavik": "Víkingur", # Example: Found 'Víkingur'
-    "Lech Poznan": "Lech", # Example: Found 'Lech'
+    "FC OSS": "TOP Oss",
+    "FC Copenhagen": "FC København",
+    "Randers FC": "Randers",
+    "FC Heidenheim": "Heidenheim",
+    "Neftchi Baku": "Neftchi",
+    "Vikingur Reykjavik": "Víkingur",
+    "Lech Poznan": "Lech",
+    "Pacos Ferreira": "Paços Ferreira",
+    "Puszcza Niepołomice": "Puszcza",
+    "Hanácká": "Hanácká Slavia",
+    "Valmiera BSS": "Valmiera",
+    "Krems Rehberg": "Krems Rehberg",
+    "Manchester United": "Man United",
+    "Inter": "Internazionale",
+    "Real Madrid": "Real",
+    "Bayern Munich": "Bayern",
+    "Juventus": "Juve",
+    "Paris Saint-Germain": "PSG",
+    "Barcelona": "Barça",
+    "Chelsea": "Chelsea FC",
+    "Liverpool": "Liverpool FC",
+    "Arsenal": "Arsenal FC",
     # Add more mappings here as needed based on logs
 }
 
@@ -37,6 +53,12 @@ TEAM_NAME_MAPPING = {
 # Cache for team Elo histories to minimize API calls via soccerdata's cache
 TEAM_ELO_HISTORIES_CACHE = {}
 FAILED_ELO_FETCH_TEAMS = set() # Store original names that failed
+
+def create_parent_dirs(filepath):
+    """Ensure parent directories exist for the given filepath"""
+    import os
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    return filepath
 
 def fetch_team_elo_history(team_name: str, elo_reader: sd.ClubElo):
     """
@@ -53,11 +75,19 @@ def fetch_team_elo_history(team_name: str, elo_reader: sd.ClubElo):
 
     # Try different name variations
     name_variations = [
-        TEAM_NAME_MAPPING.get(original_team_name, original_team_name),  # First try mapped name
-        original_team_name.replace(" & ", " "),  # Remove ampersands
-        original_team_name.split(" & ")[0].strip(),  # Take first team name before ampersand
-        original_team_name.replace("FC ", "").replace(" FC", ""),  # Try without "FC"
+        TEAM_NAME_MAPPING.get(original_team_name, original_team_name),
+        original_team_name.replace(" & ", " "),
+        original_team_name.split(" & ")[0].strip(),
+        original_team_name.replace("FC ", "").replace(" FC", ""),
+        original_team_name.split(" ")[0],  # Try just first word
+        ' '.join(original_team_name.split(" ")[:2]),  # Try first two words
+        original_team_name.replace("BSS", "").strip(),  # Remove BSS suffix
+        original_team_name.replace("Rehberg", "").strip(),  # Remove Rehberg suffix
     ]
+
+    if "/" in original_team_name:
+        parts = original_team_name.split("/")
+        name_variations.extend(parts)
 
     for name_variant in name_variations:
         if not name_variant:
@@ -75,7 +105,17 @@ def fetch_team_elo_history(team_name: str, elo_reader: sd.ClubElo):
                 logging.info(f"Successfully found Elo data for '{original_team_name}' using variant '{name_variant}'")
                 return history_df
         except ValueError as ve:
-            continue  # Try next variant
+            logging.debug(f"Value error for variant '{name_variant}': {ve}")
+            continue
+        except FileNotFoundError as fnf:
+            logging.debug(f"File not found for variant '{name_variant}': {fnf}")
+            # Try to create directory structure
+            try:
+                expected_path = pathlib.Path(elo_reader.data_dir) / f"{name_variant}.csv"
+                os.makedirs(expected_path.parent, exist_ok=True)
+            except:
+                pass
+            continue
         except Exception as e:
             logging.debug(f"Error trying variant '{name_variant}' for '{original_team_name}': {e}")
             continue
@@ -187,9 +227,15 @@ def validate_elo_data(match_id, team_name, match_date, elo_value, elo_reader):
         logging.error(f"⚠️ VALIDATION ERROR: Match {match_id}, {team_name} on {match_date}: {str(e)}")
         return False
 
+def check_elo_file_exists(team_name, elo_reader):
+    """Check if the ELO file for a team exists in cache"""
+    # ClubElo files are stored as TeamName.csv in the data directory
+    filepath = pathlib.Path(elo_reader.data_dir) / f"{team_name}.csv"
+    return filepath.exists()
+
 # --- Main Script Logic ---
 def main():
-    """Connects to MongoDB, fetches Elo data, and updates match documents."""
+    """Connects to MongoDB, fetches Elo data for all teams, and updates match documents."""
     logging.info("Starting Elo injection script...")
 
     # --- Initialize ClubElo ---
@@ -214,19 +260,51 @@ def main():
             client.close()
         sys.exit(1)
 
+    # --- Fetch All Unique Team Names from DB ---
+    logging.info("Fetching unique team names from the database...")
+    unique_teams = set()
+    try:
+        home_teams = collection.distinct("home_team_name")
+        away_teams = collection.distinct("away_team_name")
+        unique_teams = set(home_teams) | set(away_teams)
+        # Filter out potential None or empty strings if they exist
+        unique_teams = {team for team in unique_teams if team}
+        logging.info(f"Found {len(unique_teams)} unique team names in the database.")
+    except Exception as e:
+        logging.error(f"Failed to fetch unique team names from MongoDB: {e}")
+        if client: client.close()
+        sys.exit(1)
+
+    # --- Pre-fetch Elo Histories for All Teams ---
+    logging.info("Attempting to pre-fetch Elo histories for all unique teams...")
+    prefetched_count = 0
+    prefetch_failed_count = 0
+    for team_name in tqdm(unique_teams, desc="Pre-fetching Elo Data"):
+        history = fetch_team_elo_history(team_name, elo_reader)
+        if history is not None:
+            prefetched_count += 1
+        # fetch_team_elo_history automatically adds to FAILED_ELO_FETCH_TEAMS on failure
+    prefetch_failed_count = len(FAILED_ELO_FETCH_TEAMS)
+    logging.info(f"Finished pre-fetching: Successfully cached {prefetched_count}, Failed/Not Found {prefetch_failed_count} teams.")
+    # Log failed teams discovered during pre-fetch if any
+    if FAILED_ELO_FETCH_TEAMS:
+        logging.warning(f"Teams failing pre-fetch: {sorted(list(FAILED_ELO_FETCH_TEAMS))[:20]}...") # Log first 20
+
+
     # --- Iterate and Update Matches ---
     logging.info("Processing matches and injecting Elo ratings...")
     update_count = 0
     error_count = 0
     skipped_exist_count = 0
     skipped_missing_data_count = 0
-    skipped_elo_lookup_count = 0
+    skipped_elo_lookup_count = 0 # Count matches skipped due to ELO lookup failure (now likely means one team failed pre-fetch)
 
+    # Original query to find matches needing ELO
     query = {"home_team_elo": {"$exists": False}}
     projection = {"_id": 1, "home_team_name": 1, "away_team_name": 1, "date_utc": 1, "date_str": 1}
 
-    successful_teams = set()
-    failed_teams = set()
+    successful_teams_in_matches = set() # Track teams successfully updated *in matches*
+    failed_teams_in_matches = set()     # Track teams involved in failed match updates
 
     try:
         total_matches_to_process = collection.count_documents(query)
@@ -249,117 +327,128 @@ def main():
                 if not all([match_id, home_team, away_team, match_date_utc]):
                     logging.warning(f"Skipping match {match_id}: Missing required fields (ID, team names or date_utc).")
                     skipped_missing_data_count += 1
+                    failed_teams_in_matches.add(home_team)
+                    failed_teams_in_matches.add(away_team)
                     continue
 
-                # Date handling logic (improved slightly)
+                # Date handling logic (improved slightly) - Keep existing logic
                 if not isinstance(match_date_utc, datetime):
                     date_str = match.get('date_str')
                     logging.warning(f"Match {match_id}: 'date_utc' is not a datetime object ({type(match_date_utc)}). Attempting parse from 'date_str': {date_str}")
                     try:
-                        parsed_date = pd.to_datetime(date_str, errors='coerce') # Coerce invalid dates to NaT
+                        # Use pandas for robust parsing, coerce errors
+                        parsed_date = pd.to_datetime(date_str, errors='coerce', utc=True)
                         if pd.isna(parsed_date):
                              raise ValueError(f"Could not parse date string: {date_str}")
-                        # Assume UTC if naive, otherwise keep original timezone
-                        if parsed_date.tzinfo is None:
-                            match_date_utc = parsed_date.tz_localize(timezone.utc)
-                        else:
-                            match_date_utc = parsed_date.tz_convert(timezone.utc) # Ensure UTC
+                        match_date_utc = parsed_date.to_pydatetime() # Convert back to datetime object
                     except Exception as parse_e:
-                        logging.error(f"Skipping match {match_id}: Error parsing date ('{match_date_utc}' or '{date_str}'): {parse_e}")
+                        logging.error(f"Skipping match {match_id}: Error parsing date ('{date_str}'): {parse_e}")
                         skipped_missing_data_count += 1
+                        failed_teams_in_matches.add(home_team)
+                        failed_teams_in_matches.add(away_team)
                         continue
                 elif match_date_utc.tzinfo is None:
+                    # Assume UTC if naive
                     match_date_utc = match_date_utc.replace(tzinfo=timezone.utc)
                 else:
-                     # Ensure it's UTC for consistency before converting to naive later
+                     # Ensure it's UTC for consistency
                      match_date_utc = match_date_utc.astimezone(timezone.utc)
 
 
-                # Get Elo ratings (now uses mapping)
+                # Get Elo ratings (now uses pre-populated cache primarily)
+                # No changes needed here, get_elo_on_date uses the cache
                 home_elo = get_elo_on_date(home_team, match_date_utc, elo_reader)
                 away_elo = get_elo_on_date(away_team, match_date_utc, elo_reader)
 
-                if home_elo is not None and away_elo is not None:
-                    try:
-                        # Validate ELO values
-                        home_valid = False
-                        away_valid = False
-                        
-                        if home_elo is not None:
-                            home_valid = validate_elo_data(match_id, home_team, match_date_utc, home_elo, elo_reader)
-                        
-                        if away_elo is not None:
-                            away_valid = validate_elo_data(match_id, away_team, match_date_utc, away_elo, elo_reader)
-                        
-                        # Only update if BOTH values are valid
-                        if home_elo is not None and away_elo is not None and home_valid and away_valid:
-                            # Add log to verify date-specific ELO retrieval
-                            logging.info(f"Match {match_id} on {match_date_utc.date()}: {home_team} ELO = {home_elo}, {away_team} ELO = {away_elo}")
-                            
-                            result = collection.update_one(
-                                {'_id': match_id},
-                                {'$set': {
-                                    'home_team_elo': home_elo,
-                                    'away_team_elo': away_elo,
-                                    'elo_fetch_timestamp_utc': datetime.now(timezone.utc),
-                                    # Add reference to match date for verification
-                                    'elo_match_date_utc': match_date_utc
-                                }}
-                            )
-                            if result.matched_count > 0:
-                                 if result.modified_count > 0:
-                                     update_count += 1
-                                     successful_teams.add(home_team)
-                                     successful_teams.add(away_team)
-                                 else:
-                                     logging.warning(f"Match {match_id} matched but was not modified.")
-                                     skipped_exist_count +=1
-                            else:
-                                 logging.warning(f"Match {match_id} was not found during update attempt.")
-                                 error_count += 1
-                                 failed_teams.add(home_team)
-                                 failed_teams.add(away_team)
-                    except Exception as e:
-                        logging.error(f"Failed to update match {match_id}: {e}")
-                        error_count += 1
-                        failed_teams.add(home_team)
-                        failed_teams.add(away_team)
-                else:
-                    # Failure reason already logged in get_elo_on_date or fetch_team_elo_history
-                    logging.warning(f"Skipping update for match {match_id} due to Elo lookup failure for one or both teams.")
+                # Check if *either* team failed the lookup (likely due to pre-fetch failure)
+                if home_elo is None or away_elo is None:
+                    logging.warning(f"Skipping update for match {match_id}: Elo lookup failed for '{home_team}' ({'Found' if home_elo is not None else 'Not Found'}) or '{away_team}' ({'Found' if away_elo is not None else 'Not Found'}).")
                     skipped_elo_lookup_count += 1
-                    failed_teams.add(home_team)
-                    failed_teams.add(away_team)
+                    # Add teams even if one succeeded, as the match update failed
+                    failed_teams_in_matches.add(home_team)
+                    failed_teams_in_matches.add(away_team)
+                    continue # Skip to next match
 
-    except Exception as e:
-        logging.error(f"An error occurred during match processing loop: {e}")
+                # --- Proceed with Update only if BOTH ELO values were found ---
+                try:
+                    # Optional: Keep validation if desired, but it might be slow
+                    # home_valid = validate_elo_data(match_id, home_team, match_date_utc, home_elo, elo_reader)
+                    # away_valid = validate_elo_data(match_id, away_team, match_date_utc, away_elo, elo_reader)
+                    # if not (home_valid and away_valid):
+                    #      logging.warning(f"Skipping match {match_id} due to ELO validation failure.")
+                    #      error_count += 1 # Count validation failures as errors perhaps?
+                    #      failed_teams_in_matches.add(home_team)
+                    #      failed_teams_in_matches.add(away_team)
+                    #      continue
+
+                    # Log successful retrieval before update
+                    logging.info(f"Match {match_id} on {match_date_utc.date()}: Found ELO {home_team}={home_elo}, {away_team}={away_elo}. Attempting update.")
+
+                    result = collection.update_one(
+                        {'_id': match_id},
+                        {'$set': {
+                            'home_team_elo': home_elo,
+                            'away_team_elo': away_elo,
+                            'elo_fetch_timestamp_utc': datetime.now(timezone.utc),
+                            'elo_match_date_utc': match_date_utc # Keep reference date
+                        }}
+                    )
+                    if result.matched_count > 0:
+                         if result.modified_count > 0:
+                             update_count += 1
+                             successful_teams_in_matches.add(home_team)
+                             successful_teams_in_matches.add(away_team)
+                         else:
+                             # Match found but not modified (e.g., race condition, already updated?)
+                             logging.warning(f"Match {match_id} matched but was not modified (already updated?).")
+                             skipped_exist_count +=1
+                             # Add to successful if already updated
+                             successful_teams_in_matches.add(home_team)
+                             successful_teams_in_matches.add(away_team)
+                    else:
+                         # Should not happen if we iterate based on find() results, but handle defensively
+                         logging.warning(f"Match {match_id} was not found during update attempt (unexpected).")
+                         error_count += 1
+                         failed_teams_in_matches.add(home_team)
+                         failed_teams_in_matches.add(away_team)
+
+                except Exception as update_e:
+                    logging.error(f"Failed to update match {match_id}: {update_e}")
+                    error_count += 1
+                    failed_teams_in_matches.add(home_team)
+                    failed_teams_in_matches.add(away_team)
+                # The 'else' case for ELO lookup failure is handled above by 'continue'
+
+    except Exception as loop_e:
+        logging.error(f"An error occurred during match processing loop: {loop_e}", exc_info=True)
     finally:
         if client:
             client.close()
             logging.info("MongoDB connection closed.")
 
-    # Final Summary
-    logging.info(f"--- Elo Injection Summary ---")
-    logging.info(f"Successfully Updated: {update_count}")
-    logging.info(f"Skipped (Already Exist/Race Condition): {skipped_exist_count}")
-    logging.info(f"Skipped (Missing Input Data/Bad Date): {skipped_missing_data_count}")
-    logging.info(f"Skipped (Elo Lookup Failed/Not Found/Stale): {skipped_elo_lookup_count}")
-    logging.info(f"Errors during DB Update/Query: {error_count}")
-    logging.info(f"Total Teams Failed Fetch (Unique): {len(FAILED_ELO_FETCH_TEAMS)}")
-    if FAILED_ELO_FETCH_TEAMS:
-         logging.info(f"Failed Team Names (Original): {sorted(list(FAILED_ELO_FETCH_TEAMS))}")
+    # --- Final Summary ---
+    logging.info(f"\n--- Elo Injection Summary ---")
+    logging.info(f"Total Unique Teams Found in DB: {len(unique_teams)}")
+    logging.info(f"Teams Pre-fetched Successfully: {prefetched_count}")
+    logging.info(f"Teams Failed Pre-fetch (Not Found/Error): {prefetch_failed_count}") # This uses len(FAILED_ELO_FETCH_TEAMS)
+    logging.info(f"--- Match Update Results ---")
+    logging.info(f"Matches Successfully Updated with Elo: {update_count}")
+    logging.info(f"Matches Skipped (Already Had Elo/Race Condition): {skipped_exist_count}")
+    logging.info(f"Matches Skipped (Missing Input Data/Bad Date): {skipped_missing_data_count}")
+    logging.info(f"Matches Skipped (Elo Lookup Failed for >=1 Team): {skipped_elo_lookup_count}")
+    logging.info(f"Errors during DB Update/Query/Validation: {error_count}")
+    logging.info(f"--- Team Statistics (from Match Processing) ---")
+    # Calculate unique teams involved in failed updates, excluding those that also had successes
+    truly_failed_teams = failed_teams_in_matches - successful_teams_in_matches
+    logging.info(f"Unique Teams in Successfully Updated Matches: {len(successful_teams_in_matches)}")
+    logging.info(f"Unique Teams Involved in At Least One Failed Update: {len(failed_teams_in_matches)}")
+    logging.info(f"Unique Teams Involved ONLY in Failed Updates: {len(truly_failed_teams)}")
+    # Combine pre-fetch failures and match update failures for a comprehensive list
+    overall_failed_teams = FAILED_ELO_FETCH_TEAMS | truly_failed_teams
+    logging.info(f"Total Unique Teams with Issues (Pre-fetch Fail OR Only in Failed Updates): {len(overall_failed_teams)}")
+    if overall_failed_teams:
+        logging.warning(f"Problematic Team Names (Sample): {sorted(list(overall_failed_teams))[:50]}...") # Show more sample failures
     logging.info(f"-----------------------------")
-
-    # Enhanced final summary
-    logging.info("\n=== Final Processing Summary ===")
-    logging.info(f"Total Unique Teams Processed Successfully: {len(successful_teams)}")
-    logging.info(f"Total Unique Teams Failed: {len(failed_teams)}")
-    logging.info(f"Success Rate: {(len(successful_teams)/(len(successful_teams)+len(failed_teams))*100):.1f}%")
-    
-    if len(failed_teams) > 0:
-        logging.info("\nFailed Teams (sample of first 10):")
-        for team in list(failed_teams)[:10]:
-            logging.info(f"- {team}")
 
 
 if __name__ == "__main__":

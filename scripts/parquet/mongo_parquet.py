@@ -44,10 +44,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 # --- Constants ---
 # Define a set of CORE columns expected in the final unified DataFrame
-# These are columns directly extracted or derived from the main fixture/league/team info
 CORE_COLS = [
     'MatchID', 'Date', 'Timestamp', 'Season', 'LeagueID', 'LeagueName', 'Country', 'Round',
-    'HomeTeam', 'AwayTeam', 'HomeTeamID', 'AwayTeamID', # Added Team IDs
+    'HomeTeam', 'AwayTeam', 'HomeTeamID', 'AwayTeamID', 'HomeTeamELO', 'AwayTeamELO', # Added ELO fields
     'HomeTeamWinner', 'AwayTeamWinner',
     'FTHG', 'FTAG', 'FTR',
     'HTHG', 'HTAG', 'HTR',
@@ -176,6 +175,7 @@ def load_and_standardize_mongo_data(mongo_uri: str, db_name: str, collection_nam
             "fixture_details.goals.home": 1, "fixture_details.goals.away": 1,
             "fixture_details.score.halftime.home": 1, "fixture_details.score.halftime.away": 1,
             "statistics_full": 1, "statistics_half": 1, "lineups": 1, "predictions": 1, "odds_data": 1,
+            "home_team_elo": 1, "away_team_elo": 1, # Add these fields to projection
         }
         mongo_docs = list(collection.find({}, projection))
         logging.info(f"Loaded {len(mongo_docs)} documents from MongoDB.")
@@ -275,6 +275,10 @@ def load_and_standardize_mongo_data(mongo_uri: str, db_name: str, collection_nam
                     if pd.notna(hp) and hp > 0: row['OddsH'] = 100 / hp
                     if pd.notna(dp) and dp > 0: row['OddsD'] = 100 / dp
                     if pd.notna(ap) and ap > 0: row['OddsA'] = 100 / ap
+
+            # Add ELO data
+            row['HomeTeamELO'] = pd.to_numeric(doc.get('home_team_elo'), errors='coerce')
+            row['AwayTeamELO'] = pd.to_numeric(doc.get('away_team_elo'), errors='coerce')
 
             processed_rows.append(row); processed_fixture_ids.add(fixture_id)
         except Exception as e:
@@ -844,7 +848,7 @@ def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
     if 'Timestamp' in df.columns: df['Timestamp'] = pd.to_numeric(df['Timestamp'], errors='coerce')
 
     # --- Integer Columns ---
-    rolling_count_cols = [col for col in df.columns if ('Count_Last' in col or 'FormPoints_Last' in col) and not col.startswith('LeagueAvg_')] # Exclude league counts if any
+    rolling_count_cols = [col for col in df.columns if ('_Count_' in col or 'FormPoints_' in col) and not col.startswith('LeagueAvg_')] # Exclude league counts if any
     match_int_stats = [col for col in df.columns if 'YellowCards' in col or 'RedCards' in col] # Example: Cards are usually int
     int_cols = ['FTHG', 'FTAG', 'HTHG', 'HTAG', 'StatusElapsed', 'Season'] + rolling_count_cols + match_int_stats
     int_cols.extend(['HomeTeamID', 'AwayTeamID', 'LeagueID']) # Ensure LeagueID is Int
@@ -887,6 +891,13 @@ def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
     intended_int_cols = set(int_cols)
     float_cols = sorted(list(set([c for c in float_cols if c in df.columns and c not in intended_int_cols])))
 
+    # Include ELO columns
+    if 'HomeTeamELO' in df.columns: 
+        float_cols.append('HomeTeamELO')
+    if 'AwayTeamELO' in df.columns: 
+        float_cols.append('AwayTeamELO')
+    
+    float_cols = sorted(list(set([c for c in float_cols if c in df.columns and c not in intended_int_cols])))
 
     for col in float_cols:
          # Check if it's not already numeric (it might be if it came from numeric_series)
@@ -957,6 +968,200 @@ def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
     logging.info(f"Final DataFrame info:\n{buffer.getvalue()}")
     return df
 
+def apply_feature_scaling(df: pd.DataFrame) -> tuple:
+    """
+    Apply appropriate feature scaling to different feature categories and create feature metadata.
+    
+    Scaling methods:
+    1. Z-Score Standardization: For average metrics with varying scales
+    2. Min-Max Scaling: For count features with consistent range requirements
+    3. No scaling for ratio features that are already in [0,1] range
+    
+    Returns: 
+        - DataFrame with only scaled features (original columns replaced)
+        - Feature metadata DataFrame documenting scaling approaches
+    """
+    if df.empty: 
+        logging.warning("Input DF to feature scaling is empty.")
+        return df, pd.DataFrame()
+    
+    logging.info("Applying feature scaling to harmonize feature magnitudes...")
+    
+    # Initialize metadata tracking
+    metadata_records = []
+    
+    # Create a copy for scaled features only (we'll replace columns)
+    scaled_df = df.copy()
+    
+    # --- 1. Categorize Features ---
+    # Identify different feature types based on naming patterns
+    count_features = [col for col in df.columns if ('_Count_' in col or 'FormPoints_' in col) 
+                    and col.endswith(('_Last3', '_Last5', '_Last10', '_Last15'))]
+    
+    ratio_features = [col for col in df.columns if ('_Ratio_' in col or 'CleanSheet_Ratio' in col or 'BTTS_Ratio' in col) 
+                    and col.endswith(('_Last3', '_Last5', '_Last10', '_Last15'))]
+    
+    avg_features = [col for col in df.columns if ('Avg' in col and '_Last' in col) 
+                   and not any(term in col for term in ['Ratio', 'CleanSheet', 'BTTS'])]
+    
+    elo_features = [col for col in df.columns if 'ELO' in col]
+    
+    # League average features
+    league_features = [col for col in df.columns if col.startswith('LeagueAvg_') 
+                      and col.endswith(('_Last3', '_Last5', '_Last10', '_Last15'))]
+    
+    # Core match features that shouldn't be scaled (IDs, strings, etc.)
+    core_features = [col for col in CORE_COLS if col in df.columns]
+    match_stats = [col for col in ALL_MATCH_SPECIFIC_STATS_COLS if col in df.columns]
+    odds_cols = [col for col in ALL_ODDS_COLS if col in df.columns]
+    
+    # Further categorize league features
+    league_avg_features = [col for col in league_features 
+                          if not any(term in col for term in ['Ratio', 'CleanSheet', 'BTTS'])]
+    league_ratio_features = [col for col in league_features 
+                            if any(term in col for term in ['Ratio', 'CleanSheet', 'BTTS'])]
+    
+    # Log feature counts
+    logging.info(f"Feature counts for scaling: Count={len(count_features)}, "
+                f"Ratio={len(ratio_features)}, Avg={len(avg_features)}, "
+                f"ELO={len(elo_features)}, League={len(league_features)}")
+    
+    # --- 2. Apply Appropriate Scaling to Each Category ---
+    
+    # For Z-Score Standardization (Average features including ELO)
+    z_score_features = avg_features + elo_features + league_avg_features
+    for col in z_score_features:
+        if col in df.columns:
+            # Calculate mean and std, handling NaNs
+            col_mean = df[col].mean()
+            col_std = df[col].std()
+            
+            # Only scale if we have valid statistics and non-zero std
+            if pd.notna(col_mean) and pd.notna(col_std) and col_std > 0:
+                # Add to metadata
+                metadata_records.append({
+                    'feature_name': col,
+                    'feature_type': 'Average' if 'Avg' in col else ('ELO' if 'ELO' in col else 'LeagueAvg'),
+                    'scaling_method': 'Z-Score Standardization',
+                    'original_mean': col_mean,
+                    'original_std': col_std,
+                    'original_min': df[col].min(),
+                    'original_max': df[col].max(),
+                    'original_nunique': df[col].nunique(),
+                    'is_scaled': True
+                })
+                
+                # Replace column in scaled_df
+                scaled_df[col] = (df[col] - col_mean) / col_std
+                logging.info(f"Z-Score scaled {col}")
+            else:
+                # Add to metadata (unscaled)
+                metadata_records.append({
+                    'feature_name': col,
+                    'feature_type': 'Average' if 'Avg' in col else ('ELO' if 'ELO' in col else 'LeagueAvg'),
+                    'scaling_method': 'None - invalid statistics',
+                    'original_mean': col_mean,
+                    'original_std': col_std,
+                    'original_min': df[col].min(),
+                    'original_max': df[col].max(),
+                    'original_nunique': df[col].nunique(),
+                    'is_scaled': False
+                })
+                logging.warning(f"Cannot apply Z-Score to {col}: mean={col_mean}, std={col_std}")
+    
+    # For Min-Max Scaling (Count features)
+    for col in count_features:
+        if col in df.columns:
+            # Calculate min and max, handling NaNs
+            col_min = df[col].min()
+            col_max = df[col].max()
+            
+            # Only scale if we have valid statistics and range > 0
+            if pd.notna(col_min) and pd.notna(col_max) and (col_max - col_min) > 0:
+                # Add to metadata
+                metadata_records.append({
+                    'feature_name': col,
+                    'feature_type': 'Count',
+                    'scaling_method': 'Min-Max Scaling',
+                    'original_mean': df[col].mean(),
+                    'original_std': df[col].std(),
+                    'original_min': col_min,
+                    'original_max': col_max,
+                    'original_nunique': df[col].nunique(),
+                    'is_scaled': True
+                })
+                
+                # Replace column in scaled_df
+                scaled_df[col] = (df[col] - col_min) / (col_max - col_min)
+                logging.info(f"Min-Max scaled {col}")
+            else:
+                # Add to metadata (unscaled)
+                metadata_records.append({
+                    'feature_name': col,
+                    'feature_type': 'Count',
+                    'scaling_method': 'None - invalid statistics',
+                    'original_mean': df[col].mean(),
+                    'original_std': df[col].std(),
+                    'original_min': col_min,
+                    'original_max': col_max,
+                    'original_nunique': df[col].nunique(),
+                    'is_scaled': False
+                })
+                logging.warning(f"Cannot apply Min-Max to {col}: min={col_min}, max={col_max}")
+    
+    # Ratio features (already in [0,1] range)
+    for col in ratio_features + league_ratio_features:
+        if col in df.columns:
+            # Add to metadata (preserved as-is)
+            metadata_records.append({
+                'feature_name': col,
+                'feature_type': 'Ratio',
+                'scaling_method': 'None - already in [0,1] range',
+                'original_mean': df[col].mean(),
+                'original_std': df[col].std(),
+                'original_min': df[col].min(),
+                'original_max': df[col].max(),
+                'original_nunique': df[col].nunique(),
+                'is_scaled': False
+            })
+            logging.info(f"Preserved ratio scale for {col}")
+    
+    # Add metadata for core features (not scaled)
+    for col in core_features + match_stats + odds_cols:
+        if col in df.columns:
+            # Determine feature type
+            if col in core_features:
+                feature_type = 'Core'
+            elif col in match_stats:
+                feature_type = 'Match Stat'
+            else:
+                feature_type = 'Odds'
+                
+            # Add metadata entry
+            metadata_records.append({
+                'feature_name': col,
+                'feature_type': feature_type,
+                'scaling_method': 'None - core feature',
+                # Ensure these are always NaN for non-scaled features to avoid type conflicts
+                'original_mean': np.nan, 
+                'original_std': np.nan,
+                'original_min': np.nan,
+                'original_max': np.nan,
+                'original_nunique': df[col].nunique(),
+                'is_scaled': False
+            })
+    
+    # Create metadata DataFrame
+    metadata_df = pd.DataFrame(metadata_records)
+    
+    # Sort metadata by feature type and name for better organization
+    if not metadata_df.empty:
+        metadata_df = metadata_df.sort_values(['feature_type', 'feature_name']).reset_index(drop=True)
+    
+    logging.info(f"Feature scaling complete. Generated metadata for {len(metadata_df)} features.")
+    
+    return scaled_df, metadata_df
+
 
 # --- Main Execution ---
 if __name__ == "__main__":
@@ -984,7 +1189,6 @@ if __name__ == "__main__":
     data_for_cleaning = master_data_with_all_features if not master_data_with_all_features.empty else data_for_league_features
     logging.info(f"Shape after adding league rolling features: {data_for_cleaning.shape}")
 
-
     # 4. Final Cleaning
     final_data = final_clean_and_order(data_for_cleaning) # Pass the latest dataframe here
     if final_data.empty:
@@ -992,24 +1196,54 @@ if __name__ == "__main__":
         sys.exit(1)
     logging.info(f"Shape after final cleaning: {final_data.shape}")
 
-    # 5. Save Data
+    # 5. Apply Feature Scaling & Generate Metadata
+    scaled_data, feature_metadata = apply_feature_scaling(final_data)
+    logging.info(f"Shape after feature scaling: {scaled_data.shape}")
+
+    # 6. Save Data
     try:
-        # Define the output path for the Parquet file
+        # Define the output path for the Parquet files
         output_dir = "output/parquet" # Consider making this configurable
-        output_file = "mongo_features.parquet" # Changed name slightly
-        output_path = os.path.join(project_root, output_dir, output_file) # Use project_root for better path handling
-
+        
         # Create the directory if it doesn't exist
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        os.makedirs(os.path.dirname(os.path.join(project_root, output_dir, "temp")), exist_ok=True)
 
+        # --- Save Raw Data ---
+        raw_output_file = "mongo_features_raw.parquet"
+        raw_output_path = os.path.join(project_root, output_dir, raw_output_file)
+        
         # Final safety check to remove duplicated columns
         final_data = final_data.loc[:, ~final_data.columns.duplicated(keep='first')]
-        logging.info(f"Shape before saving to Parquet: {final_data.shape}")
+        logging.info(f"Shape before saving RAW data: {final_data.shape}")
 
-        # Save the DataFrame to a Parquet file
-        final_data.to_parquet(output_path, index=False, engine='pyarrow', compression='snappy')
-        logging.info(f"Successfully saved data to: {output_path}")
-        logging.info(f"Final DataFrame columns saved ({len(final_data.columns)}). Sample: {final_data.columns[:10].tolist()}...") # Log sample cols
+        # Save the raw DataFrame
+        final_data.to_parquet(raw_output_path, index=False, engine='pyarrow', compression='snappy')
+        logging.info(f"Successfully saved RAW data to: {raw_output_path}")
+        
+        # --- Save Scaled Data ---
+        scaled_output_file = "mongo_features_scaled.parquet"
+        scaled_output_path = os.path.join(project_root, output_dir, scaled_output_file)
+        
+        # Final safety check for scaled data
+        scaled_data = scaled_data.loc[:, ~scaled_data.columns.duplicated(keep='first')]
+        logging.info(f"Shape before saving SCALED data: {scaled_data.shape}")
+        
+        # Save the scaled DataFrame
+        scaled_data.to_parquet(scaled_output_path, index=False, engine='pyarrow', compression='snappy')
+        logging.info(f"Successfully saved SCALED data to: {scaled_output_path}")
+        
+        # --- Save Feature Metadata ---
+        if not feature_metadata.empty:
+            metadata_output_file = "feature_metadata.parquet"
+            metadata_output_path = os.path.join(project_root, output_dir, metadata_output_file)
+            feature_metadata.to_parquet(metadata_output_path, index=False, engine='pyarrow', compression='snappy')
+            logging.info(f"Successfully saved feature metadata to: {metadata_output_path}")
+            
+            # Also save as CSV for easier viewing
+            csv_metadata_path = os.path.join(project_root, output_dir, "feature_metadata.csv")
+            feature_metadata.to_csv(csv_metadata_path, index=False)
+            logging.info(f"Also saved feature metadata as CSV to: {csv_metadata_path}")
+        
     except Exception as e:
         logging.error(f"Failed to save data: {e}", exc_info=True)
         sys.exit(1)
