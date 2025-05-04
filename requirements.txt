@@ -25,4 +25,4 @@ cvxpy>=1.4.0
 dnspython
 tensorflow
 soccerdata>=0.2.0
-
+pydantic-settings
