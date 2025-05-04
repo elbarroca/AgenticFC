@@ -16,18 +16,18 @@ try:
         sys.path.insert(0, project_root)
     print(f"Project Root added to sys.path: {project_root}")
 
-    # Define input and output paths
-    # <<< CONFIRM these paths are correct >>>
-    CSV_PARQUET_PATH = os.path.join(project_root, "data", "unified_data", "csv_unified_full_cols.parquet")
-    MONGO_PARQUET_PATH = os.path.join(project_root, "data", "unified_data", "mongo.parquet")
+    # Update paths to match your actual file locations
+    CSV_PARQUET_PATH = "/Users/barroca888/Downloads/Agenticfc/AgenticFC888/scripts/data/unified_data/csv_normalized.parquet"
+    MONGO_PARQUET_PATH = "/Users/barroca888/Downloads/Agenticfc/AgenticFC888/output/parquet/mongo_normalized.parquet"
     OUTPUT_DIR = os.path.join(project_root, "data", "unified_data")
-    OUTPUT_FILENAME = "final_unified_data.parquet" # Name for the final merged output
+    OUTPUT_FILENAME = "final_unified_data.parquet"
 
 except Exception as e:
     print(f"Error setting up project root or paths: {e}. Using defaults.")
-    CSV_PARQUET_PATH = "data/unified_data/csv_unified.parquet"
-    MONGO_PARQUET_PATH = "data/unified_data/mongo.parquet"
-    OUTPUT_DIR = "data/unified_data"
+    # Use the same absolute paths as fallback
+    CSV_PARQUET_PATH = "/Users/barroca888/Downloads/Agenticfc/AgenticFC888/scripts/data/unified_data/csv_normalized.parquet"
+    MONGO_PARQUET_PATH = "/Users/barroca888/Downloads/Agenticfc/AgenticFC888/output/parquet/mongo_normalized.parquet"
+    OUTPUT_DIR = os.path.join(os.path.dirname(CSV_PARQUET_PATH))
     OUTPUT_FILENAME = "final_unified_data.parquet"
 
 # Ensure output directory exists
@@ -100,137 +100,101 @@ def create_match_id(row, date_col='Date', home_col='HomeTeam', away_col='AwayTea
         return f"{date_str}_{home}_{away}"
     except Exception: return None
 
+# Move valuable_csv_cols to global scope at the top of the file
+VALUABLE_CSV_COLS = [
+    'MatchID',
+    'B365H', 'B365D', 'B365A', 'BWH', 'BWD', 'BWA', 'IWH', 'IWD', 'IWA',
+    'PSH', 'PSD', 'PSA', 'WHH', 'WHD', 'WHA', 'VCH', 'VCD', 'VCA',
+    'B365>2.5', 'B365<2.5', 'P>2.5', 'P<2.5', 'B365AHH', 'B365AHA',
+    'PAHH', 'PAHA', 'GBH', 'GBD', 'GBA', 'LBH', 'LBD', 'LBA', 'SBH',
+    'SBD', 'SBA', 'SJH', 'SJD', 'SJA', 'BSH', 'BSD', 'BSA',
+    'MaxH', 'MaxD', 'MaxA', 'AvgH', 'AvgD', 'AvgA', 'Max>2.5', 'Max<2.5',
+    'Avg>2.5', 'Avg<2.5', 'AHh', 'MaxAHH', 'MaxAHA', 'AvgAHH', 'AvgAHA',
+    'B365CH', 'B365CD', 'B365CA', 'BWCH', 'BWCD', 'BWCA', 'IWCH', 'IWCD',
+    'IWCA', 'PSCH', 'PSCD', 'PSCA', 'WHCH', 'WHCD', 'WHCA', 'VCCH', 'VCCD',
+    'VCCA', 'B365C>2.5', 'B365C<2.5', 'PC>2.5', 'PC<2.5', 'B365CAHH',
+    'B365CAHA', 'PCAHH', 'PCAHA',
+    'MaxCH', 'MaxCD', 'MaxCA', 'AvgCH', 'AvgCD', 'AvgCA', 'MaxC>2.5', 'MaxC<2.5',
+    'AvgC>2.5', 'AvgC<2.5', 'AHCh', 'MaxCAHH', 'MaxCAHA', 'AvgCAHH', 'AvgCAHA',
+    'Bb1X2', 'BbMxH', 'BbAvH', 'BbMxD', 'BbAvD', 'BbMxA', 'BbAvA', 'BbOU',
+    'BbMx>2.5', 'BbAv>2.5', 'BbMx<2.5', 'BbAv<2.5', 'BbAH', 'BbAHh',
+    'BbMxAHH', 'BbAvAHH', 'BbMxAHA', 'BbAvAHA'
+]
 
-# --- Merging Function ---
+def analyze_dataframes(mongo_df: pd.DataFrame, csv_df: pd.DataFrame) -> dict:
+    """Analyze both dataframes to understand column overlap and data quality"""
+    analysis = {
+        'mongo_only': set(mongo_df.columns) - set(csv_df.columns),
+        'csv_only': set(csv_df.columns) - set(mongo_df.columns),
+        'common': set(mongo_df.columns) & set(csv_df.columns),
+        'column_stats': {}
+    }
+    
+    # Analyze fill rates for common columns
+    for col in analysis['common']:
+        mongo_fill = (mongo_df[col].notna().sum() / len(mongo_df)) * 100
+        csv_fill = (csv_df[col].notna().sum() / len(csv_df)) * 100
+        analysis['column_stats'][col] = {
+            'mongo_fill_rate': mongo_fill,
+            'csv_fill_rate': csv_fill,
+            'preferred_source': 'csv' if csv_fill > mongo_fill else 'mongo'
+        }
+    
+    return analysis
 
 def merge_data(csv_df: pd.DataFrame, mongo_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Merges valuable, well-populated odds columns from the CSV data onto the
-    MongoDB data (left merge), prioritizing MongoDB as the base for core/stats/rolling features.
-    Selects CSV columns based on relevance (odds) and data coverage (>15k non-null).
-    If odds columns conflict, prioritizes the CSV version due to better coverage.
+    Enhanced merge function with better column handling and validation
     """
-    if mongo_df.empty:
-        logging.error("MongoDB DataFrame is empty. Cannot use as base for merge. Returning empty.")
-        return pd.DataFrame()
-    if csv_df.empty:
-        logging.warning("CSV DataFrame is empty. No additional columns to merge. Returning MongoDB data.")
-        return mongo_df
-
-    logging.info(f"Starting merge. Base Mongo shape: {mongo_df.shape}, CSV shape: {csv_df.shape}")
-
-    # --- Prepare for Merge ---
-    if 'MatchID' not in csv_df.columns or 'MatchID' not in mongo_df.columns:
-        logging.error("MatchID column missing in one or both DataFrames. Cannot merge.")
-        return pd.DataFrame() # Exit if MatchID missing
-
-    try:
-        mongo_df['MatchID'] = mongo_df['MatchID'].astype(str)
-        csv_df['MatchID'] = csv_df['MatchID'].astype(str)
-    except Exception as e:
-        logging.error(f"Error converting MatchID to string: {e}", exc_info=True)
+    if mongo_df.empty or csv_df.empty:
+        logging.error("One of the input DataFrames is empty")
         return pd.DataFrame()
 
-    # --- Define Valuable Columns from CSV (Odds Focus, >15k non-null from previous analysis) ---
-    # This list is based on the CSV info provided earlier and the >15k threshold
-    valuable_csv_cols = [
-        'MatchID',
-        'B365H', 'B365D', 'B365A', 'BWH', 'BWD', 'BWA', 'IWH', 'IWD', 'IWA',
-        'PSH', 'PSD', 'PSA', 'WHH', 'WHD', 'WHA', 'VCH', 'VCD', 'VCA',
-        'B365>2.5', 'B365<2.5', 'P>2.5', 'P<2.5', 'B365AHH', 'B365AHA',
-        'PAHH', 'PAHA', 'GBH', 'GBD', 'GBA', 'LBH', 'LBD', 'LBA', 'SBH',
-        'SBD', 'SBA', 'SJH', 'SJD', 'SJA', 'BSH', 'BSD', 'BSA',
-        'MaxH', 'MaxD', 'MaxA', 'AvgH', 'AvgD', 'AvgA', 'Max>2.5', 'Max<2.5',
-        'Avg>2.5', 'Avg<2.5', 'AHh', 'MaxAHH', 'MaxAHA', 'AvgAHH', 'AvgAHA',
-        'B365CH', 'B365CD', 'B365CA', 'BWCH', 'BWCD', 'BWCA', 'IWCH', 'IWCD',
-        'IWCA', 'PSCH', 'PSCD', 'PSCA', 'WHCH', 'WHCD', 'WHCA', 'VCCH', 'VCCD',
-        'VCCA', 'B365C>2.5', 'B365C<2.5', 'PC>2.5', 'PC<2.5', 'B365CAHH',
-        'B365CAHA', 'PCAHH', 'PCAHA',
-        'MaxCH', 'MaxCD', 'MaxCA', 'AvgCH', 'AvgCD', 'AvgCA', 'MaxC>2.5', 'MaxC<2.5',
-        'AvgC>2.5', 'AvgC<2.5', 'AHCh', 'MaxCAHH', 'MaxCAHA', 'AvgCAHH', 'AvgCAHA',
-        'Bb1X2', 'BbMxH', 'BbAvH', 'BbMxD', 'BbAvD', 'BbMxA', 'BbAvA', 'BbOU',
-        'BbMx>2.5', 'BbAv>2.5', 'BbMx<2.5', 'BbAv<2.5', 'BbAH', 'BbAHh',
-        'BbMxAHH', 'BbAvAHH', 'BbMxAHA', 'BbAvAHA',
-    ]
+    # Analyze dataframes
+    analysis = analyze_dataframes(mongo_df, csv_df)
+    logging.info(f"Found {len(analysis['common'])} common columns")
+    logging.info(f"MongoDB-only columns: {len(analysis['mongo_only'])}")
+    logging.info(f"CSV-only columns: {len(analysis['csv_only'])}")
 
-    actual_valuable_csv_cols = [col for col in valuable_csv_cols if col in csv_df.columns]
-    missing_cols = set(valuable_csv_cols) - set(actual_valuable_csv_cols)
-    if 'MatchID' not in actual_valuable_csv_cols:
-         logging.error("MatchID column is missing from CSV data after filtering. Cannot merge.")
-         return mongo_df
-    if missing_cols:
-        logging.warning(f"Columns defined as valuable but not found in CSV data: {missing_cols}")
-    if len(actual_valuable_csv_cols) <= 1:
-        logging.warning("No valuable columns (beyond MatchID) found in CSV data to merge. Returning MongoDB data.")
-        return mongo_df
+    # Ensure MatchID presence and type consistency
+    for df_name, df in [('mongo', mongo_df), ('csv', csv_df)]:
+        if 'MatchID' not in df.columns:
+            logging.error(f"MatchID missing in {df_name} DataFrame")
+            return pd.DataFrame()
+        df['MatchID'] = df['MatchID'].astype('string')
 
-    logging.info(f"Selected {len(actual_valuable_csv_cols) - 1} valuable columns (plus MatchID) from CSV for merge.")
-
-    # --- Perform Left Merge ---
     try:
-        # Use suffixes to detect collisions
+        # First merge with only odds columns from CSV
+        odds_cols = ['MatchID'] + [col for col in VALUABLE_CSV_COLS if col != 'MatchID']
+        csv_odds = csv_df[odds_cols]
+        
+        # Perform merge
         merged_df = pd.merge(
             mongo_df,
-            csv_df[actual_valuable_csv_cols],
+            csv_odds,
             on='MatchID',
             how='left',
-            suffixes=('_mongo_orig', '_csv_valuable') # Identify source if collision
+            indicator=True
         )
-        logging.info(f"Shape after initial left merge: {merged_df.shape}")
+        
+        # Log merge results
+        merge_counts = merged_df['_merge'].value_counts()
+        logging.info(f"Merge results: {merge_counts.to_dict()}")
+        merged_df.drop('_merge', axis=1, inplace=True)
+        
+        # Fill missing values appropriately
+        for col in merged_df.columns:
+            if col.startswith(('B365', 'BW', 'PS', 'WH', 'VC', 'Avg', 'Max')):
+                merged_df[col] = merged_df[col].fillna(-1)  # Use -1 for missing odds
+            elif '_Count' in col or col.endswith(('Cards', 'FTHG', 'FTAG', 'HTHG', 'HTAG')):
+                merged_df[col] = merged_df[col].fillna(0)  # Use 0 for missing counts
+        
+        logging.info(f"Final merged shape: {merged_df.shape}")
+        return merged_df
 
-        # --- Resolve Conflicts: Prioritize CSV columns ---
-        cols_to_drop = []
-        cols_to_rename = {}
-        for col_valuable in actual_valuable_csv_cols:
-            if col_valuable == 'MatchID': continue # Skip join key
-
-            suffixed_csv_col = f"{col_valuable}_csv_valuable"
-            suffixed_mongo_col = f"{col_valuable}_mongo_orig"
-
-            if suffixed_csv_col in merged_df.columns:
-                # Collision occurred
-                logging.debug(f"Collision detected for {col_valuable}. Prioritizing CSV version.")
-                # Rename CSV column to the original name
-                cols_to_rename[suffixed_csv_col] = col_valuable
-                # Mark the original Mongo column (if it exists) for dropping
-                if suffixed_mongo_col in merged_df.columns:
-                    cols_to_drop.append(suffixed_mongo_col)
-                elif col_valuable in mongo_df.columns: # Check original mongo_df if suffix wasn't applied
-                     # This case is less likely with suffixes but check for safety
-                     if col_valuable in merged_df.columns and col_valuable not in actual_valuable_csv_cols:
-                          cols_to_drop.append(col_valuable)
-
-
-        if cols_to_rename:
-            merged_df.rename(columns=cols_to_rename, inplace=True)
-            logging.info(f"Renamed {len(cols_to_rename)} columns from CSV to replace Mongo versions.")
-        if cols_to_drop:
-             # Ensure columns to drop actually exist before dropping
-            cols_to_drop = [col for col in cols_to_drop if col in merged_df.columns]
-            merged_df.drop(columns=cols_to_drop, inplace=True, errors='ignore')
-            logging.info(f"Dropped {len(cols_to_drop)} original Mongo columns due to collision resolution.")
-
-        logging.info(f"Shape after conflict resolution: {merged_df.shape}")
-
-    except pd.errors.MergeError as me:
-         logging.error(f"Pandas MergeError during left merge: {me}. Check MatchID types and uniqueness.", exc_info=True)
-         return pd.DataFrame()
     except Exception as e:
-        logging.error(f"Unexpected error during pandas left merge: {e}", exc_info=True)
+        logging.error(f"Merge failed: {str(e)}", exc_info=True)
         return pd.DataFrame()
-
-    # --- Final Checks & Return ---
-    initial_rows = len(merged_df)
-    merged_df = merged_df.drop_duplicates(subset=['MatchID'], keep='first') # Keep first (Mongo base)
-    rows_dropped = initial_rows - len(merged_df)
-    if rows_dropped > 0:
-        logging.warning(f"Dropped {rows_dropped} duplicate MatchIDs after merge (unexpected for left merge, check base Mongo data).")
-
-    merged_df = merged_df.loc[:, ~merged_df.columns.duplicated(keep='first')]
-
-    logging.info(f"Merge completed. Final shape before cleaning: {merged_df.shape}")
-    return merged_df
-
 
 # --- Feature Calculation and Cleaning Functions ---
 
@@ -240,126 +204,101 @@ def final_clean_and_order(df: pd.DataFrame) -> pd.DataFrame:
     Applies final type casting with optimized types for ML and analysis.
     """
     logging.info(f"Starting final cleaning and ordering. Input shape: {df.shape}")
-    original_cols = set(df.columns)
-
-    # --- Odds and Probability Columns (float64) ---
+    
+    # --- Handle float columns first ---
     odds_cols = [
-        # Basic odds
         'B365H', 'B365D', 'B365A', 'BWH', 'BWD', 'BWA', 
         'PSH', 'PSD', 'PSA', 'WHH', 'WHD', 'WHA',
-        # Over/Under
         'B365>2.5', 'B365<2.5', 'P>2.5', 'P<2.5',
-        # Asian Handicap
         'B365AHH', 'B365AHA', 'PAHH', 'PAHA',
-        # Averages and ratios
-        'MaxH', 'MaxD', 'MaxA', 'AvgH', 'AvgD', 'AvgA',
-        # Form ratios and probabilities
-        *[c for c in df.columns if '_Ratio' in c or '_Probability' in c]
+        'MaxH', 'MaxD', 'MaxA', 'AvgH', 'AvgD', 'AvgA'
     ]
     
-    for col in odds_cols:
-        if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors='coerce').astype('float64')
+    # Process float columns in batches
+    float_cols = [col for col in odds_cols if col in df.columns]
+    float_cols.extend([c for c in df.columns if ('_Ratio' in c or '_Probability' in c)])
     
-    # --- Integer Columns (Int64) ---
-    int_cols = [
-        # Core stats
-        'FTHG', 'FTAG', 'HTHG', 'HTAG',
-        'HomeYellowCards', 'AwayYellowCards',
-        'HomeRedCards', 'AwayRedCards',
-        # IDs and metadata
-        'Season', 'LeagueID', 'HomeTeamID', 'AwayTeamID',
-        'StatusElapsed',
-        # Count-based features
-        *[c for c in df.columns if '_Count' in c]
-    ]
+    for col in float_cols:
+        try:
+            df[col] = pd.to_numeric(df[col], errors='coerce').astype('float32')
+        except Exception as e:
+            logging.warning(f"Could not convert {col} to float32: {e}")
     
-    for col in int_cols:
-        if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors='coerce').astype('Int64')
+    logging.info(f"Converted {len(float_cols)} columns to float32")
+
+    # --- Handle integer columns ---
+    int_cols = {
+        'int8': ['FTHG', 'FTAG', 'HTHG', 'HTAG'],  # Game scores usually 0-10
+        'int16': ['Season', 'LeagueID', 'HomeTeamID', 'AwayTeamID'],  # Larger IDs
+        'int32': ['StatusElapsed']  # Time values
+    }
     
-    # --- Categorical Columns ---
-    categorical_cols = [
+    # Add dynamic columns to appropriate types
+    for col in df.columns:
+        if '_Count' in col or 'YellowCards' in col or 'RedCards' in col:
+            int_cols['int8'].append(col)
+    
+    # Convert integers safely
+    for dtype, cols in int_cols.items():
+        existing_cols = [col for col in cols if col in df.columns]
+        for col in existing_cols:
+            try:
+                # First convert to float64 to handle any decimal values
+                temp = pd.to_numeric(df[col], errors='coerce')
+                # Round to nearest integer
+                temp = temp.round()
+                # Convert to integer, handling NaN values
+                df[col] = pd.array(temp, dtype=f"Int{dtype.replace('int', '')}")
+            except Exception as e:
+                logging.warning(f"Could not convert {col} to {dtype}: {e}")
+    
+    # --- Handle categorical columns ---
+    cat_cols = [
         'LeagueName', 'Country', 'Round',
         'FTR', 'HTR', 'StatusShort',
         'HomeFormation', 'AwayFormation'
     ]
     
-    for col in categorical_cols:
+    for col in cat_cols:
         if col in df.columns and df[col].nunique() < 1000:
-            df[col] = df[col].astype('category')
+            try:
+                df[col] = df[col].astype('category')
+            except Exception as e:
+                logging.warning(f"Could not convert {col} to category: {e}")
     
-    # --- String Columns ---
-    string_cols = [
+    # --- Handle string columns ---
+    str_cols = [
         'MatchID', 'HomeTeam', 'AwayTeam',
         'Referee', 'VenueName', 'VenueCity',
         'StatusLong'
     ]
     
-    for col in string_cols:
+    for col in str_cols:
         if col in df.columns:
-            df[col] = df[col].astype(str).replace(['nan', 'None', ''], pd.NA).astype('string')
+            try:
+                df[col] = df[col].astype(str).replace(['nan', 'None', ''], pd.NA).astype('string')
+            except Exception as e:
+                logging.warning(f"Could not convert {col} to string: {e}")
     
-    # --- Date Column ---
+    # --- Handle datetime ---
     if 'Date' in df.columns:
-        df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+        try:
+            df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+        except Exception as e:
+            logging.warning(f"Could not convert Date to datetime: {e}")
     
-    logging.info("Type casting finished.")
-
-
-    # --- Sort by Date ---
-    if 'Date' in df.columns and df['Date'].notna().any():
-        logging.debug("Sorting by Date...")
-        df = df.sort_values(by='Date').reset_index(drop=True)
-    else:
-        logging.warning("Date column not found or all nulls, skipping sort.")
-
-    # --- Reorder Columns ---
-    logging.debug("Reordering columns...")
-    present_cols = df.columns.tolist()
-
-    # Use constants, filtering by columns actually present in the dataframe
-    core_ordered = [col for col in CORE_COLS_FINAL if col in present_cols]
-    stats_ordered = [col for col in ALL_EXPECTED_STATS_COLS if col in present_cols]
-    odds_ordered = [col for col in ALL_EXPECTED_ODDS_COLS if col in present_cols]
-
-    # Dynamically find rolling features based on common patterns (adjust patterns as needed)
-    home_rolling_ordered = sorted([col for col in present_cols if col.startswith('Home_Avg') or col.startswith('Home_Form') or col.startswith('Home_BTTS') or col.startswith('Home_W_Count') or col.startswith('Home_D_Count') or col.startswith('Home_L_Count') ])
-    away_rolling_ordered = sorted([col for col in present_cols if col.startswith('Away_Avg') or col.startswith('Away_Form') or col.startswith('Away_BTTS') or col.startswith('Away_W_Count') or col.startswith('Away_D_Count') or col.startswith('Away_L_Count') ])
-
-    # Combine ordered groups
-    known_ordered_cols = core_ordered + stats_ordered + odds_ordered + home_rolling_ordered + away_rolling_ordered
-
-    # Find any remaining columns not captured above
-    remaining_cols = sorted(list(set(present_cols) - set(known_ordered_cols)))
-    if remaining_cols:
-        logging.warning(f"Found {len(remaining_cols)} columns not explicitly categorized during reordering: {remaining_cols}. Appending them at the end.")
-
-    # Final column order
-    final_ordered_cols = known_ordered_cols + remaining_cols
-    final_ordered_cols = list(dict.fromkeys(final_ordered_cols)) # Ensure unique cols in final list
-
-    # Verify and apply order
-    if set(final_ordered_cols) != set(present_cols):
-        logging.error("Column mismatch during reordering! Columns expected vs present differ.")
-        logging.error(f"Expected based on ordering: {len(final_ordered_cols)} cols") #{final_ordered_cols}") # Avoid logging huge list
-        logging.error(f"Present in DataFrame: {len(present_cols)} cols") #{present_cols}")
-        logging.warning("Proceeding with original column order due to error.")
-        # Optionally return df as is, or raise an error
-    else:
-        df = df[final_ordered_cols]
-        logging.debug("Column reordering applied successfully.")
-
-    lost_cols = original_cols - set(df.columns)
-    if lost_cols:
-         logging.warning(f"Columns lost during cleaning/ordering: {lost_cols}")
-
-    gained_cols = set(df.columns) - original_cols
-    if gained_cols:
-         logging.warning(f"Columns gained during cleaning/ordering (unexpected): {gained_cols}")
-
-
-    logging.info(f"Final cleaning and ordering complete. Output shape: {df.shape}")
+    if 'Timestamp' in df.columns:
+        try:
+            df['Timestamp'] = pd.to_datetime(df['Timestamp'], errors='coerce')
+        except Exception as e:
+            logging.warning(f"Could not convert Timestamp to datetime: {e}")
+    
+    # Log summary
+    logging.info("Column type conversion summary:")
+    for dtype in df.dtypes.unique():
+        count = (df.dtypes == dtype).sum()
+        logging.info(f"{dtype}: {count} columns")
+    
     return df
 
 
@@ -369,73 +308,95 @@ def calculate_rolling_features(df: pd.DataFrame, windows: list = [5, 10, 15]) ->
      # No operation, just return the dataframe as is
      return df
 
+# Add these checks after merge
+def validate_merged_data(df: pd.DataFrame) -> bool:
+    # Check for expected columns
+    required_cols = ['MatchID', 'Date', 'HomeTeam', 'AwayTeam', 'FTHG', 'FTAG']
+    missing_cols = set(required_cols) - set(df.columns)
+    if missing_cols:
+        logging.error(f"Missing required columns: {missing_cols}")
+        return False
+    
+    # Check for duplicate MatchIDs
+    duplicates = df['MatchID'].duplicated().sum()
+    if duplicates > 0:
+        logging.error(f"Found {duplicates} duplicate MatchIDs")
+        return False
+    
+    # Check data types
+    if not pd.api.types.is_datetime64_any_dtype(df['Date']):
+        logging.error("Date column is not datetime type")
+        return False
+    
+    return True
+
+def log_memory_usage(df: pd.DataFrame, stage: str):
+    mem_usage = df.memory_usage(deep=True).sum() / 1024**2  # MB
+    logging.info(f"Memory usage at {stage}: {mem_usage:.2f} MB")
+    logging.info(f"Shape at {stage}: {df.shape}")
+
 # --- Main Execution ---
 if __name__ == "__main__":
-    logging.info("--- Starting Merge and Clean Script ---")
-
-    # 1. Load Input Parquet Files
-    logging.info(f"Loading CSV data from: {CSV_PARQUET_PATH}")
-    if not os.path.exists(CSV_PARQUET_PATH):
-        logging.error(f"CSV Parquet file not found: {CSV_PARQUET_PATH}. Exiting.")
-        sys.exit(1)
+    logging.info("Starting enhanced merge process...")
+    
     try:
-        csv_data = pd.read_parquet(CSV_PARQUET_PATH)
-        logging.info(f"Loaded CSV data shape: {csv_data.shape}")
-        # Log CSV columns for debugging
-        # logging.debug(f"CSV Columns: {csv_data.columns.tolist()}")
+        # Load data with optimized settings
+        csv_data = pd.read_parquet(
+            CSV_PARQUET_PATH,
+            engine='pyarrow',
+            columns=VALUABLE_CSV_COLS,  # Only load needed columns
+            use_threads=True
+        )
+        
+        mongo_data = pd.read_parquet(
+            MONGO_PARQUET_PATH,
+            engine='pyarrow',
+            use_threads=True
+        )
+        
+        # Log initial data info
+        log_memory_usage(csv_data, "csv_initial")
+        log_memory_usage(mongo_data, "mongo_initial")
+        
+        # Perform merge
+        merged_data = merge_data(csv_data, mongo_data)
+        if merged_data.empty:
+            logging.error("Merge failed - empty result")
+            sys.exit(1)
+            
+        # Clean and optimize
+        final_data = final_clean_and_order(merged_data)
+        
+        # Save with optimization - removed use_threads parameter
+        final_data.to_parquet(
+            FINAL_OUTPUT_PARQUET_PATH,
+            engine='pyarrow',
+            compression='snappy',
+            index=False
+        )
+        
+        # Log final statistics
+        logging.info(f"Successfully saved merged data to {FINAL_OUTPUT_PARQUET_PATH}")
+        log_memory_usage(final_data, "final")
+        
+        # Print column type summary
+        type_counts = final_data.dtypes.value_counts()
+        logging.info("\nFinal column type distribution:")
+        for dtype, count in type_counts.items():
+            logging.info(f"{dtype}: {count} columns")
+        
+        # Print sample of columns for each type
+        logging.info("\nSample columns by type:")
+        for dtype in final_data.dtypes.unique():
+            cols = final_data.select_dtypes(include=[dtype]).columns
+            logging.info(f"{dtype}: {list(cols[:5])}...")
+        
     except Exception as e:
-        logging.error(f"Failed to load CSV Parquet {CSV_PARQUET_PATH}: {e}", exc_info=True)
+        logging.error(f"Process failed: {str(e)}", exc_info=True)
         sys.exit(1)
 
-    logging.info(f"Loading MongoDB data from: {MONGO_PARQUET_PATH}")
-    if not os.path.exists(MONGO_PARQUET_PATH):
-        logging.error(f"Mongo Parquet file not found: {MONGO_PARQUET_PATH}. Exiting.")
+# Add path existence checks
+for path in [CSV_PARQUET_PATH, MONGO_PARQUET_PATH]:
+    if not os.path.exists(path):
+        logging.error(f"Input file not found: {path}")
         sys.exit(1)
-    try:
-        mongo_data = pd.read_parquet(MONGO_PARQUET_PATH)
-        logging.info(f"Loaded MongoDB data shape: {mongo_data.shape}")
-        # Log Mongo columns for debugging
-        # logging.debug(f"Mongo Columns: {mongo_data.columns.tolist()}")
-    except Exception as e:
-        logging.error(f"Failed to load Mongo Parquet {MONGO_PARQUET_PATH}: {e}", exc_info=True)
-        sys.exit(1)
-
-    # 2. Merge Data (Prioritizing Mongo base, CSV odds)
-    unified_data = merge_data(csv_data, mongo_data)
-    if unified_data.empty:
-        logging.error("Merging failed or resulted in an empty DataFrame. Exiting.")
-        sys.exit(1)
-    logging.info(f"Unified data shape after merge: {unified_data.shape}")
-
-    # 3. Calculate Rolling Average/Form Features - SKIPPED
-    # unified_data_with_features = calculate_rolling_features(unified_data, windows=[5, 10, 15])
-    # logging.info(f"Skipped rolling feature calculation. Shape remains: {unified_data_with_features.shape}")
-    # Use unified_data directly in the next step
-    unified_data_with_features = unified_data # Assign for consistency if needed downstream
-
-    # 4. Final Cleaning (Type casting, sorting, column reordering)
-    final_data = final_clean_and_order(unified_data_with_features)
-    if final_data.empty:
-         logging.error("Final cleaning resulted in an empty DataFrame. Exiting.")
-         sys.exit(1)
-    logging.info(f"Final data shape after cleaning: {final_data.shape}")
-
-    # 5. Save Final Unified Data to Parquet
-    try:
-        # Final check for duplicate columns before saving (should be handled earlier)
-        final_data = final_data.loc[:, ~final_data.columns.duplicated(keep='first')]
-        logging.info(f"Shape before saving to Parquet: {final_data.shape}")
-
-        final_data.to_parquet(FINAL_OUTPUT_PARQUET_PATH, index=False, engine='pyarrow', compression='snappy')
-        logging.info(f"Successfully saved final unified data to: {FINAL_OUTPUT_PARQUET_PATH}")
-        logging.info(f"Final DataFrame columns saved ({len(final_data.columns)} columns).") # Avoid logging all columns
-
-        # Log detailed info
-        buffer = io.StringIO()
-        final_data.info(buf=buffer, verbose=True, show_counts=True, memory_usage='deep')
-        logging.info(f"Saved DataFrame info:\n{buffer.getvalue()}")
-
-    except Exception as e:
-        logging.error(f"Failed to save final unified data to {FINAL_OUTPUT_PARQUET_PATH}: {e}", exc_info=True)
-
-    logging.info("--- Merge and Clean Script Finished ---")

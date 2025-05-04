@@ -1,0 +1,115 @@
+feature_name,feature_type,scaling_method,original_mean,original_std,original_min,original_max,original_nunique,is_scaled
+AwayTeam,Core,None - core feature,,,,,619,False
+Date,Core,None - core feature,,,,,5556,False
+FTAG,Core,None - core feature,1.1469734957020057,1.1157765085525178,0.0,13.0,11,False
+FTHG,Core,None - core feature,1.4940813037249283,1.258636610246835,0.0,10.0,11,False
+FTR,Core,None - core feature,,,,,3,False
+HTAG,Core,None - core feature,0.49427331364156973,0.7087511768775099,0.0,7.0,8,False
+HTHG,Core,None - core feature,0.6549018425864529,0.8080852381353565,0.0,7.0,8,False
+HTR,Core,None - core feature,,,,,3,False
+HomeTeam,Core,None - core feature,,,,,618,False
+LeagueID,Core,None - core feature,,,,,20,False
+LeagueName,Core,None - core feature,,,,,20,False
+MatchID,Core,None - core feature,,,,,111680,False
+Referee,Core,None - core feature,,,,,254,False
+AC,Count,Min-Max Scaling,4.47486348270781,2.5932174264178887,0.0,20.0,21,True
+AR,Count,Min-Max Scaling,0.12460495316899385,0.3571071077909116,0.0,9.0,6,True
+AS,Count,Min-Max Scaling,10.86062617641565,4.551996777671878,0.0,45.0,39,True
+AY,Count,Min-Max Scaling,2.1673681639923577,1.4163907079246643,0.0,9.0,10,True
+HC,Count,Min-Max Scaling,5.557842882320649,2.9358037453576897,0.0,26.0,25,True
+HR,Count,Min-Max Scaling,0.09508281499145274,0.312858352771996,0.0,3.0,4,True
+HS,Count,Min-Max Scaling,13.34326192220929,5.114617475845658,0.0,46.0,46,True
+HY,Count,Min-Max Scaling,1.8782393840142504,1.3593948827056255,0.0,11.0,12,True
+Avg<2.5,Odds (Decimal),None - kept as decimal odds,1.963537251332727,0.42037767572933754,1.23,6.69,340,False
+Avg>2.5,Odds (Decimal),None - kept as decimal odds,1.954101872318294,0.34500826362703857,1.09,3.95,225,False
+AvgA,Odds (Decimal),None - kept as decimal odds,4.042450836990086,2.965693538063474,1.06,41.22,1655,False
+AvgAHA,Odds (Decimal),None - kept as decimal odds,1.9156774151605773,0.0906925935723741,0.0,2.26,60,False
+AvgAHH,Odds (Decimal),None - kept as decimal odds,1.9236097386555713,0.09264023774925709,1.63,4.61,62,False
+AvgC<2.5,Odds (Decimal),None - kept as decimal odds,1.973887173821207,0.46541943949063297,1.21,6.94,373,False
+AvgC>2.5,Odds (Decimal),None - kept as decimal odds,1.9698332954213111,0.3808367611703206,0.42,4.17,255,False
+AvgCA,Odds (Decimal),None - kept as decimal odds,4.039848774795799,2.886843688257592,1.05,47.23,1768,False
+AvgCAHA,Odds (Decimal),None - kept as decimal odds,1.925353719169402,0.09350739544523771,1.18,2.36,72,False
+AvgCAHH,Odds (Decimal),None - kept as decimal odds,1.9222545738147074,0.09576445008218312,1.6,4.9,69,False
+AvgCD,Odds (Decimal),None - kept as decimal odds,3.7776224037339556,1.047306073765989,1.71,19.42,843,False
+AvgCH,Odds (Decimal),None - kept as decimal odds,2.6163871645274215,1.5369198501854928,1.03,36.2,1092,False
+AvgD,Odds (Decimal),None - kept as decimal odds,3.7904953681131155,1.0560086642045048,1.88,16.44,778,False
+AvgH,Odds (Decimal),None - kept as decimal odds,2.6321644726149844,1.5504628155465985,1.03,28.96,1027,False
+B365<2.5,Odds (Decimal),None - kept as decimal odds,1.9617491217326846,0.424527865020733,1.22,7.0,102,False
+B365>2.5,Odds (Decimal),None - kept as decimal odds,1.95816804718471,0.34752477570481,1.1,4.2,105,False
+B365A,Odds (Decimal),None - kept as decimal odds,4.241259596846643,2.9824530796691353,1.05,51.0,172,False
+B365AH,Odds (Decimal),None - kept as decimal odds,-0.3889186295503212,0.5863650884488291,-2.25,1.75,17,False
+B365AHA,Odds (Decimal),None - kept as decimal odds,1.9371660158110298,0.09778778362137976,1.19,5.25,81,False
+B365AHH,Odds (Decimal),None - kept as decimal odds,1.9412684932376658,0.10056040268643948,1.55,6.5,76,False
+B365C<2.5,Odds (Decimal),None - kept as decimal odds,1.9722543315021293,0.4750203087001648,1.2,7.0,105,False
+B365C>2.5,Odds (Decimal),None - kept as decimal odds,1.976781198192634,0.3942933606056597,1.1,4.33,107,False
+B365CA,Odds (Decimal),None - kept as decimal odds,4.0721412552410055,2.903087920456968,1.05,41.0,130,False
+B365CAHA,Odds (Decimal),None - kept as decimal odds,1.9430098855359001,0.1007371298685911,1.18,2.5,71,False
+B365CAHH,Odds (Decimal),None - kept as decimal odds,1.935410054630593,0.10500833919030415,1.5,4.65,70,False
+B365CD,Odds (Decimal),None - kept as decimal odds,3.79939220593493,1.097631494663603,1.53,19.0,60,False
+B365CH,Odds (Decimal),None - kept as decimal odds,2.6474692842748486,1.6097461166290767,1.02,26.0,140,False
+B365D,Odds (Decimal),None - kept as decimal odds,3.6453919995154895,0.9879326879391961,1.29,21.0,108,False
+B365H,Odds (Decimal),None - kept as decimal odds,2.5093362403981065,1.4858447259819683,0.0,34.0,185,False
+Bb1X2,Odds (Decimal),None - kept as decimal odds,39.28602124504434,7.530257872981224,0.0,79.0,80,False
+BbAH,Odds (Decimal),None - kept as decimal odds,19.394232209737826,5.33317135130113,1.0,51.0,39,False
+BbAHh,Odds (Decimal),None - kept as decimal odds,-0.32426436154079463,1.0814667219565421,-225.0,3.0,30,False
+BbAv<2.5,Odds (Decimal),None - kept as decimal odds,1.8535418243468251,0.3454902645000467,1.2,6.75,357,False
+BbAv>2.5,Odds (Decimal),None - kept as decimal odds,1.9808420901260915,0.27907416377635585,1.09,3.44,208,False
+BbAvA,Odds (Decimal),None - kept as decimal odds,4.230706957600702,2.9874691932875157,1.04,60.07,2034,False
+BbAvAHA,Odds (Decimal),None - kept as decimal odds,1.9809057135925272,0.4152338409511448,1.01,15.14,555,False
+BbAvAHH,Odds (Decimal),None - kept as decimal odds,1.9095962092494314,0.2529727168790791,0.0,12.0,373,False
+BbAvD,Odds (Decimal),None - kept as decimal odds,3.5386140786248217,0.9318850116109374,1.2,18.64,943,False
+BbAvH,Odds (Decimal),None - kept as decimal odds,2.438728475017401,1.4021828401330505,1.01,29.8,1191,False
+BbMx<2.5,Odds (Decimal),None - kept as decimal odds,1.954641094729194,0.9988717211655572,1.26,238.0,277,False
+BbMx>2.5,Odds (Decimal),None - kept as decimal odds,2.0963323342869686,0.7320877204633484,1.13,172.0,226,False
+BbMxA,Odds (Decimal),None - kept as decimal odds,4.8696463698816705,4.195432413728704,1.06,155.0,1595,False
+BbMxAHA,Odds (Decimal),None - kept as decimal odds,2.059110738763875,0.904645879446226,1.01,194.0,382,False
+BbMxAHH,Odds (Decimal),None - kept as decimal odds,1.973732373009856,0.28739536111998415,0.0,15.0,295,False
+BbMxD,Odds (Decimal),None - kept as decimal odds,3.81071179977605,1.220384642107051,1.2,33.0,906,False
+BbMxH,Odds (Decimal),None - kept as decimal odds,2.632046575674122,1.743422823042441,1.02,61.0,954,False
+BbOU,Odds (Decimal),None - kept as decimal odds,31.700865827076775,7.42967525065397,1.0,51.0,51,False
+IWA,Odds (Decimal),None - kept as decimal odds,3.9170767782266456,2.524754572880214,1.05,70.0,238,False
+IWCA,Odds (Decimal),None - kept as decimal odds,3.9452583979328164,2.7047493895131995,1.04,43.0,205,False
+IWCD,Odds (Decimal),None - kept as decimal odds,3.7041916451335055,1.0163309662184734,1.93,18.0,118,False
+IWCH,Odds (Decimal),None - kept as decimal odds,2.644445305770887,1.5509500631102526,1.02,55.0,192,False
+IWD,Odds (Decimal),None - kept as decimal odds,3.49067655591439,0.8332607070439882,1.5,16.0,136,False
+IWH,Odds (Decimal),None - kept as decimal odds,2.418569927199081,1.2818858972279434,1.01,30.0,216,False
+Max<2.5,Odds (Decimal),None - kept as decimal odds,2.0470481731894425,0.46109678053912456,1.28,7.5,296,False
+Max>2.5,Odds (Decimal),None - kept as decimal odds,2.034974320634508,0.37292696427198746,1.11,4.5,226,False
+MaxA,Odds (Decimal),None - kept as decimal odds,4.438273037542662,3.7692431554935326,1.08,67.0,1091,False
+MaxAHA,Odds (Decimal),None - kept as decimal odds,1.9808146149595292,0.09618301857664845,1.2,2.38,67,False
+MaxAHH,Odds (Decimal),None - kept as decimal odds,1.9874102005656145,0.09879535297616689,1.69,5.2,67,False
+MaxC<2.5,Odds (Decimal),None - kept as decimal odds,2.0816475481753485,0.5229913842058761,1.24,8.0,343,False
+MaxC>2.5,Odds (Decimal),None - kept as decimal odds,2.0752013128391775,0.4177261087979764,1.1,4.6,263,False
+MaxCA,Odds (Decimal),None - kept as decimal odds,4.516445740956827,3.802832074965747,0.0,151.0,1354,False
+MaxCAHA,Odds (Decimal),None - kept as decimal odds,2.0077141557259846,0.10616500771293612,1.2,2.7,84,False
+MaxCAHH,Odds (Decimal),None - kept as decimal odds,2.0024047835694785,0.10559512939270775,1.68,5.5,81,False
+MaxCD,Odds (Decimal),None - kept as decimal odds,4.0369068844807465,1.2733978286000371,1.75,31.0,777,False
+MaxCH,Odds (Decimal),None - kept as decimal odds,2.8190557759626604,1.8792763402543733,1.04,70.88,948,False
+MaxD,Odds (Decimal),None - kept as decimal odds,4.021104176824314,1.2471557185319109,2.02,25.0,578,False
+MaxH,Odds (Decimal),None - kept as decimal odds,2.7877796196977087,1.8157346224094624,1.05,41.0,711,False
+OddsA,Odds (Decimal),None - kept as decimal odds,4.240513143857813,2.9803273184711663,1.05,51.0,180,False
+OddsAHA,Odds (Decimal),None - kept as decimal odds,4.428968544594923,3.5800749668888074,1.02,60.5,2286,False
+OddsAHH,Odds (Decimal),None - kept as decimal odds,2.677799338859918,1.7309658491534943,1.02,48.58,1367,False
+OddsAHh,Odds (Decimal),None - kept as decimal odds,-0.30837573551462755,0.9787884027580152,-225.0,3.0,31,False
+OddsD,Odds (Decimal),None - kept as decimal odds,3.645083532940158,0.9868020751553007,1.29,21.0,112,False
+OddsH,Odds (Decimal),None - kept as decimal odds,2.5082116100722613,1.4846543601537585,0.0,34.0,186,False
+OddsOver2.5,Odds (Decimal),None - kept as decimal odds,1.95816804718471,0.34752477570481,1.1,4.2,105,False
+OddsUnder2.5,Odds (Decimal),None - kept as decimal odds,1.9617491217326846,0.424527865020733,1.22,7.0,102,False
+PSA,Odds (Decimal),None - kept as decimal odds,4.431910813444493,3.478410279576939,1.07,50.91,2195,False
+PSCA,Odds (Decimal),None - kept as decimal odds,4.458969434466303,3.5912141546684904,1.02,60.5,2275,False
+PSCD,Odds (Decimal),None - kept as decimal odds,3.904717881550452,1.2654288126881088,1.57,29.31,1069,False
+PSCH,Odds (Decimal),None - kept as decimal odds,2.6867766783810776,1.739439784892201,1.02,48.58,1356,False
+PSD,Odds (Decimal),None - kept as decimal odds,3.8777488360582195,1.2189210687244496,1.97,29.0,1018,False
+PSH,Odds (Decimal),None - kept as decimal odds,2.6724539914309138,1.707502244812179,1.03,39.42,1333,False
+VCA,Odds (Decimal),None - kept as decimal odds,4.320268280427327,3.3744109683094243,1.06,71.0,170,False
+VCCA,Odds (Decimal),None - kept as decimal odds,4.1395281167006654,3.236005023915747,1.03,56.0,123,False
+VCCD,Odds (Decimal),None - kept as decimal odds,3.775068704052962,1.1184178552474162,1.8,23.0,61,False
+VCCH,Odds (Decimal),None - kept as decimal odds,2.677000885262307,1.732158337485147,1.03,51.0,118,False
+VCD,Odds (Decimal),None - kept as decimal odds,3.651732364057414,1.0404182561063755,1.36,26.0,104,False
+VCH,Odds (Decimal),None - kept as decimal odds,2.5232543065310713,1.5659524782792098,1.02,36.0,168,False
+WHA,Odds (Decimal),None - kept as decimal odds,4.123248612084017,3.0185604965295916,1.05,71.0,182,False
+WHCA,Odds (Decimal),None - kept as decimal odds,4.134466983771684,3.3102361315116755,1.04,61.0,124,False
+WHCD,Odds (Decimal),None - kept as decimal odds,3.7273929770565193,1.0624357816976677,2.2,23.0,53,False
+WHCH,Odds (Decimal),None - kept as decimal odds,2.6696100307778403,1.734741958187553,1.02,36.0,124,False
+WHD,Odds (Decimal),None - kept as decimal odds,3.545376122617541,0.899633890852091,1.02,19.0,110,False
+WHH,Odds (Decimal),None - kept as decimal odds,2.476564659633862,1.454510332568773,1.02,34.0,156,False

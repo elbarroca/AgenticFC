@@ -2,7 +2,7 @@ import pandas as pd
 import random
 
 # Define the path to your Parquet file
-file_path = '/Users/barroca888/Downloads/Agenticfc/AgenticFC888/scripts/data/unified_data/csv_unified_full_cols_optimized.parquet'
+file_path = '/Users/barroca888/Downloads/Agenticfc/AgenticFC888/models/parquets/final_data_with_elo.parquet'
 
 try:
     # Read the Parquet file into a pandas DataFrame
