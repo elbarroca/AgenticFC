@@ -1,5 +1,7 @@
 # config.py
 import os
+from pydantic import BaseModel, Field
+from typing import List, Set
 
 # --- Paths ---
 # Use absolute paths or paths relative to the project root
@@ -531,6 +533,7 @@ TEAM_NAME_MAPPING = {
 # Ensure directories exist
 os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(os.path.join(DATA_DIR, 'unified_data'), exist_ok=True)
+os.makedirs(os.path.join(PROJECT_ROOT, 'saved_models'), exist_ok=True) # Ensure model dir exists too
 
 # --- Paths ---
 # Use absolute paths or paths relative to the project root
@@ -547,68 +550,108 @@ os.makedirs(os.path.join(DATA_DIR, 'raw'), exist_ok=True)
 os.makedirs(os.path.join(DATA_DIR, 'processed'), exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 
+# --- Prediction Configuration ---
+class PredictionConfig(BaseModel, strict=True):
+    """Configuration settings for generating the final ranked predictions."""
 
-# --- Feature Engineering ---
-ROLLING_WINDOW_SIZE = 10 # Number of games for rolling stats/form
-ELO_K_FACTOR = 25
-ELO_HOME_ADVANTAGE = 65
-ELO_DEFAULT_RATING = 1500
-ODDS_COLUMNS = ['B365H', 'B365D', 'B365A'] # Example bookmaker odds columns
+    # --- Core Ranking Settings ---
+    n_top_predictions: int = Field(
+        default=8, ge=5, le=15,
+        description="Number of top ranked predictions to generate per match."
+    )
+    min_probability_threshold: float = Field(
+        default=0.01, ge=0.0, le=1.0,
+        description="Minimum probability for any outcome (single or dual) to be considered before ranking."
+    )
 
-# List of features to generate and use in models (can be dynamically selected later)
-# Example:
-FEATURE_SET = [
-    'ImpliedProbH', 'ImpliedProbD', 'ImpliedProbA', 'BookmakerMargin',
-    f'Home_Avg_GoalsScored_L{ROLLING_WINDOW_SIZE}', f'Home_Avg_GoalsConceded_L{ROLLING_WINDOW_SIZE}',
-    f'Away_Avg_GoalsScored_L{ROLLING_WINDOW_SIZE}', f'Away_Avg_GoalsConceded_L{ROLLING_WINDOW_SIZE}',
-    # Add more rolling stats features...
-    # f'HomeFormPts_L{ROLLING_WINDOW_SIZE}', f'AwayFormPts_L{ROLLING_WINDOW_SIZE}', # If form calc works
-    'HomeEloBefore', 'AwayEloBefore', 'EloDiff'
-]
+    # --- Single Market Inclusion ---
+    include_1x2_singles: List[str] = Field(
+        default=['prob_H', 'prob_D', 'prob_A'],
+        description="List of 1X2 probability keys to include as single predictions."
+    )
+    include_dc_singles: List[str] = Field(
+        default=['prob_1X', 'prob_X2', 'prob_12'],
+        description="List of Double Chance probability keys (calculated) to include as single predictions."
+    )
+    include_ou_singles: List[str] = Field(
+        default=[
+            'prob_O15', 'prob_U15', 'prob_O25', 'prob_U25', 'prob_O35', 'prob_U35',
+        ],
+        description="List of Over/Under probability keys to include as single predictions."
+    )
+    include_btts_singles: List[str] = Field(
+        default=['prob_BTTS_Y', 'prob_BTTS_N'],
+        description="List of BTTS probability keys to include as single predictions."
+    )
+    include_goal_band_singles: List[str] = Field(
+        default=[
+            'prob_goals_0_1', 'prob_goals_2_3', 'prob_goals_2_4', 'prob_goals_3_plus',
+        ],
+        description="List of Goal Band probability keys to include as single predictions."
+    )
 
+    # --- Dual Market Inclusion (using ACCURATE scoreline summation results) ---
+    include_1x2_ou25_duals: List[str] = Field(
+        default=[
+            'prob_H_and_O25', 'prob_D_and_O25', 'prob_A_and_O25',
+            'prob_H_and_U25', 'prob_D_and_U25', 'prob_A_and_U25',
+        ],
+        description="List of 1X2 & O/U 2.5 dual probability keys (calculated via scoreline) to include."
+    )
+    include_dc_ou25_duals: List[str] = Field(
+         default=[
+            'prob_1X_and_O25', 'prob_12_and_O25', 'prob_X2_and_O25',
+            'prob_1X_and_U25', 'prob_12_and_U25', 'prob_X2_and_U25',
+         ],
+        description="List of DC & O/U 2.5 dual probability keys (calculated via scoreline) to include."
+    )
+    include_1x2_btts_duals: List[str] = Field(
+        default=[
+            'prob_H_and_BTTS_Y', 'prob_D_and_BTTS_Y', 'prob_A_and_BTTS_Y',
+            'prob_H_and_BTTS_N', 'prob_D_and_BTTS_N', 'prob_A_and_BTTS_N',
+        ],
+        description="List of 1X2 & BTTS dual probability keys (calculated via scoreline) to include."
+    )
+    include_dc_btts_duals: List[str] = Field(
+        default=[
+            'prob_1X_and_BTTS_Y', 'prob_12_and_BTTS_Y', 'prob_X2_and_BTTS_Y',
+            'prob_1X_and_BTTS_N', 'prob_12_and_BTTS_N', 'prob_X2_and_BTTS_N',
+        ],
+        description="List of DC & BTTS dual probability keys (calculated via scoreline) to include."
+    )
+    include_ou25_btts_duals: List[str] = Field(
+        default=[
+            'prob_O25_and_BTTS_Y', 'prob_O25_and_BTTS_N',
+            'prob_U25_and_BTTS_Y', 'prob_U25_and_BTTS_N',
+        ],
+        description="List of O/U 2.5 & BTTS dual probability keys (calculated via scoreline) to include."
+    )
 
-# --- Model Hyperparameters (Defaults or options for tuning) ---
-# Example for RandomForest
-RF_PARAMS = {
-    'n_estimators': 200,
-    'max_depth': 15,
-    'min_samples_split': 10,
-    'min_samples_leaf': 5,
-    'class_weight': 'balanced',
-    'random_state': 42,
-    'n_jobs': -1
-}
+    # --- Output Formatting ---
+    required_match_info_cols: List[str] = Field(
+        default=['MatchID', 'HomeTeam', 'AwayTeam'],
+        description="Columns required from the input DataFrame for prediction formatting."
+    )
 
-# Example for XGBoost
-XGB_PARAMS = {
-    'n_estimators': 300,
-    'learning_rate': 0.05,
-    'max_depth': 5,
-    'subsample': 0.8,
-    'colsample_bytree': 0.8,
-    'gamma': 0.1,
-    'random_state': 42,
-    'n_jobs': -1,
-    # Objective/eval_metric often set based on task type in the model class
-}
+    # --- Internal Helper ---
+    def get_allowed_prediction_keys(self) -> Set[str]:
+        """Returns a set of all probability keys to be considered for ranking."""
+        allowed_keys = set()
+        allowed_keys.update(self.include_1x2_singles)
+        allowed_keys.update(self.include_dc_singles)
+        allowed_keys.update(self.include_ou_singles)
+        allowed_keys.update(self.include_btts_singles)
+        allowed_keys.update(self.include_goal_band_singles)
+        allowed_keys.update(self.include_1x2_ou25_duals)
+        allowed_keys.update(self.include_dc_ou25_duals)
+        allowed_keys.update(self.include_1x2_btts_duals)
+        allowed_keys.update(self.include_dc_btts_duals)
+        allowed_keys.update(self.include_ou25_btts_duals)
+        return allowed_keys
 
-
-# --- Simulation Settings ---
-MC_N_SIMULATIONS = 10000 # For Monte Carlo model
-
-
-# --- Evaluation / Backtesting ---
-ROI_BET_THRESHOLD = 0.05 # Minimum value edge for ROI calculation
-ROI_STAKE = 1.0 # Fixed stake per bet for simple ROI calculation
-
-
-# --- Other Settings ---
-RANDOM_SEED = 42 # Global random seed for reproducibility where applicable
-
-
-print("Configuration loaded.")
-
-# Example of accessing config values in another file:
-# import config
-# print(config.ROLLING_WINDOW_SIZE)
-# rf = RandomForestModel(**config.RF_PARAMS)
+# --- Optional: Model Parameter Configs ---
+class PoissonModelParams(BaseModel, strict=True):
+    """Default Hyperparameters for the Poisson model."""
+    alpha: float = Field(default=1e-5, ge=0)
+    max_iter: int = Field(default=1000, gt=0)
+    tol: float = Field(default=1e-4, gt=0)

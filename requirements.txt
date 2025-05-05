@@ -26,3 +26,6 @@ dnspython
 tensorflow
 soccerdata>=0.2.0
 pydantic-settings
+notebook>=6.5.0
+jupyterlab>=4.0.0
+ipykernel>=6.24.0
