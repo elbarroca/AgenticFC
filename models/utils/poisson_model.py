@@ -3,9 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import PoissonRegressor
 from scipy.stats import poisson
-from typing import Dict, Any, Tuple
-import warnings
-
+from typing import Dict, Any
 from models.utils.features import BaseFeatureConfig
 from models.base_model import BaseModel
 

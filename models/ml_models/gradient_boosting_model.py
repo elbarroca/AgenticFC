@@ -1,391 +1,132 @@
-import sys
+# ml_models/gradient_boosting_model.py
 import pandas as pd
 import numpy as np
-import lightgbm as lgb # Using LightGBM
-from sklearn.model_selection import TimeSeriesSplit
-from sklearn.metrics import log_loss, brier_score_loss
-from sklearn.pipeline import Pipeline
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler # Optional
+import lightgbm as lgb # Use LightGBM
+from typing import Dict, Any
 import warnings
-import gc # Garbage collector
 
-warnings.filterwarnings('ignore', category=UserWarning)
-warnings.filterwarnings('ignore', category=FutureWarning)
-pd.set_option('display.max_columns', None)
+from models.base_model import BaseModel
+from models.utils.features import BaseFeatureConfig
+# Import the standardized probability calculation function
+from models.utils.poisson_model import calculate_poisson_outcome_probs, _calculate_dual_conditions
 
-# --- Configuration ---
-N_SPLITS = 8           # Number of folds for TimeSeriesSplit
-RANDOM_SEED = 42
-# Define which outcomes to model directly
-# Add more 'Actual_...' columns here if defined earlier and desired
-TARGET_COLUMNS = {
-    # Basic match outcomes
-    'HDA': 'Actual_FTR_Numeric', # Multiclass (Home/Draw/Away)
-    'Home_Win': 'Actual_Home_Win', # Home win only
-    'Draw': 'Actual_Draw', # Draw only  
-    'Away_Win': 'Actual_Away_Win', # Away win only
-    'Home_WinOrDraw': 'Actual_Home_WinOrDraw', # 1X
-    'Away_WinOrDraw': 'Actual_Away_WinOrDraw', # X2
-    
-    # Goals totals
-    'Over0.5': 'Actual_Over0.5',
-    'Over1.5': 'Actual_Over1.5',
-    'Over2.5': 'Actual_Over2.5', 
-    'Over3.5': 'Actual_Over3.5',
-    'Over4.5': 'Actual_Over4.5',
-    'Under0.5': 'Actual_Under0.5',
-    'Under1.5': 'Actual_Under1.5',
-    'Under2.5': 'Actual_Under2.5',
-    'Under3.5': 'Actual_Under3.5',
-    'Under4.5': 'Actual_Under4.5',
-    
-    # Both teams to score
-    'BTTS_Yes': 'Actual_BTTS_Yes',
-    'BTTS_No': 'Actual_BTTS_No',
-    
-    # Combined outcomes
-    'H_and_O15': 'Actual_H_and_O15', # Home & Over 1.5
-    'H_and_O25': 'Actual_H_and_O25', # Home & Over 2.5
-    'H_and_O35': 'Actual_H_and_O35', # Home & Over 3.5
-    'H_and_U25': 'Actual_H_and_U25', # Home & Under 2.5
-    'H_and_U35': 'Actual_H_and_U35', # Home & Under 3.5
-    'H_and_BTTS': 'Actual_H_and_BTTS', # Home & BTTS
-    
-    'D_and_O15': 'Actual_D_and_O15', # Draw & Over 1.5
-    'D_and_O25': 'Actual_D_and_O25', # Draw & Over 2.5
-    'D_and_U25': 'Actual_D_and_U25', # Draw & Under 2.5
-    'D_and_BTTS': 'Actual_D_and_BTTS', # Draw & BTTS
-    
-    'A_and_O15': 'Actual_A_and_O15', # Away & Over 1.5
-    'A_and_O25': 'Actual_A_and_O25', # Away & Over 2.5
-    'A_and_O35': 'Actual_A_and_O35', # Away & Over 3.5
-    'A_and_U25': 'Actual_A_and_U25', # Away & Under 2.5
-    'A_and_U35': 'Actual_A_and_U35', # Away & Under 3.5
-    'A_and_BTTS': 'Actual_A_and_BTTS', # Away & BTTS
-    
-    # Double chance combinations
-    '1X_and_O15': 'Actual_1X_and_O15', # Home/Draw & Over 1.5
-    '1X_and_O25': 'Actual_1X_and_O25', # Home/Draw & Over 2.5
-    '1X_and_U25': 'Actual_1X_and_U25', # Home/Draw & Under 2.5
-    '1X_and_U35': 'Actual_1X_and_U35', # Home/Draw & Under 3.5
-    '1X_and_BTTS': 'Actual_1X_and_BTTS', # Home/Draw & BTTS
-    
-    'X2_and_O15': 'Actual_X2_and_O15', # Draw/Away & Over 1.5
-    'X2_and_O25': 'Actual_X2_and_O25', # Draw/Away & Over 2.5
-    'X2_and_U25': 'Actual_X2_and_U25', # Draw/Away & Under 2.5
-    'X2_and_U35': 'Actual_X2_and_U35', # Draw/Away & Under 3.5
-    'X2_and_BTTS': 'Actual_X2_and_BTTS', # Draw/Away & BTTS
-}
+class GradientBoostingModel(BaseModel):
+    """
+    LightGBM Regressor model to predict expected goals (lambdas) based on features,
+    using a Poisson objective. Derives outcome probabilities using the
+    calculate_poisson_outcome_probs function.
+    Inherits scaling and save/load logic from BaseModel.
+    """
+    def __init__(self, model_params: Dict[str, Any], feature_config: BaseFeatureConfig):
+        """Initializes the GradientBoostingModel."""
+        super().__init__(model_params)
+        # Ensure feature_config is passed and stored
+        assert isinstance(feature_config, BaseFeatureConfig), "feature_config must be provided and be a BaseFeatureConfig instance."
+        self.feature_config = feature_config
 
-# --- Load Data ---
-print("Loading data...")
-try:
-    # *** Make sure this path is correct ***
-    file_path = '/Users/barroca888/Downloads/Agenticfc/AgenticFC888/models/parquets/final_data.parquet'
-    df = pd.read_parquet(file_path)
-    print(f"Successfully loaded data from: {file_path}")
+        # Default random state for reproducibility if not provided
+        if 'random_state' not in self.params:
+            self.params['random_state'] = 42 # Default state for home model
 
-    if 'Timestamp' not in df.columns:
-        raise ValueError("Error: 'Timestamp' column not found.")
-    df = df.sort_values('Timestamp').reset_index(drop=True)
-    print(f"Data loaded and sorted: {df.shape[0]} matches")
+        # Set objective to 'poisson' for goal count regression, if not specified
+        if 'objective' not in self.params:
+            self.params['objective'] = 'poisson'
+            print("Defaulting LightGBM objective to 'poisson'.")
+        elif self.params['objective'] != 'poisson':
+             warnings.warn(f"LightGBM objective set to '{self.params['objective']}'. Consider 'poisson' for goal prediction.")
 
-    required_outcome_cols = ['FTR', 'FTHG', 'FTAG']
-    if not all(col in df.columns for col in required_outcome_cols):
-        missing_cols = [col for col in required_outcome_cols if col not in df.columns]
-        raise ValueError(f"Error: Missing required columns for defining base outcomes: {missing_cols}")
+        # Instantiate the core model objects
+        # Use a different random state for the away model for slight diversity
+        away_params = self.params.copy()
+        away_params['random_state'] = self.params.get('random_state', 42) + 1
 
-except Exception as e:
-    print(f"Error during data loading or initial checks: {e}")
-    sys.exit(1)
+        # Ensure n_jobs is set for performance, default to -1 (use all cores)
+        if 'n_jobs' not in self.params:
+            self.params['n_jobs'] = -1
+            away_params['n_jobs'] = -1
 
-# --- Define Evaluation Outcomes (Targets) ---
-print("Defining evaluation outcomes...")
+        self._model_home = lgb.LGBMRegressor(**self.params)
+        self._model_away = lgb.LGBMRegressor(**away_params)
 
-# Basic match outcomes
-df['Actual_FTR_Numeric'] = df['FTR'].map({'H': 0, 'D': 1, 'A': 2}).astype('Int64')
-df['Actual_Home_Win'] = (df['FTR'] == 'H').astype(int)
-df['Actual_Draw'] = (df['FTR'] == 'D').astype(int)
-df['Actual_Away_Win'] = (df['FTR'] == 'A').astype(int)
-df['Actual_Home_WinOrDraw'] = ((df['FTR'] == 'H') | (df['FTR'] == 'D')).astype(int)
-df['Actual_Away_WinOrDraw'] = ((df['FTR'] == 'A') | (df['FTR'] == 'D')).astype(int)
+        # Store models in a dictionary compatible with base save/load
+        self._model = {'home': self._model_home, 'away': self._model_away}
+        print(f"Initialized GradientBoostingModel (LightGBM) with params: {self.params} (Home) and {away_params} (Away)")
 
-# Goals-related outcomes
-df['Actual_TotalGoals'] = df['FTHG'] + df['FTAG']
-# Over/Under goals
-df['Actual_Over0.5'] = (df['Actual_TotalGoals'] > 0.5).astype(int)
-df['Actual_Over1.5'] = (df['Actual_TotalGoals'] > 1.5).astype(int)
-df['Actual_Over2.5'] = (df['Actual_TotalGoals'] > 2.5).astype(int)
-df['Actual_Over3.5'] = (df['Actual_TotalGoals'] > 3.5).astype(int)
-df['Actual_Over4.5'] = (df['Actual_TotalGoals'] > 4.5).astype(int)
-df['Actual_Under0.5'] = (df['Actual_TotalGoals'] < 0.5).astype(int)
-df['Actual_Under1.5'] = (df['Actual_TotalGoals'] < 1.5).astype(int)
-df['Actual_Under2.5'] = (df['Actual_TotalGoals'] < 2.5).astype(int)
-df['Actual_Under3.5'] = (df['Actual_TotalGoals'] < 3.5).astype(int)
-df['Actual_Under4.5'] = (df['Actual_TotalGoals'] < 4.5).astype(int)
+    def _fit_model(self, X_scaled: pd.DataFrame, y: pd.DataFrame):
+        """Fits two LightGBM Regressors using SCALED features."""
+        # --- Assertions specific to goal targets ---
+        target_hg = self.feature_config.target_home_goals
+        target_ag = self.feature_config.target_away_goals
+        assert target_hg in y.columns, f"Target column '{target_hg}' not found in y."
+        assert target_ag in y.columns, f"Target column '{target_ag}' not found in y."
+        assert pd.api.types.is_numeric_dtype(y[target_hg]), f"Target '{target_hg}' is not numeric."
+        assert pd.api.types.is_numeric_dtype(y[target_ag]), f"Target '{target_ag}' is not numeric."
+        assert not y[[target_hg, target_ag]].isnull().any().any(), f"Target columns contain NaN values."
+        # Poisson objective handles non-negative nature implicitly, but check anyway.
+        assert np.all(y[target_hg] >= 0), f"Target '{target_hg}' contains negative values."
+        assert np.all(y[target_ag] >= 0), f"Target '{target_ag}' contains negative values."
 
-# BTTS (Both Teams To Score)
-df['Actual_BTTS_Yes'] = ((df['FTHG'] > 0) & (df['FTAG'] > 0)).astype(int)
-df['Actual_BTTS_No'] = 1 - df['Actual_BTTS_Yes']
+        assert X_scaled.columns.tolist() == self.features_in_, "Scaled features columns mismatch features_in_"
 
-# Combined outcomes - Home Win combinations
-df['Actual_H_and_O15'] = (df['Actual_Home_Win'] & df['Actual_Over1.5']).astype(int)
-df['Actual_H_and_O25'] = (df['Actual_Home_Win'] & df['Actual_Over2.5']).astype(int)
-df['Actual_H_and_O35'] = (df['Actual_Home_Win'] & df['Actual_Over3.5']).astype(int)
-df['Actual_H_and_U25'] = (df['Actual_Home_Win'] & df['Actual_Under2.5']).astype(int)
-df['Actual_H_and_U35'] = (df['Actual_Home_Win'] & df['Actual_Under3.5']).astype(int)
-df['Actual_H_and_BTTS'] = (df['Actual_Home_Win'] & df['Actual_BTTS_Yes']).astype(int)
+        print(f"Fitting LightGBM Regressor for Home Goals ({target_hg}) using scaled features...")
+        # Note: Consider adding early stopping if you adapt the structure to include validation sets
+        self._model['home'].fit(X_scaled, y[target_hg])
 
-# Combined outcomes - Draw combinations
-df['Actual_D_and_O15'] = (df['Actual_Draw'] & df['Actual_Over1.5']).astype(int)
-df['Actual_D_and_O25'] = (df['Actual_Draw'] & df['Actual_Over2.5']).astype(int)
-df['Actual_D_and_U25'] = (df['Actual_Draw'] & df['Actual_Under2.5']).astype(int)
-df['Actual_D_and_BTTS'] = (df['Actual_Draw'] & df['Actual_BTTS_Yes']).astype(int)
+        print(f"Fitting LightGBM Regressor for Away Goals ({target_ag}) using scaled features...")
+        self._model['away'].fit(X_scaled, y[target_ag])
 
-# Combined outcomes - Away Win combinations
-df['Actual_A_and_O15'] = (df['Actual_Away_Win'] & df['Actual_Over1.5']).astype(int)
-df['Actual_A_and_O25'] = (df['Actual_Away_Win'] & df['Actual_Over2.5']).astype(int)
-df['Actual_A_and_O35'] = (df['Actual_Away_Win'] & df['Actual_Over3.5']).astype(int)
-df['Actual_A_and_U25'] = (df['Actual_Away_Win'] & df['Actual_Under2.5']).astype(int)
-df['Actual_A_and_U35'] = (df['Actual_Away_Win'] & df['Actual_Under3.5']).astype(int)
-df['Actual_A_and_BTTS'] = (df['Actual_Away_Win'] & df['Actual_BTTS_Yes']).astype(int)
+        print("LightGBM models fitted successfully.")
 
-# Double chance combinations
-df['Actual_1X_and_O15'] = (df['Actual_Home_WinOrDraw'] & df['Actual_Over1.5']).astype(int)
-df['Actual_1X_and_O25'] = (df['Actual_Home_WinOrDraw'] & df['Actual_Over2.5']).astype(int)
-df['Actual_1X_and_U25'] = (df['Actual_Home_WinOrDraw'] & df['Actual_Under2.5']).astype(int)
-df['Actual_1X_and_U35'] = (df['Actual_Home_WinOrDraw'] & df['Actual_Under3.5']).astype(int)
-df['Actual_1X_and_BTTS'] = (df['Actual_Home_WinOrDraw'] & df['Actual_BTTS_Yes']).astype(int)
+    def _predict_proba_model(self, X_scaled: pd.DataFrame) -> Dict[str, np.ndarray]:
+        """Predicts expected goals (lambdas) using SCALED features and calculates probabilities."""
+        assert X_scaled.columns.tolist() == self.features_in_, "Scaled prediction features columns mismatch features_in_"
 
-df['Actual_X2_and_O15'] = (df['Actual_Away_WinOrDraw'] & df['Actual_Over1.5']).astype(int)
-df['Actual_X2_and_O25'] = (df['Actual_Away_WinOrDraw'] & df['Actual_Over2.5']).astype(int)
-df['Actual_X2_and_U25'] = (df['Actual_Away_WinOrDraw'] & df['Actual_Under2.5']).astype(int)
-df['Actual_X2_and_U35'] = (df['Actual_Away_WinOrDraw'] & df['Actual_Under3.5']).astype(int)
-df['Actual_X2_and_BTTS'] = (df['Actual_Away_WinOrDraw'] & df['Actual_BTTS_Yes']).astype(int)
+        print("Predicting expected goals (lambdas) using LightGBM models...")
+        lambda_home = self._model['home'].predict(X_scaled)
+        lambda_away = self._model['away'].predict(X_scaled)
 
-# Check if all target columns exist
-missing_targets = [tgt for tgt in TARGET_COLUMNS.values() if tgt not in df.columns]
-if missing_targets:
-    print(f"Error: The following target columns defined in TARGET_COLUMNS are missing from the DataFrame: {missing_targets}")
-    sys.exit(1)
+        # Ensure non-negative lambdas, crucial for poisson calculations
+        # LightGBM with Poisson objective should already output non-negative values, but clip for safety.
+        lambda_home = np.maximum(lambda_home, 1e-9)
+        lambda_away = np.maximum(lambda_away, 1e-9)
 
-# --- Feature Selection ---
-print("Selecting features...")
-time_windows = ['Last5', 'Last10']
-home_features_base = [
-    'AvgGoalsScored', 'AvgGoalsConceded', 'AvgShotsFor', 'AvgShotsAgainst',
-    'AvgShotsTargetFor', 'AvgShotsTargetAgainst', 'AvgPossessionFor',
-    'AvgPossessionAgainst', 'AvgCornersFor', 'AvgCornersAgainst',
-    'FormPoints', 'BTTS_Ratio', 'W_Count', 'D_Count', 'L_Count'
-]
+        print("Calculating outcome probabilities from LightGBM-predicted lambdas using calculate_poisson_outcome_probs...")
+        # Reuse the standardized probability calculation logic
+        outcome_probs = calculate_poisson_outcome_probs(lambda_home, lambda_away)
 
-# First, let's see what columns we actually have
-print("\nChecking available features in DataFrame:")
-print("Total columns in DataFrame:", len(df.columns))
-print("Available columns:", sorted(df.columns.tolist()))
+        # Add the model's predicted expected goals (lambdas)
+        outcome_probs['expected_HG'] = lambda_home
+        outcome_probs['expected_AG'] = lambda_away
 
-# Initialize lists for valid features
-valid_features = []
+        # --- Standard Assertions on Output Dictionary ---
+        num_rows = X_scaled.shape[0]
+        # Check presence of core single outcome keys
+        expected_single_keys = {
+            'prob_H', 'prob_D', 'prob_A', 'prob_O25', 'prob_U25', 'prob_BTTS_Y', 'prob_BTTS_N',
+            'expected_HG', 'expected_AG'
+        }
+        present_keys = set(outcome_probs.keys())
+        assert expected_single_keys.issubset(present_keys), \
+            f"Output keys missing expected singles.\nMissing: {expected_single_keys - present_keys}"
+        # Check presence of at least one dual outcome key
+        assert any(k.startswith('prob_') and '_and_' in k for k in present_keys), \
+            "Output keys do not contain any dual probability keys (e.g., 'prob_H_and_O25')."
 
-# Check each potential feature and only include if it exists
-for base in home_features_base:
-    for window in time_windows:
-        for team in ['Home', 'Away']:
-            feature = f"{team}_{base}_Total_{window}"
-            if feature in df.columns:
-                valid_features.append(feature)
-            else:
-                print(f"Warning: Expected feature '{feature}' not found in DataFrame")
+        # Check shapes and value ranges
+        for key, arr in outcome_probs.items():
+            assert isinstance(arr, np.ndarray), f"Output '{key}' is not a numpy array."
+            assert arr.shape == (num_rows,), f"Output '{key}' has incorrect shape {arr.shape}, expected ({num_rows},)."
+            if key.startswith("prob_"):
+                 assert np.all((arr >= 0) & (arr <= 1)), f"Probabilities in '{key}' are outside [0, 1]."
+            elif key.startswith("expected_"):
+                 assert np.all(arr >= 0), f"Expected goals in '{key}' are negative."
 
-# Use only valid features
-all_features = sorted(valid_features)
+        # Check basic probability consistency
+        assert np.allclose(outcome_probs['prob_H'] + outcome_probs['prob_D'] + outcome_probs['prob_A'], 1.0, atol=1e-6)
+        assert np.allclose(outcome_probs['prob_O25'] + outcome_probs['prob_U25'], 1.0, atol=1e-6)
+        assert np.allclose(outcome_probs['prob_BTTS_Y'] + outcome_probs['prob_BTTS_N'], 1.0, atol=1e-6)
 
-if not all_features:
-    raise ValueError("No valid features found in DataFrame. Check feature naming convention.")
+        print("LightGBM-based probabilities calculated successfully.")
+        return outcome_probs
 
-print(f"\nValid features found: {len(all_features)}")
-print("Features to be used:")
-for f in all_features:
-    print(f"- {f}")
-
-# --- Preprocessing & Model Definition ---
-preprocessor = Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy='median')),
-    # ('scaler', StandardScaler()) # Optional for LightGBM
-])
-
-# LightGBM parameters (tune these for better performance)
-lgbm_params_binary = {
-    'objective': 'binary',
-    'metric': 'binary_logloss', # Logloss is good for probability calibration
-    'n_estimators': 1000, # High number, use early stopping
-    'learning_rate': 0.05,
-    'feature_fraction': 0.8, # alias: colsample_bytree
-    'bagging_fraction': 0.8, # alias: subsample
-    'bagging_freq': 1,
-    'lambda_l1': 0.1, # L1 reg
-    'lambda_l2': 0.1, # L2 reg
-    'num_leaves': 31, # Default
-    'verbose': -1, # Suppress verbose output
-    'n_jobs': -1, # Use all cores
-    'seed': RANDOM_SEED,
-    'boosting_type': 'gbdt',
-}
-
-lgbm_params_multi = lgbm_params_binary.copy()
-lgbm_params_multi['objective'] = 'multiclass'
-lgbm_params_multi['metric'] = 'multi_logloss'
-lgbm_params_multi['num_class'] = 3 # For H, D, A
-
-# --- Time Series Cross-Validation ---
-print("Starting Time Series Cross-Validation...")
-tscv = TimeSeriesSplit(n_splits=N_SPLITS)
-all_fold_results = []
-trained_models = {} # To store models from the last fold if needed
-
-for fold, (train_index, test_index) in enumerate(tscv.split(df)):
-    print(f"\n--- Fold {fold + 1}/{N_SPLITS} ---")
-    print(f"Train size: {len(train_index)}, Test size: {len(test_index)}")
-
-    # Prepare feature data for this fold
-    # Fit preprocessor on training data ONLY
-    X_train = preprocessor.fit_transform(df.iloc[train_index][all_features])
-    X_test = preprocessor.transform(df.iloc[test_index][all_features])
-
-    fold_predictions = {'MatchID': df.iloc[test_index]['MatchID'].values}
-    fold_models = {} # Store models trained in this fold
-
-    # Train a model for each target
-    for model_name, target_col in TARGET_COLUMNS.items():
-        print(f"  Training model for: {model_name} (Target: {target_col})...")
-        y_train = df.iloc[train_index][target_col]
-        y_test = df.iloc[test_index][target_col] # Needed for eval_set
-
-        # Select parameters based on target type
-        is_multiclass = (model_name == 'HDA')
-        params = lgbm_params_multi if is_multiclass else lgbm_params_binary
-        model = lgb.LGBMClassifier(**params)
-
-        # Define callbacks for LightGBM early stopping
-        callbacks = [lgb.early_stopping(stopping_rounds=50, verbose=False)]
-
-        # Fit the model
-        model.fit(
-            X_train, y_train,
-            eval_set=[(X_test, y_test)],
-            eval_metric=params['metric'], # Use the metric defined in params
-            callbacks=callbacks
-            # Add categorical_feature='auto' or list of names if using categoricals directly
-        )
-
-        # Store the trained model for this fold
-        fold_models[model_name] = model
-
-        # Predict probabilities on the test set
-        print(f"    Predicting probabilities for {model_name}...")
-        probs = model.predict_proba(X_test)
-
-        # Store probabilities
-        if is_multiclass:
-            fold_predictions['P_H'] = probs[:, 0]
-            fold_predictions['P_D'] = probs[:, 1]
-            fold_predictions['P_A'] = probs[:, 2]
-        else:
-            # For binary, predict_proba returns [P(0), P(1)]
-            # We store the probability of the positive class (usually 1)
-            fold_predictions[f'P_{model_name}'] = probs[:, 1]
-
-        print(f"    Best iteration for {model_name}: {model.best_iteration_}")
-        gc.collect() # Clean memory after training each model
-
-    # Combine predictions for this fold into a DataFrame
-    fold_results_df = pd.DataFrame(fold_predictions)
-    all_fold_results.append(fold_results_df)
-    trained_models = fold_models # Keep models from the last fold
-
-    print(f"Fold {fold + 1} completed.")
-    del X_train, X_test, y_train, y_test, fold_models, fold_predictions, fold_results_df
-    gc.collect()
-
-# --- Combine Results & Evaluate ---
-print("\nCombining results from all folds...")
-results_df = pd.concat(all_fold_results).reset_index(drop=True)
-
-# Define actual outcome columns needed for evaluation based on TARGET_COLUMNS
-actual_cols_to_merge = ['MatchID'] + list(TARGET_COLUMNS.values())
-# Add any other actual columns needed for metrics (like FTR for mapping HDA)
-if 'Actual_FTR_Numeric' not in actual_cols_to_merge:
-     actual_cols_to_merge.append('Actual_FTR_Numeric')
-
-actuals_to_merge = df[actual_cols_to_merge].copy()
-
-# Merge results with actuals
-print("Merging predictions with actual outcomes...")
-final_eval_df = pd.merge(results_df, actuals_to_merge, on='MatchID', how='left')
-
-# Drop rows where essential actual outcomes might be missing
-essential_actuals = list(TARGET_COLUMNS.values())
-final_eval_df = final_eval_df.dropna(subset=essential_actuals)
-if 'Actual_FTR_Numeric' in final_eval_df.columns:
-    final_eval_df['Actual_FTR_Numeric'] = final_eval_df['Actual_FTR_Numeric'].astype(int)
-
-if final_eval_df.empty:
-     print("Error: No matching predictions and actuals found after merge. Check MatchIDs or data integrity.")
-else:
-    print(f"Evaluating on {len(final_eval_df)} matches.")
-
-    # --- Calculate Average Predicted Probabilities ---
-    avg_pred_cols = [col for col in final_eval_df.columns if col.startswith('P_')]
-    avg_metrics = final_eval_df[avg_pred_cols].mean()
-    print("\n--- Average Predicted Probabilities ---")
-    print(avg_metrics.sort_index())
-
-    # --- Calculate Actual Frequencies ---
-    print("\n--- Actual Frequencies in Test Sets ---")
-    actual_freq = {}
-    for model_name, target_col in TARGET_COLUMNS.items():
-         if model_name != 'HDA': # Handle binary targets
-             actual_freq[f'Actual_{model_name}'] = final_eval_df[target_col].mean()
-    # Handle HDA separately
-    if 'Actual_FTR_Numeric' in final_eval_df.columns:
-         actual_freq['Actual_H'] = (final_eval_df['Actual_FTR_Numeric'] == 0).mean()
-         actual_freq['Actual_D'] = (final_eval_df['Actual_FTR_Numeric'] == 1).mean()
-         actual_freq['Actual_A'] = (final_eval_df['Actual_FTR_Numeric'] == 2).mean()
-    print(pd.Series(actual_freq).sort_index())
-
-
-    # --- Evaluation Metrics ---
-    print("\n--- Performance Evaluation ---")
-    evaluation_scores = {}
-
-    # Brier Scores for Binary Classifiers
-    for model_name, target_col in TARGET_COLUMNS.items():
-         if model_name != 'HDA':
-             pred_col = f'P_{model_name}'
-             if pred_col in final_eval_df.columns and target_col in final_eval_df.columns:
-                 score = brier_score_loss(final_eval_df[target_col], final_eval_df[pred_col])
-                 print(f"Brier Score ({model_name}): {score:.4f}")
-                 evaluation_scores[f'Brier_{model_name}'] = score
-             else:
-                 print(f"Warning: Cannot calculate Brier score for {model_name}. Columns missing.")
-
-    # Log Loss for HDA (Multiclass)
-    if 'P_H' in final_eval_df.columns and 'Actual_FTR_Numeric' in final_eval_df.columns:
-         hda_probs = final_eval_df[['P_H', 'P_D', 'P_A']].values
-         hda_actuals = final_eval_df['Actual_FTR_Numeric'].values
-         hda_probs = np.clip(hda_probs, 1e-15, 1 - 1e-15) # Clipping
-         if hda_probs.sum(axis=1).min() > 0:
-             hda_probs /= hda_probs.sum(axis=1)[:, np.newaxis] # Normalize row sums to 1
-             logloss_hda = log_loss(hda_actuals, hda_probs, labels=[0, 1, 2])
-             print(f"Log Loss (HDA): {logloss_hda:.4f}")
-             evaluation_scores['LogLoss_HDA'] = logloss_hda
-         else:
-             print("Warning: Could not calculate Log Loss HDA due to probability sum being zero.")
-    else:
-        print("Warning: Cannot calculate Log Loss HDA. Columns missing.")
-
-    print("\n--- Direct Probability Prediction Complete ---")
-    # Save results if needed
-    # final_eval_df.to_csv('gradient_boosting_results.csv', index=False)
-    # print("Results saved to gradient_boosting_results.csv")
+    # Inherit fit, predict_proba, save, load from BaseModel
