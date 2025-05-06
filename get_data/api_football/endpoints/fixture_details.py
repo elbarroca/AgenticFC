@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Dict,Any, Optional
 import logging
 from get_data.api_football.endpoints.api_manager import api_manager
-from get_data.api_football.db_mongo import MongoDBManager
+from get_data.api_football.db_mongo import db_manager, MongoDBManager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 class FixtureDetailsFetcher:
     """Class to fetch detailed information for specific fixtures from the API Football."""
     
-    def __init__(self):
-        """Initialize the fetcher with API configuration."""
+    def __init__(self, db_manager_instance: MongoDBManager):
+        """Initialize the fetcher with API configuration and DB manager."""
         self.base_url = "https://api-football-v1.p.rapidapi.com/v3"
         
         # Get API key from environment variable
@@ -23,7 +23,7 @@ class FixtureDetailsFetcher:
             logger.warning("API_FOOTBALL_KEY environment variable not set, using API manager")
             
         self.api_manager = api_manager
-        self.db = MongoDBManager()
+        self.db_manager = db_manager_instance
         
         logger.info("FixtureDetailsFetcher initialized successfully")
 
@@ -95,7 +95,7 @@ class FixtureDetailsFetcher:
             }
             
             # Save to database using SQLite's save_fixture_detail method
-            success = self.db.save_fixture_detail(fixture_id, complete_data)
+            success = self.db_manager.save_match_data(complete_data)
             if success:
                 logger.info(f"Successfully saved details for fixture {fixture_id}")
             else:

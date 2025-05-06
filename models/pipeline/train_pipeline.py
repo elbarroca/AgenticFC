@@ -46,11 +46,11 @@ MODELS_TO_TRAIN_CONFIG = {
         "params": {'alpha': 1e-4, 'max_iter': 8000000, 'tol': 1e-3},
         "optimize": True, # Tune alpha
     },
-    "random_forest": {
+    #"random_forest": {
         # Default params before optimization
-        "params": {'n_estimators': 800, 'max_depth': 35, 'min_samples_leaf': 10, 'n_jobs': -1, 'random_state': 42},
-        "optimize": True,
-    },
+        #"params": {'n_estimators': 800, 'max_depth': 35, 'min_samples_leaf': 10, 'n_jobs': -1, 'random_state': 42},
+        #"optimize": True,
+    #},
     "gradient_boosting": {
         # Default params before optimization
         "params": {'n_estimators': 800, 'learning_rate': 0.1, 'max_depth': 8, 'num_leaves': 35, 'n_jobs': -1, 'random_state': 44, 'objective': 'poisson'},
@@ -128,7 +128,7 @@ def run_bayesian_optimization(
 
         elif model_type == "gradient_boosting":
             params = {
-                'objective': 'poisson', 'metric': 'rmse', 'random_state': 42, 'n_jobs': -1, # Fixed
+                'objective': 'poisson', 'metric': 'poisson', 'random_state': 42, 'n_jobs': -1, # Fixed
                 'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.2, log=True),
                 'n_estimators': trial.suggest_int('n_estimators', 100, 1500),
                 'max_depth': trial.suggest_int('max_depth', 3, 12),
@@ -141,8 +141,8 @@ def run_bayesian_optimization(
             model_home = lgb.LGBMRegressor(**params)
             params_away = params.copy(); params_away['random_state'] = 43
             model_away = lgb.LGBMRegressor(**params_away)
-            # Use root_mean_squared_error for evaluation metric
-            loss_metric_func = root_mean_squared_error
+            # Use mean_poisson_deviance for evaluation metric, consistent with the objective
+            loss_metric_func = mean_poisson_deviance
         else:
              raise ValueError(f"Invalid model_type for optimization: {model_type}")
 

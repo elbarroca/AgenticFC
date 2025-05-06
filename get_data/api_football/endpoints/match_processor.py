@@ -1,308 +1,239 @@
 import sys
-import json
 import time
 from datetime import datetime, timezone
-from typing import Dict, Any
+from typing import Dict, Any, Optional, List
 from pathlib import Path
 import asyncio
 import aiohttp
 import logging
-import traceback
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Add the project root to the Python path
+# Add project root if needed
 project_root = str(Path(__file__).resolve().parent.parent.parent.parent)
 sys.path.insert(0, project_root)
 
-from get_data.api_football.endpoints.api_manager import api_manager  # Import the API manager
-from get_data.api_football.db_mongo import db_manager # Import the DB manager
+# Assuming api_manager and elo_fetcher are correctly set up and importable
+try:
+    from .api_manager import api_manager
+    from .elo_fetcher import elo_fetcher # Import elo_fetcher instance
+except ImportError:
+     logger.critical("Failed to import api_manager or elo_fetcher. Ensure script is run as part of the package or paths are correct.")
+     raise
 
 class RateLimiter:
-    def __init__(self, calls_per_minute: int = 29):
+    def __init__(self, calls_per_minute: int = 28): # Slightly conservative rate
+        assert calls_per_minute > 0, "Calls per minute must be positive"
         self.calls_per_minute = calls_per_minute
-        self.interval = 60 / calls_per_minute  # Time between calls in seconds
-        self.last_call_time = 0
+        self.interval = 60.0 / calls_per_minute
+        self.last_call_time = 0.0
 
     async def wait(self):
         """Wait appropriate time to maintain rate limit."""
-        current_time = time.time()
+        current_time = time.monotonic() # Use monotonic clock for interval measurement
         time_since_last = current_time - self.last_call_time
-        if time_since_last < self.interval:
-            await asyncio.sleep(self.interval - time_since_last)
-        self.last_call_time = time.time()
+        wait_needed = self.interval - time_since_last
+        if wait_needed > 0:
+            await asyncio.sleep(wait_needed)
+        self.last_call_time = time.monotonic() # Update time after waiting/call
 
 class MatchProcessor:
-    def __init__(self):
-        """Initialize MatchProcessor."""
-        self.api_base_url = "https://api-football-v1.p.rapidapi.com/v3"
-        self.rate_limiter = RateLimiter(calls_per_minute=25)
-        logger.info(f"Initialized MatchProcessor")
+    def __init__(self, api_base_url: str = "https://api-football-v1.p.rapidapi.com/v3"):
+        """Initialize MatchProcessor for fetching API data."""
+        assert api_base_url, "API base URL is required"
+        self.api_base_url = api_base_url
+        self.rate_limiter = RateLimiter(calls_per_minute=28) # Use the limiter
+        logger.info(f"Initialized MatchProcessor for API: {api_base_url}")
 
-    async def _make_api_request(self, endpoint: str, params: Dict, retry_count: int = 3) -> Dict:
-        """Make API request with rate limit handling and retries."""
-        await self.rate_limiter.wait()  # Wait appropriate time before making request
+    async def _make_api_request(self, endpoint: str, params: Dict, retry_count: int = 3) -> Optional[Dict[str, Any]]:
+        """Make API request with rate limit handling and retries. Returns raw response dict or None on failure."""
+        assert endpoint, "Endpoint is required"
+        assert isinstance(params, dict), "Params must be a dict"
+        assert retry_count >= 0, "Retry count cannot be negative"
+
+        await self.rate_limiter.wait()
         url = f"{self.api_base_url}/{endpoint}"
-        logger.info(f"Making API request to {url} with params {params}")
-        
-        for attempt in range(retry_count):
+
+        for attempt in range(retry_count + 1):
+            session = None # Ensure session is defined for finally block
+            response = None # Ensure response defined
+            api_key = "N/A" # Default for logging if key fetch fails
             try:
-                # Get active API key and headers from API manager
-                _, headers = api_manager.get_active_api_key()
-                
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(url, headers=headers, params=params) as response:
-                        if response.status == 429:  # Rate limit hit
-                            logger.warning("Rate limit hit, rotating API key...")
-                            api_manager.handle_rate_limit(headers["x-rapidapi-key"])
-                            # Retry with new key
-                            _, new_headers = api_manager.get_active_api_key()
-                            async with session.get(url, headers=new_headers, params=params) as retry_response:
-                                if retry_response.status == 200:
-                                    return await retry_response.json()
-                        
-                        elif response.status == 200:
-                            return await response.json()
-                        
-                        response.raise_for_status()
-                
-            except aiohttp.ClientError as e:
-                logger.error(f"API request error (attempt {attempt + 1}/{retry_count}): {str(e)}")
-                if attempt < retry_count - 1:
-                    await asyncio.sleep(2 ** attempt)  # Exponential backoff
-                    continue
-                
+                api_key, headers = api_manager.get_active_api_key() # Get fresh key/headers
+                assert api_key and headers, "Failed to get active API key"
+
+                session = aiohttp.ClientSession(headers=headers)
+                async with session.get(url, params=params, timeout=20) as response: # Add timeout
+                    if response.status == 429:
+                        logger.warning(f"Rate limit hit (429) on attempt {attempt + 1}/{retry_count + 1} for {endpoint}. Key: ...{api_key[-5:]}. Rotating key.")
+                        api_manager.handle_rate_limit(api_key)
+                        if attempt < retry_count:
+                             await asyncio.sleep(1.5) # Small delay before retry with new key
+                             continue # Retry loop will get new key
+                        else:
+                             logger.error(f"Rate limit hit on final attempt for {endpoint}.")
+                             return None # Failed after retries
+
+                    response.raise_for_status() # Raises HTTPError for bad responses (4xx, 5xx) other than 429
+                    response_data = await response.json()
+
+                    assert isinstance(response_data, dict), f"API response is not a dictionary for {endpoint}"
+
+                    errors_in_response = response_data.get("errors")
+                    if errors_in_response and (isinstance(errors_in_response, list) and len(errors_in_response) > 0) or (isinstance(errors_in_response, dict) and len(errors_in_response) > 0) :
+                         logger.warning(f"API returned errors for {endpoint} params {params}: {errors_in_response}")
+                         # Treat API error field as failure for this data point
+                         return None
+
+                    assert "response" in response_data, f"API response missing 'response' key for {endpoint}"
+                    return response_data # Return the full response dict
+
+            except aiohttp.ClientResponseError as http_err:
+                logger.error(f"HTTP error on attempt {attempt + 1}/{retry_count + 1} for {endpoint} params {params}: {http_err.status} {http_err.message}")
+                if response and response.status == 404: # Specific handling for 404 Not Found
+                     logger.warning(f"Endpoint {endpoint} with params {params} returned 404. Data likely unavailable.")
+                     return None # Treat 404 as non-retryable failure for this data point
+                # Other retryable Client errors (e.g., 5xx)
+                if attempt >= retry_count: logger.error(f"HTTP error on final attempt for {endpoint}."); return None
+
+            except aiohttp.ClientError as client_err: # Other client errors (timeout, connection issues)
+                logger.error(f"Client error on attempt {attempt + 1}/{retry_count + 1} for {endpoint} params {params}: {client_err}")
+                if attempt >= retry_count: logger.error(f"Client error on final attempt for {endpoint}."); return None
+
+            except asyncio.TimeoutError:
+                 logger.error(f"Request timed out on attempt {attempt + 1}/{retry_count + 1} for {endpoint} params {params}")
+                 if attempt >= retry_count: logger.error(f"Timeout on final attempt for {endpoint}."); return None
+
+            except AssertionError as ae:
+                 logger.error(f"Assertion failed during API request processing for {endpoint} params {params}: {ae}")
+                 return None # Assertion failure means unexpected state
+
             except Exception as e:
-                logger.error(f"Unexpected error (attempt {attempt + 1}/{retry_count}): {str(e)}")
-                if attempt < retry_count - 1:
-                    await asyncio.sleep(2 ** attempt)
-                    continue
-                
-        return {"errors": ["All retry attempts failed"]}
+                logger.error(f"Unexpected error on attempt {attempt + 1}/{retry_count + 1} for {endpoint} params {params}: {e}", exc_info=True)
+                if attempt >= retry_count: logger.error(f"Unexpected error on final attempt for {endpoint}."); return None
+            finally:
+                 if session and not session.closed:
+                      try:
+                          await session.close()
+                      except Exception as close_err:
+                          logger.warning(f"Error closing aiohttp session: {close_err}")
 
-    async def _fetch_league_standings(self, league_id: str, season: int) -> Dict:
-        """Fetch standings data for a league."""
-        logger.info(f"Fetching standings for league {league_id}...")
-        return await self._make_api_request('standings', {
-            'league': league_id,
-            'season': season
+            # Exponential backoff before retry (if not the last attempt)
+            if attempt < retry_count:
+                import random
+                wait_time = (1.5 ** attempt) + (random.random() * 0.5)
+                await asyncio.sleep(wait_time)
+
+        logger.error(f"All {retry_count + 1} retry attempts failed for {endpoint} with params {params}.")
+        return None
+
+    async def fetch_predictions(self, fixture_id: int) -> Optional[List[Dict[str, Any]]]:
+        """Fetch predictions API response for a specific fixture."""
+        assert isinstance(fixture_id, int) and fixture_id > 0, "Fixture ID must be a positive integer"
+        response_data = await self._make_api_request('predictions', {'fixture': str(fixture_id)})
+        # Predictions response is a list
+        return response_data.get("response") if response_data else None
+
+    async def fetch_team_statistics(self, team_id: int, league_id: int, season: int) -> Optional[Dict[str, Any]]:
+        """Fetch team statistics API response."""
+        assert isinstance(team_id, int) and team_id > 0, "Team ID must be positive integer"
+        assert isinstance(league_id, int) and league_id > 0, "League ID must be positive integer"
+        assert isinstance(season, int) and season > 1990, "Season must be a valid year"
+        response_data = await self._make_api_request('teams/statistics', {
+            'team': str(team_id),
+            'league': str(league_id),
+            'season': str(season)
         })
+        # Team stats response is a dict
+        return response_data.get("response") if response_data else None
 
-    async def _fetch_team_statistics(self, team_id: str, league_id: str, season: int) -> Dict:
-        """Fetch team statistics for the current season."""
-        logger.info(f"Fetching team statistics for team {team_id}...")
-        return await self._make_api_request('teams/statistics', {
-            'team': team_id,
-            'league': league_id,
-            'season': season
+    async def fetch_standings(self, league_id: int, season: int) -> Optional[List[Dict[str, Any]]]:
+        """Fetch standings API response for a league/season."""
+        assert isinstance(league_id, int) and league_id > 0, "League ID must be positive integer"
+        assert isinstance(season, int) and season > 1990, "Season must be a valid year"
+        response_data = await self._make_api_request('standings', {
+            'league': str(league_id),
+            'season': str(season)
         })
+        # Standings response is a list containing one dict usually
+        return response_data.get("response") if response_data else None
 
-    async def _fetch_predictions(self, fixture_id: str) -> Dict:
-        """Fetch predictions for a specific fixture."""
-        logger.info(f"Fetching predictions for fixture {fixture_id}...")
-        return await self._make_api_request('predictions', {
-            'fixture': fixture_id
-        })
-
-    def _optimize_team_stats(self, raw_stats: Dict) -> Dict:
-        """Extract and optimize relevant team statistics."""
-        if not raw_stats or not raw_stats.get("response"):
-            return {}
-            
-        stats = raw_stats.get("response", {})
-        
-        # Extract only needed stats to reduce size
-        return {
-            "form": stats.get("form", ""),
-            "fixtures": {
-                "played": stats.get("fixtures", {}).get("played", {}),
-                "wins": stats.get("fixtures", {}).get("wins", {}),
-                "draws": stats.get("fixtures", {}).get("draws", {}),
-                "loses": stats.get("fixtures", {}).get("loses", {})
-            },
-            "goals": {
-                "for": stats.get("goals", {}).get("for", {}),
-                "against": stats.get("goals", {}).get("against", {})
-            },
-            "biggest": {
-                "streak": stats.get("biggest", {}).get("streak", {}),
-                "wins": stats.get("biggest", {}).get("wins", {}),
-                "loses": stats.get("biggest", {}).get("loses", {})
-            },
-            "clean_sheet": stats.get("clean_sheet", {}),
-            "failed_to_score": stats.get("failed_to_score", {})
-        }
-        
-    def _optimize_predictions(self, raw_predictions: Dict) -> Dict:
-        """Extract and optimize prediction data."""
-        if not raw_predictions or not raw_predictions.get("response"):
-            return {}
-            
-        predictions = raw_predictions.get("response", [])[0] if raw_predictions.get("response") else {}
-        
-        # Extract only relevant prediction data
-        return {
-            "comparison": predictions.get("comparison", {}),
-            "predictions": {
-                "winner": predictions.get("predictions", {}).get("winner", {}),
-                "win_or_draw": predictions.get("predictions", {}).get("win_or_draw", False),
-                "under_over": predictions.get("predictions", {}).get("under_over", ""),
-                "goals": predictions.get("predictions", {}).get("goals", {}),
-                "advice": predictions.get("predictions", {}).get("advice", "")
-            },
-            "h2h": [] # We'll exclude h2h to save space
-        }
-
-    async def process_fixtures(self, fixture_ids: list[int], force_reprocess: bool = False) -> Dict[str, Any]:
+    # Updated fetch_api_data_for_match signature and logic
+    async def fetch_api_data_for_match(
+        self,
+        fixture_id: int,
+        league_id: int,
+        season: int,
+        home_team_id: int,
+        away_team_id: int,
+        home_team_name: str, # Needed for ELO
+        away_team_name: str, # Needed for ELO
+        match_date: datetime   # Needed for ELO
+    ) -> Dict[str, Optional[Any]]:
         """
-        Processes a list of fixture IDs, fetching details (predictions, stats, standings)
-        and saving them to the dedicated 'match_processor' collection.
-
-        Args:
-            fixture_ids: A list of integer fixture IDs to process.
-            force_reprocess: If True, re-fetches and updates data even if it exists in 'match_processor'.
-
-        Returns:
-            A dictionary containing processing statistics.
+        Fetches all required API data points (predictions, stats, standings) AND ELO
+        for a single match.
         """
-        processed_count = 0
-        skipped_count = 0
-        failed_fixtures = []
-        standings_cache = {} # Cache standings per league/season
+        assert isinstance(fixture_id, int) and fixture_id > 0
+        assert isinstance(league_id, int) and league_id > 0
+        assert isinstance(season, int) and season > 1990
+        assert isinstance(home_team_id, int) and home_team_id > 0
+        assert isinstance(away_team_id, int) and away_team_id > 0
+        assert isinstance(home_team_name, str) and home_team_name
+        assert isinstance(away_team_name, str) and away_team_name
+        assert isinstance(match_date, datetime)
 
-        logger.info(f"Starting processing for {len(fixture_ids)} fixtures, saving to 'match_processor' collection.")
+        logger.info(f"Fetching API data & ELO for Fixture: {fixture_id}, League: {league_id}, Season: {season}")
 
-        for fixture_id_int in fixture_ids:
-            fixture_id = str(fixture_id_int) # Use string ID internally and for DB _id
-            try:
-                # 1. Check if data already exists in the target collection
-                if not force_reprocess and db_manager.check_match_processor_data_exists(fixture_id):
-                    logger.info(f"Match processor data already exists for fixture {fixture_id} and force_reprocess=False. Skipping.")
-                    skipped_count += 1
-                    continue
+        # --- Fetch API Data Concurrently ---
+        tasks = {
+            "predictions": self.fetch_predictions(fixture_id),
+            "home_stats": self.fetch_team_statistics(home_team_id, league_id, season),
+            "away_stats": self.fetch_team_statistics(away_team_id, league_id, season),
+            "standings": self.fetch_standings(league_id, season)
+        }
+        api_results_list = await asyncio.gather(*tasks.values(), return_exceptions=True)
 
-                # 2. Get base match info from the 'matches' collection
-                base_match_data = db_manager.get_match_data(fixture_id)
+        # Combine API results
+        api_data = {}
+        keys = list(tasks.keys())
+        for i, result in enumerate(api_results_list):
+             key = keys[i]
+             if isinstance(result, Exception):
+                 logger.error(f"Error fetching '{key}' for fixture {fixture_id}: {result}", exc_info=False)
+                 api_data[key] = None
+             else:
+                 api_data[key] = result
 
-                if not base_match_data:
-                    logger.warning(f"Base match data not found in 'matches' collection for fixture {fixture_id}. Skipping processing.")
-                    # This fixture likely wasn't scraped correctly initially.
-                    failed_fixtures.append(fixture_id)
-                    continue
+        # Log warnings for failed API calls
+        if api_data.get("predictions") is None: logger.warning(f"API call for predictions failed or returned no data for fixture {fixture_id}")
+        if api_data.get("home_stats") is None: logger.warning(f"API call for home stats failed or returned no data for fixture {fixture_id}, team {home_team_id}")
+        if api_data.get("away_stats") is None: logger.warning(f"API call for away stats failed or returned no data for fixture {fixture_id}, team {away_team_id}")
+        if api_data.get("standings") is None: logger.warning(f"API call for standings failed or returned no data for fixture {fixture_id}, league {league_id}")
 
-                # 3. Check if the match is finished -- REMOVED THIS CHECK
-                # is_finished = base_match_data.get("match_info", {}).get("status", {}).get("short") in ["FT", "AET", "PEN"]
-                # if not is_finished:
-                #      logger.info(f"Skipping fixture {fixture_id}: Match not finished (Status: {base_match_data.get('match_info', {}).get('status', {}).get('short')}).")
-                #      skipped_count += 1
-                #      continue
+        # --- Fetch ELO Data (Synchronous call in executor) ---
+        home_elo, away_elo = None, None
+        try:
+            loop = asyncio.get_event_loop()
+            logger.debug(f"Fetching ELO for fixture {fixture_id} ({home_team_name} vs {away_team_name} on {match_date.date()})")
+            home_elo, away_elo = await loop.run_in_executor(
+                None, # Use default thread pool executor
+                elo_fetcher.get_elos_for_match, # The synchronous function to call
+                home_team_name,                 # Argument 1 for the function
+                away_team_name,                 # Argument 2
+                match_date                      # Argument 3
+            )
+            logger.info(f"Fetched ELO for fixture {fixture_id}: Home={home_elo}, Away={away_elo}")
+        except Exception as elo_err:
+            logger.error(f"Error fetching ELO for fixture {fixture_id}: {elo_err}", exc_info=True)
+            # Keep ELO as None if fetching fails
 
-                # logger.info(f"Processing details for finished fixture {fixture_id}...") # Adjusted log message
-                logger.info(f"Processing details for fixture {fixture_id} (Status: {base_match_data.get('match_info', {}).get('status', {}).get('short', 'N/A')})...")
-
-                # 4. Extract necessary info for API calls
-                league_id = base_match_data.get("league_id")
-                home_team_id = base_match_data.get("home_team", {}).get("id")
-                away_team_id = base_match_data.get("away_team", {}).get("id")
-                match_date_str = base_match_data.get("date_str")
-
-                if not all([league_id, home_team_id, away_team_id, match_date_str]):
-                     logger.warning(f"Skipping fixture {fixture_id}: Missing essential IDs or date in base match data.")
-                     failed_fixtures.append(fixture_id)
-                     continue
-
-                # Determine season
-                try:
-                    match_dt = datetime.strptime(match_date_str, "%Y-%m-%d")
-                    season = match_dt.year if match_dt.month >= 7 else match_dt.year - 1
-                except ValueError:
-                     logger.warning(f"Could not parse date {match_date_str} for fixture {fixture_id} to determine season. Skipping.")
-                     failed_fixtures.append(fixture_id)
-                     continue
-
-                # 5. Fetch API data (Predictions, Stats, Standings)
-                raw_predictions_response = None
-                raw_home_stats_response = None
-                raw_away_stats_response = None
-                current_league_standings_response = None # This is the *API response* list for standings
-
-                try:
-                    # Fetch Predictions
-                    predictions_data = await self._fetch_predictions(fixture_id)
-                    raw_predictions_response = predictions_data.get("response") # List containing prediction dict
-
-                    # Fetch Team Stats
-                    home_stats_data = await self._fetch_team_statistics(home_team_id, league_id, season)
-                    raw_home_stats_response = home_stats_data.get("response") # Dict containing home stats
-
-                    away_stats_data = await self._fetch_team_statistics(away_team_id, league_id, season)
-                    raw_away_stats_response = away_stats_data.get("response") # Dict containing away stats
-
-                    # Fetch/Cache Standings (Still save raw standings to 'standings' collection for historical snapshots)
-                    standings_key = f"{league_id}_{season}"
-                    if standings_key not in standings_cache:
-                        standings_data = await self._fetch_league_standings(league_id, season)
-                        standings_cache[standings_key] = standings_data.get("response") # Cache raw API response list
-                        # Save raw standings data to its dedicated collection
-                        if standings_cache[standings_key]:
-                             standings_payload = {
-                                 "league_id": str(league_id),
-                                 "season": season,
-                                 "date_retrieved_str": match_date_str, # Use match date for context
-                                 "standings_api_response": standings_cache[standings_key]
-                             }
-                             # Still save to the main standings collection
-                             db_manager.save_standings_data(match_date_str, league_id, season, standings_payload)
-
-                    current_league_standings_response = standings_cache.get(standings_key)
-
-                    # 6. Prepare payload for the 'match_processor' collection
-                    processor_payload = {
-                        "fixture_id": fixture_id, # Keep fixture_id for easy lookup
-                        "match_date_str": match_date_str,
-                        "league_id": league_id,
-                        "season": season,
-                        "home_team_id": home_team_id,
-                        "away_team_id": away_team_id,
-                        # Store the relevant parts of the API responses
-                        "predictions": raw_predictions_response[0] if raw_predictions_response else None,
-                        "home_team_stats": raw_home_stats_response if raw_home_stats_response else None,
-                        "away_team_stats": raw_away_stats_response if raw_away_stats_response else None,
-                        # Store snapshot of league info from standings (optional, could be large)
-                        "standings_snapshot": current_league_standings_response[0].get("league", {}) if current_league_standings_response else None,
-                        "processed_at_utc": datetime.now(timezone.utc) # Add timestamp
-                    }
-
-                    # 7. Save to the 'match_processor' collection
-                    success = db_manager.save_match_processor_data(processor_payload)
-
-                    if success:
-                        logger.info(f"Successfully saved processor data for fixture {fixture_id} to 'match_processor' collection.")
-                        processed_count += 1
-                    else:
-                        logger.error(f"Failed to save processor data for fixture {fixture_id} to 'match_processor' collection.")
-                        failed_fixtures.append(fixture_id)
-
-                except Exception as fetch_err:
-                    logger.error(f"Error fetching API details for fixture {fixture_id}: {fetch_err}", exc_info=True)
-                    failed_fixtures.append(fixture_id)
-
-            except Exception as outer_err:
-                 logger.error(f"Unexpected error processing fixture ID {fixture_id_int}: {outer_err}", exc_info=True)
-                 failed_fixtures.append(str(fixture_id_int)) # Add to failed list
-
-        logger.info(f"Finished processing fixtures for 'match_processor' collection. Processed: {processed_count}, Skipped: {skipped_count}, Failed: {len(failed_fixtures)}")
-        return {
-            "processed_count": processed_count,
-            "skipped_count": skipped_count,
-            "failed_fixtures": failed_fixtures
+        # --- Combine all results ---
+        final_results = {
+            **api_data, # Unpack API data results
+            "HomeTeamELO": home_elo,
+            "AwayTeamELO": away_elo,
+            "processed_at_utc": datetime.now(timezone.utc) # Add timestamp
         }
 
-    async def process_games_data_async(self, games_data: Dict) -> Dict[str, Any]:
-        """Process all matches from games data asynchronously using the new hierarchical DB structure.
-           Saves FULL raw API responses for standings, stats, and predictions.
-           DEPRECATED: Use process_fixtures instead, driven by fixture IDs from GameScraper/daily_games.
-        """
-        logger.warning("process_games_data_async is deprecated. Use process_fixtures.")
+        return final_results
