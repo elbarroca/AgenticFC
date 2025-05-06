@@ -30,7 +30,7 @@ AVAILABLE_MODELS = {
 
 # --- Configuration ---
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-DATA_OUTPUT_DIR = os.path.join(BASE_DIR, 'models', 'data', 'outputs')
+DATA_OUTPUT_DIR = os.path.join(BASE_DIR, 'models', 'data', 'parquets')
 PARAMS_OUTPUT_DIR = os.path.join(DATA_OUTPUT_DIR, 'optimized_params')
 MODELS_OUTPUT_DIR = DATA_OUTPUT_DIR
 
@@ -42,22 +42,18 @@ MODEL_OUTPUT_PATH_TEMPLATE = os.path.join(MODELS_OUTPUT_DIR, '{}_{}_v1.joblib') 
 # --- Models to Train & Default Params ---
 MODELS_TO_TRAIN_CONFIG = {
     "poisson": {
-        # User requested aggressive params/tuning
         "params": {'alpha': 1e-4, 'max_iter': 8000000, 'tol': 1e-3},
         "optimize": True, # Tune alpha
     },
-    #"random_forest": {
-        # Default params before optimization
-        #"params": {'n_estimators': 800, 'max_depth': 35, 'min_samples_leaf': 10, 'n_jobs': -1, 'random_state': 42},
-        #"optimize": True,
-    #},
+    "random_forest": {
+        "params": {'n_estimators': 800, 'max_depth': 35, 'min_samples_leaf': 10, 'n_jobs': -1, 'random_state': 42},
+        "optimize": True,
+    },
     "gradient_boosting": {
-        # Default params before optimization
         "params": {'n_estimators': 800, 'learning_rate': 0.1, 'max_depth': 8, 'num_leaves': 35, 'n_jobs': -1, 'random_state': 44, 'objective': 'poisson'},
         "optimize": True,
     },
     "monte_carlo": {
-        # Parameters for the *new* MonteCarloModel structure
         "params": {'n_simulations': 80000, 'internal_estimator_alpha': 1.0},
         "optimize": False, # This model structure is not tuned via Optuna here
     },
@@ -196,8 +192,9 @@ def run_bayesian_optimization(
         final_params['objective'] = 'poisson'
     if model_type in ['random_forest', 'gradient_boosting'] and 'n_jobs' not in final_params:
          final_params['n_jobs'] = -1
-    if model_type in ['poisson', 'random_forest', 'gradient_boosting'] and 'random_state' not in final_params:
-         final_params['random_state'] = 42 # Ensure base random state
+    # Ensure base random state only for models that accept it
+    if model_type in ['random_forest', 'gradient_boosting'] and 'random_state' not in final_params:
+         final_params['random_state'] = 42 
 
     print(f"  Final combined params: {final_params}")
     return final_params

@@ -1,0 +1,1115 @@
+feature_name,feature_type,scaling_method,original_mean,original_std,original_min,original_max,original_nunique,is_scaled
+Away_AvgBlockedShotsAgainst_Away_Last10,Average,Z-Score Standardization,3.386444763972594,1.1482120977325316,0.0,15.0,253,True
+Away_AvgBlockedShotsAgainst_Away_Last15,Average,Z-Score Standardization,3.3785702053259454,1.0604462166306732,0.0,15.0,482,True
+Away_AvgBlockedShotsAgainst_Away_Last3,Average,Z-Score Standardization,3.405820371299548,1.6172371970539499,0.0,18.0,55,True
+Away_AvgBlockedShotsAgainst_Away_Last5,Average,Z-Score Standardization,3.399686865726721,1.3748213883918712,0.0,15.0,103,True
+Away_AvgBlockedShotsAgainst_Home_Last10,Average,Z-Score Standardization,2.8268640067281416,1.0289572598321393,0.0,12.0,232,True
+Away_AvgBlockedShotsAgainst_Home_Last15,Average,Z-Score Standardization,2.8204342252785404,0.9573295574880104,0.0,12.0,438,True
+Away_AvgBlockedShotsAgainst_Home_Last3,Average,Z-Score Standardization,2.830960715674834,1.4447652045433164,0.0,16.0,50,True
+Away_AvgBlockedShotsAgainst_Home_Last5,Average,Z-Score Standardization,2.8283044325351216,1.2326525556792645,0.0,12.0,93,True
+Away_AvgBlockedShotsAgainst_Total_Last10,Average,Z-Score Standardization,3.118151714848092,1.0835922526451438,0.0,15.0,257,True
+Away_AvgBlockedShotsAgainst_Total_Last15,Average,Z-Score Standardization,3.11459703791624,0.998578251421357,0.0,15.0,475,True
+Away_AvgBlockedShotsAgainst_Total_Last3,Average,Z-Score Standardization,3.1289814233252415,1.5274209180753833,0.0,16.0,54,True
+Away_AvgBlockedShotsAgainst_Total_Last5,Average,Z-Score Standardization,3.124675608609627,1.3140945219222613,0.0,15.0,106,True
+Away_AvgBlockedShotsFor_Away_Last10,Average,Z-Score Standardization,2.8125244543943086,0.9725396489568524,0.0,12.0,225,True
+Away_AvgBlockedShotsFor_Away_Last15,Average,Z-Score Standardization,2.799513983123012,0.8876819974156793,0.0,12.0,411,True
+Away_AvgBlockedShotsFor_Away_Last3,Average,Z-Score Standardization,2.836104142275743,1.416714583532726,0.0,18.0,45,True
+Away_AvgBlockedShotsFor_Away_Last5,Average,Z-Score Standardization,2.829716008379191,1.1937458067267237,0.0,12.0,93,True
+Away_AvgBlockedShotsFor_Home_Last10,Average,Z-Score Standardization,3.373714488302539,1.1131493269596817,0.0,15.0,248,True
+Away_AvgBlockedShotsFor_Home_Last15,Average,Z-Score Standardization,3.356563674805585,1.0246801221622694,0.0,15.0,461,True
+Away_AvgBlockedShotsFor_Home_Last3,Average,Z-Score Standardization,3.4109879424348506,1.5945405569738986,0.0,17.0,53,True
+Away_AvgBlockedShotsFor_Home_Last5,Average,Z-Score Standardization,3.3979950239895516,1.3547191019470823,0.0,16.0,106,True
+Away_AvgBlockedShotsFor_Total_Last10,Average,Z-Score Standardization,3.1047744217166895,1.035868153230752,0.0,15.0,245,True
+Away_AvgBlockedShotsFor_Total_Last15,Average,Z-Score Standardization,3.0945664739800463,0.9413548647147059,0.0,15.0,460,True
+Away_AvgBlockedShotsFor_Total_Last3,Average,Z-Score Standardization,3.117921992677972,1.4996717794118413,0.0,17.0,53,True
+Away_AvgBlockedShotsFor_Total_Last5,Average,Z-Score Standardization,3.1158126455252027,1.2733565329572634,0.0,15.0,105,True
+Away_AvgCornersAgainst_Away_Last10,Average,Z-Score Standardization,5.367731720752267,1.4006473914272737,0.0,20.0,321,True
+Away_AvgCornersAgainst_Away_Last15,Average,Z-Score Standardization,5.369651388826629,1.2876267268185013,0.0,20.0,590,True
+Away_AvgCornersAgainst_Away_Last3,Average,Z-Score Standardization,5.3568334527098465,2.0152794977611936,0.0,20.0,67,True
+Away_AvgCornersAgainst_Away_Last5,Average,Z-Score Standardization,5.362585665776076,1.6960454472634494,0.0,20.0,135,True
+Away_AvgCornersAgainst_Home_Last10,Average,Z-Score Standardization,4.4794046004812635,1.2980781001957569,0.0,19.0,285,True
+Away_AvgCornersAgainst_Home_Last15,Average,Z-Score Standardization,4.4812011617825664,1.2078716858906442,0.0,19.0,538,True
+Away_AvgCornersAgainst_Home_Last3,Average,Z-Score Standardization,4.459405008107347,1.8067468911319908,0.0,19.0,58,True
+Away_AvgCornersAgainst_Home_Last5,Average,Z-Score Standardization,4.470302358939401,1.540571634743343,0.0,19.0,121,True
+Away_AvgCornersAgainst_Total_Last10,Average,Z-Score Standardization,4.930485403148494,1.34203009890923,0.0,20.0,315,True
+Away_AvgCornersAgainst_Total_Last15,Average,Z-Score Standardization,4.931915228802009,1.232765728254927,0.0,20.0,590,True
+Away_AvgCornersAgainst_Total_Last3,Average,Z-Score Standardization,4.92353384458531,1.917704297383064,0.0,20.0,66,True
+Away_AvgCornersAgainst_Total_Last5,Average,Z-Score Standardization,4.922812338668044,1.6296036063487926,0.0,20.0,132,True
+Away_AvgCornersFor_Away_Last10,Average,Z-Score Standardization,4.479934213166194,1.2100527320711416,0.0,15.0,271,True
+Away_AvgCornersFor_Away_Last15,Average,Z-Score Standardization,4.478891985415995,1.0962153694769967,0.0,13.0,505,True
+Away_AvgCornersFor_Away_Last3,Average,Z-Score Standardization,4.479381970735701,1.7957417921947376,0.0,16.0,60,True
+Away_AvgCornersFor_Away_Last5,Average,Z-Score Standardization,4.482000542926947,1.5043348240786292,0.0,15.0,118,True
+Away_AvgCornersFor_Home_Last10,Average,Z-Score Standardization,5.366052350746284,1.3840583755642706,0.0,18.0,308,True
+Away_AvgCornersFor_Home_Last15,Average,Z-Score Standardization,5.366010211499871,1.26905186706958,0.0,18.0,586,True
+Away_AvgCornersFor_Home_Last3,Average,Z-Score Standardization,5.3740836755896035,2.0078653723984896,0.0,19.0,66,True
+Away_AvgCornersFor_Home_Last5,Average,Z-Score Standardization,5.367842585886129,1.688191536527936,0.0,19.0,135,True
+Away_AvgCornersFor_Total_Last10,Average,Z-Score Standardization,4.914765158448195,1.2951927173619882,0.0,15.0,315,True
+Away_AvgCornersFor_Total_Last15,Average,Z-Score Standardization,4.914206380136291,1.1713854090974267,0.0,15.0,583,True
+Away_AvgCornersFor_Total_Last3,Average,Z-Score Standardization,4.910617097881605,1.900583090546908,0.0,20.0,66,True
+Away_AvgCornersFor_Total_Last5,Average,Z-Score Standardization,4.9151166848314505,1.6024165632102143,0.0,19.0,131,True
+Away_AvgExpectedGoalsFor_Away_Last10,Average,Z-Score Standardization,1.2194374990713914,0.4293529829446201,0.07,4.37,4910,True
+Away_AvgExpectedGoalsFor_Away_Last15,Average,Z-Score Standardization,1.2144588930185567,0.40299173608298766,0.07,4.37,6026,True
+Away_AvgExpectedGoalsFor_Away_Last3,Average,Z-Score Standardization,1.2285170614777214,0.5804331446744443,0.01,6.25,1624,True
+Away_AvgExpectedGoalsFor_Away_Last5,Average,Z-Score Standardization,1.22348970248644,0.5038051331327978,0.01,4.37,2904,True
+Away_AvgExpectedGoalsFor_Home_Last10,Average,Z-Score Standardization,1.5424309863342593,0.5221079086421234,0.0,4.85,5381,True
+Away_AvgExpectedGoalsFor_Home_Last15,Average,Z-Score Standardization,1.5352263487079376,0.4920743126984196,0.0,4.11,6395,True
+Away_AvgExpectedGoalsFor_Home_Last3,Average,Z-Score Standardization,1.554537521815009,0.6797611815595829,0.0,7.11,1843,True
+Away_AvgExpectedGoalsFor_Home_Last5,Average,Z-Score Standardization,1.551131634905254,0.6032453317891012,0.0,4.88,3261,True
+Away_AvgExpectedGoalsFor_Total_Last10,Average,Z-Score Standardization,1.3908480976776083,0.47554531631308483,0.0,4.3,6205,True
+Away_AvgExpectedGoalsFor_Total_Last15,Average,Z-Score Standardization,1.3835690112464287,0.4379811979468537,0.0,4.16,8181,True
+Away_AvgExpectedGoalsFor_Total_Last3,Average,Z-Score Standardization,1.3835642458100559,0.631888420767982,0.0,7.11,1852,True
+Away_AvgExpectedGoalsFor_Total_Last5,Average,Z-Score Standardization,1.3923270133770131,0.5587361315957659,0.0,5.9,3459,True
+Away_AvgFoulsAgainst_Away_Last10,Average,Z-Score Standardization,12.069333241793707,3.599144819034945,0.0,28.0,702,True
+Away_AvgFoulsAgainst_Away_Last15,Average,Z-Score Standardization,12.061404811137235,3.5341748929361234,0.0,28.0,1423,True
+Away_AvgFoulsAgainst_Away_Last3,Average,Z-Score Standardization,12.078927731324992,4.063713365625688,0.0,30.5,112,True
+Away_AvgFoulsAgainst_Away_Last5,Average,Z-Score Standardization,12.071067611719814,3.80941230789951,0.0,28.0,246,True
+Away_AvgFoulsAgainst_Home_Last10,Average,Z-Score Standardization,12.303943647888962,3.6160177131985343,0.0,31.0,691,True
+Away_AvgFoulsAgainst_Home_Last15,Average,Z-Score Standardization,12.297680849526996,3.552733527704192,0.0,31.0,1423,True
+Away_AvgFoulsAgainst_Home_Last3,Average,Z-Score Standardization,12.29706079714221,4.090974944997381,0.0,31.0,114,True
+Away_AvgFoulsAgainst_Home_Last5,Average,Z-Score Standardization,12.296349030656737,3.8289155920242397,0.0,39.0,248,True
+Away_AvgFoulsAgainst_Total_Last10,Average,Z-Score Standardization,12.196805162007394,3.5811001337211565,0.0,30.0,699,True
+Away_AvgFoulsAgainst_Total_Last15,Average,Z-Score Standardization,12.202918908729547,3.508807880366659,0.0,30.0,1379,True
+Away_AvgFoulsAgainst_Total_Last3,Average,Z-Score Standardization,12.198064583990742,4.075677449027694,0.0,39.0,115,True
+Away_AvgFoulsAgainst_Total_Last5,Average,Z-Score Standardization,12.196823322734732,3.8167107490689833,0.0,30.0,257,True
+Away_AvgFoulsFor_Away_Last10,Average,Z-Score Standardization,12.281515962531282,3.6173059295889796,0.0,29.0,670,True
+Away_AvgFoulsFor_Away_Last15,Average,Z-Score Standardization,12.269103768780012,3.5414120443371084,0.0,29.0,1385,True
+Away_AvgFoulsFor_Away_Last3,Average,Z-Score Standardization,12.290927869694993,4.110629412030993,0.0,35.0,112,True
+Away_AvgFoulsFor_Away_Last5,Average,Z-Score Standardization,12.286032797771139,3.8462935935953246,0.0,35.0,241,True
+Away_AvgFoulsFor_Home_Last10,Average,Z-Score Standardization,12.083208481919419,3.585039442955805,0.0,39.0,677,True
+Away_AvgFoulsFor_Home_Last15,Average,Z-Score Standardization,12.075420553093947,3.5235458236697,0.0,39.0,1410,True
+Away_AvgFoulsFor_Home_Last3,Average,Z-Score Standardization,12.079245487827741,4.042925356505098,0.0,39.0,111,True
+Away_AvgFoulsFor_Home_Last5,Average,Z-Score Standardization,12.082287803428878,3.8006870315398325,0.0,39.0,244,True
+Away_AvgFoulsFor_Total_Last10,Average,Z-Score Standardization,12.200508884384794,3.5788707465059293,0.0,39.0,677,True
+Away_AvgFoulsFor_Total_Last15,Average,Z-Score Standardization,12.201172021552942,3.5005841950058767,0.0,39.0,1373,True
+Away_AvgFoulsFor_Total_Last3,Average,Z-Score Standardization,12.196737241230773,4.069863283655956,0.0,39.0,111,True
+Away_AvgFoulsFor_Total_Last5,Average,Z-Score Standardization,12.19800876925534,3.811315090295661,0.0,39.0,251,True
+Away_AvgGoalsConceded_Away_Last10,Average,Z-Score Standardization,1.4953161148997896,0.5605321448076602,0.0,14.0,167,True
+Away_AvgGoalsConceded_Away_Last15,Average,Z-Score Standardization,1.4932323819004079,0.514226607668671,0.0,14.0,282,True
+Away_AvgGoalsConceded_Away_Last3,Average,Z-Score Standardization,1.4996980932037254,0.8129632124977934,0.0,14.0,46,True
+Away_AvgGoalsConceded_Away_Last5,Average,Z-Score Standardization,1.4980561123187384,0.6805279238216172,0.0,14.0,80,True
+Away_AvgGoalsConceded_Home_Last10,Average,Z-Score Standardization,1.188253145929936,0.4869049283745408,0.0,12.0,136,True
+Away_AvgGoalsConceded_Home_Last15,Average,Z-Score Standardization,1.185922944161714,0.4436323508512629,0.0,12.0,245,True
+Away_AvgGoalsConceded_Home_Last3,Average,Z-Score Standardization,1.1950427727782265,0.7206160184145555,0.0,12.0,33,True
+Away_AvgGoalsConceded_Home_Last5,Average,Z-Score Standardization,1.1910810459603836,0.597385937926208,0.0,12.0,64,True
+Away_AvgGoalsConceded_Total_Last10,Average,Z-Score Standardization,1.3490921829266431,0.5206722178300736,0.0,14.0,158,True
+Away_AvgGoalsConceded_Total_Last15,Average,Z-Score Standardization,1.3468803772116256,0.47338304828349415,0.0,14.0,262,True
+Away_AvgGoalsConceded_Total_Last3,Average,Z-Score Standardization,1.3567737793609391,0.7725831241784881,0.0,14.0,42,True
+Away_AvgGoalsConceded_Total_Last5,Average,Z-Score Standardization,1.3535307921727018,0.6400201924685653,0.0,14.0,74,True
+Away_AvgGoalsScored_Away_Last10,Average,Z-Score Standardization,1.2532267376425834,0.5252645887383887,0.0,7.0,127,True
+Away_AvgGoalsScored_Away_Last15,Average,Z-Score Standardization,1.253153242097925,0.4766745643990648,0.0,7.0,222,True
+Away_AvgGoalsScored_Away_Last3,Average,Z-Score Standardization,1.2509582600131115,0.7707335535534708,0.0,7.333333333333333,31,True
+Away_AvgGoalsScored_Away_Last5,Average,Z-Score Standardization,1.2523356607602718,0.6439649145149039,0.0,7.0,58,True
+Away_AvgGoalsScored_Home_Last10,Average,Z-Score Standardization,1.5498992298931706,0.5924899938507114,0.0,8.0,147,True
+Away_AvgGoalsScored_Home_Last15,Average,Z-Score Standardization,1.5514267011756535,0.5444129062952874,0.0,8.0,268,True
+Away_AvgGoalsScored_Home_Last3,Average,Z-Score Standardization,1.5433176144938974,0.843729120328357,0.0,8.666666666666666,36,True
+Away_AvgGoalsScored_Home_Last5,Average,Z-Score Standardization,1.5468388537145932,0.712304498623582,0.0,8.0,65,True
+Away_AvgGoalsScored_Total_Last10,Average,Z-Score Standardization,1.3992340819809754,0.5543133992673935,0.0,7.0,141,True
+Away_AvgGoalsScored_Total_Last15,Average,Z-Score Standardization,1.4001359903394797,0.5057148226527962,0.0,7.0,245,True
+Away_AvgGoalsScored_Total_Last3,Average,Z-Score Standardization,1.393261280802301,0.8070386055057379,0.0,8.666666666666666,38,True
+Away_AvgGoalsScored_Total_Last5,Average,Z-Score Standardization,1.396969555312472,0.6759193618351468,0.0,7.0,70,True
+Away_AvgOffsidesAgainst_Away_Last10,Average,Z-Score Standardization,2.0075343529930376,0.8890956220713787,0.0,13.0,216,True
+Away_AvgOffsidesAgainst_Away_Last15,Average,Z-Score Standardization,2.0147336011333583,0.8338653798050988,0.0,13.0,411,True
+Away_AvgOffsidesAgainst_Away_Last3,Average,Z-Score Standardization,2.000355067462818,1.1831061465548887,0.0,15.0,43,True
+Away_AvgOffsidesAgainst_Away_Last5,Average,Z-Score Standardization,2.0006093007467753,1.034433492967157,0.0,13.0,86,True
+Away_AvgOffsidesAgainst_Home_Last10,Average,Z-Score Standardization,1.8744672710412298,0.8664274439345078,0.0,10.0,204,True
+Away_AvgOffsidesAgainst_Home_Last15,Average,Z-Score Standardization,1.8833130284614683,0.8142274518691456,0.0,10.0,383,True
+Away_AvgOffsidesAgainst_Home_Last3,Average,Z-Score Standardization,1.864493371849945,1.146534388141946,0.0,11.0,39,True
+Away_AvgOffsidesAgainst_Home_Last5,Average,Z-Score Standardization,1.867521027259435,1.005324732691997,0.0,10.0,81,True
+Away_AvgOffsidesAgainst_Total_Last10,Average,Z-Score Standardization,1.9355847702951896,0.8787882101625825,0.0,11.0,222,True
+Away_AvgOffsidesAgainst_Total_Last15,Average,Z-Score Standardization,1.939766968720053,0.822046740042715,0.0,11.0,435,True
+Away_AvgOffsidesAgainst_Total_Last3,Average,Z-Score Standardization,1.9337408560508265,1.1621313163274098,0.0,11.0,40,True
+Away_AvgOffsidesAgainst_Total_Last5,Average,Z-Score Standardization,1.93247775796377,1.0227831994946484,0.0,11.0,89,True
+Away_AvgOffsidesFor_Away_Last10,Average,Z-Score Standardization,1.8762996415654052,0.7073522582254058,0.0,11.0,167,True
+Away_AvgOffsidesFor_Away_Last15,Average,Z-Score Standardization,1.8813375048327072,0.6400798365602768,0.0,11.0,309,True
+Away_AvgOffsidesFor_Away_Last3,Average,Z-Score Standardization,1.8741235834808614,1.0729319087344664,0.0,15.0,38,True
+Away_AvgOffsidesFor_Away_Last5,Average,Z-Score Standardization,1.872191833963728,0.8867031634144118,0.0,11.0,71,True
+Away_AvgOffsidesFor_Home_Last10,Average,Z-Score Standardization,2.0240199708619535,0.751418357402394,0.0,10.0,183,True
+Away_AvgOffsidesFor_Home_Last15,Average,Z-Score Standardization,2.028579496148056,0.6905623173353015,0.0,10.0,338,True
+Away_AvgOffsidesFor_Home_Last3,Average,Z-Score Standardization,2.022204427414647,1.1188278812886572,0.0,11.0,36,True
+Away_AvgOffsidesFor_Home_Last5,Average,Z-Score Standardization,2.019169911837515,0.9310066442945104,0.0,11.0,75,True
+Away_AvgOffsidesFor_Total_Last10,Average,Z-Score Standardization,1.9433305320277359,0.7236250969388248,0.0,11.0,171,True
+Away_AvgOffsidesFor_Total_Last15,Average,Z-Score Standardization,1.9460934664922782,0.651876560235572,0.0,11.0,326,True
+Away_AvgOffsidesFor_Total_Last3,Average,Z-Score Standardization,1.9441921684764727,1.087265246912008,0.0,11.0,37,True
+Away_AvgOffsidesFor_Total_Last5,Average,Z-Score Standardization,1.9437914754290055,0.9073311428867169,0.0,11.0,69,True
+Away_AvgPassAccuracyAgainst_Away_Last10,Average,Z-Score Standardization,78.14744147784286,4.532095144177931,49.0,94.0,897,True
+Away_AvgPassAccuracyAgainst_Away_Last15,Average,Z-Score Standardization,78.12062293464756,4.311591829348426,49.0,94.0,1752,True
+Away_AvgPassAccuracyAgainst_Away_Last3,Average,Z-Score Standardization,78.15903571184238,5.747316316029611,43.0,94.0,166,True
+Away_AvgPassAccuracyAgainst_Away_Last5,Average,Z-Score Standardization,78.16381597233804,5.126697873840198,44.0,94.0,355,True
+Away_AvgPassAccuracyAgainst_Home_Last10,Average,Z-Score Standardization,77.02277499269961,4.626180660423748,46.0,93.4,919,True
+Away_AvgPassAccuracyAgainst_Home_Last15,Average,Z-Score Standardization,76.97819871540038,4.394277510543158,46.0,93.0,1752,True
+Away_AvgPassAccuracyAgainst_Home_Last3,Average,Z-Score Standardization,77.02690948550133,5.85766441436283,38.0,124.5,182,True
+Away_AvgPassAccuracyAgainst_Home_Last5,Average,Z-Score Standardization,77.06042112125883,5.215623843379901,38.0,127.0,367,True
+Away_AvgPassAccuracyAgainst_Total_Last10,Average,Z-Score Standardization,77.65116497362274,4.567232677793813,49.0,100.5,942,True
+Away_AvgPassAccuracyAgainst_Total_Last15,Average,Z-Score Standardization,77.64055274543692,4.352068005588806,49.0,93.0,1844,True
+Away_AvgPassAccuracyAgainst_Total_Last3,Average,Z-Score Standardization,77.62601075828562,5.760662809064398,38.0,171.0,179,True
+Away_AvgPassAccuracyAgainst_Total_Last5,Average,Z-Score Standardization,77.64459470046725,5.174857475445942,46.6,171.0,376,True
+Away_AvgPassAccuracyFor_Away_Last10,Average,Z-Score Standardization,76.92841705359216,5.593757163603809,45.5,121.5,1081,True
+Away_AvgPassAccuracyFor_Away_Last15,Average,Z-Score Standardization,76.84338376563326,5.427263862726761,45.5,121.5,2141,True
+Away_AvgPassAccuracyFor_Away_Last3,Average,Z-Score Standardization,77.06070842170078,6.406717162668634,40.0,121.5,189,True
+Away_AvgPassAccuracyFor_Away_Last5,Average,Z-Score Standardization,77.02286086743827,5.9871230581661905,45.0,121.5,414,True
+Away_AvgPassAccuracyFor_Home_Last10,Average,Z-Score Standardization,78.02708846602697,5.776196808713422,45.0,92.11111111111111,1107,True
+Away_AvgPassAccuracyFor_Home_Last15,Average,Z-Score Standardization,77.93109021646934,5.634665826714885,45.0,92.0,2183,True
+Away_AvgPassAccuracyFor_Home_Last3,Average,Z-Score Standardization,78.21172430249007,6.468420680579086,42.666666666666664,94.0,183,True
+Away_AvgPassAccuracyFor_Home_Last5,Average,Z-Score Standardization,78.15944910384762,6.104775258631462,43.0,93.75,405,True
+Away_AvgPassAccuracyFor_Total_Last10,Average,Z-Score Standardization,77.54018324787121,5.734519202536922,45.0,105.0,1139,True
+Away_AvgPassAccuracyFor_Total_Last15,Average,Z-Score Standardization,77.47421771487059,5.593647313102974,45.0,105.0,2260,True
+Away_AvgPassAccuracyFor_Total_Last3,Average,Z-Score Standardization,77.61010758285614,6.460514473154346,35.0,105.66666666666667,190,True
+Away_AvgPassAccuracyFor_Total_Last5,Average,Z-Score Standardization,77.60842664875905,6.102837429141562,43.0,105.0,413,True
+Away_AvgPassesAccurateAgainst_Away_Last10,Average,Z-Score Standardization,352.48684099021244,69.07143685440542,0.0,770.0,8859,True
+Away_AvgPassesAccurateAgainst_Away_Last15,Average,Z-Score Standardization,352.8785962288833,65.83694068333081,0.0,770.0,14396,True
+Away_AvgPassesAccurateAgainst_Away_Last3,Average,Z-Score Standardization,351.50402777540234,88.19800568101975,0.0,939.0,2035,True
+Away_AvgPassesAccurateAgainst_Away_Last5,Average,Z-Score Standardization,351.90482742135424,78.24885650153217,0.0,927.0,4015,True
+Away_AvgPassesAccurateAgainst_Home_Last10,Average,Z-Score Standardization,333.0046582586894,65.75595859236849,2.0,850.0,8364,True
+Away_AvgPassesAccurateAgainst_Home_Last15,Average,Z-Score Standardization,333.2192935985487,62.67462918852124,2.0,850.0,13763,True
+Away_AvgPassesAccurateAgainst_Home_Last3,Average,Z-Score Standardization,331.6708225388602,83.61257129192445,2.0,893.0,1944,True
+Away_AvgPassesAccurateAgainst_Home_Last5,Average,Z-Score Standardization,332.5190325040195,74.2638253506126,2.0,893.0,3764,True
+Away_AvgPassesAccurateAgainst_Total_Last10,Average,Z-Score Standardization,343.14852913810904,67.79965283353017,2.0,893.0,9174,True
+Away_AvgPassesAccurateAgainst_Total_Last15,Average,Z-Score Standardization,343.55650109666703,64.74776811841585,2.0,850.0,15734,True
+Away_AvgPassesAccurateAgainst_Total_Last3,Average,Z-Score Standardization,342.1820868760483,85.27822244993146,2.0,930.0,2060,True
+Away_AvgPassesAccurateAgainst_Total_Last5,Average,Z-Score Standardization,342.5451856515291,76.61656502140373,2.0,930.0,4089,True
+Away_AvgPassesAccurateFor_Away_Last10,Average,Z-Score Standardization,330.4676028229234,81.50636535750205,1.0,693.0,10263,True
+Away_AvgPassesAccurateFor_Away_Last15,Average,Z-Score Standardization,329.6437938163638,79.1046790910874,1.0,685.2666666666667,16572,True
+Away_AvgPassesAccurateFor_Away_Last3,Average,Z-Score Standardization,332.00016248204145,93.57309069338366,1.0,833.5,2165,True
+Away_AvgPassesAccurateFor_Away_Last5,Average,Z-Score Standardization,331.4917311519518,87.40902055387993,1.0,896.0,4403,True
+Away_AvgPassesAccurateFor_Home_Last10,Average,Z-Score Standardization,349.79243854531995,87.54837071288652,1.0,751.4444444444445,10842,True
+Away_AvgPassesAccurateFor_Home_Last15,Average,Z-Score Standardization,348.84359907063555,85.10155748155489,1.0,745.1111111111111,17486,True
+Away_AvgPassesAccurateFor_Home_Last3,Average,Z-Score Standardization,352.0391236173367,99.66304070917809,1.0,863.0,2267,True
+Away_AvgPassesAccurateFor_Home_Last5,Average,Z-Score Standardization,351.1936158810139,93.4141484143489,1.0,863.0,4691,True
+Away_AvgPassesAccurateFor_Total_Last10,Average,Z-Score Standardization,340.5548890094041,85.36995302937214,1.0,751.4285714285714,11262,True
+Away_AvgPassesAccurateFor_Total_Last15,Average,Z-Score Standardization,339.8133291446938,83.04422698294884,1.0,713.0666666666667,19099,True
+Away_AvgPassesAccurateFor_Total_Last3,Average,Z-Score Standardization,341.71174156978424,96.85396069504735,1.0,832.0,2296,True
+Away_AvgPassesAccurateFor_Total_Last5,Average,Z-Score Standardization,341.61926466884915,91.35735853523775,1.0,821.0,4801,True
+Away_AvgPossessionAgainst_Away_Last10,Average,Z-Score Standardization,51.10691653836612,6.52307671341466,0.0,80.0,1286,True
+Away_AvgPossessionAgainst_Away_Last15,Average,Z-Score Standardization,51.13080722513683,6.188839880918884,0.0,79.0,2451,True
+Away_AvgPossessionAgainst_Away_Last3,Average,Z-Score Standardization,51.02147128647414,8.107439457637945,0.0,81.0,229,True
+Away_AvgPossessionAgainst_Away_Last5,Average,Z-Score Standardization,51.065476572841234,7.311037588394836,0.0,80.5,507,True
+Away_AvgPossessionAgainst_Home_Last10,Average,Z-Score Standardization,49.00091500149261,6.434790745878315,23.0,83.0,1300,True
+Away_AvgPossessionAgainst_Home_Last15,Average,Z-Score Standardization,49.02107932955105,6.088141163137256,23.0,83.0,2445,True
+Away_AvgPossessionAgainst_Home_Last3,Average,Z-Score Standardization,48.90624389950896,8.013586760723086,19.0,83.0,232,True
+Away_AvgPossessionAgainst_Home_Last5,Average,Z-Score Standardization,48.958847045247374,7.21141131952123,21.0,83.0,499,True
+Away_AvgPossessionAgainst_Total_Last10,Average,Z-Score Standardization,50.100149342405565,6.589003978657486,23.5,83.0,1364,True
+Away_AvgPossessionAgainst_Total_Last15,Average,Z-Score Standardization,50.12171741750023,6.279053916130868,23.5,83.0,2670,True
+Away_AvgPossessionAgainst_Total_Last3,Average,Z-Score Standardization,50.01973066638251,8.059927368440116,16.0,83.0,241,True
+Away_AvgPossessionAgainst_Total_Last5,Average,Z-Score Standardization,50.039431968295915,7.341364093328424,18.0,83.0,525,True
+Away_AvgPossessionFor_Away_Last10,Average,Z-Score Standardization,48.89308346163388,6.52307671341466,20.0,100.0,1286,True
+Away_AvgPossessionFor_Away_Last15,Average,Z-Score Standardization,48.86919277486317,6.188839880918884,21.0,100.0,2451,True
+Away_AvgPossessionFor_Away_Last3,Average,Z-Score Standardization,48.97852871352586,8.107439457637945,19.0,100.0,229,True
+Away_AvgPossessionFor_Away_Last5,Average,Z-Score Standardization,48.934523427158766,7.311037588394836,19.5,100.0,507,True
+Away_AvgPossessionFor_Home_Last10,Average,Z-Score Standardization,50.99908499850739,6.434790745878315,17.0,77.0,1300,True
+Away_AvgPossessionFor_Home_Last15,Average,Z-Score Standardization,50.97892067044895,6.088141163137256,17.0,77.0,2445,True
+Away_AvgPossessionFor_Home_Last3,Average,Z-Score Standardization,51.09375610049104,8.013586760723086,17.0,81.0,232,True
+Away_AvgPossessionFor_Home_Last5,Average,Z-Score Standardization,51.041152954752626,7.21141131952123,17.0,79.0,499,True
+Away_AvgPossessionFor_Total_Last10,Average,Z-Score Standardization,49.899850657594435,6.589003978657486,17.0,76.5,1364,True
+Away_AvgPossessionFor_Total_Last15,Average,Z-Score Standardization,49.87828258249977,6.279053916130868,17.0,76.5,2670,True
+Away_AvgPossessionFor_Total_Last3,Average,Z-Score Standardization,49.98026933361749,8.059927368440116,17.0,84.0,241,True
+Away_AvgPossessionFor_Total_Last5,Average,Z-Score Standardization,49.960568031704085,7.341364093328424,17.0,82.0,525,True
+Away_AvgRedCardsAgainst_Away_Last10,Average,Z-Score Standardization,0.2253205284453761,0.4418418036025036,0.0,4.0,5,True
+Away_AvgRedCardsAgainst_Away_Last15,Average,Z-Score Standardization,0.21985198084457988,0.4307797400984079,0.0,3.0,4,True
+Away_AvgRedCardsAgainst_Away_Last3,Average,Z-Score Standardization,0.21680595361383395,0.44174925988836566,0.0,3.0,4,True
+Away_AvgRedCardsAgainst_Away_Last5,Average,Z-Score Standardization,0.22331204836159096,0.4462621064498886,0.0,4.0,5,True
+Away_AvgRedCardsAgainst_Home_Last10,Average,Z-Score Standardization,0.2934951908409204,0.48719051438397204,0.0,3.0,4,True
+Away_AvgRedCardsAgainst_Home_Last15,Average,Z-Score Standardization,0.2892646492190047,0.47618948468917693,0.0,3.0,4,True
+Away_AvgRedCardsAgainst_Home_Last3,Average,Z-Score Standardization,0.27026639246257594,0.47987075964710085,0.0,4.0,5,True
+Away_AvgRedCardsAgainst_Home_Last5,Average,Z-Score Standardization,0.2839665804654864,0.48804313339990985,0.0,3.0,4,True
+Away_AvgRedCardsAgainst_Total_Last10,Average,Z-Score Standardization,0.26833144898327027,0.4716829759213954,0.0,3.0,4,True
+Away_AvgRedCardsAgainst_Total_Last15,Average,Z-Score Standardization,0.27101821403366516,0.4658980236598607,0.0,3.0,4,True
+Away_AvgRedCardsAgainst_Total_Last3,Average,Z-Score Standardization,0.24456601021152444,0.4606869872941479,0.0,4.0,5,True
+Away_AvgRedCardsAgainst_Total_Last5,Average,Z-Score Standardization,0.2578923875994157,0.4708072441459922,0.0,4.0,5,True
+Away_AvgRedCardsFor_Away_Last10,Average,Z-Score Standardization,0.2904337647135332,0.4863341482492944,0.0,3.0,4,True
+Away_AvgRedCardsFor_Away_Last15,Average,Z-Score Standardization,0.28706596179262284,0.4763297861001083,0.0,3.0,4,True
+Away_AvgRedCardsFor_Away_Last3,Average,Z-Score Standardization,0.2710701213638991,0.4818961943253687,0.0,3.0,4,True
+Away_AvgRedCardsFor_Away_Last5,Average,Z-Score Standardization,0.28331565570653805,0.4887073352767969,0.0,3.0,4,True
+Away_AvgRedCardsFor_Home_Last10,Average,Z-Score Standardization,0.2195451040863531,0.4343913072844698,0.0,3.0,4,True
+Away_AvgRedCardsFor_Home_Last15,Average,Z-Score Standardization,0.2111924593176631,0.4203927469929561,0.0,3.0,4,True
+Away_AvgRedCardsFor_Home_Last3,Average,Z-Score Standardization,0.21255506607929514,0.43630731174151255,0.0,4.0,5,True
+Away_AvgRedCardsFor_Home_Last5,Average,Z-Score Standardization,0.22166271918476205,0.4423345478751606,0.0,4.0,5,True
+Away_AvgRedCardsFor_Total_Last10,Average,Z-Score Standardization,0.27138246809626,0.4726086822170644,0.0,3.0,4,True
+Away_AvgRedCardsFor_Total_Last15,Average,Z-Score Standardization,0.2715695255830718,0.4651073823694378,0.0,3.0,4,True
+Away_AvgRedCardsFor_Total_Last3,Average,Z-Score Standardization,0.24682589872063043,0.46299627225083007,0.0,4.0,5,True
+Away_AvgRedCardsFor_Total_Last5,Average,Z-Score Standardization,0.26010188135490026,0.47069793830690176,0.0,3.0,4,True
+Away_AvgSavesAgainst_Away_Last10,Average,Z-Score Standardization,2.7063829281422724,0.8666048904178643,0.0,11.0,201,True
+Away_AvgSavesAgainst_Away_Last15,Average,Z-Score Standardization,2.706309903701804,0.7915671640543679,0.0,11.0,357,True
+Away_AvgSavesAgainst_Away_Last3,Average,Z-Score Standardization,2.712929861669695,1.281984060831572,0.0,13.0,42,True
+Away_AvgSavesAgainst_Away_Last5,Average,Z-Score Standardization,2.7086486460385526,1.0705360607238916,0.0,12.0,86,True
+Away_AvgSavesAgainst_Home_Last10,Average,Z-Score Standardization,3.2173129798304245,0.9913767869788291,0.0,16.0,229,True
+Away_AvgSavesAgainst_Home_Last15,Average,Z-Score Standardization,3.2177891289827842,0.9211683175987502,0.0,16.0,429,True
+Away_AvgSavesAgainst_Home_Last3,Average,Z-Score Standardization,3.2171170635510493,1.410965987104976,0.0,16.0,46,True
+Away_AvgSavesAgainst_Home_Last5,Average,Z-Score Standardization,3.218797133422734,1.198686171284862,0.0,16.0,93,True
+Away_AvgSavesAgainst_Total_Last10,Average,Z-Score Standardization,2.9610342725239986,0.9215795230297783,0.0,16.0,217,True
+Away_AvgSavesAgainst_Total_Last15,Average,Z-Score Standardization,2.957990732126878,0.8344109853215101,0.0,16.0,403,True
+Away_AvgSavesAgainst_Total_Last3,Average,Z-Score Standardization,2.961256217967096,1.3435652977834875,0.0,16.0,46,True
+Away_AvgSavesAgainst_Total_Last5,Average,Z-Score Standardization,2.96176303524614,1.1379460634176075,0.0,16.0,92,True
+Away_AvgSavesFor_Away_Last10,Average,Z-Score Standardization,3.2166037692694753,0.960728387771392,0.0,16.0,224,True
+Away_AvgSavesFor_Away_Last15,Average,Z-Score Standardization,3.217976642011655,0.8781392947940316,0.0,16.0,418,True
+Away_AvgSavesFor_Away_Last3,Average,Z-Score Standardization,3.210027705782465,1.4057743220219843,0.0,16.0,45,True
+Away_AvgSavesFor_Away_Last5,Average,Z-Score Standardization,3.215353507552053,1.1851637500755174,0.0,16.0,94,True
+Away_AvgSavesFor_Home_Last10,Average,Z-Score Standardization,2.7118556866541055,0.9072561287127411,0.0,12.0,208,True
+Away_AvgSavesFor_Home_Last15,Average,Z-Score Standardization,2.7137607541355497,0.8357045796064041,0.0,12.0,385,True
+Away_AvgSavesFor_Home_Last3,Average,Z-Score Standardization,2.6983212680669313,1.2907715450970474,0.0,14.0,46,True
+Away_AvgSavesFor_Home_Last5,Average,Z-Score Standardization,2.706931166577747,1.1010361743684083,0.0,12.0,88,True
+Away_AvgSavesFor_Total_Last10,Average,Z-Score Standardization,2.9719689837440253,0.9363989101552774,0.0,16.0,224,True
+Away_AvgSavesFor_Total_Last15,Average,Z-Score Standardization,2.972282228312416,0.84607237057813,0.0,16.0,414,True
+Away_AvgSavesFor_Total_Last3,Average,Z-Score Standardization,2.9671359377121895,1.3471578663645245,0.0,16.0,47,True
+Away_AvgSavesFor_Total_Last5,Average,Z-Score Standardization,2.9685542285658806,1.1472768018986006,0.0,16.0,92,True
+Away_AvgShotsAgainst_Away_Last10,Average,Z-Score Standardization,13.026669430376405,3.089489556225008,0.0,41.0,658,True
+Away_AvgShotsAgainst_Away_Last15,Average,Z-Score Standardization,13.001963139247149,2.903918438788497,0.0,41.0,1253,True
+Away_AvgShotsAgainst_Away_Last3,Average,Z-Score Standardization,13.094178534247872,4.015540712515389,0.0,46.0,131,True
+Away_AvgShotsAgainst_Away_Last5,Average,Z-Score Standardization,13.068975598158096,3.5451600529863447,0.0,41.0,262,True
+Away_AvgShotsAgainst_Home_Last10,Average,Z-Score Standardization,10.867704788186606,2.833900333898892,0.0,38.0,601,True
+Away_AvgShotsAgainst_Home_Last15,Average,Z-Score Standardization,10.844328273295952,2.682767839788494,0.0,38.0,1131,True
+Away_AvgShotsAgainst_Home_Last3,Average,Z-Score Standardization,10.900516371668209,3.6045258799269324,0.0,39.0,124,True
+Away_AvgShotsAgainst_Home_Last5,Average,Z-Score Standardization,10.893242465985162,3.2237783120296815,0.0,38.0,248,True
+Away_AvgShotsAgainst_Total_Last10,Average,Z-Score Standardization,11.987732395467669,3.0090278677733213,0.0,41.0,685,True
+Away_AvgShotsAgainst_Total_Last15,Average,Z-Score Standardization,11.969051491865303,2.8388073076361824,0.0,41.0,1289,True
+Away_AvgShotsAgainst_Total_Last3,Average,Z-Score Standardization,12.04810561876051,3.8543265493423142,0.0,44.0,131,True
+Away_AvgShotsAgainst_Total_Last5,Average,Z-Score Standardization,12.020660654945763,3.4427212180564952,0.0,41.0,274,True
+Away_AvgShotsFor_Away_Last10,Average,Z-Score Standardization,10.857415139821939,2.74281418293293,0.0,31.0,577,True
+Away_AvgShotsFor_Away_Last15,Average,Z-Score Standardization,10.82679325408349,2.577486784074542,0.0,31.0,1098,True
+Away_AvgShotsFor_Away_Last3,Average,Z-Score Standardization,10.948338040516646,3.5799349785144776,0.0,44.0,120,True
+Away_AvgShotsFor_Away_Last5,Average,Z-Score Standardization,10.910514287377907,3.1596443423492597,0.0,34.0,236,True
+Away_AvgShotsFor_Home_Last10,Average,Z-Score Standardization,13.036431108325147,3.1841709616685647,0.0,31.0,689,True
+Away_AvgShotsFor_Home_Last15,Average,Z-Score Standardization,12.993674657753964,3.0253242149802797,0.0,31.0,1310,True
+Away_AvgShotsFor_Home_Last3,Average,Z-Score Standardization,13.149571182680159,4.045792897933429,0.0,40.0,136,True
+Away_AvgShotsFor_Home_Last5,Average,Z-Score Standardization,13.101337876700743,3.611292823948149,0.0,34.0,274,True
+Away_AvgShotsFor_Total_Last10,Average,Z-Score Standardization,11.959599047397543,2.987412522833879,0.0,28.0,667,True
+Away_AvgShotsFor_Total_Last15,Average,Z-Score Standardization,11.927411213533606,2.819667180164042,0.0,28.0,1294,True
+Away_AvgShotsFor_Total_Last3,Average,Z-Score Standardization,12.014139057631807,3.8258811772804853,0.0,40.0,128,True
+Away_AvgShotsFor_Total_Last5,Average,Z-Score Standardization,12.001213079396681,3.4172686324797015,0.0,38.0,271,True
+Away_AvgShotsInsideBoxAgainst_Away_Last10,Average,Z-Score Standardization,8.510345111136411,2.136238625751549,0.0,26.0,449,True
+Away_AvgShotsInsideBoxAgainst_Away_Last15,Average,Z-Score Standardization,8.502810652125243,2.006421365559883,0.0,26.0,854,True
+Away_AvgShotsInsideBoxAgainst_Away_Last3,Average,Z-Score Standardization,8.513363586217878,2.8654787956183916,0.0,27.0,91,True
+Away_AvgShotsInsideBoxAgainst_Away_Last5,Average,Z-Score Standardization,8.518303902985158,2.4899611712583707,0.0,27.0,182,True
+Away_AvgShotsInsideBoxAgainst_Home_Last10,Average,Z-Score Standardization,6.941882365380549,1.9708873558189022,0.0,26.0,414,True
+Away_AvgShotsInsideBoxAgainst_Home_Last15,Average,Z-Score Standardization,6.937990788721264,1.8620009817733025,0.0,26.0,776,True
+Away_AvgShotsInsideBoxAgainst_Home_Last3,Average,Z-Score Standardization,6.927129543072436,2.6045433241966673,0.0,27.0,88,True
+Away_AvgShotsInsideBoxAgainst_Home_Last5,Average,Z-Score Standardization,6.938981417225693,2.291264440110391,0.0,26.0,176,True
+Away_AvgShotsInsideBoxAgainst_Total_Last10,Average,Z-Score Standardization,7.754441862195488,2.0830348765934876,0.0,26.0,457,True
+Away_AvgShotsInsideBoxAgainst_Total_Last15,Average,Z-Score Standardization,7.753184218324413,1.9515440163612712,0.0,26.0,871,True
+Away_AvgShotsInsideBoxAgainst_Total_Last3,Average,Z-Score Standardization,7.7568136711898825,2.758988861483712,0.0,27.0,91,True
+Away_AvgShotsInsideBoxAgainst_Total_Last5,Average,Z-Score Standardization,7.755413890098113,2.429793316840953,0.0,27.0,189,True
+Away_AvgShotsInsideBoxFor_Away_Last10,Average,Z-Score Standardization,6.9111232067307915,1.9117158763669047,0.0,21.0,399,True
+Away_AvgShotsInsideBoxFor_Away_Last15,Average,Z-Score Standardization,6.882094892453137,1.7906417396567085,0.0,21.0,755,True
+Away_AvgShotsInsideBoxFor_Away_Last3,Average,Z-Score Standardization,6.963639672222506,2.5921291343120654,0.0,26.0,85,True
+Away_AvgShotsInsideBoxFor_Away_Last5,Average,Z-Score Standardization,6.949859499185261,2.2478717987122514,0.0,21.0,168,True
+Away_AvgShotsInsideBoxFor_Home_Last10,Average,Z-Score Standardization,8.459432518856016,2.204537111491337,0.0,25.0,453,True
+Away_AvgShotsInsideBoxFor_Home_Last15,Average,Z-Score Standardization,8.42288134290908,2.081920554969215,0.0,25.0,872,True
+Away_AvgShotsInsideBoxFor_Home_Last3,Average,Z-Score Standardization,8.529724370414435,2.9023904575996875,0.0,29.0,93,True
+Away_AvgShotsInsideBoxFor_Home_Last5,Average,Z-Score Standardization,8.50504554817532,2.54516823741328,0.0,26.0,185,True
+Away_AvgShotsInsideBoxFor_Total_Last10,Average,Z-Score Standardization,7.709285561856811,2.061893177555572,0.0,25.0,448,True
+Away_AvgShotsInsideBoxFor_Total_Last15,Average,Z-Score Standardization,7.684979220718153,1.9272783360818224,0.0,25.0,869,True
+Away_AvgShotsInsideBoxFor_Total_Last3,Average,Z-Score Standardization,7.728066531664849,2.750652706895672,0.0,27.0,90,True
+Away_AvgShotsInsideBoxFor_Total_Last5,Average,Z-Score Standardization,7.730487049408141,2.4231470136998308,0.0,25.0,182,True
+Away_AvgShotsOffTargetAgainst_Away_Last10,Average,Z-Score Standardization,5.426945190409757,1.3393281713348963,0.0,17.0,302,True
+Away_AvgShotsOffTargetAgainst_Away_Last15,Average,Z-Score Standardization,5.42893404041237,1.2327417401166334,0.0,17.0,565,True
+Away_AvgShotsOffTargetAgainst_Away_Last3,Average,Z-Score Standardization,5.4197327067408265,1.9226633149813817,0.0,17.0,62,True
+Away_AvgShotsOffTargetAgainst_Away_Last5,Average,Z-Score Standardization,5.423869283694718,1.623124289166692,0.0,17.0,124,True
+Away_AvgShotsOffTargetAgainst_Home_Last10,Average,Z-Score Standardization,4.53803267475181,1.260120112593527,0.0,18.0,275,True
+Away_AvgShotsOffTargetAgainst_Home_Last15,Average,Z-Score Standardization,4.538613268724147,1.1736645032716426,0.0,18.0,519,True
+Away_AvgShotsOffTargetAgainst_Home_Last3,Average,Z-Score Standardization,4.526680423798849,1.7418244532155622,0.0,18.0,61,True
+Away_AvgShotsOffTargetAgainst_Home_Last5,Average,Z-Score Standardization,4.53356821380367,1.5002541107148502,0.0,18.0,119,True
+Away_AvgShotsOffTargetAgainst_Total_Last10,Average,Z-Score Standardization,4.988865057485967,1.3105882207715938,0.0,18.0,295,True
+Away_AvgShotsOffTargetAgainst_Total_Last15,Average,Z-Score Standardization,4.990370642295172,1.2039326706721012,0.0,18.0,563,True
+Away_AvgShotsOffTargetAgainst_Total_Last3,Average,Z-Score Standardization,4.99550364230093,1.8416144870483122,0.0,18.0,62,True
+Away_AvgShotsOffTargetAgainst_Total_Last5,Average,Z-Score Standardization,4.99017681252244,1.5817405943696037,0.0,18.0,123,True
+Away_AvgShotsOffTargetFor_Away_Last10,Average,Z-Score Standardization,4.540364616585089,1.1642289583621523,0.0,15.0,266,True
+Away_AvgShotsOffTargetFor_Away_Last15,Average,Z-Score Standardization,4.536096875250941,1.053273617105208,0.0,15.0,487,True
+Away_AvgShotsOffTargetFor_Away_Last3,Average,Z-Score Standardization,4.550261245451751,1.7098639979749675,0.0,16.0,57,True
+Away_AvgShotsOffTargetFor_Away_Last5,Average,Z-Score Standardization,4.545421648380279,1.439505362356357,0.0,16.0,114,True
+Away_AvgShotsOffTargetFor_Home_Last10,Average,Z-Score Standardization,5.426482177499611,1.3450806110321962,0.0,16.0,291,True
+Away_AvgShotsOffTargetFor_Home_Last15,Average,Z-Score Standardization,5.421249668934815,1.2361186970384839,0.0,16.0,565,True
+Away_AvgShotsOffTargetFor_Home_Last3,Average,Z-Score Standardization,5.441804361703707,1.9300382600624528,0.0,20.0,63,True
+Away_AvgShotsOffTargetFor_Home_Last5,Average,Z-Score Standardization,5.432115221119068,1.6443093210856665,0.0,20.0,129,True
+Away_AvgShotsOffTargetFor_Total_Last10,Average,Z-Score Standardization,4.980574663314114,1.2573730628359323,0.0,16.0,291,True
+Away_AvgShotsOffTargetFor_Total_Last15,Average,Z-Score Standardization,4.977069443643067,1.1390672182354917,0.0,16.0,553,True
+Away_AvgShotsOffTargetFor_Total_Last3,Average,Z-Score Standardization,4.977254458678724,1.8065357545175116,0.0,20.0,61,True
+Away_AvgShotsOffTargetFor_Total_Last5,Average,Z-Score Standardization,4.982858064766563,1.5447327564119993,0.0,20.0,124,True
+Away_AvgShotsOutsideBoxAgainst_Away_Last10,Average,Z-Score Standardization,5.2059835107142405,1.4435550877658385,0.0,18.0,314,True
+Away_AvgShotsOutsideBoxAgainst_Away_Last15,Average,Z-Score Standardization,5.225313055808382,1.3560244698609627,0.0,18.0,608,True
+Away_AvgShotsOutsideBoxAgainst_Away_Last3,Average,Z-Score Standardization,5.1689897749115685,1.9571881286087205,0.0,25.0,60,True
+Away_AvgShotsOutsideBoxAgainst_Away_Last5,Average,Z-Score Standardization,5.181133262390121,1.6831261259945602,0.0,18.0,131,True
+Away_AvgShotsOutsideBoxAgainst_Home_Last10,Average,Z-Score Standardization,4.493158127791554,1.3492920817690937,0.0,16.0,289,True
+Away_AvgShotsOutsideBoxAgainst_Home_Last15,Average,Z-Score Standardization,4.512600005976697,1.278264958745112,0.0,16.0,544,True
+Away_AvgShotsOutsideBoxAgainst_Home_Last3,Average,Z-Score Standardization,4.445382126810917,1.8022024749570362,0.0,17.0,58,True
+Away_AvgShotsOutsideBoxAgainst_Home_Last5,Average,Z-Score Standardization,4.465775501211721,1.5694112940984133,0.0,16.0,116,True
+Away_AvgShotsOutsideBoxAgainst_Total_Last10,Average,Z-Score Standardization,4.835146375465885,1.3708187809218055,0.0,18.0,318,True
+Away_AvgShotsOutsideBoxAgainst_Total_Last15,Average,Z-Score Standardization,4.849462100102744,1.281197406423635,0.0,18.0,604,True
+Away_AvgShotsOutsideBoxAgainst_Total_Last3,Average,Z-Score Standardization,4.820847901593566,1.876080606943752,0.0,18.0,66,True
+Away_AvgShotsOutsideBoxAgainst_Total_Last5,Average,Z-Score Standardization,4.821870238593553,1.626516937154198,0.0,18.0,127,True
+Away_AvgShotsOutsideBoxFor_Away_Last10,Average,Z-Score Standardization,4.466908972781111,1.2596449364963935,0.0,16.0,280,True
+Away_AvgShotsOutsideBoxFor_Away_Last15,Average,Z-Score Standardization,4.476971177818003,1.1683057825917025,0.0,16.0,517,True
+Away_AvgShotsOutsideBoxFor_Away_Last3,Average,Z-Score Standardization,4.452187190773535,1.7721702770519083,0.0,18.0,58,True
+Away_AvgShotsOutsideBoxFor_Away_Last5,Average,Z-Score Standardization,4.456024076352632,1.5136701551695155,0.0,17.0,116,True
+Away_AvgShotsOutsideBoxFor_Home_Last10,Average,Z-Score Standardization,5.1823386713318085,1.420629707400345,0.0,16.0,319,True
+Away_AvgShotsOutsideBoxFor_Home_Last15,Average,Z-Score Standardization,5.188140315733448,1.324563147766857,0.0,16.0,603,True
+Away_AvgShotsOutsideBoxFor_Home_Last3,Average,Z-Score Standardization,5.1799698581861655,1.9619407452637176,0.0,16.5,61,True
+Away_AvgShotsOutsideBoxFor_Home_Last5,Average,Z-Score Standardization,5.177599140779907,1.6868907410760916,0.0,16.0,130,True
+Away_AvgShotsOutsideBoxFor_Total_Last10,Average,Z-Score Standardization,4.814344523088705,1.3299738071516343,0.0,15.0,304,True
+Away_AvgShotsOutsideBoxFor_Total_Last15,Average,Z-Score Standardization,4.815787137831246,1.2255197105557085,0.0,15.0,584,True
+Away_AvgShotsOutsideBoxFor_Total_Last3,Average,Z-Score Standardization,4.801753930477426,1.856752705281297,0.0,17.0,60,True
+Away_AvgShotsOutsideBoxFor_Total_Last5,Average,Z-Score Standardization,4.8077769034144815,1.5989207951231876,0.0,21.0,126,True
+Away_AvgShotsTargetAgainst_Away_Last10,Average,Z-Score Standardization,4.709619225765354,1.2757832753065446,0.0,18.0,293,True
+Away_AvgShotsTargetAgainst_Away_Last15,Average,Z-Score Standardization,4.711196333555162,1.175496208292273,0.0,18.0,551,True
+Away_AvgShotsTargetAgainst_Away_Last3,Average,Z-Score Standardization,4.704199661891629,1.793155448517858,0.0,18.0,62,True
+Away_AvgShotsTargetAgainst_Away_Last5,Average,Z-Score Standardization,4.708500332072421,1.535410652843875,0.0,18.0,124,True
+Away_AvgShotsTargetAgainst_Home_Last10,Average,Z-Score Standardization,3.9133430332862247,1.2094526314222356,0.0,18.0,265,True
+Away_AvgShotsTargetAgainst_Home_Last15,Average,Z-Score Standardization,3.9151336461173076,1.1218557135482352,0.0,18.0,496,True
+Away_AvgShotsTargetAgainst_Home_Last3,Average,Z-Score Standardization,3.897191163766507,1.6372750525897553,0.0,18.0,56,True
+Away_AvgShotsTargetAgainst_Home_Last5,Average,Z-Score Standardization,3.9079491861735787,1.425703513174272,0.0,18.0,111,True
+Away_AvgShotsTargetAgainst_Total_Last10,Average,Z-Score Standardization,4.324647852128261,1.2557922664027075,0.0,18.0,296,True
+Away_AvgShotsTargetAgainst_Total_Last15,Average,Z-Score Standardization,4.325694712426723,1.1578784946331535,0.0,18.0,560,True
+Away_AvgShotsTargetAgainst_Total_Last3,Average,Z-Score Standardization,4.321505877401316,1.7182737880911374,0.0,18.0,60,True
+Away_AvgShotsTargetAgainst_Total_Last5,Average,Z-Score Standardization,4.321821438079334,1.493755921295372,0.0,18.0,124,True
+Away_AvgShotsTargetFor_Away_Last10,Average,Z-Score Standardization,3.903422849603129,1.187051544799337,0.0,13.0,272,True
+Away_AvgShotsTargetFor_Away_Last15,Average,Z-Score Standardization,3.9009406052579245,1.0999664344835953,0.0,13.0,516,True
+Away_AvgShotsTargetFor_Away_Last3,Average,Z-Score Standardization,3.920112010756197,1.6530586093206374,0.0,15.0,53,True
+Away_AvgShotsTargetFor_Away_Last5,Average,Z-Score Standardization,3.912631024226849,1.4172741543395175,0.0,13.0,108,True
+Away_AvgShotsTargetFor_Home_Last10,Average,Z-Score Standardization,4.715310338154146,1.3444149174535696,0.0,16.0,303,True
+Away_AvgShotsTargetFor_Home_Last15,Average,Z-Score Standardization,4.713008663246337,1.261137485535833,0.0,16.0,581,True
+Away_AvgShotsTargetFor_Home_Last3,Average,Z-Score Standardization,4.7237640380106125,1.8183587368326313,0.0,16.0,61,True
+Away_AvgShotsTargetFor_Home_Last5,Average,Z-Score Standardization,4.719168056594007,1.5780067358134593,0.0,16.0,121,True
+Away_AvgShotsTargetFor_Total_Last10,Average,Z-Score Standardization,4.306984384717531,1.2650496655234347,0.0,14.0,286,True
+Away_AvgShotsTargetFor_Total_Last15,Average,Z-Score Standardization,4.302093425030309,1.1731139091410983,0.0,14.0,566,True
+Away_AvgShotsTargetFor_Total_Last3,Average,Z-Score Standardization,4.313138221647677,1.7361904495837603,0.0,16.0,58,True
+Away_AvgShotsTargetFor_Total_Last5,Average,Z-Score Standardization,4.312966673927249,1.5042602764385482,0.0,15.0,119,True
+Away_AvgTotalPassesAgainst_Away_Last10,Average,Z-Score Standardization,442.0843695277694,67.22140329130725,0.0,862.0,8746,True
+Away_AvgTotalPassesAgainst_Away_Last15,Average,Z-Score Standardization,442.6925800044023,64.07027665550152,0.0,862.0,14191,True
+Away_AvgTotalPassesAgainst_Away_Last3,Average,Z-Score Standardization,440.86271357471475,85.6767252719724,0.0,1001.0,1998,True
+Away_AvgTotalPassesAgainst_Away_Last5,Average,Z-Score Standardization,441.3026221725619,76.05115733068884,0.0,999.0,3893,True
+Away_AvgTotalPassesAgainst_Home_Last10,Average,Z-Score Standardization,423.6790083835355,64.47444616440755,3.0,911.0,8227,True
+Away_AvgTotalPassesAgainst_Home_Last15,Average,Z-Score Standardization,424.17357463778995,61.50834259768246,3.0,911.0,13491,True
+Away_AvgTotalPassesAgainst_Home_Last3,Average,Z-Score Standardization,421.9983779883647,81.60592633893236,3.0,1011.0,1916,True
+Away_AvgTotalPassesAgainst_Home_Last5,Average,Z-Score Standardization,422.888343471847,72.65172328686516,3.0,1011.0,3742,True
+Away_AvgTotalPassesAgainst_Total_Last10,Average,Z-Score Standardization,433.018842043471,66.39347467908031,3.0,1011.0,9042,True
+Away_AvgTotalPassesAgainst_Total_Last15,Average,Z-Score Standardization,433.5722001566615,63.46494000943866,3.0,911.0,15477,True
+Away_AvgTotalPassesAgainst_Total_Last3,Average,Z-Score Standardization,431.99237376366483,83.11561941487795,3.0,1011.0,2067,True
+Away_AvgTotalPassesAgainst_Total_Last5,Average,Z-Score Standardization,432.3235370323736,74.85045220573359,3.0,1011.0,4032,True
+Away_AvgTotalPassesFor_Away_Last10,Average,Z-Score Standardization,421.0568779116597,77.89449131133307,1.0,806.0,9910,True
+Away_AvgTotalPassesFor_Away_Last15,Average,Z-Score Standardization,420.46489591791493,75.47373763121882,1.0,769.2666666666667,16151,True
+Away_AvgTotalPassesFor_Away_Last3,Average,Z-Score Standardization,422.3174043921462,90.21446881180393,1.0,958.0,2122,True
+Away_AvgTotalPassesFor_Away_Last5,Average,Z-Score Standardization,421.8586118430562,83.94299408146668,1.0,942.0,4324,True
+Away_AvgTotalPassesFor_Home_Last10,Average,Z-Score Standardization,439.4868100386226,82.700790216043,2.0,828.2222222222222,10329,True
+Away_AvgTotalPassesFor_Home_Last15,Average,Z-Score Standardization,438.8273530250789,80.19624001968346,2.0,821.6666666666666,16777,True
+Away_AvgTotalPassesFor_Home_Last3,Average,Z-Score Standardization,441.32513251410364,95.22492963681482,2.0,934.5,2209,True
+Away_AvgTotalPassesFor_Home_Last5,Average,Z-Score Standardization,440.55575648080617,88.76931951116184,2.0,934.5,4520,True
+Away_AvgTotalPassesFor_Total_Last10,Average,Z-Score Standardization,430.4318197468662,81.14334874287417,2.0,828.1428571428571,10842,True
+Away_AvgTotalPassesFor_Total_Last15,Average,Z-Score Standardization,429.84825045675905,78.77544468783472,2.0,788.7,18537,True
+Away_AvgTotalPassesFor_Total_Last3,Average,Z-Score Standardization,431.54440684828506,92.9709123471701,2.0,958.0,2260,True
+Away_AvgTotalPassesFor_Total_Last5,Average,Z-Score Standardization,431.4093894624919,87.31224939401646,2.0,897.0,4645,True
+Away_AvgYellowCardsAgainst_Away_Last10,Average,Z-Score Standardization,2.022104108664473,0.7055814150385136,0.0,6.0,7,True
+Away_AvgYellowCardsAgainst_Away_Last15,Average,Z-Score Standardization,2.0203515134607337,0.6591919212656797,0.0,6.0,7,True
+Away_AvgYellowCardsAgainst_Away_Last3,Average,Z-Score Standardization,2.0232043713285384,1.001004771035875,0.0,8.0,9,True
+Away_AvgYellowCardsAgainst_Away_Last5,Average,Z-Score Standardization,2.0245300550353797,0.8458032027623908,0.0,7.0,8,True
+Away_AvgYellowCardsAgainst_Home_Last10,Average,Z-Score Standardization,2.2833349607331668,0.7302136522841787,0.0,8.0,9,True
+Away_AvgYellowCardsAgainst_Home_Last15,Average,Z-Score Standardization,2.2835587641412882,0.6778545728387627,0.0,8.0,9,True
+Away_AvgYellowCardsAgainst_Home_Last3,Average,Z-Score Standardization,2.2871565924045463,1.0296039956817067,0.0,9.0,10,True
+Away_AvgYellowCardsAgainst_Home_Last5,Average,Z-Score Standardization,2.2885763000852517,0.8772307243041301,0.0,8.0,9,True
+Away_AvgYellowCardsAgainst_Total_Last10,Average,Z-Score Standardization,2.147853981061243,0.7071355180385029,0.0,8.0,9,True
+Away_AvgYellowCardsAgainst_Total_Last15,Average,Z-Score Standardization,2.1495153181679303,0.6525397927808502,0.0,8.0,9,True
+Away_AvgYellowCardsAgainst_Total_Last3,Average,Z-Score Standardization,2.148669077543277,1.0034082548536074,0.0,8.0,9,True
+Away_AvgYellowCardsAgainst_Total_Last5,Average,Z-Score Standardization,2.1498477536481673,0.8563720825283384,0.0,8.0,9,True
+Away_AvgYellowCardsFor_Away_Last10,Average,Z-Score Standardization,2.281180573131978,0.7208312801375001,0.0,7.0,8,True
+Away_AvgYellowCardsFor_Away_Last15,Average,Z-Score Standardization,2.2818803180359883,0.6653050754418952,0.0,7.0,8,True
+Away_AvgYellowCardsFor_Away_Last3,Average,Z-Score Standardization,2.2842828472232397,1.031506874471546,0.0,9.0,10,True
+Away_AvgYellowCardsFor_Away_Last5,Average,Z-Score Standardization,2.2887284683010507,0.870214234268759,0.0,8.0,9,True
+Away_AvgYellowCardsFor_Home_Last10,Average,Z-Score Standardization,2.0253316408375066,0.7044187313542095,0.0,8.0,9,True
+Away_AvgYellowCardsFor_Home_Last15,Average,Z-Score Standardization,2.026816585069012,0.6595487331362696,0.0,8.0,9,True
+Away_AvgYellowCardsFor_Home_Last3,Average,Z-Score Standardization,2.0172013831137567,0.9921542201866588,0.0,9.0,10,True
+Away_AvgYellowCardsFor_Home_Last5,Average,Z-Score Standardization,2.025447570332481,0.8427526788876217,0.0,8.0,9,True
+Away_AvgYellowCardsFor_Total_Last10,Average,Z-Score Standardization,2.1520983918865917,0.7003089682814664,0.0,8.0,9,True
+Away_AvgYellowCardsFor_Total_Last15,Average,Z-Score Standardization,2.1572368969252564,0.6494619017267265,0.0,8.0,9,True
+Away_AvgYellowCardsFor_Total_Last3,Average,Z-Score Standardization,2.152300213421864,1.001702712224542,0.0,8.0,9,True
+Away_AvgYellowCardsFor_Total_Last5,Average,Z-Score Standardization,2.1520165460186145,0.8503584889491866,0.0,8.0,9,True
+Home_AvgBlockedShotsAgainst_Away_Last10,Average,Z-Score Standardization,3.3924415199279494,1.1401768209600776,0.0,15.0,255,True
+Home_AvgBlockedShotsAgainst_Away_Last15,Average,Z-Score Standardization,3.3818757553920613,1.0487259132912248,0.0,15.0,478,True
+Home_AvgBlockedShotsAgainst_Away_Last3,Average,Z-Score Standardization,3.409841819808191,1.61259953269376,0.0,18.0,55,True
+Home_AvgBlockedShotsAgainst_Away_Last5,Average,Z-Score Standardization,3.406787685494266,1.3724792285855572,0.0,15.0,104,True
+Home_AvgBlockedShotsAgainst_Home_Last10,Average,Z-Score Standardization,2.8346857585773,1.0403230978597757,0.0,12.0,232,True
+Home_AvgBlockedShotsAgainst_Home_Last15,Average,Z-Score Standardization,2.8288573977817366,0.9703673285304786,0.0,12.0,435,True
+Home_AvgBlockedShotsAgainst_Home_Last3,Average,Z-Score Standardization,2.842050373868556,1.455095339271927,0.0,16.0,51,True
+Home_AvgBlockedShotsAgainst_Home_Last5,Average,Z-Score Standardization,2.8388557588863947,1.2433879565688213,0.0,12.0,95,True
+Home_AvgBlockedShotsAgainst_Total_Last10,Average,Z-Score Standardization,3.125022633138139,1.091310847547551,0.0,15.0,255,True
+Home_AvgBlockedShotsAgainst_Total_Last15,Average,Z-Score Standardization,3.1209289783006353,1.0071876363449794,0.0,15.0,473,True
+Home_AvgBlockedShotsAgainst_Total_Last3,Average,Z-Score Standardization,3.1217721591560608,1.5329477586861642,0.0,17.0,52,True
+Home_AvgBlockedShotsAgainst_Total_Last5,Average,Z-Score Standardization,3.1254823702523593,1.317938154927016,0.0,17.0,108,True
+Home_AvgBlockedShotsFor_Away_Last10,Average,Z-Score Standardization,2.8242815842139706,0.9704340933911879,0.0,12.0,224,True
+Home_AvgBlockedShotsFor_Away_Last15,Average,Z-Score Standardization,2.810308058485383,0.889021138911974,0.0,12.0,411,True
+Home_AvgBlockedShotsFor_Away_Last3,Average,Z-Score Standardization,2.839139123837993,1.4235470729479407,0.0,18.0,47,True
+Home_AvgBlockedShotsFor_Away_Last5,Average,Z-Score Standardization,2.8355094137995613,1.195604300310155,0.0,12.0,90,True
+Home_AvgBlockedShotsFor_Home_Last10,Average,Z-Score Standardization,3.3842703787693305,1.119648864536946,0.0,15.0,249,True
+Home_AvgBlockedShotsFor_Home_Last15,Average,Z-Score Standardization,3.3688351198172723,1.030301961088288,0.0,15.0,459,True
+Home_AvgBlockedShotsFor_Home_Last3,Average,Z-Score Standardization,3.4141760836566037,1.5946031264595695,0.0,21.0,53,True
+Home_AvgBlockedShotsFor_Home_Last5,Average,Z-Score Standardization,3.4046511246907714,1.3578218067519041,0.0,15.0,107,True
+Home_AvgBlockedShotsFor_Total_Last10,Average,Z-Score Standardization,3.11282059453037,1.0383448009723026,0.0,15.0,242,True
+Home_AvgBlockedShotsFor_Total_Last15,Average,Z-Score Standardization,3.1039966136707924,0.9477042109676771,0.0,15.0,459,True
+Home_AvgBlockedShotsFor_Total_Last3,Average,Z-Score Standardization,3.1359333791996336,1.503305962037322,0.0,21.0,54,True
+Home_AvgBlockedShotsFor_Total_Last5,Average,Z-Score Standardization,3.1240590461017628,1.2806528177419783,0.0,18.0,104,True
+Home_AvgCornersAgainst_Away_Last10,Average,Z-Score Standardization,5.362626529292006,1.3931222144194244,0.0,20.0,318,True
+Home_AvgCornersAgainst_Away_Last15,Average,Z-Score Standardization,5.364671088305878,1.2778147740366148,0.0,20.0,584,True
+Home_AvgCornersAgainst_Away_Last3,Average,Z-Score Standardization,5.353127521296447,2.0178299462684657,0.0,20.0,67,True
+Home_AvgCornersAgainst_Away_Last5,Average,Z-Score Standardization,5.3568515426497285,1.694178542071756,0.0,20.0,134,True
+Home_AvgCornersAgainst_Home_Last10,Average,Z-Score Standardization,4.479850294786501,1.3010443362983384,0.0,20.0,285,True
+Home_AvgCornersAgainst_Home_Last15,Average,Z-Score Standardization,4.483534428604275,1.2173431256066554,0.0,20.0,540,True
+Home_AvgCornersAgainst_Home_Last3,Average,Z-Score Standardization,4.466391509433962,1.821061927138462,0.0,20.0,60,True
+Home_AvgCornersAgainst_Home_Last5,Average,Z-Score Standardization,4.471971080779171,1.5503447972369413,0.0,20.0,124,True
+Home_AvgCornersAgainst_Total_Last10,Average,Z-Score Standardization,4.921014666715288,1.3413192380428383,0.0,20.0,318,True
+Home_AvgCornersAgainst_Total_Last15,Average,Z-Score Standardization,4.927917013478657,1.2341942025599137,0.0,20.0,597,True
+Home_AvgCornersAgainst_Total_Last3,Average,Z-Score Standardization,4.903906581740977,1.9177937505540446,0.0,20.0,67,True
+Home_AvgCornersAgainst_Total_Last5,Average,Z-Score Standardization,4.9118120060665085,1.633073287610794,0.0,20.0,130,True
+Home_AvgCornersFor_Away_Last10,Average,Z-Score Standardization,4.489635691453361,1.208114047005956,0.0,15.0,276,True
+Home_AvgCornersFor_Away_Last15,Average,Z-Score Standardization,4.487485834883798,1.0927804247738622,0.0,13.0,513,True
+Home_AvgCornersFor_Away_Last3,Average,Z-Score Standardization,4.4864425404273645,1.796346862759074,0.0,17.0,60,True
+Home_AvgCornersFor_Away_Last5,Average,Z-Score Standardization,4.489878523895946,1.5070776473454566,0.0,15.0,119,True
+Home_AvgCornersFor_Home_Last10,Average,Z-Score Standardization,5.375347953811815,1.3896328084536524,0.0,18.0,308,True
+Home_AvgCornersFor_Home_Last15,Average,Z-Score Standardization,5.375403851958094,1.2762513073240331,0.0,18.0,588,True
+Home_AvgCornersFor_Home_Last3,Average,Z-Score Standardization,5.380419614779874,2.0108327027115456,0.0,18.0,65,True
+Home_AvgCornersFor_Home_Last5,Average,Z-Score Standardization,5.376675488179653,1.6949471632453157,0.0,18.0,131,True
+Home_AvgCornersFor_Total_Last10,Average,Z-Score Standardization,4.925903695615179,1.2965645816618179,0.0,18.0,308,True
+Home_AvgCornersFor_Total_Last15,Average,Z-Score Standardization,4.924074939578627,1.1744393072290968,0.0,14.0,574,True
+Home_AvgCornersFor_Total_Last3,Average,Z-Score Standardization,4.94015736230798,1.9036712205829058,0.0,18.0,64,True
+Home_AvgCornersFor_Total_Last5,Average,Z-Score Standardization,4.930312192616497,1.6056827832959053,0.0,18.0,131,True
+Home_AvgExpectedGoalsFor_Away_Last10,Average,Z-Score Standardization,1.2263861784409102,0.4267039863965556,0.07,4.37,4985,True
+Home_AvgExpectedGoalsFor_Away_Last15,Average,Z-Score Standardization,1.2214293075058282,0.40088822361204096,0.07,4.37,6086,True
+Home_AvgExpectedGoalsFor_Away_Last3,Average,Z-Score Standardization,1.236169495399737,0.5783994832795372,0.01,6.25,1621,True
+Home_AvgExpectedGoalsFor_Away_Last5,Average,Z-Score Standardization,1.2319161556700187,0.49994434352186,0.01,4.445,2947,True
+Home_AvgExpectedGoalsFor_Home_Last10,Average,Z-Score Standardization,1.5502839488048181,0.5265234828556832,0.0,4.85,5335,True
+Home_AvgExpectedGoalsFor_Home_Last15,Average,Z-Score Standardization,1.5433668822990554,0.4954375803966603,0.0,4.3,6345,True
+Home_AvgExpectedGoalsFor_Home_Last3,Average,Z-Score Standardization,1.5569811212978035,0.6740208039903388,0.0,5.8,1799,True
+Home_AvgExpectedGoalsFor_Home_Last5,Average,Z-Score Standardization,1.5594484126984127,0.606562795993638,0.0,5.28,3263,True
+Home_AvgExpectedGoalsFor_Total_Last10,Average,Z-Score Standardization,1.3962461018130308,0.46458564514787043,0.12,4.88,6095,True
+Home_AvgExpectedGoalsFor_Total_Last15,Average,Z-Score Standardization,1.39207920344663,0.4308727919506913,0.14,4.3,8167,True
+Home_AvgExpectedGoalsFor_Total_Last3,Average,Z-Score Standardization,1.4047687330593688,0.6216047767992189,0.0,4.88,1870,True
+Home_AvgExpectedGoalsFor_Total_Last5,Average,Z-Score Standardization,1.3998402098867717,0.5493446400202358,0.0,5.8,3458,True
+Home_AvgFoulsAgainst_Away_Last10,Average,Z-Score Standardization,12.071171089170008,3.585886663399186,0.0,28.0,704,True
+Home_AvgFoulsAgainst_Away_Last15,Average,Z-Score Standardization,12.057619116281195,3.5197908252294443,0.0,28.0,1419,True
+Home_AvgFoulsAgainst_Away_Last3,Average,Z-Score Standardization,12.090971217237499,4.063896674982733,0.0,33.0,112,True
+Home_AvgFoulsAgainst_Away_Last5,Average,Z-Score Standardization,12.076948267934535,3.7996268154660933,0.0,28.0,246,True
+Home_AvgFoulsAgainst_Home_Last10,Average,Z-Score Standardization,12.295211428888413,3.6269771538148055,0.0,31.0,688,True
+Home_AvgFoulsAgainst_Home_Last15,Average,Z-Score Standardization,12.286564401204462,3.565020126497675,0.0,31.0,1424,True
+Home_AvgFoulsAgainst_Home_Last3,Average,Z-Score Standardization,12.290207099852609,4.107213316841306,0.0,39.0,116,True
+Home_AvgFoulsAgainst_Home_Last5,Average,Z-Score Standardization,12.292737545464698,3.845963181528237,0.0,31.0,250,True
+Home_AvgFoulsAgainst_Total_Last10,Average,Z-Score Standardization,12.199592744686083,3.589446855059036,0.0,39.0,694,True
+Home_AvgFoulsAgainst_Total_Last15,Average,Z-Score Standardization,12.195877993546537,3.5102815525666173,0.0,28.0,1398,True
+Home_AvgFoulsAgainst_Total_Last3,Average,Z-Score Standardization,12.19545043120983,4.0775555869896865,0.0,30.0,115,True
+Home_AvgFoulsAgainst_Total_Last5,Average,Z-Score Standardization,12.198153355416515,3.822393320807777,0.0,39.0,257,True
+Home_AvgFoulsFor_Away_Last10,Average,Z-Score Standardization,12.284834647513915,3.6085401586976666,0.0,31.0,677,True
+Home_AvgFoulsFor_Away_Last15,Average,Z-Score Standardization,12.271088212886426,3.53385152207281,0.0,31.0,1381,True
+Home_AvgFoulsFor_Away_Last3,Average,Z-Score Standardization,12.29337262823605,4.10178996700718,0.0,35.0,112,True
+Home_AvgFoulsFor_Away_Last5,Average,Z-Score Standardization,12.288011768849236,3.8367567315874123,0.0,35.0,245,True
+Home_AvgFoulsFor_Home_Last10,Average,Z-Score Standardization,12.080273467349995,3.6081445448703264,0.0,39.0,684,True
+Home_AvgFoulsFor_Home_Last15,Average,Z-Score Standardization,12.069606419294118,3.5477156631919877,0.0,39.0,1414,True
+Home_AvgFoulsFor_Home_Last3,Average,Z-Score Standardization,12.079937045641907,4.065925527263708,0.0,39.0,112,True
+Home_AvgFoulsFor_Home_Last5,Average,Z-Score Standardization,12.0783709433834,3.823029174641878,0.0,39.0,247,True
+Home_AvgFoulsFor_Total_Last10,Average,Z-Score Standardization,12.204970650804103,3.5987603548927716,0.0,39.0,684,True
+Home_AvgFoulsFor_Total_Last15,Average,Z-Score Standardization,12.203415216322751,3.518166519648214,0.0,39.0,1371,True
+Home_AvgFoulsFor_Total_Last3,Average,Z-Score Standardization,12.197156455943373,4.083467123663552,0.0,39.0,114,True
+Home_AvgFoulsFor_Total_Last5,Average,Z-Score Standardization,12.204508158508158,3.832121434399689,0.0,39.0,252,True
+Home_AvgGoalsConceded_Away_Last10,Average,Z-Score Standardization,1.4950920677212431,0.5576336743163562,0.0,9.0,159,True
+Home_AvgGoalsConceded_Away_Last15,Average,Z-Score Standardization,1.4937221679949344,0.510497390104508,0.0,9.0,274,True
+Home_AvgGoalsConceded_Away_Last3,Average,Z-Score Standardization,1.4993695879722142,0.810932046148212,0.0,9.0,38,True
+Home_AvgGoalsConceded_Away_Last5,Average,Z-Score Standardization,1.498477098994513,0.6788249095669667,0.0,9.0,72,True
+Home_AvgGoalsConceded_Home_Last10,Average,Z-Score Standardization,1.1916446710081974,0.49603744320368537,0.0,9.0,144,True
+Home_AvgGoalsConceded_Home_Last15,Average,Z-Score Standardization,1.188926326784232,0.45363818233102415,0.0,9.0,249,True
+Home_AvgGoalsConceded_Home_Last3,Average,Z-Score Standardization,1.1954334867099916,0.7259825392618016,0.0,9.0,33,True
+Home_AvgGoalsConceded_Home_Last5,Average,Z-Score Standardization,1.1944590705690747,0.6036504379148864,0.0,9.0,68,True
+Home_AvgGoalsConceded_Total_Last10,Average,Z-Score Standardization,1.3500003183652236,0.5217060268533459,0.0,9.0,153,True
+Home_AvgGoalsConceded_Total_Last15,Average,Z-Score Standardization,1.3489017590734942,0.4760791100358698,0.0,9.0,266,True
+Home_AvgGoalsConceded_Total_Last3,Average,Z-Score Standardization,1.34855778306339,0.7699722146100701,0.0,9.0,34,True
+Home_AvgGoalsConceded_Total_Last5,Average,Z-Score Standardization,1.349649985527491,0.6399273007205287,0.0,9.0,68,True
+Home_AvgGoalsScored_Away_Last10,Average,Z-Score Standardization,1.2553717561817763,0.5297262924883185,0.0,10.0,126,True
+Home_AvgGoalsScored_Away_Last15,Average,Z-Score Standardization,1.2555717904704489,0.4817492792692944,0.0,10.0,219,True
+Home_AvgGoalsScored_Away_Last3,Average,Z-Score Standardization,1.2522449011958006,0.775372232255586,0.0,10.0,35,True
+Home_AvgGoalsScored_Away_Last5,Average,Z-Score Standardization,1.25342095664034,0.6469864494047924,0.0,10.0,58,True
+Home_AvgGoalsScored_Home_Last10,Average,Z-Score Standardization,1.5526339711603694,0.5989034464230477,0.0,7.0,145,True
+Home_AvgGoalsScored_Home_Last15,Average,Z-Score Standardization,1.553390557994941,0.5515234991970215,0.0,7.0,264,True
+Home_AvgGoalsScored_Home_Last3,Average,Z-Score Standardization,1.5489666840598961,0.8502234429406998,0.0,8.666666666666666,39,True
+Home_AvgGoalsScored_Home_Last5,Average,Z-Score Standardization,1.54994355106494,0.7180036257898676,0.0,7.0,64,True
+Home_AvgGoalsScored_Total_Last10,Average,Z-Score Standardization,1.4017877536958832,0.557205393768946,0.0,6.0,141,True
+Home_AvgGoalsScored_Total_Last15,Average,Z-Score Standardization,1.4021002485059146,0.5095488483846821,0.0,6.0,245,True
+Home_AvgGoalsScored_Total_Last3,Average,Z-Score Standardization,1.4052672065541587,0.8119944200167237,0.0,9.0,39,True
+Home_AvgGoalsScored_Total_Last5,Average,Z-Score Standardization,1.4024519103711253,0.6783205574007715,0.0,6.6,66,True
+Home_AvgOffsidesAgainst_Away_Last10,Average,Z-Score Standardization,2.00327709115877,0.8849820156536141,0.0,13.0,217,True
+Home_AvgOffsidesAgainst_Away_Last15,Average,Z-Score Standardization,2.0104138172163775,0.8285866382498775,0.0,13.0,423,True
+Home_AvgOffsidesAgainst_Away_Last3,Average,Z-Score Standardization,2.0039212694537687,1.1935101169731976,0.0,15.0,42,True
+Home_AvgOffsidesAgainst_Away_Last5,Average,Z-Score Standardization,2.0001210355316936,1.0356649740846693,0.0,13.0,85,True
+Home_AvgOffsidesAgainst_Home_Last10,Average,Z-Score Standardization,1.8738762897790713,0.864602548357954,0.0,10.0,201,True
+Home_AvgOffsidesAgainst_Home_Last15,Average,Z-Score Standardization,1.8816567681356233,0.8170902069827976,0.0,10.0,382,True
+Home_AvgOffsidesAgainst_Home_Last3,Average,Z-Score Standardization,1.8621946414499604,1.140244946288839,0.0,11.0,39,True
+Home_AvgOffsidesAgainst_Home_Last5,Average,Z-Score Standardization,1.8664867296446244,1.0013873073305226,0.0,10.0,80,True
+Home_AvgOffsidesAgainst_Total_Last10,Average,Z-Score Standardization,1.9346093410837863,0.8762904737463424,0.0,10.0,221,True
+Home_AvgOffsidesAgainst_Total_Last15,Average,Z-Score Standardization,1.9376211501815233,0.8190610948620952,0.0,10.0,428,True
+Home_AvgOffsidesAgainst_Total_Last3,Average,Z-Score Standardization,1.932577976465752,1.1684896642709672,0.0,13.0,41,True
+Home_AvgOffsidesAgainst_Total_Last5,Average,Z-Score Standardization,1.9317095283974406,1.0234928042922917,0.0,10.0,86,True
+Home_AvgOffsidesFor_Away_Last10,Average,Z-Score Standardization,1.8773929773929774,0.7079769055721905,0.0,11.0,164,True
+Home_AvgOffsidesFor_Away_Last15,Average,Z-Score Standardization,1.8814617022452746,0.6381529401338532,0.0,11.0,316,True
+Home_AvgOffsidesFor_Away_Last3,Average,Z-Score Standardization,1.8671625470450617,1.0713410121282148,0.0,15.0,38,True
+Home_AvgOffsidesFor_Away_Last5,Average,Z-Score Standardization,1.8720873822307023,0.8835258983553652,0.0,11.0,69,True
+Home_AvgOffsidesFor_Home_Last10,Average,Z-Score Standardization,2.026285934832598,0.7578520283735025,0.0,11.0,181,True
+Home_AvgOffsidesFor_Home_Last15,Average,Z-Score Standardization,2.029487585667528,0.6960525939717692,0.0,11.0,336,True
+Home_AvgOffsidesFor_Home_Last3,Average,Z-Score Standardization,2.0227288799983834,1.11289681253122,0.0,11.0,37,True
+Home_AvgOffsidesFor_Home_Last5,Average,Z-Score Standardization,2.022789170529445,0.9303215516101666,0.0,11.0,74,True
+Home_AvgOffsidesFor_Total_Last10,Average,Z-Score Standardization,1.9481994708842705,0.7258255499485472,0.0,11.0,172,True
+Home_AvgOffsidesFor_Total_Last15,Average,Z-Score Standardization,1.9495144449183028,0.655923743742809,0.0,11.0,325,True
+Home_AvgOffsidesFor_Total_Last3,Average,Z-Score Standardization,1.949719952725965,1.0818937509981312,0.0,11.0,36,True
+Home_AvgOffsidesFor_Total_Last5,Average,Z-Score Standardization,1.94549840658119,0.9057932887805011,0.0,11.0,72,True
+Home_AvgPassAccuracyAgainst_Away_Last10,Average,Z-Score Standardization,78.13469027995635,4.540967179665415,49.0,94.0,907,True
+Home_AvgPassAccuracyAgainst_Away_Last15,Average,Z-Score Standardization,78.10360251689004,4.32158410484301,49.0,94.0,1742,True
+Home_AvgPassAccuracyAgainst_Away_Last3,Average,Z-Score Standardization,78.16760746851932,5.773620568020673,38.0,94.0,170,True
+Home_AvgPassAccuracyAgainst_Away_Last5,Average,Z-Score Standardization,78.16129125978077,5.139485564041589,44.0,94.0,354,True
+Home_AvgPassAccuracyAgainst_Home_Last10,Average,Z-Score Standardization,77.02675126666598,4.633382967306645,46.0,93.4,924,True
+Home_AvgPassAccuracyAgainst_Home_Last15,Average,Z-Score Standardization,76.98515514407721,4.412102412301511,46.0,93.0,1753,True
+Home_AvgPassAccuracyAgainst_Home_Last3,Average,Z-Score Standardization,77.04422079376842,5.869820834854192,38.0,171.0,179,True
+Home_AvgPassAccuracyAgainst_Home_Last5,Average,Z-Score Standardization,77.04348172234047,5.237336936782477,38.0,127.0,368,True
+Home_AvgPassAccuracyAgainst_Total_Last10,Average,Z-Score Standardization,77.6393263442235,4.5838830595372935,48.75,97.0,955,True
+Home_AvgPassAccuracyAgainst_Total_Last15,Average,Z-Score Standardization,77.6292550541828,4.36378425504791,49.0,94.0,1843,True
+Home_AvgPassAccuracyAgainst_Total_Last3,Average,Z-Score Standardization,77.59768841688205,5.782643465119762,40.0,171.0,180,True
+Home_AvgPassAccuracyAgainst_Total_Last5,Average,Z-Score Standardization,77.63945673599781,5.199729806848433,44.0,171.0,381,True
+Home_AvgPassAccuracyFor_Away_Last10,Average,Z-Score Standardization,76.96297243027529,5.6220861524268395,45.5,171.0,1087,True
+Home_AvgPassAccuracyFor_Away_Last15,Average,Z-Score Standardization,76.87655282365849,5.449176611072925,45.5,171.0,2138,True
+Home_AvgPassAccuracyFor_Away_Last3,Average,Z-Score Standardization,77.07535864392652,6.457442332776911,41.0,171.0,188,True
+Home_AvgPassAccuracyFor_Away_Last5,Average,Z-Score Standardization,77.0579883793084,6.014918332878281,45.0,171.0,414,True
+Home_AvgPassAccuracyFor_Home_Last10,Average,Z-Score Standardization,78.02816293967932,5.815278043181073,45.0,92.55555555555556,1098,True
+Home_AvgPassAccuracyFor_Home_Last15,Average,Z-Score Standardization,77.93389400794017,5.682237372392665,45.0,92.0,2164,True
+Home_AvgPassAccuracyFor_Home_Last3,Average,Z-Score Standardization,78.2100803648876,6.4878058344529785,43.0,94.0,180,True
+Home_AvgPassAccuracyFor_Home_Last5,Average,Z-Score Standardization,78.14849348283971,6.1465968784898095,45.0,93.75,403,True
+Home_AvgPassAccuracyFor_Total_Last10,Average,Z-Score Standardization,77.53802547272089,5.779463592137213,45.0,121.5,1137,True
+Home_AvgPassAccuracyFor_Total_Last15,Average,Z-Score Standardization,77.47753200163908,5.6406708848348135,45.0,121.5,2272,True
+Home_AvgPassAccuracyFor_Total_Last3,Average,Z-Score Standardization,77.65733316922788,6.489236568602552,33.5,121.5,189,True
+Home_AvgPassAccuracyFor_Total_Last5,Average,Z-Score Standardization,77.61771454626815,6.1322130526155565,41.0,121.5,422,True
+Home_AvgPassesAccurateAgainst_Away_Last10,Average,Z-Score Standardization,352.2536297110283,69.04680967220386,0.0,838.0,8893,True
+Home_AvgPassesAccurateAgainst_Away_Last15,Average,Z-Score Standardization,352.50314491289146,65.73532226290972,0.0,838.0,14475,True
+Home_AvgPassesAccurateAgainst_Away_Last3,Average,Z-Score Standardization,351.6166099320342,88.46038586176759,0.0,939.0,2026,True
+Home_AvgPassesAccurateAgainst_Away_Last5,Average,Z-Score Standardization,351.7421337507757,78.33819061891523,0.0,927.0,3991,True
+Home_AvgPassesAccurateAgainst_Home_Last10,Average,Z-Score Standardization,333.0270457081587,65.79061725780961,2.0,850.0,8342,True
+Home_AvgPassesAccurateAgainst_Home_Last15,Average,Z-Score Standardization,333.28707329382814,62.95780521366264,2.0,850.0,13687,True
+Home_AvgPassesAccurateAgainst_Home_Last3,Average,Z-Score Standardization,331.81839201291353,83.58343668694394,2.0,893.0,1933,True
+Home_AvgPassesAccurateAgainst_Home_Last5,Average,Z-Score Standardization,332.32446016235633,74.51175284744366,2.0,893.0,3771,True
+Home_AvgPassesAccurateAgainst_Total_Last10,Average,Z-Score Standardization,343.0556997084816,67.90830547335717,0.0,893.0,9145,True
+Home_AvgPassesAccurateAgainst_Total_Last15,Average,Z-Score Standardization,343.4362799043983,64.81659961336784,0.0,850.0,15552,True
+Home_AvgPassesAccurateAgainst_Total_Last3,Average,Z-Score Standardization,341.66028120640954,85.6539055791154,0.0,939.0,2077,True
+Home_AvgPassesAccurateAgainst_Total_Last5,Average,Z-Score Standardization,342.41960327844714,76.76772464321702,0.0,939.0,4080,True
+Home_AvgPassesAccurateFor_Away_Last10,Average,Z-Score Standardization,331.0574800595008,81.80823154461267,1.0,688.0,10337,True
+Home_AvgPassesAccurateFor_Away_Last15,Average,Z-Score Standardization,330.21660439836376,79.32491541697367,1.0,686.3333333333334,16734,True
+Home_AvgPassesAccurateFor_Away_Last3,Average,Z-Score Standardization,332.2316915025415,94.08807169454764,1.0,946.0,2170,True
+Home_AvgPassesAccurateFor_Away_Last5,Average,Z-Score Standardization,331.9790085744908,87.63937997388682,1.0,896.0,4414,True
+Home_AvgPassesAccurateFor_Home_Last10,Average,Z-Score Standardization,349.9620692731003,87.87232761059877,1.0,751.4444444444445,10749,True
+Home_AvgPassesAccurateFor_Home_Last15,Average,Z-Score Standardization,349.0623989100652,85.60900993458405,1.0,745.1111111111111,17263,True
+Home_AvgPassesAccurateFor_Home_Last3,Average,Z-Score Standardization,352.08112602753886,99.78841376555029,1.0,864.0,2277,True
+Home_AvgPassesAccurateFor_Home_Last5,Average,Z-Score Standardization,351.346853158574,93.63379844579276,1.0,863.0,4670,True
+Home_AvgPassesAccurateFor_Total_Last10,Average,Z-Score Standardization,340.7594398498035,85.52504403614992,1.0,734.5714285714286,11207,True
+Home_AvgPassesAccurateFor_Total_Last15,Average,Z-Score Standardization,340.05180843230966,83.36499539484754,1.0,726.0,19124,True
+Home_AvgPassesAccurateFor_Total_Last3,Average,Z-Score Standardization,342.47848460339236,97.23128236520402,1.0,930.0,2294,True
+Home_AvgPassesAccurateFor_Total_Last5,Average,Z-Score Standardization,341.6849660430367,91.30497314675033,1.0,930.0,4767,True
+Home_AvgPossessionAgainst_Away_Last10,Average,Z-Score Standardization,51.060340743410876,6.522368042972171,0.0,80.0,1294,True
+Home_AvgPossessionAgainst_Away_Last15,Average,Z-Score Standardization,51.07654962424188,6.190274477289108,0.0,77.0,2459,True
+Home_AvgPossessionAgainst_Away_Last3,Average,Z-Score Standardization,51.00967843760181,8.118108656176222,0.0,81.0,231,True
+Home_AvgPossessionAgainst_Away_Last5,Average,Z-Score Standardization,51.01854332967349,7.308960944077635,0.0,80.0,506,True
+Home_AvgPossessionAgainst_Home_Last10,Average,Z-Score Standardization,48.99056534741772,6.457989626849893,23.0,83.0,1303,True
+Home_AvgPossessionAgainst_Home_Last15,Average,Z-Score Standardization,49.00657410541721,6.13866002949439,23.0,83.0,2438,True
+Home_AvgPossessionAgainst_Home_Last3,Average,Z-Score Standardization,48.90479885188622,8.029028936014413,18.0,83.0,235,True
+Home_AvgPossessionAgainst_Home_Last5,Average,Z-Score Standardization,48.94221625766872,7.242134902316961,20.0,83.0,507,True
+Home_AvgPossessionAgainst_Total_Last10,Average,Z-Score Standardization,50.06376654470047,6.594496750948424,0.0,83.0,1362,True
+Home_AvgPossessionAgainst_Total_Last15,Average,Z-Score Standardization,50.09667828166395,6.300311371103403,0.0,83.0,2644,True
+Home_AvgPossessionAgainst_Total_Last3,Average,Z-Score Standardization,49.948561579248405,8.086202617908574,0.0,83.0,239,True
+Home_AvgPossessionAgainst_Total_Last5,Average,Z-Score Standardization,50.01813988914857,7.3556789034273065,0.0,83.0,527,True
+Home_AvgPossessionFor_Away_Last10,Average,Z-Score Standardization,48.939659256589124,6.522368042972171,20.0,100.0,1294,True
+Home_AvgPossessionFor_Away_Last15,Average,Z-Score Standardization,48.92345037575812,6.190274477289108,23.0,100.0,2459,True
+Home_AvgPossessionFor_Away_Last3,Average,Z-Score Standardization,48.99032156239819,8.118108656176222,19.0,100.0,231,True
+Home_AvgPossessionFor_Away_Last5,Average,Z-Score Standardization,48.98145667032652,7.308960944077635,20.0,100.0,506,True
+Home_AvgPossessionFor_Home_Last10,Average,Z-Score Standardization,51.00943465258228,6.457989626849893,17.0,77.0,1303,True
+Home_AvgPossessionFor_Home_Last15,Average,Z-Score Standardization,50.99342589458279,6.13866002949439,17.0,77.0,2438,True
+Home_AvgPossessionFor_Home_Last3,Average,Z-Score Standardization,51.09520114811378,8.029028936014413,17.0,82.0,235,True
+Home_AvgPossessionFor_Home_Last5,Average,Z-Score Standardization,51.057783742331296,7.242134902316961,17.0,80.0,507,True
+Home_AvgPossessionFor_Total_Last10,Average,Z-Score Standardization,49.93623345529953,6.594496750948424,17.0,100.0,1362,True
+Home_AvgPossessionFor_Total_Last15,Average,Z-Score Standardization,49.90332171833605,6.300311371103403,17.0,100.0,2644,True
+Home_AvgPossessionFor_Total_Last3,Average,Z-Score Standardization,50.051438420751595,8.086202617908574,17.0,100.0,239,True
+Home_AvgPossessionFor_Total_Last5,Average,Z-Score Standardization,49.98186011085143,7.3556789034273065,17.0,100.0,527,True
+Home_AvgRedCardsAgainst_Away_Last10,Average,Z-Score Standardization,0.22672719768881552,0.4417038964489978,0.0,3.0,4,True
+Home_AvgRedCardsAgainst_Away_Last15,Average,Z-Score Standardization,0.2210864663944915,0.43068995763239076,0.0,3.0,4,True
+Home_AvgRedCardsAgainst_Away_Last3,Average,Z-Score Standardization,0.2174392395139161,0.44253860867934075,0.0,4.0,5,True
+Home_AvgRedCardsAgainst_Away_Last5,Average,Z-Score Standardization,0.226019172450288,0.44986037911841653,0.0,4.0,5,True
+Home_AvgRedCardsAgainst_Home_Last10,Average,Z-Score Standardization,0.29491702600287467,0.48728132329333107,0.0,3.0,4,True
+Home_AvgRedCardsAgainst_Home_Last15,Average,Z-Score Standardization,0.29151302620291075,0.47821642740340964,0.0,3.0,4,True
+Home_AvgRedCardsAgainst_Home_Last3,Average,Z-Score Standardization,0.2714836644109729,0.48043821924680796,0.0,3.0,4,True
+Home_AvgRedCardsAgainst_Home_Last5,Average,Z-Score Standardization,0.2843918278442208,0.488023454280507,0.0,3.0,4,True
+Home_AvgRedCardsAgainst_Total_Last10,Average,Z-Score Standardization,0.270335007817958,0.4715312198053372,0.0,3.0,4,True
+Home_AvgRedCardsAgainst_Total_Last15,Average,Z-Score Standardization,0.27298925059083634,0.4663669984679761,0.0,3.0,4,True
+Home_AvgRedCardsAgainst_Total_Last3,Average,Z-Score Standardization,0.2500802568218299,0.4672944830887445,0.0,4.0,5,True
+Home_AvgRedCardsAgainst_Total_Last5,Average,Z-Score Standardization,0.2612979533065926,0.4724206023823561,0.0,3.0,4,True
+Home_AvgRedCardsFor_Away_Last10,Average,Z-Score Standardization,0.2910156895127993,0.48657024932279086,0.0,3.0,4,True
+Home_AvgRedCardsFor_Away_Last15,Average,Z-Score Standardization,0.2873605267971465,0.47671381423288284,0.0,3.0,4,True
+Home_AvgRedCardsFor_Away_Last3,Average,Z-Score Standardization,0.26886330230279276,0.48141493381476974,0.0,3.0,4,True
+Home_AvgRedCardsFor_Away_Last5,Average,Z-Score Standardization,0.2823689778645833,0.4875617338854652,0.0,3.0,4,True
+Home_AvgRedCardsFor_Home_Last10,Average,Z-Score Standardization,0.21903999477192523,0.43357864204801005,0.0,3.0,4,True
+Home_AvgRedCardsFor_Home_Last15,Average,Z-Score Standardization,0.2124569140689676,0.4209819010382808,0.0,2.0,3,True
+Home_AvgRedCardsFor_Home_Last3,Average,Z-Score Standardization,0.21484735232733096,0.43727977319424804,0.0,4.0,5,True
+Home_AvgRedCardsFor_Home_Last5,Average,Z-Score Standardization,0.2232173474533535,0.44338753343159787,0.0,4.0,5,True
+Home_AvgRedCardsFor_Total_Last10,Average,Z-Score Standardization,0.2700958211338834,0.4722282516813783,0.0,3.0,4,True
+Home_AvgRedCardsFor_Total_Last15,Average,Z-Score Standardization,0.27023440955329503,0.4644958698906998,0.0,3.0,4,True
+Home_AvgRedCardsFor_Total_Last3,Average,Z-Score Standardization,0.24661728395061727,0.46276145672342434,0.0,3.0,4,True
+Home_AvgRedCardsFor_Total_Last5,Average,Z-Score Standardization,0.26030074259971614,0.4727006955435138,0.0,4.0,5,True
+Home_AvgSavesAgainst_Away_Last10,Average,Z-Score Standardization,2.7128455027370935,0.8683702048223811,0.0,11.0,204,True
+Home_AvgSavesAgainst_Away_Last15,Average,Z-Score Standardization,2.7126148498494396,0.7963642498501694,0.0,11.0,361,True
+Home_AvgSavesAgainst_Away_Last3,Average,Z-Score Standardization,2.7155014936821282,1.2939038821399806,0.0,13.0,42,True
+Home_AvgSavesAgainst_Away_Last5,Average,Z-Score Standardization,2.7148057359068356,1.0813696901986796,0.0,12.0,87,True
+Home_AvgSavesAgainst_Home_Last10,Average,Z-Score Standardization,3.2244081608678488,0.9949247402970275,0.0,16.0,227,True
+Home_AvgSavesAgainst_Home_Last15,Average,Z-Score Standardization,3.223108863957198,0.9268861094714345,0.0,16.0,429,True
+Home_AvgSavesAgainst_Home_Last3,Average,Z-Score Standardization,3.2243757652395573,1.4153383367118006,0.0,16.0,47,True
+Home_AvgSavesAgainst_Home_Last5,Average,Z-Score Standardization,3.22533396667641,1.2014864010204949,0.0,16.0,96,True
+Home_AvgSavesAgainst_Total_Last10,Average,Z-Score Standardization,2.966397031377315,0.9211295995781151,0.0,16.0,220,True
+Home_AvgSavesAgainst_Total_Last15,Average,Z-Score Standardization,2.9654232344455362,0.8366885417862516,0.0,13.5,405,True
+Home_AvgSavesAgainst_Total_Last3,Average,Z-Score Standardization,2.973164058113061,1.348373164648632,0.0,16.0,49,True
+Home_AvgSavesAgainst_Total_Last5,Average,Z-Score Standardization,2.9710229453976313,1.1468470680106728,0.0,16.0,91,True
+Home_AvgSavesFor_Away_Last10,Average,Z-Score Standardization,3.2159021014424063,0.9573764660291165,0.0,16.0,222,True
+Home_AvgSavesFor_Away_Last15,Average,Z-Score Standardization,3.2183385560577036,0.8772672123193881,0.0,16.0,420,True
+Home_AvgSavesFor_Away_Last3,Average,Z-Score Standardization,3.209773377537581,1.4077880850266926,0.0,16.0,46,True
+Home_AvgSavesFor_Away_Last5,Average,Z-Score Standardization,3.21394278899947,1.1759434134857276,0.0,16.0,94,True
+Home_AvgSavesFor_Home_Last10,Average,Z-Score Standardization,2.7140204477537133,0.909634474220739,0.0,13.0,209,True
+Home_AvgSavesFor_Home_Last15,Average,Z-Score Standardization,2.7161819919686505,0.8403687759325805,0.0,13.0,389,True
+Home_AvgSavesFor_Home_Last3,Average,Z-Score Standardization,2.706679914092451,1.2951295752066874,0.0,14.0,44,True
+Home_AvgSavesFor_Home_Last5,Average,Z-Score Standardization,2.709160089642405,1.100633023734173,0.0,13.0,90,True
+Home_AvgSavesFor_Total_Last10,Average,Z-Score Standardization,2.969396750971793,0.9328119784706292,0.0,16.0,222,True
+Home_AvgSavesFor_Total_Last15,Average,Z-Score Standardization,2.971874613283789,0.8477042729405527,0.0,13.0,415,True
+Home_AvgSavesFor_Total_Last3,Average,Z-Score Standardization,2.955616982393809,1.3498601719662584,0.0,16.0,47,True
+Home_AvgSavesFor_Total_Last5,Average,Z-Score Standardization,2.9642259856974817,1.151789180628936,0.0,16.0,94,True
+Home_AvgShotsAgainst_Away_Last10,Average,Z-Score Standardization,13.039445535931835,3.07526559747806,0.0,41.0,664,True
+Home_AvgShotsAgainst_Away_Last15,Average,Z-Score Standardization,13.016083702828023,2.890825485724547,0.0,41.0,1262,True
+Home_AvgShotsAgainst_Away_Last3,Average,Z-Score Standardization,13.10816198335385,4.009086898274344,0.0,46.0,130,True
+Home_AvgShotsAgainst_Away_Last5,Average,Z-Score Standardization,13.083925039093526,3.533977399951496,0.0,41.0,263,True
+Home_AvgShotsAgainst_Home_Last10,Average,Z-Score Standardization,10.887871131666097,2.8599506819676894,0.0,43.0,600,True
+Home_AvgShotsAgainst_Home_Last15,Average,Z-Score Standardization,10.868467298157668,2.7198345170432066,0.0,43.0,1137,True
+Home_AvgShotsAgainst_Home_Last3,Average,Z-Score Standardization,10.933181696817648,3.637563242531705,0.0,43.0,126,True
+Home_AvgShotsAgainst_Home_Last5,Average,Z-Score Standardization,10.914314682026568,3.250658765421713,0.0,43.0,250,True
+Home_AvgShotsAgainst_Total_Last10,Average,Z-Score Standardization,12.000600357332502,3.019609175796779,0.0,43.0,684,True
+Home_AvgShotsAgainst_Total_Last15,Average,Z-Score Standardization,11.98480523629159,2.8501167659175284,0.0,43.0,1285,True
+Home_AvgShotsAgainst_Total_Last3,Average,Z-Score Standardization,12.010064740346614,3.8503567381400603,0.0,45.0,135,True
+Home_AvgShotsAgainst_Total_Last5,Average,Z-Score Standardization,12.018142915095927,3.450155891207637,0.0,45.0,285,True
+Home_AvgShotsFor_Away_Last10,Average,Z-Score Standardization,10.894196427851071,2.7363135239711864,0.0,31.0,587,True
+Home_AvgShotsFor_Away_Last15,Average,Z-Score Standardization,10.863934975408332,2.583336501974087,0.0,31.0,1092,True
+Home_AvgShotsFor_Away_Last3,Average,Z-Score Standardization,10.963432673262309,3.5960452559776317,0.0,44.0,119,True
+Home_AvgShotsFor_Away_Last5,Average,Z-Score Standardization,10.935133608591203,3.168435238740698,0.0,31.0,239,True
+Home_AvgShotsFor_Home_Last10,Average,Z-Score Standardization,13.07195529290853,3.1968855502888216,0.0,28.5,686,True
+Home_AvgShotsFor_Home_Last15,Average,Z-Score Standardization,13.03039135894357,3.040979167849965,0.0,28.5,1305,True
+Home_AvgShotsFor_Home_Last3,Average,Z-Score Standardization,13.169155319116781,4.046837882638694,0.0,40.0,137,True
+Home_AvgShotsFor_Home_Last5,Average,Z-Score Standardization,13.134660426707418,3.6201212078388774,0.0,33.0,271,True
+Home_AvgShotsFor_Total_Last10,Average,Z-Score Standardization,11.992647566382786,2.9897326127606907,0.0,28.0,656,True
+Home_AvgShotsFor_Total_Last15,Average,Z-Score Standardization,11.962116980929256,2.8308231912088786,0.0,28.0,1299,True
+Home_AvgShotsFor_Total_Last3,Average,Z-Score Standardization,12.088488725542964,3.8384609727862107,0.0,44.0,126,True
+Home_AvgShotsFor_Total_Last5,Average,Z-Score Standardization,12.04182497749018,3.429210378255598,0.0,44.0,266,True
+Home_AvgShotsInsideBoxAgainst_Away_Last10,Average,Z-Score Standardization,8.512004395338552,2.1236139412929687,0.0,26.0,451,True
+Home_AvgShotsInsideBoxAgainst_Away_Last15,Average,Z-Score Standardization,8.50448937395603,2.00255657919743,0.0,26.0,857,True
+Home_AvgShotsInsideBoxAgainst_Away_Last3,Average,Z-Score Standardization,8.515817613875848,2.853952934528481,0.0,27.0,91,True
+Home_AvgShotsInsideBoxAgainst_Away_Last5,Average,Z-Score Standardization,8.520038581158223,2.476471640842579,0.0,26.0,180,True
+Home_AvgShotsInsideBoxAgainst_Home_Last10,Average,Z-Score Standardization,6.957254409019922,1.9964726050401067,0.0,28.0,416,True
+Home_AvgShotsInsideBoxAgainst_Home_Last15,Average,Z-Score Standardization,6.952131239178908,1.8881320598754987,0.0,28.0,779,True
+Home_AvgShotsInsideBoxAgainst_Home_Last3,Average,Z-Score Standardization,6.957018267666002,2.6277619233283556,0.0,28.0,89,True
+Home_AvgShotsInsideBoxAgainst_Home_Last5,Average,Z-Score Standardization,6.958946614974989,2.3183767584356043,0.0,28.0,175,True
+Home_AvgShotsInsideBoxAgainst_Total_Last10,Average,Z-Score Standardization,7.764496743651539,2.0967102356371403,0.0,28.0,455,True
+Home_AvgShotsInsideBoxAgainst_Total_Last15,Average,Z-Score Standardization,7.761453019589158,1.969390509305076,0.0,28.0,869,True
+Home_AvgShotsInsideBoxAgainst_Total_Last3,Average,Z-Score Standardization,7.725541619156214,2.761664553759319,0.0,33.0,93,True
+Home_AvgShotsInsideBoxAgainst_Total_Last5,Average,Z-Score Standardization,7.752786203702134,2.440839173323712,0.0,33.0,194,True
+Home_AvgShotsInsideBoxFor_Away_Last10,Average,Z-Score Standardization,6.931793002007102,1.9137909587262822,0.0,21.0,397,True
+Home_AvgShotsInsideBoxFor_Away_Last15,Average,Z-Score Standardization,6.902916223318804,1.79588549825035,0.0,21.0,760,True
+Home_AvgShotsInsideBoxFor_Away_Last3,Average,Z-Score Standardization,6.967648247589353,2.6050117345106463,0.0,26.0,84,True
+Home_AvgShotsInsideBoxFor_Away_Last5,Average,Z-Score Standardization,6.9645218892713325,2.261054627599724,0.0,25.0,176,True
+Home_AvgShotsInsideBoxFor_Home_Last10,Average,Z-Score Standardization,8.485854839783778,2.2145183513881843,0.0,25.0,450,True
+Home_AvgShotsInsideBoxFor_Home_Last15,Average,Z-Score Standardization,8.448511522296851,2.0957579197772027,0.0,25.0,867,True
+Home_AvgShotsInsideBoxFor_Home_Last3,Average,Z-Score Standardization,8.555480111389969,2.9047590456592003,0.0,29.0,92,True
+Home_AvgShotsInsideBoxFor_Home_Last5,Average,Z-Score Standardization,8.53506149527088,2.5531994238444495,0.0,25.0,183,True
+Home_AvgShotsInsideBoxFor_Total_Last10,Average,Z-Score Standardization,7.73266304550993,2.065962184271049,0.0,25.0,448,True
+Home_AvgShotsInsideBoxFor_Total_Last15,Average,Z-Score Standardization,7.709178800106051,1.9368489535004851,0.0,25.0,859,True
+Home_AvgShotsInsideBoxFor_Total_Last3,Average,Z-Score Standardization,7.7849992398460985,2.7664600474512886,0.0,30.0,92,True
+Home_AvgShotsInsideBoxFor_Total_Last5,Average,Z-Score Standardization,7.760944384193046,2.4262901979104368,0.0,30.0,187,True
+Home_AvgShotsOffTargetAgainst_Away_Last10,Average,Z-Score Standardization,5.42771576058182,1.3380216024633222,0.0,17.0,302,True
+Home_AvgShotsOffTargetAgainst_Away_Last15,Average,Z-Score Standardization,5.431941944263273,1.2314007086087821,0.0,17.0,566,True
+Home_AvgShotsOffTargetAgainst_Away_Last3,Average,Z-Score Standardization,5.426212574699438,1.9302671886661602,0.0,17.0,62,True
+Home_AvgShotsOffTargetAgainst_Away_Last5,Average,Z-Score Standardization,5.426323879850549,1.62485077764113,0.0,17.0,123,True
+Home_AvgShotsOffTargetAgainst_Home_Last10,Average,Z-Score Standardization,4.544987932437061,1.2715476370014906,0.0,18.0,273,True
+Home_AvgShotsOffTargetAgainst_Home_Last15,Average,Z-Score Standardization,4.547556439144597,1.1881082630668722,0.0,18.0,518,True
+Home_AvgShotsOffTargetAgainst_Home_Last3,Average,Z-Score Standardization,4.539645192813651,1.7523058960499405,0.0,18.0,60,True
+Home_AvgShotsOffTargetAgainst_Home_Last5,Average,Z-Score Standardization,4.5414956696995805,1.5083950265542436,0.0,18.0,119,True
+Home_AvgShotsOffTargetAgainst_Total_Last10,Average,Z-Score Standardization,4.992496427143651,1.3148297451912112,0.0,18.0,300,True
+Home_AvgShotsOffTargetAgainst_Total_Last15,Average,Z-Score Standardization,4.995481027522516,1.2092680516183365,0.0,18.0,560,True
+Home_AvgShotsOffTargetAgainst_Total_Last3,Average,Z-Score Standardization,4.976740391772971,1.839184143226402,0.0,22.0,63,True
+Home_AvgShotsOffTargetAgainst_Total_Last5,Average,Z-Score Standardization,4.989017996350562,1.5876471515227149,0.0,22.0,124,True
+Home_AvgShotsOffTargetFor_Away_Last10,Average,Z-Score Standardization,4.546730225998395,1.1636412843093302,0.0,15.0,267,True
+Home_AvgShotsOffTargetFor_Away_Last15,Average,Z-Score Standardization,4.5440010095730425,1.054961899106861,0.0,15.0,494,True
+Home_AvgShotsOffTargetFor_Away_Last3,Average,Z-Score Standardization,4.550828370166582,1.7199075896075309,0.0,16.0,56,True
+Home_AvgShotsOffTargetFor_Away_Last5,Average,Z-Score Standardization,4.547769997940631,1.4428318644958198,0.0,16.0,114,True
+Home_AvgShotsOffTargetFor_Home_Last10,Average,Z-Score Standardization,5.4331906373482,1.3487372096267367,0.0,16.0,294,True
+Home_AvgShotsOffTargetFor_Home_Last15,Average,Z-Score Standardization,5.4291696643195255,1.2399804722710486,0.0,16.0,565,True
+Home_AvgShotsOffTargetFor_Home_Last3,Average,Z-Score Standardization,5.441521962464607,1.9287401727771727,0.0,20.0,64,True
+Home_AvgShotsOffTargetFor_Home_Last5,Average,Z-Score Standardization,5.441259560008373,1.643411579586221,0.0,20.0,126,True
+Home_AvgShotsOffTargetFor_Total_Last10,Average,Z-Score Standardization,4.987502852710489,1.2582794538876299,0.0,16.0,291,True
+Home_AvgShotsOffTargetFor_Total_Last15,Average,Z-Score Standardization,4.984113683282832,1.1420289067067166,0.0,16.0,553,True
+Home_AvgShotsOffTargetFor_Total_Last3,Average,Z-Score Standardization,5.008315743318344,1.8242480297243566,0.0,17.0,60,True
+Home_AvgShotsOffTargetFor_Total_Last5,Average,Z-Score Standardization,4.995628298388247,1.5531677262082675,0.0,16.0,121,True
+Home_AvgShotsOutsideBoxAgainst_Away_Last10,Average,Z-Score Standardization,5.208287764553537,1.4479153146131414,0.0,18.0,317,True
+Home_AvgShotsOutsideBoxAgainst_Away_Last15,Average,Z-Score Standardization,5.2245122123576655,1.346568347206087,0.0,18.0,610,True
+Home_AvgShotsOutsideBoxAgainst_Away_Last3,Average,Z-Score Standardization,5.174946733877254,1.9634195182476026,0.0,25.0,61,True
+Home_AvgShotsOutsideBoxAgainst_Away_Last5,Average,Z-Score Standardization,5.187288183254877,1.6910226482355581,0.0,18.0,132,True
+Home_AvgShotsOutsideBoxAgainst_Home_Last10,Average,Z-Score Standardization,4.496768623268451,1.3571600874452576,0.0,19.0,289,True
+Home_AvgShotsOutsideBoxAgainst_Home_Last15,Average,Z-Score Standardization,4.519339983454646,1.2871274722595951,0.0,19.0,553,True
+Home_AvgShotsOutsideBoxAgainst_Home_Last3,Average,Z-Score Standardization,4.45098932457754,1.8106904639443495,0.0,19.0,58,True
+Home_AvgShotsOutsideBoxAgainst_Home_Last5,Average,Z-Score Standardization,4.467486895829504,1.574314967741225,0.0,19.0,117,True
+Home_AvgShotsOutsideBoxAgainst_Total_Last10,Average,Z-Score Standardization,4.838368386820683,1.383260060195516,0.0,19.0,307,True
+Home_AvgShotsOutsideBoxAgainst_Total_Last15,Average,Z-Score Standardization,4.853736338615499,1.2942151315844463,0.0,19.0,593,True
+Home_AvgShotsOutsideBoxAgainst_Total_Last3,Average,Z-Score Standardization,4.802305726599185,1.8743263204414082,0.0,19.0,64,True
+Home_AvgShotsOutsideBoxAgainst_Total_Last5,Average,Z-Score Standardization,4.818860964711597,1.6329520366912889,0.0,19.0,133,True
+Home_AvgShotsOutsideBoxFor_Away_Last10,Average,Z-Score Standardization,4.473481720347339,1.2526712793338994,0.0,15.0,279,True
+Home_AvgShotsOutsideBoxFor_Away_Last15,Average,Z-Score Standardization,4.482585959385109,1.1588901929308084,0.0,15.0,522,True
+Home_AvgShotsOutsideBoxFor_Away_Last3,Average,Z-Score Standardization,4.454675374168515,1.77282408925405,0.0,18.0,60,True
+Home_AvgShotsOutsideBoxFor_Away_Last5,Average,Z-Score Standardization,4.459162898472476,1.5101706366011638,0.0,17.0,117,True
+Home_AvgShotsOutsideBoxFor_Home_Last10,Average,Z-Score Standardization,5.190411073201611,1.422074471165603,0.0,16.0,318,True
+Home_AvgShotsOutsideBoxFor_Home_Last15,Average,Z-Score Standardization,5.199513902368399,1.3272154757842454,0.0,16.0,607,True
+Home_AvgShotsOutsideBoxFor_Home_Last3,Average,Z-Score Standardization,5.173155931445859,1.9643421037801045,0.0,21.0,62,True
+Home_AvgShotsOutsideBoxFor_Home_Last5,Average,Z-Score Standardization,5.179807322738591,1.6870062514092958,0.0,16.0,130,True
+Home_AvgShotsOutsideBoxFor_Total_Last10,Average,Z-Score Standardization,4.8166005214758485,1.325041703968553,0.0,16.0,306,True
+Home_AvgShotsOutsideBoxFor_Total_Last15,Average,Z-Score Standardization,4.823877659487555,1.2248922223979144,0.0,16.0,578,True
+Home_AvgShotsOutsideBoxFor_Total_Last3,Average,Z-Score Standardization,4.822360419151872,1.857801520664675,0.0,21.0,62,True
+Home_AvgShotsOutsideBoxFor_Total_Last5,Average,Z-Score Standardization,4.816159408009941,1.6035908044462936,0.0,21.0,128,True
+Home_AvgShotsTargetAgainst_Away_Last10,Average,Z-Score Standardization,4.7097840183080555,1.2716403827271396,0.0,17.0,292,True
+Home_AvgShotsTargetAgainst_Away_Last15,Average,Z-Score Standardization,4.712169876537265,1.174875725435099,0.0,17.0,547,True
+Home_AvgShotsTargetAgainst_Away_Last3,Average,Z-Score Standardization,4.704544197992531,1.7931824195086135,0.0,17.0,59,True
+Home_AvgShotsTargetAgainst_Away_Last5,Average,Z-Score Standardization,4.710144087284113,1.5266702027288104,0.0,17.0,117,True
+Home_AvgShotsTargetAgainst_Home_Last10,Average,Z-Score Standardization,3.9156734991518842,1.2160885156471957,0.0,19.0,276,True
+Home_AvgShotsTargetAgainst_Home_Last15,Average,Z-Score Standardization,3.9184623758749204,1.1341911760554593,0.0,19.0,498,True
+Home_AvgShotsTargetAgainst_Home_Last3,Average,Z-Score Standardization,3.905954577040558,1.648494353283578,0.0,19.0,56,True
+Home_AvgShotsTargetAgainst_Home_Last5,Average,Z-Score Standardization,3.910118327674395,1.4359215992550147,0.0,19.0,115,True
+Home_AvgShotsTargetAgainst_Total_Last10,Average,Z-Score Standardization,4.323626878800749,1.2609569255199555,0.0,19.0,292,True
+Home_AvgShotsTargetAgainst_Total_Last15,Average,Z-Score Standardization,4.326255876000716,1.1665711390697746,0.0,19.0,557,True
+Home_AvgShotsTargetAgainst_Total_Last3,Average,Z-Score Standardization,4.30393039532849,1.729575712375235,0.0,19.0,59,True
+Home_AvgShotsTargetAgainst_Total_Last5,Average,Z-Score Standardization,4.316208502660149,1.5026903891050871,0.0,19.0,123,True
+Home_AvgShotsTargetFor_Away_Last10,Average,Z-Score Standardization,3.917499950851166,1.1896699025249666,0.0,13.0,274,True
+Home_AvgShotsTargetFor_Away_Last15,Average,Z-Score Standardization,3.9147241295072877,1.1067670781560794,0.0,13.0,511,True
+Home_AvgShotsTargetFor_Away_Last3,Average,Z-Score Standardization,3.928017109224607,1.6685635340413534,0.0,17.0,55,True
+Home_AvgShotsTargetFor_Away_Last5,Average,Z-Score Standardization,3.9255085865257597,1.4272384577112769,0.0,14.0,114,True
+Home_AvgShotsTargetFor_Home_Last10,Average,Z-Score Standardization,4.726929112682786,1.352464321506534,0.0,16.0,307,True
+Home_AvgShotsTargetFor_Home_Last15,Average,Z-Score Standardization,4.723022052094134,1.271468505047241,0.0,16.0,585,True
+Home_AvgShotsTargetFor_Home_Last3,Average,Z-Score Standardization,4.734188700751384,1.8291335606669772,0.0,16.0,61,True
+Home_AvgShotsTargetFor_Home_Last5,Average,Z-Score Standardization,4.731531945071866,1.589372855193671,0.0,16.0,122,True
+Home_AvgShotsTargetFor_Total_Last10,Average,Z-Score Standardization,4.320024528400929,1.2684592034412714,0.0,14.0,290,True
+Home_AvgShotsTargetFor_Total_Last15,Average,Z-Score Standardization,4.315167964469818,1.1758575485096168,0.0,14.0,570,True
+Home_AvgShotsTargetFor_Total_Last3,Average,Z-Score Standardization,4.336240310077519,1.7434050001912529,0.0,19.0,59,True
+Home_AvgShotsTargetFor_Total_Last5,Average,Z-Score Standardization,4.328628011072501,1.5175819766275687,0.0,17.0,119,True
+Home_AvgTotalPassesAgainst_Away_Last10,Average,Z-Score Standardization,441.8328123595346,67.27891262763164,0.0,925.0,8765,True
+Home_AvgTotalPassesAgainst_Away_Last15,Average,Z-Score Standardization,442.3104460126784,64.04483652352754,0.0,925.0,14300,True
+Home_AvgTotalPassesAgainst_Away_Last3,Average,Z-Score Standardization,440.92157594914727,85.97373809749769,0.0,1001.0,2001,True
+Home_AvgTotalPassesAgainst_Away_Last5,Average,Z-Score Standardization,441.08104416991034,76.22034985837925,0.0,999.0,3936,True
+Home_AvgTotalPassesAgainst_Home_Last10,Average,Z-Score Standardization,423.7034248807189,64.57020725822657,3.0,911.0,8183,True
+Home_AvgTotalPassesAgainst_Home_Last15,Average,Z-Score Standardization,424.2278251608549,61.84994842850028,3.0,911.0,13478,True
+Home_AvgTotalPassesAgainst_Home_Last3,Average,Z-Score Standardization,422.11472532901354,81.69085667263295,3.0,1011.0,1907,True
+Home_AvgTotalPassesAgainst_Home_Last5,Average,Z-Score Standardization,422.7312385118639,72.94304485440738,3.0,1011.0,3710,True
+Home_AvgTotalPassesAgainst_Total_Last10,Average,Z-Score Standardization,432.9605956170482,66.5853769395748,0.0,1011.0,9020,True
+Home_AvgTotalPassesAgainst_Total_Last15,Average,Z-Score Standardization,433.47776550580477,63.630966475716946,0.0,911.0,15416,True
+Home_AvgTotalPassesAgainst_Total_Last3,Average,Z-Score Standardization,431.4533735391684,83.62148860538886,0.0,1011.0,2056,True
+Home_AvgTotalPassesAgainst_Total_Last5,Average,Z-Score Standardization,432.17829501492514,75.045670168252,0.0,1011.0,4027,True
+Home_AvgTotalPassesFor_Away_Last10,Average,Z-Score Standardization,421.6177764845105,78.12390916716238,1.0,771.1,10016,True
+Home_AvgTotalPassesFor_Away_Last15,Average,Z-Score Standardization,421.0162824573324,75.64313753320613,1.0,769.9333333333333,16270,True
+Home_AvgTotalPassesFor_Away_Last3,Average,Z-Score Standardization,422.48063207011944,90.67486681112844,1.0,997.0,2136,True
+Home_AvgTotalPassesFor_Away_Last5,Average,Z-Score Standardization,422.28696677384784,84.09986658129277,1.0,942.0,4320,True
+Home_AvgTotalPassesFor_Home_Last10,Average,Z-Score Standardization,439.6546155974609,82.92136602518322,2.0,828.2222222222222,10260,True
+Home_AvgTotalPassesFor_Home_Last15,Average,Z-Score Standardization,439.03134666642876,80.61021947566252,2.0,821.6666666666666,16584,True
+Home_AvgTotalPassesFor_Home_Last3,Average,Z-Score Standardization,441.370746951132,95.28512861370228,2.0,934.5,2198,True
+Home_AvgTotalPassesFor_Home_Last5,Average,Z-Score Standardization,440.75978048930386,88.88337432370912,2.0,934.5,4517,True
+Home_AvgTotalPassesFor_Total_Last10,Average,Z-Score Standardization,430.67460181745327,81.19617050045576,1.0,814.6,10812,True
+Home_AvgTotalPassesFor_Total_Last15,Average,Z-Score Standardization,430.0984356157518,78.99989757063769,1.0,808.0,18446,True
+Home_AvgTotalPassesFor_Total_Last3,Average,Z-Score Standardization,432.2343249991208,93.2751257356766,1.0,987.0,2249,True
+Home_AvgTotalPassesFor_Total_Last5,Average,Z-Score Standardization,431.4350660164149,87.17885287002355,1.0,987.0,4606,True
+Home_AvgYellowCardsAgainst_Away_Last10,Average,Z-Score Standardization,2.023819730224051,0.7042292998238806,0.0,6.0,7,True
+Home_AvgYellowCardsAgainst_Away_Last15,Average,Z-Score Standardization,2.0214300900007087,0.6560612670216779,0.0,6.0,7,True
+Home_AvgYellowCardsAgainst_Away_Last3,Average,Z-Score Standardization,2.023029400818757,0.9978791747925471,0.0,8.0,9,True
+Home_AvgYellowCardsAgainst_Away_Last5,Average,Z-Score Standardization,2.0270533366266146,0.8446744620158472,0.0,7.0,8,True
+Home_AvgYellowCardsAgainst_Home_Last10,Average,Z-Score Standardization,2.2852599889757323,0.7335139450076326,0.0,8.0,9,True
+Home_AvgYellowCardsAgainst_Home_Last15,Average,Z-Score Standardization,2.28476774808091,0.6814467355765821,0.0,8.0,9,True
+Home_AvgYellowCardsAgainst_Home_Last3,Average,Z-Score Standardization,2.2843779094684264,1.0304866884743304,0.0,9.0,10,True
+Home_AvgYellowCardsAgainst_Home_Last5,Average,Z-Score Standardization,2.2875627905637836,0.879881970682664,0.0,8.0,9,True
+Home_AvgYellowCardsAgainst_Total_Last10,Average,Z-Score Standardization,2.1495049645591555,0.7071917543294821,0.0,8.0,9,True
+Home_AvgYellowCardsAgainst_Total_Last15,Average,Z-Score Standardization,2.152083920022529,0.6552946092672318,0.0,8.0,9,True
+Home_AvgYellowCardsAgainst_Total_Last3,Average,Z-Score Standardization,2.1571787579191306,1.0093709177377117,0.0,9.0,10,True
+Home_AvgYellowCardsAgainst_Total_Last5,Average,Z-Score Standardization,2.153358774178513,0.8605337431014286,0.0,9.0,10,True
+Home_AvgYellowCardsFor_Away_Last10,Average,Z-Score Standardization,2.2795924782807497,0.7181422596699283,0.0,7.0,8,True
+Home_AvgYellowCardsFor_Away_Last15,Average,Z-Score Standardization,2.279101410247325,0.6625785484967897,0.0,7.0,8,True
+Home_AvgYellowCardsFor_Away_Last3,Average,Z-Score Standardization,2.283706736136956,1.0288302260362303,0.0,9.0,10,True
+Home_AvgYellowCardsFor_Away_Last5,Average,Z-Score Standardization,2.2847719644906794,0.8665534654894362,0.0,7.0,8,True
+Home_AvgYellowCardsFor_Home_Last10,Average,Z-Score Standardization,2.0233912342939524,0.7086670221333269,0.0,8.0,9,True
+Home_AvgYellowCardsFor_Home_Last15,Average,Z-Score Standardization,2.023449319213313,0.6619557883242323,0.0,8.0,9,True
+Home_AvgYellowCardsFor_Home_Last3,Average,Z-Score Standardization,2.0193299540396352,0.9972675435538332,0.0,10.0,10,True
+Home_AvgYellowCardsFor_Home_Last5,Average,Z-Score Standardization,2.0212876203635735,0.849162273999633,0.0,10.0,10,True
+Home_AvgYellowCardsFor_Total_Last10,Average,Z-Score Standardization,2.1479850566059175,0.7038780822508567,0.0,8.0,9,True
+Home_AvgYellowCardsFor_Total_Last15,Average,Z-Score Standardization,2.152914671923402,0.6509721347233854,0.0,8.0,9,True
+Home_AvgYellowCardsFor_Total_Last3,Average,Z-Score Standardization,2.1479842896483228,1.0029505806401204,0.0,8.0,9,True
+Home_AvgYellowCardsFor_Total_Last5,Average,Z-Score Standardization,2.149804824050338,0.8534802172952922,0.0,8.0,9,True
+LeagueAvg_AwayGoalsScored_Last10,Average,Z-Score Standardization,1.2474336292585027,0.5069111269889978,0.0,11.0,178,True
+LeagueAvg_AwayGoalsScored_Last10,Average,Z-Score Standardization,1.2474336292585027,0.5069111269889978,0.0,11.0,178,True
+LeagueAvg_AwayGoalsScored_Last15,Average,Z-Score Standardization,1.249251841195773,0.46701927133219207,0.0,11.0,332,True
+LeagueAvg_AwayGoalsScored_Last15,Average,Z-Score Standardization,1.249251841195773,0.46701927133219207,0.0,11.0,332,True
+LeagueAvg_AwayGoalsScored_Last3,Average,Z-Score Standardization,1.243251807414244,0.7527744022374122,0.0,11.0,36,True
+LeagueAvg_AwayGoalsScored_Last3,Average,Z-Score Standardization,1.243251807414244,0.7527744022374122,0.0,11.0,36,True
+LeagueAvg_AwayGoalsScored_Last5,Average,Z-Score Standardization,1.2450278418704814,0.620379412640353,0.0,11.0,74,True
+LeagueAvg_AwayGoalsScored_Last5,Average,Z-Score Standardization,1.2450278418704814,0.620379412640353,0.0,11.0,74,True
+LeagueAvg_HomeGoalsScored_Last10,Average,Z-Score Standardization,1.5194359768826775,0.47557361016638944,0.0,8.0,137,True
+LeagueAvg_HomeGoalsScored_Last10,Average,Z-Score Standardization,1.5194359768826775,0.47557361016638944,0.0,8.0,137,True
+LeagueAvg_HomeGoalsScored_Last15,Average,Z-Score Standardization,1.5170522899650727,0.41851331487514504,0.0,8.0,253,True
+LeagueAvg_HomeGoalsScored_Last15,Average,Z-Score Standardization,1.5170522899650727,0.41851331487514504,0.0,8.0,253,True
+LeagueAvg_HomeGoalsScored_Last3,Average,Z-Score Standardization,1.52419627749577,0.7814339145500118,0.0,9.666666666666666,34,True
+LeagueAvg_HomeGoalsScored_Last3,Average,Z-Score Standardization,1.52419627749577,0.7814339145500118,0.0,9.666666666666666,34,True
+LeagueAvg_HomeGoalsScored_Last5,Average,Z-Score Standardization,1.522813874788494,0.6237213631451041,0.0,8.0,60,True
+LeagueAvg_HomeGoalsScored_Last5,Average,Z-Score Standardization,1.522813874788494,0.6237213631451041,0.0,8.0,60,True
+LeagueAvg_TotalGoals_Last10,Average,Z-Score Standardization,2.76686960614118,0.6724628800488645,0.0,11.0,200,True
+LeagueAvg_TotalGoals_Last10,Average,Z-Score Standardization,2.76686960614118,0.6724628800488645,0.0,11.0,200,True
+LeagueAvg_TotalGoals_Last15,Average,Z-Score Standardization,2.766304131160846,0.6074242657800847,0.0,11.0,359,True
+LeagueAvg_TotalGoals_Last15,Average,Z-Score Standardization,2.766304131160846,0.6074242657800847,0.0,11.0,359,True
+LeagueAvg_TotalGoals_Last3,Average,Z-Score Standardization,2.767448084910013,1.039263405278011,0.0,11.333333333333334,43,True
+LeagueAvg_TotalGoals_Last3,Average,Z-Score Standardization,2.767448084910013,1.039263405278011,0.0,11.333333333333334,43,True
+LeagueAvg_TotalGoals_Last5,Average,Z-Score Standardization,2.767841716658975,0.8464015803172248,0.0,11.0,88,True
+LeagueAvg_TotalGoals_Last5,Average,Z-Score Standardization,2.767841716658975,0.8464015803172248,0.0,11.0,88,True
+AwayFormation,Core,None - core feature,,,,,27,False
+AwayTeam,Core,None - core feature,,,,,2280,False
+AwayTeamELO,Core,None - core feature,,,,,961,False
+AwayTeamID,Core,None - core feature,,,,,2266,False
+AwayTeamWinner,Core,None - core feature,,,,,2,False
+Country,Core,None - core feature,,,,,29,False
+Date,Core,None - core feature,,,,,42963,False
+FTAG,Core,None - core feature,,,,,18,False
+FTHG,Core,None - core feature,,,,,16,False
+FTR,Core,None - core feature,,,,,3,False
+HTAG,Core,None - core feature,,,,,10,False
+HTHG,Core,None - core feature,,,,,11,False
+HTR,Core,None - core feature,,,,,3,False
+HomeFormation,Core,None - core feature,,,,,25,False
+HomeTeam,Core,None - core feature,,,,,2895,False
+HomeTeamELO,Core,None - core feature,,,,,961,False
+HomeTeamID,Core,None - core feature,,,,,2880,False
+HomeTeamWinner,Core,None - core feature,,,,,2,False
+LeagueID,Core,None - core feature,,,,,143,False
+LeagueName,Core,None - core feature,,,,,118,False
+MatchID,Core,None - core feature,,,,,109331,False
+Referee,Core,None - core feature,,,,,3277,False
+Round,Core,None - core feature,,,,,1049,False
+Season,Core,None - core feature,,,,,15,False
+StatusElapsed,Core,None - core feature,,,,,2,False
+StatusLong,Core,None - core feature,,,,,3,False
+StatusShort,Core,None - core feature,,,,,5,False
+Timestamp,Core,None - core feature,,,,,42963,False
+VenueCity,Core,None - core feature,,,,,2832,False
+VenueName,Core,None - core feature,,,,,5501,False
+Away_D_Count_Away_Last10,Count,Min-Max Scaling,2.366757944461696,1.4322592092663895,0.0,8.0,9,True
+Away_D_Count_Away_Last15,Count,Min-Max Scaling,3.478502667758236,1.834296982117854,0.0,11.0,12,True
+Away_D_Count_Away_Last3,Count,Min-Max Scaling,0.7338358317100941,0.7526727229269687,0.0,4.0,5,True
+Away_D_Count_Away_Last5,Count,Min-Max Scaling,1.2111528291411418,0.9791697983808836,0.0,5.0,6,True
+Away_D_Count_Home_Last10,Count,Min-Max Scaling,2.369849888214628,1.4370330945010008,0.0,9.0,10,True
+Away_D_Count_Home_Last15,Count,Min-Max Scaling,3.4688785766622203,1.8463785721476824,0.0,13.0,14,True
+Away_D_Count_Home_Last3,Count,Min-Max Scaling,0.7396715952430157,0.7526300811860872,0.0,4.0,5,True
+Away_D_Count_Home_Last5,Count,Min-Max Scaling,1.2203486952110771,0.9795724854724637,0.0,5.0,6,True
+Away_D_Count_Total_Last10,Count,Min-Max Scaling,2.4107181256369263,1.4184816831220808,0.0,9.0,10,True
+Away_D_Count_Total_Last15,Count,Min-Max Scaling,3.5711534326237158,1.801381935324785,0.0,12.0,13,True
+Away_D_Count_Total_Last3,Count,Min-Max Scaling,0.7372731607438364,0.7490160283057858,0.0,4.0,5,True
+Away_D_Count_Total_Last5,Count,Min-Max Scaling,1.2200375844949933,0.97289513749826,0.0,5.0,6,True
+Away_FormPoints_Away_Last10,Count,Min-Max Scaling,11.605247061701908,5.686430556518451,0.0,34.0,33,True
+Away_FormPoints_Away_Last15,Count,Min-Max Scaling,17.13798944188804,8.009709240439781,0.0,45.0,46,True
+Away_FormPoints_Away_Last3,Count,Min-Max Scaling,3.5665998550847378,2.4273497201597056,0.0,15.0,14,True
+Away_FormPoints_Away_Last5,Count,Min-Max Scaling,5.904120674891078,3.3904102513327548,0.0,21.0,21,True
+Away_FormPoints_Home_Last10,Count,Min-Max Scaling,15.522629492550774,6.090900348737878,0.0,33.0,33,True
+Away_FormPoints_Home_Last15,Count,Min-Max Scaling,22.887096774193548,8.801242295917309,0.0,46.0,47,True
+Away_FormPoints_Home_Last3,Count,Min-Max Scaling,4.76848216130911,2.509445041103744,0.0,12.0,13,True
+Away_FormPoints_Home_Last5,Count,Min-Max Scaling,7.903545193229,3.5320317454427945,0.0,18.0,18,True
+Away_FormPoints_Total_Last10,Count,Min-Max Scaling,13.725137669574323,5.742863513298199,0.0,39.0,37,True
+Away_FormPoints_Total_Last15,Count,Min-Max Scaling,20.406959676137586,8.084317817461818,0.0,52.0,50,True
+Away_FormPoints_Total_Last3,Count,Min-Max Scaling,4.158191456539422,2.4697867669048112,0.0,18.0,14,True
+Away_FormPoints_Total_Last5,Count,Min-Max Scaling,6.9186604212829215,3.44338229545482,0.0,24.0,20,True
+Away_L_Count_Away_Last10,Count,Min-Max Scaling,4.080757323396287,1.992780993795607,0.0,11.0,12,True
+Away_L_Count_Away_Last15,Count,Min-Max Scaling,5.949957184127074,2.7031108001250597,0.0,16.0,17,True
+Away_L_Count_Away_Last3,Count,Min-Max Scaling,1.286273513442302,0.912583902889947,0.0,4.0,5,True
+Away_L_Count_Away_Last5,Count,Min-Max Scaling,2.1086676264950266,1.2462655709712798,0.0,6.0,7,True
+Away_L_Count_Home_Last10,Count,Min-Max Scaling,2.771854509929171,1.748108721910597,0.0,10.0,11,True
+Away_L_Count_Home_Last15,Count,Min-Max Scaling,4.030106900633137,2.314924784247504,0.0,14.0,15,True
+Away_L_Count_Home_Last3,Count,Min-Max Scaling,0.8828132338850584,0.8370865451033644,0.0,4.0,5,True
+Away_L_Count_Home_Last5,Count,Min-Max Scaling,1.4375974599357468,1.1251978030420036,0.0,5.0,6,True
+Away_L_Count_Total_Last10,Count,Min-Max Scaling,3.540674464046971,1.8878967435157021,0.0,10.0,11,True
+Away_L_Count_Total_Last15,Count,Min-Max Scaling,5.207640310773287,2.532858755805466,0.0,15.0,16,True
+Away_L_Count_Total_Last3,Count,Min-Max Scaling,1.103385409362466,0.8834276004742729,0.0,4.0,5,True
+Away_L_Count_Total_Last5,Count,Min-Max Scaling,1.8150973737600389,1.1996129506355016,0.0,6.0,7,True
+Away_W_Count_Away_Last10,Count,Min-Max Scaling,3.079496372413404,1.92285048765418,0.0,11.0,12,True
+Away_W_Count_Away_Last15,Count,Min-Max Scaling,4.553162258043267,2.636821185943918,0.0,15.0,16,True
+Away_W_Count_Away_Last3,Count,Min-Max Scaling,0.9442546744582145,0.8617377684154449,0.0,5.0,6,True
+Away_W_Count_Away_Last5,Count,Min-Max Scaling,1.5643226152499787,1.185100809463285,0.0,7.0,8,True
+Away_W_Count_Home_Last10,Count,Min-Max Scaling,4.384259868112048,2.1353008007514545,0.0,11.0,12,True
+Away_W_Count_Home_Last15,Count,Min-Max Scaling,6.472739399177109,2.9853401844031264,0.0,15.0,16,True
+Away_W_Count_Home_Last3,Count,Min-Max Scaling,1.3429368553553647,0.9318779003485846,0.0,4.0,5,True
+Away_W_Count_Home_Last5,Count,Min-Max Scaling,2.2277321660059743,1.289998732196425,0.0,6.0,7,True
+Away_W_Count_Total_Last10,Count,Min-Max Scaling,3.7714731813124653,2.003776234025956,0.0,13.0,14,True
+Away_W_Count_Total_Last15,Count,Min-Max Scaling,5.611935414504623,2.7574554042414667,0.0,17.0,18,True
+Away_W_Count_Total_Last3,Count,Min-Max Scaling,1.1403060985985285,0.8962286604424043,0.0,6.0,6,True
+Away_W_Count_Total_Last5,Count,Min-Max Scaling,1.899540945595976,1.2340630020085928,0.0,8.0,8,True
+Home_D_Count_Away_Last10,Count,Min-Max Scaling,2.3623180131316013,1.4346567400150458,0.0,8.0,9,True
+Home_D_Count_Away_Last15,Count,Min-Max Scaling,3.471100961080978,1.839755406420897,0.0,11.0,12,True
+Home_D_Count_Away_Last3,Count,Min-Max Scaling,0.7328099724046055,0.7507609287828583,0.0,4.0,5,True
+Home_D_Count_Away_Last5,Count,Min-Max Scaling,1.209487106289847,0.9793670265619191,0.0,5.0,6,True
+Home_D_Count_Home_Last10,Count,Min-Max Scaling,2.354603671552583,1.4439451500578748,0.0,9.0,10,True
+Home_D_Count_Home_Last15,Count,Min-Max Scaling,3.449456856885347,1.8612449274671385,0.0,13.0,14,True
+Home_D_Count_Home_Last3,Count,Min-Max Scaling,0.7347184668658983,0.7524654792545474,0.0,4.0,5,True
+Home_D_Count_Home_Last5,Count,Min-Max Scaling,1.209857217399554,0.9814895210484516,0.0,5.0,6,True
+Home_D_Count_Total_Last10,Count,Min-Max Scaling,2.3977611658549476,1.4208971163781132,0.0,9.0,10,True
+Home_D_Count_Total_Last15,Count,Min-Max Scaling,3.5528372409106352,1.81057418341214,0.0,12.0,13,True
+Home_D_Count_Total_Last3,Count,Min-Max Scaling,0.7336334805753766,0.7495007349358617,0.0,4.0,5,True
+Home_D_Count_Total_Last5,Count,Min-Max Scaling,1.2168233473024503,0.9739503724627424,0.0,5.0,6,True
+Home_FormPoints_Away_Last10,Count,Min-Max Scaling,11.612103910933486,5.724850528734557,0.0,34.0,34,True
+Home_FormPoints_Away_Last15,Count,Min-Max Scaling,17.13433247692454,8.067534026993693,0.0,45.0,45,True
+Home_FormPoints_Away_Last3,Count,Min-Max Scaling,3.5638690646112856,2.434830947653037,0.0,15.0,14,True
+Home_FormPoints_Away_Last5,Count,Min-Max Scaling,5.901322675801694,3.410378537111258,0.0,21.0,21,True
+Home_FormPoints_Home_Last10,Count,Min-Max Scaling,15.487918030453963,6.15103585994382,0.0,33.0,33,True
+Home_FormPoints_Home_Last15,Count,Min-Max Scaling,22.824666761538825,8.90421809410391,0.0,46.0,47,True
+Home_FormPoints_Home_Last3,Count,Min-Max Scaling,4.779687870594374,2.5161161532924425,0.0,12.0,13,True
+Home_FormPoints_Home_Last5,Count,Min-Max Scaling,7.89421754186234,3.554106050598952,0.0,18.0,18,True
+Home_FormPoints_Total_Last10,Count,Min-Max Scaling,13.721721976818817,5.803799817373648,0.0,37.0,34,True
+Home_FormPoints_Total_Last15,Count,Min-Max Scaling,20.373485105901008,8.177064684665115,0.0,52.0,50,True
+Home_FormPoints_Total_Last3,Count,Min-Max Scaling,4.199229810850606,2.47444518221502,0.0,15.0,14,True
+Home_FormPoints_Total_Last5,Count,Min-Max Scaling,6.947455355457394,3.4580535820575333,0.0,24.0,21,True
+Home_L_Count_Away_Last10,Count,Min-Max Scaling,4.0650204586544865,2.003913600934158,0.0,11.0,12,True
+Home_L_Count_Away_Last15,Count,Min-Max Scaling,5.9275192691978305,2.7187235704674397,0.0,15.0,16,True
+Home_L_Count_Away_Last3,Count,Min-Max Scaling,1.2850889713578837,0.9132386533522061,0.0,4.0,5,True
+Home_L_Count_Away_Last5,Count,Min-Max Scaling,2.1032162907983634,1.2515666433832842,0.0,6.0,7,True
+Home_L_Count_Home_Last10,Count,Min-Max Scaling,2.7611119017124426,1.7513630598232808,0.0,10.0,11,True
+Home_L_Count_Home_Last15,Count,Min-Max Scaling,4.013206204639249,2.3196751338671415,0.0,15.0,16,True
+Home_L_Count_Home_Last3,Count,Min-Max Scaling,0.8774915800958208,0.8360488808356907,0.0,4.0,5,True
+Home_L_Count_Home_Last5,Count,Min-Max Scaling,1.4357478297993453,1.1264334185289642,0.0,5.0,6,True
+Home_L_Count_Total_Last10,Count,Min-Max Scaling,3.5210952542756826,1.8932547248101819,0.0,10.0,11,True
+Home_L_Count_Total_Last15,Count,Min-Max Scaling,5.183146449201495,2.545921186989331,0.0,15.0,16,True
+Home_L_Count_Total_Last3,Count,Min-Max Scaling,1.0884773662551441,0.8796205280624219,0.0,4.0,5,True
+Home_L_Count_Total_Last5,Count,Min-Max Scaling,1.7979952429493713,1.1973740156277963,0.0,6.0,7,True
+Home_W_Count_Away_Last10,Count,Min-Max Scaling,3.0832619659339615,1.9324130294179118,0.0,11.0,12,True
+Home_W_Count_Away_Last15,Count,Min-Max Scaling,4.554410505281187,2.6540650927816407,0.0,15.0,16,True
+Home_W_Count_Away_Last3,Count,Min-Max Scaling,0.9436863640688933,0.8636046193607365,0.0,5.0,6,True
+Home_W_Count_Away_Last5,Count,Min-Max Scaling,1.5639451898372823,1.1901449480331658,0.0,7.0,8,True
+Home_W_Count_Home_Last10,Count,Min-Max Scaling,4.377771452967127,2.149528955537978,0.0,11.0,12,True
+Home_W_Count_Home_Last15,Count,Min-Max Scaling,6.45840330155116,3.012980389267967,0.0,15.0,16,True
+Home_W_Count_Home_Last3,Count,Min-Max Scaling,1.3483231345761586,0.9333115828810746,0.0,4.0,5,True
+Home_W_Count_Home_Last5,Count,Min-Max Scaling,2.228120108154262,1.2952809582483034,0.0,6.0,7,True
+Home_W_Count_Total_Last10,Count,Min-Max Scaling,3.774653603654623,2.0196558699684917,0.0,12.0,12,True
+Home_W_Count_Total_Last15,Count,Min-Max Scaling,5.606882621663457,2.7803901948626613,0.0,17.0,17,True
+Home_W_Count_Total_Last3,Count,Min-Max Scaling,1.1551987767584098,0.899129104160289,0.0,5.0,6,True
+Home_W_Count_Total_Last5,Count,Min-Max Scaling,1.9102106693849814,1.2387614180116533,0.0,8.0,9,True
+AwayTeamELO,ELO,Z-Score Standardization,1571.8456238836438,156.28720267486162,786.0,2108.0,961,True
+HomeTeamELO,ELO,Z-Score Standardization,1573.5055995010066,156.33078082116384,775.0,2106.0,961,True
+AwayBlockedShots,Match Stat,None - core feature,,,,,20,False
+AwayCorners,Match Stat,None - core feature,,,,,22,False
+AwayExpectedGoals,Match Stat,None - core feature,,,,,417,False
+AwayFouls,Match Stat,None - core feature,,,,,35,False
+AwayOffsides,Match Stat,None - core feature,,,,,16,False
+AwayPassAccuracy,Match Stat,None - core feature,,,,,66,False
+AwayPassesAccurate,Match Stat,None - core feature,,,,,765,False
+AwayPossession,Match Stat,None - core feature,,,,,74,False
+AwayRedCards,Match Stat,None - core feature,,,,,5,False
+AwaySaves,Match Stat,None - core feature,,,,,20,False
+AwayShots,Match Stat,None - core feature,,,,,45,False
+AwayShotsInsideBox,Match Stat,None - core feature,,,,,32,False
+AwayShotsOffTarget,Match Stat,None - core feature,,,,,21,False
+AwayShotsOutsideBox,Match Stat,None - core feature,,,,,21,False
+AwayShotsTarget,Match Stat,None - core feature,,,,,23,False
+AwayTotalPasses,Match Stat,None - core feature,,,,,778,False
+AwayYellowCards,Match Stat,None - core feature,,,,,12,False
+HomeBlockedShots,Match Stat,None - core feature,,,,,21,False
+HomeCorners,Match Stat,None - core feature,,,,,24,False
+HomeExpectedGoals,Match Stat,None - core feature,,,,,476,False
+HomeFouls,Match Stat,None - core feature,,,,,36,False
+HomeOffsides,Match Stat,None - core feature,,,,,16,False
+HomePassAccuracy,Match Stat,None - core feature,,,,,63,False
+HomePassesAccurate,Match Stat,None - core feature,,,,,796,False
+HomePossession,Match Stat,None - core feature,,,,,74,False
+HomeRedCards,Match Stat,None - core feature,,,,,5,False
+HomeSaves,Match Stat,None - core feature,,,,,16,False
+HomeShots,Match Stat,None - core feature,,,,,48,False
+HomeShotsInsideBox,Match Stat,None - core feature,,,,,32,False
+HomeShotsOffTarget,Match Stat,None - core feature,,,,,22,False
+HomeShotsOutsideBox,Match Stat,None - core feature,,,,,24,False
+HomeShotsTarget,Match Stat,None - core feature,,,,,23,False
+HomeTotalPasses,Match Stat,None - core feature,,,,,792,False
+HomeYellowCards,Match Stat,None - core feature,,,,,11,False
+OddsA,Odds,None - core feature,,,,,5,False
+OddsAHA,Odds,None - core feature,,,,,0,False
+OddsAHH,Odds,None - core feature,,,,,0,False
+OddsAHh,Odds,None - core feature,,,,,0,False
+OddsD,Odds,None - core feature,,,,,4,False
+OddsH,Odds,None - core feature,,,,,5,False
+OddsOver2.5,Odds,None - core feature,,,,,0,False
+OddsUnder2.5,Odds,None - core feature,,,,,0,False
+Away_BTTS_Ratio_Away_Last10,Ratio,"None - already in [0,1] range",0.5184728590831263,0.18308401885866146,0.0,1.0,39,False
+Away_BTTS_Ratio_Away_Last15,Ratio,"None - already in [0,1] range",0.518291623035363,0.16100371836148028,0.0,1.0,78,False
+Away_BTTS_Ratio_Away_Last3,Ratio,"None - already in [0,1] range",0.5192561643878585,0.29787216683946927,0.0,1.0,7,False
+Away_BTTS_Ratio_Away_Last5,Ratio,"None - already in [0,1] range",0.5189021884713949,0.2387166746938565,0.0,1.0,15,False
+Away_BTTS_Ratio_Home_Last10,Ratio,"None - already in [0,1] range",0.5179637765890984,0.1826808150203553,0.0,1.0,40,False
+Away_BTTS_Ratio_Home_Last15,Ratio,"None - already in [0,1] range",0.5176826901365199,0.16130832380374185,0.0,1.0,79,False
+Away_BTTS_Ratio_Home_Last3,Ratio,"None - already in [0,1] range",0.5189682867717512,0.297257898171998,0.0,1.0,8,False
+Away_BTTS_Ratio_Home_Last5,Ratio,"None - already in [0,1] range",0.5186602507499326,0.2383304875910034,0.0,1.0,17,False
+Away_BTTS_Ratio_Total_Last10,Ratio,"None - already in [0,1] range",0.5184844415238772,0.17655372230230604,0.0,1.0,40,False
+Away_BTTS_Ratio_Total_Last15,Ratio,"None - already in [0,1] range",0.5181587587983963,0.15307084727561296,0.0,1.0,78,False
+Away_BTTS_Ratio_Total_Last3,Ratio,"None - already in [0,1] range",0.5188265285452058,0.29471661081030553,0.0,1.0,7,False
+Away_BTTS_Ratio_Total_Last5,Ratio,"None - already in [0,1] range",0.5186936115707887,0.23434842499088415,0.0,1.0,16,False
+Away_CleanSheet_Ratio_Away_Last10,Ratio,"None - already in [0,1] range",0.24182360965665603,0.1641399275008654,0.0,1.0,36,False
+Away_CleanSheet_Ratio_Away_Last15,Ratio,"None - already in [0,1] range",0.24230940051593303,0.14620574567442926,0.0,1.0,63,False
+Away_CleanSheet_Ratio_Away_Last3,Ratio,"None - already in [0,1] range",0.24056247196579747,0.25875171578475775,0.0,1.0,7,False
+Away_CleanSheet_Ratio_Away_Last5,Ratio,"None - already in [0,1] range",0.24111186391766803,0.20972748720404205,0.0,1.0,14,False
+Away_CleanSheet_Ratio_Home_Last10,Ratio,"None - already in [0,1] range",0.32519873700571467,0.17951327839903664,0.0,1.0,40,False
+Away_CleanSheet_Ratio_Home_Last15,Ratio,"None - already in [0,1] range",0.32586141741246294,0.15981953470819116,0.0,1.0,75,False
+Away_CleanSheet_Ratio_Home_Last3,Ratio,"None - already in [0,1] range",0.32274738384654406,0.28239637111276245,0.0,1.0,8,False
+Away_CleanSheet_Ratio_Home_Last5,Ratio,"None - already in [0,1] range",0.32425609496433516,0.2291679126683502,0.0,1.0,17,False
+Away_CleanSheet_Ratio_Total_Last10,Ratio,"None - already in [0,1] range",0.2818161928832841,0.1680025738707244,0.0,1.0,39,False
+Away_CleanSheet_Ratio_Total_Last15,Ratio,"None - already in [0,1] range",0.28244715907114587,0.14787539588586776,0.0,1.0,72,False
+Away_CleanSheet_Ratio_Total_Last3,Ratio,"None - already in [0,1] range",0.2793562642383219,0.2692365501032025,0.0,1.0,7,False
+Away_CleanSheet_Ratio_Total_Last5,Ratio,"None - already in [0,1] range",0.280586953879524,0.2171980995529404,0.0,1.0,15,False
+Home_BTTS_Ratio_Away_Last10,Ratio,"None - already in [0,1] range",0.5184657141950889,0.18378610340310414,0.0,1.0,38,False
+Home_BTTS_Ratio_Away_Last15,Ratio,"None - already in [0,1] range",0.5186845132220524,0.16212843023112028,0.0,1.0,77,False
+Home_BTTS_Ratio_Away_Last3,Ratio,"None - already in [0,1] range",0.5185745551432106,0.29805635507225264,0.0,1.0,7,False
+Home_BTTS_Ratio_Away_Last5,Ratio,"None - already in [0,1] range",0.518922669457925,0.23902186360682925,0.0,1.0,15,False
+Home_BTTS_Ratio_Home_Last10,Ratio,"None - already in [0,1] range",0.5180836802567271,0.18415926549638964,0.0,1.0,40,False
+Home_BTTS_Ratio_Home_Last15,Ratio,"None - already in [0,1] range",0.5176940177395564,0.16303837146973058,0.0,1.0,79,False
+Home_BTTS_Ratio_Home_Last3,Ratio,"None - already in [0,1] range",0.5185443448286767,0.2975984052867307,0.0,1.0,7,False
+Home_BTTS_Ratio_Home_Last5,Ratio,"None - already in [0,1] range",0.5185254494568569,0.23894772485252022,0.0,1.0,16,False
+Home_BTTS_Ratio_Total_Last10,Ratio,"None - already in [0,1] range",0.5184117781499279,0.1779015158585628,0.0,1.0,42,False
+Home_BTTS_Ratio_Total_Last15,Ratio,"None - already in [0,1] range",0.5183710355208401,0.15460423013622773,0.0,1.0,78,False
+Home_BTTS_Ratio_Total_Last3,Ratio,"None - already in [0,1] range",0.5187080769182366,0.29616154130334293,0.0,1.0,8,False
+Home_BTTS_Ratio_Total_Last5,Ratio,"None - already in [0,1] range",0.5186172304652596,0.23536383289467003,0.0,1.0,16,False
+Home_CleanSheet_Ratio_Away_Last10,Ratio,"None - already in [0,1] range",0.24214480936219449,0.16528043269506026,0.0,1.0,36,False
+Home_CleanSheet_Ratio_Away_Last15,Ratio,"None - already in [0,1] range",0.2422814253709201,0.14717481506580268,0.0,1.0,64,False
+Home_CleanSheet_Ratio_Away_Last3,Ratio,"None - already in [0,1] range",0.24063976908681448,0.2590958785694192,0.0,1.0,7,False
+Home_CleanSheet_Ratio_Away_Last5,Ratio,"None - already in [0,1] range",0.2410573476702509,0.21035652767392884,0.0,1.0,14,False
+Home_CleanSheet_Ratio_Home_Last10,Ratio,"None - already in [0,1] range",0.3245947885819097,0.18044373030306698,0.0,1.0,42,False
+Home_CleanSheet_Ratio_Home_Last15,Ratio,"None - already in [0,1] range",0.3253441791277995,0.16100078433660622,0.0,1.0,77,False
+Home_CleanSheet_Ratio_Home_Last3,Ratio,"None - already in [0,1] range",0.3233591069367361,0.2831085882700906,0.0,1.0,7,False
+Home_CleanSheet_Ratio_Home_Last5,Ratio,"None - already in [0,1] range",0.32349864807172335,0.22961896566031062,0.0,1.0,17,False
+Home_CleanSheet_Ratio_Total_Last10,Ratio,"None - already in [0,1] range",0.2817096950375776,0.16893105640551848,0.0,1.0,39,False
+Home_CleanSheet_Ratio_Total_Last15,Ratio,"None - already in [0,1] range",0.2820123426580132,0.14909808094990862,0.0,1.0,73,False
+Home_CleanSheet_Ratio_Total_Last3,Ratio,"None - already in [0,1] range",0.2823326852166472,0.27047450028570286,0.0,1.0,8,False
+Home_CleanSheet_Ratio_Total_Last5,Ratio,"None - already in [0,1] range",0.28169392846805363,0.21854549537156517,0.0,1.0,16,False
+LeagueAvg_AnyCleanSheet_Ratio_Last10,Ratio,"None - already in [0,1] range",0.48388291911134557,0.1742225280408702,0.0,1.0,33,False
+LeagueAvg_AnyCleanSheet_Ratio_Last10,Ratio,"None - already in [0,1] range",0.48388291911134557,0.1742225280408702,0.0,1.0,33,False
+LeagueAvg_AnyCleanSheet_Ratio_Last15,Ratio,"None - already in [0,1] range",0.48437921407926027,0.15129716856885037,0.0,1.0,71,False
+LeagueAvg_AnyCleanSheet_Ratio_Last15,Ratio,"None - already in [0,1] range",0.48437921407926027,0.15129716856885037,0.0,1.0,71,False
+LeagueAvg_AnyCleanSheet_Ratio_Last3,Ratio,"None - already in [0,1] range",0.48317951084448546,0.2925174324104839,0.0,1.0,5,False
+LeagueAvg_AnyCleanSheet_Ratio_Last3,Ratio,"None - already in [0,1] range",0.48317951084448546,0.2925174324104839,0.0,1.0,5,False
+LeagueAvg_AnyCleanSheet_Ratio_Last5,Ratio,"None - already in [0,1] range",0.4833114905399169,0.23139647357750587,0.0,1.0,11,False
+LeagueAvg_AnyCleanSheet_Ratio_Last5,Ratio,"None - already in [0,1] range",0.4833114905399169,0.23139647357750587,0.0,1.0,11,False
+LeagueAvg_AwayCleanSheet_Ratio_Last10,Ratio,"None - already in [0,1] range",0.23936494751723178,0.1494202691197238,0.0,1.0,33,False
+LeagueAvg_AwayCleanSheet_Ratio_Last10,Ratio,"None - already in [0,1] range",0.23936494751723178,0.1494202691197238,0.0,1.0,33,False
+LeagueAvg_AwayCleanSheet_Ratio_Last15,Ratio,"None - already in [0,1] range",0.24012365858004991,0.1306143851170091,0.0,1.0,68,False
+LeagueAvg_AwayCleanSheet_Ratio_Last15,Ratio,"None - already in [0,1] range",0.24012365858004991,0.1306143851170091,0.0,1.0,68,False
+LeagueAvg_AwayCleanSheet_Ratio_Last3,Ratio,"None - already in [0,1] range",0.23798031072142747,0.2497181992848559,0.0,1.0,5,False
+LeagueAvg_AwayCleanSheet_Ratio_Last3,Ratio,"None - already in [0,1] range",0.23798031072142747,0.2497181992848559,0.0,1.0,5,False
+LeagueAvg_AwayCleanSheet_Ratio_Last5,Ratio,"None - already in [0,1] range",0.23838194123980927,0.19798036882234857,0.0,1.0,11,False
+LeagueAvg_AwayCleanSheet_Ratio_Last5,Ratio,"None - already in [0,1] range",0.23838194123980927,0.19798036882234857,0.0,1.0,11,False
+LeagueAvg_BTTS_Ratio_Last10,Ratio,"None - already in [0,1] range",0.5161170808886543,0.17422252804087024,0.0,1.0,33,False
+LeagueAvg_BTTS_Ratio_Last10,Ratio,"None - already in [0,1] range",0.5161170808886543,0.17422252804087024,0.0,1.0,33,False
+LeagueAvg_BTTS_Ratio_Last15,Ratio,"None - already in [0,1] range",0.5156207859207398,0.15129716856885037,0.0,1.0,71,False
+LeagueAvg_BTTS_Ratio_Last15,Ratio,"None - already in [0,1] range",0.5156207859207398,0.15129716856885037,0.0,1.0,71,False
+LeagueAvg_BTTS_Ratio_Last3,Ratio,"None - already in [0,1] range",0.5168204891555146,0.29251743241048384,0.0,1.0,5,False
+LeagueAvg_BTTS_Ratio_Last3,Ratio,"None - already in [0,1] range",0.5168204891555146,0.29251743241048384,0.0,1.0,5,False
+LeagueAvg_BTTS_Ratio_Last5,Ratio,"None - already in [0,1] range",0.5166885094600832,0.23139647357750587,0.0,1.0,11,False
+LeagueAvg_BTTS_Ratio_Last5,Ratio,"None - already in [0,1] range",0.5166885094600832,0.23139647357750587,0.0,1.0,11,False
+LeagueAvg_HomeCleanSheet_Ratio_Last10,Ratio,"None - already in [0,1] range",0.31544958284806,0.1623861919994379,0.0,1.0,32,False
+LeagueAvg_HomeCleanSheet_Ratio_Last10,Ratio,"None - already in [0,1] range",0.31544958284806,0.1623861919994379,0.0,1.0,32,False
+LeagueAvg_HomeCleanSheet_Ratio_Last15,Ratio,"None - already in [0,1] range",0.3153292220521108,0.141557718205251,0.0,1.0,64,False
+LeagueAvg_HomeCleanSheet_Ratio_Last15,Ratio,"None - already in [0,1] range",0.3153292220521108,0.141557718205251,0.0,1.0,64,False
+LeagueAvg_HomeCleanSheet_Ratio_Last3,Ratio,"None - already in [0,1] range",0.31590216889709277,0.27228897007892905,0.0,1.0,5,False
+LeagueAvg_HomeCleanSheet_Ratio_Last3,Ratio,"None - already in [0,1] range",0.31590216889709277,0.27228897007892905,0.0,1.0,5,False
+LeagueAvg_HomeCleanSheet_Ratio_Last5,Ratio,"None - already in [0,1] range",0.31567620366097526,0.21522559291966645,0.0,1.0,11,False
+LeagueAvg_HomeCleanSheet_Ratio_Last5,Ratio,"None - already in [0,1] range",0.31567620366097526,0.21522559291966645,0.0,1.0,11,False
