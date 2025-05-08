@@ -6,7 +6,7 @@ import warnings # To show warnings clearly
 
 # --- Imports from our modules ---
 # Import ALL model classes that have a .load method
-from models.utils.poisson_model import PoissonModel
+from models.ml_models.poisson_model import PoissonModel
 from models.ml_models.random_forest_model import RandomForestModel
 from models.ml_models.gradient_boosting_model import GradientBoostingModel
 from models.ml_models.monte_carlo_model import MonteCarloModel
@@ -191,9 +191,16 @@ def run_prediction(model_path: str, new_data_path: str, output_path: str, model_
     # --- 6. Format Predictions ---
     print("Formatting final predictions using PredictionConfig...")
     try:
-        # Ensure format_predictions can handle the full dict from MonteCarlo if needed
-        # It might need adaptation or rely on PredictionConfig flags to select keys
-        final_predictions = format_predictions(base_probabilities, match_info, pred_cfg)
+        # Determine model prefix
+        # Assuming model_type is "poisson", "random_forest", etc.
+        current_model_prefix = f"{model_type}_"
+
+        final_predictions = format_predictions(
+            base_probabilities,
+            match_info,
+            pred_cfg,
+            model_prefix=current_model_prefix # Pass the determined prefix
+        )
         assert isinstance(final_predictions, pd.DataFrame), "'format_predictions' did not return a DataFrame."
     except Exception as e:
         print(f"CRITICAL ERROR during prediction formatting: {e}")

@@ -11,7 +11,7 @@ RAW_CSV_DIR = os.path.join(PROJECT_ROOT, 'football_data_db')  # Directory contai
 UNIFIED_DATA_PATH = os.path.join(DATA_DIR, 'unified_data', 'mongo.parquet')
 
 # MongoDB Configuration
-MONGO_URI = 'mongodb://admin888:admin888@127.0.0.1:27017/?authSource=admin'  
+MONGO_URI = 'mongodb://root:RicardoMongoDB@74.50.127.165:27017/admin'  # Updated URI
 MONGO_DB_NAME = 'agenticfc'
 MONGO_COLLECTION_NAME = 'matches'
 MONGO_DAILY_GAMES_COLLECTION = 'daily_games'

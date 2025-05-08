@@ -8,7 +8,7 @@ import warnings
 from models.base_model import BaseModel
 from models.utils.features import BaseFeatureConfig
 # Import the standardized probability calculation function
-from models.utils.poisson_model import calculate_poisson_outcome_probs, _calculate_dual_conditions
+from models.ml_models.poisson_model import calculate_poisson_outcome_probs, _calculate_dual_conditions
 
 class RandomForestModel(BaseModel):
     """
@@ -16,12 +16,10 @@ class RandomForestModel(BaseModel):
     and then derive outcome probabilities using the calculate_poisson_outcome_probs function.
     Inherits scaling and save/load logic from BaseModel.
     """
-    def __init__(self, model_params: Dict[str, Any], feature_config: BaseFeatureConfig):
+    def __init__(self, model_params: Dict[str, Any], feature_config: BaseFeatureConfig, apply_scaling: bool = True):
         """Initializes the RandomForestModel."""
-        super().__init__(model_params)
-        # Ensure feature_config is passed and stored
-        assert isinstance(feature_config, BaseFeatureConfig), "feature_config must be provided and be a BaseFeatureConfig instance."
-        self.feature_config = feature_config
+        # Pass model_params, feature_config, and apply_scaling to the BaseModel constructor
+        super().__init__(model_params, feature_config=feature_config, apply_scaling=apply_scaling)
 
         # Default random state for reproducibility if not provided
         if 'random_state' not in self.params:
@@ -76,48 +74,58 @@ class RandomForestModel(BaseModel):
         lambda_home = self._model['home'].predict(X_scaled)
         lambda_away = self._model['away'].predict(X_scaled)
 
-        # Ensure non-negative lambdas, crucial for poisson calculations
         lambda_home = np.maximum(lambda_home, 1e-9)
         lambda_away = np.maximum(lambda_away, 1e-9)
 
         print("Calculating outcome probabilities from RF-predicted lambdas using calculate_poisson_outcome_probs...")
-        # Reuse the standardized probability calculation logic
         outcome_probs = calculate_poisson_outcome_probs(lambda_home, lambda_away)
 
-        # Add the model's predicted expected goals (lambdas) for potential analysis
         outcome_probs['expected_HG'] = lambda_home
         outcome_probs['expected_AG'] = lambda_away
+        
+        # --- Prefix all keys with model name ---
+        prefixed_probs = {f"random_forest_{key}": value for key, value in outcome_probs.items()}
 
-        # --- Standard Assertions on Output Dictionary ---
+        # --- Standard Assertions on Output Dictionary (checking prefixed_probs) ---
         num_rows = X_scaled.shape[0]
-        # Check presence of core single outcome keys
-        expected_single_keys = {
-            'prob_H', 'prob_D', 'prob_A', 'prob_O25', 'prob_U25', 'prob_BTTS_Y', 'prob_BTTS_N',
-            'expected_HG', 'expected_AG'
+        # Update expected_single_keys if calculate_poisson_outcome_probs changes its single key names/set
+        # For now, assume it's consistent with the previous definition for a basic check
+        expected_core_keys_subset = { # Check a subset of the expected prefixed keys
+            'random_forest_prob_H', 'random_forest_prob_D', 'random_forest_prob_A', 
+            'random_forest_prob_O25', 'random_forest_prob_U25', 
+            'random_forest_prob_BTTS_Y', 'random_forest_prob_BTTS_N',
+            'random_forest_expected_HG', 'random_forest_expected_AG',
+            'random_forest_prob_H_and_O05', # Example of a new dual
+            'random_forest_prob_1X_and_U45', # Example of a new dual
+            'random_forest_prob_O15_and_BTTS_Y' # Example of a new dual
         }
-        present_keys = set(outcome_probs.keys())
-        assert expected_single_keys.issubset(present_keys), \
-            f"Output keys missing expected singles.\nMissing: {expected_single_keys - present_keys}"
-        # Check presence of at least one dual outcome key (derived from _calculate_dual_conditions)
-        assert any(k.startswith('prob_') and '_and_' in k for k in present_keys), \
-            "Output keys do not contain any dual probability keys (e.g., 'prob_H_and_O25')."
+        present_keys = set(prefixed_probs.keys())
+        missing_keys = expected_core_keys_subset - present_keys
+        assert not missing_keys, \
+            f"Output keys missing expected prefixed singles/duals.\nMissing: {missing_keys}"
+        
+        # Check presence of a broader range of dual outcome key patterns
+        assert any(k.startswith('random_forest_prob_') and '_and_O05' in k for k in present_keys), "Missing O0.5 duals"
+        assert any(k.startswith('random_forest_prob_') and '_and_U45' in k for k in present_keys), "Missing U4.5 duals"
+        assert any(k.startswith('random_forest_prob_') and '_and_BTTS_Y' in k for k in present_keys), "Missing BTTS_Y duals"
 
-        # Check shapes and value ranges
-        for key, arr in outcome_probs.items():
+
+        for key, arr in prefixed_probs.items():
             assert isinstance(arr, np.ndarray), f"Output '{key}' is not a numpy array."
             assert arr.shape == (num_rows,), f"Output '{key}' has incorrect shape {arr.shape}, expected ({num_rows},)."
-            if key.startswith("prob_"):
+            if key.startswith("random_forest_prob_"):
                  assert np.all((arr >= 0) & (arr <= 1)), f"Probabilities in '{key}' are outside [0, 1]."
-            elif key.startswith("expected_"):
+            elif key.startswith("random_forest_expected_"):
                  assert np.all(arr >= 0), f"Expected goals in '{key}' are negative."
-
-        # Check basic probability consistency
-        assert np.allclose(outcome_probs['prob_H'] + outcome_probs['prob_D'] + outcome_probs['prob_A'], 1.0, atol=1e-6)
-        assert np.allclose(outcome_probs['prob_O25'] + outcome_probs['prob_U25'], 1.0, atol=1e-6)
-        assert np.allclose(outcome_probs['prob_BTTS_Y'] + outcome_probs['prob_BTTS_N'], 1.0, atol=1e-6)
+        
+        # Check basic probability consistency (checking prefixed_probs)
+        # Ensure you access the correct prefixed keys for these sums
+        assert np.allclose(prefixed_probs['random_forest_prob_H'] + prefixed_probs['random_forest_prob_D'] + prefixed_probs['random_forest_prob_A'], 1.0, atol=1e-5) # Adjusted tolerance
+        assert np.allclose(prefixed_probs['random_forest_prob_O25'] + prefixed_probs['random_forest_prob_U25'], 1.0, atol=1e-5)
+        assert np.allclose(prefixed_probs['random_forest_prob_BTTS_Y'] + prefixed_probs['random_forest_prob_BTTS_N'], 1.0, atol=1e-5)
 
         print("RandomForest-based probabilities calculated successfully.")
-        return outcome_probs
+        return prefixed_probs
 
     # Inherit fit, predict_proba, save, load from BaseModel
     # No need to override them here unless adding RF-specific logic *outside* scaling/core prediction

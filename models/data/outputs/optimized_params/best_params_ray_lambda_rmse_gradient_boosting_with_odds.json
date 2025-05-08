@@ -1,0 +1,15 @@
+{
+    "n_jobs": -1,
+    "objective": "poisson",
+    "metric": "None",
+    "random_state": 42,
+    "learning_rate": 0.027899204848298196,
+    "n_estimators": 786,
+    "max_depth": 14,
+    "num_leaves": 28,
+    "subsample": 0.9307289570947127,
+    "colsample_bytree": 0.580343685598871,
+    "reg_alpha": 3.7145937361967523e-06,
+    "reg_lambda": 1.182493329976728e-06,
+    "min_child_samples": 24
+}
