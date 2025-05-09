@@ -60,7 +60,7 @@ def _calculate_dual_conditions(
 def calculate_poisson_outcome_probs(
     lambda_home: np.ndarray,
     lambda_away: np.ndarray,
-    max_goals: int = 10 # Number of goals to sum probabilities over
+    max_goals: int = 8 # Number of goals to sum probabilities over
 ) -> Dict[str, np.ndarray]:
     """
     Calculates 1X2, multiple O/U lines, BTTS, specific goal band, AND
@@ -76,6 +76,11 @@ def calculate_poisson_outcome_probs(
         Dictionary containing probability arrays for various single and dual outcomes.
     """
     # --- Input Assertions ---
+    if lambda_home.ndim > 1:
+        lambda_home = lambda_home.flatten()
+    if lambda_away.ndim > 1:
+        lambda_away = lambda_away.flatten()
+        
     assert lambda_home.ndim == 1, "lambda_home must be a 1D array"
     assert lambda_away.ndim == 1, "lambda_away must be a 1D array"
     assert lambda_home.shape == lambda_away.shape, "Lambda arrays must have the same shape"

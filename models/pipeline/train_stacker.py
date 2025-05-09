@@ -15,6 +15,8 @@ import ray
 from ray import tune
 from ray.tune.schedulers import ASHAScheduler
 from ray.tune.search.optuna import OptunaSearch
+from ray import train
+from ray.tune import Tuner, TuneConfig, RunConfig
 
 # --- Sklearn & LGBM Imports ---
 from sklearn.model_selection import KFold
@@ -29,14 +31,12 @@ sys.path.append(str(PROJECT_ROOT_PATH))
 print(f"Project Root added to sys.path: {PROJECT_ROOT_PATH}")
 
 # --- Import shared utility ---
-from models.utils.features import BaseFeatureConfig, get_feature_config
-# Import the probability calculation function if needed for final evaluation/analysis
-# from models.utils.probabilities import calculate_poisson_outcome_probs
+from models.utils.features import get_feature_config
 
 # --- Configuration ---
 BASE_DIR = PROJECT_ROOT_PATH
-DATA_OUTPUT_DIR = BASE_DIR / 'models' / 'data' / 'outputs'
-MODELS_SAVE_DIR = DATA_OUTPUT_DIR / 'joblib'
+DATA_OUTPUT_DIR = BASE_DIR / 'models' / 'data' / 'outputs' / 'predictions'
+MODELS_SAVE_DIR =  BASE_DIR / 'models' / 'data' / 'outputs' / 'joblib' / 'V1'
 STACKER_OUTPUT_DIR = DATA_OUTPUT_DIR / 'stacker_outputs' # Dedicated dir for stacker results
 
 # Input OOF data
@@ -125,17 +125,19 @@ def tune_stacker_objective(config: Dict, data: Dict):
     Objective function for Ray Tune to optimize stacker hyperparameters.
     Uses KFold CV on the OOF data. Predicts lambdas. Reports combined RMSE.
     """
-    X_oof = data["X_oof"]
-    y_oof_hg = data["y_oof_hg"]
-    y_oof_ag = data["y_oof_ag"]
+    # Retrieve actual data from Ray object store references
+    X_oof = ray.get(data["X_oof"])
+    y_oof_hg = ray.get(data["y_oof_hg"])
+    y_oof_ag = ray.get(data["y_oof_ag"])
     n_splits = data["n_splits"]
     early_stopping_rounds = data["early_stopping_rounds"]
 
-    cv = KFold(n_splits=n_splits, shuffle=True, random_state=config.get('seed', 42)) # Use seed from config if available
-
+    cv = KFold(n_splits=n_splits, shuffle=True, random_state=config.get('seed', 42))
+    
+    # Now KFold.split will work correctly with the actual DataFrame
     fold_rmse_hg = []
     fold_rmse_ag = []
-
+    
     for fold, (train_idx, val_idx) in enumerate(cv.split(X_oof)):
         X_train_cv, X_val_cv = X_oof.iloc[train_idx], X_oof.iloc[val_idx]
         y_train_cv_hg, y_val_cv_hg = y_oof_hg.iloc[train_idx], y_oof_hg.iloc[val_idx]
@@ -176,7 +178,7 @@ def tune_stacker_objective(config: Dict, data: Dict):
     mean_rmse_ag = np.mean([r for r in fold_rmse_ag if np.isfinite(r)]) if any(np.isfinite(fold_rmse_ag)) else float('inf')
     combined_rmse = (mean_rmse_hg + mean_rmse_ag) / 2.0 if np.isfinite(mean_rmse_hg) and np.isfinite(mean_rmse_ag) else float('inf')
 
-    tune.report(rmse=combined_rmse, rmse_hg=mean_rmse_hg, rmse_ag=mean_rmse_ag, done=True)
+    tune.report({"rmse": combined_rmse, "rmse_hg": mean_rmse_hg, "rmse_ag": mean_rmse_ag})
 
 # --- Main Stacker Training Function (Incorporating Tuning) ---
 def train_stacker(include_odds: bool):
@@ -219,34 +221,59 @@ def train_stacker(include_odds: bool):
     if RUN_STACKER_OPTIMIZATION and ray.is_initialized():
         print("\n--- Running Hyperparameter Optimization for Stacker ---")
         
-        # Data payload for the objective function
+        # Before running tune.run(), put large data objects in Ray object store
+        X_stack_ref = ray.put(X_stack)
+        y_stack_hg_ref = ray.put(y_stack_hg)
+        y_stack_ag_ref = ray.put(y_stack_ag)
+
+        # Then use the references in your data dictionary
         stacker_tune_data = {
-            "X_oof": X_stack, "y_oof_hg": y_stack_hg, "y_oof_ag": y_stack_ag,
+            "X_oof": X_stack_ref, 
+            "y_oof_hg": y_stack_hg_ref, 
+            "y_oof_ag": y_stack_ag_ref,
             "n_splits": STACKER_CV_SPLITS,
             "early_stopping_rounds": STACKER_EARLY_STOPPING_ROUNDS
         }
         
-        scheduler = ASHAScheduler(metric="rmse", mode="min", grace_period=max(1, STACKER_RAY_TUNE_N_SAMPLES // 5), reduction_factor=2)
+        # Remove metric and mode from scheduler
+        scheduler = ASHAScheduler(grace_period=max(1, STACKER_RAY_TUNE_N_SAMPLES // 5), reduction_factor=2)
+        # Metric and mode for OptunaSearch are for its internal optimization, not for Tune's trial reporting/scheduler
         search_alg = OptunaSearch(metric="rmse", mode="min")
 
-        analysis = tune.run(
-            tune.with_parameters(tune_stacker_objective, data=stacker_tune_data),
-            config=STACKER_SEARCH_SPACE,
-            num_samples=STACKER_RAY_TUNE_N_SAMPLES,
-            scheduler=scheduler,
-            search_alg=search_alg,
-            resources_per_trial={"cpu": 1}, # Adjust if needed, but keep low for many trials
-            verbose=1,
-            raise_on_failed_trial=False,
-            name=f"tune_stacker_{odds_suffix}",
-            local_dir=str(BASE_DIR / "ray_results_stacker") # Separate Ray results dir
+        # Define the trainable with parameters
+        trainable_with_params = tune.with_parameters(tune_stacker_objective, data=stacker_tune_data)
+        
+        # Associate resources with the trainable
+        trainable_with_resources = tune.with_resources(
+            trainable_with_params,
+            resources={"cpu": 2, "memory": 4 * 1024 * 1024 * 1024}  # 2 CPUs, 4GB RAM per trial
         )
 
-        best_trial = analysis.get_best_trial(metric="rmse", mode="min", scope="all")
-        if best_trial and best_trial.config:
-            print(f"  Best trial found. RMSE: {best_trial.last_result.get('rmse', float('inf')):.4f}")
-            best_params.update(best_trial.config) # Update defaults with tuned params
-            print(f"  Best hyperparameters: {best_trial.config}")
+        tuner = Tuner(
+            trainable_with_resources, # Pass the trainable with resources
+            param_space=STACKER_SEARCH_SPACE,
+            tune_config=TuneConfig(
+                num_samples=STACKER_RAY_TUNE_N_SAMPLES,
+                scheduler=scheduler, # Scheduler without metric/mode
+                search_alg=search_alg,
+                metric="rmse", # Metric and mode defined here
+                mode="min",
+            ),
+            run_config=RunConfig(
+                name=f"tune_stacker_{odds_suffix}",
+                storage_path=str(BASE_DIR / "ray_results_stacker"),
+                failure_config=tune.FailureConfig(max_failures=3),
+                verbose=1
+            )
+        )
+        results = tuner.fit()
+
+        # Get best results
+        best_result = results.get_best_result(metric="rmse", mode="min")
+        if best_result:
+            print(f"  Best trial found. RMSE: {best_result.metrics.get('rmse', float('inf')):.4f}")
+            best_params.update(best_result.config)
+            print(f"  Best hyperparameters: {best_result.config}")
         else:
             warnings.warn("Ray Tune for stacker finished without a valid best trial. Using default parameters.", RuntimeWarning)
         
