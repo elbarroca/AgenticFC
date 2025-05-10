@@ -11,13 +11,16 @@ import time # For basic timing
 # --- Configuration ---
 BASE_DIR = Path(__file__).parent.parent.parent  # Go up 3 levels from this file to project root
 DATA_OUTPUT_DIR = BASE_DIR / 'models' / 'data' / 'outputs' / 'predictions'
-MODELS_SAVE_DIR = BASE_DIR / 'models' / 'data' / 'outputs' / 'joblib' / 'V1'
+MODELS_SAVE_DIR = {
+    'V1': BASE_DIR / 'models' / 'data' / 'outputs' / 'joblib' / 'V1',
+    'V2': BASE_DIR / 'models' / 'data' / 'outputs' / 'joblib' / 'V2'
+}
 PARLAY_OUTPUT_DIR = DATA_OUTPUT_DIR / 'parlay_outputs'  # Dedicated dir for parlay results
 
 # Input paths
-OOF_INPUT_PATH = DATA_OUTPUT_DIR / 'level0_oof_predictions_pca_combined.parquet'
-STRATEGY_GUIDE_PATH = DATA_OUTPUT_DIR / 'best_per_market.csv'
-MARKET_DEFINITIONS_PATH = BASE_DIR / 'models' / 'config' / 'parlay_market_definitions.json'
+OOF_INPUT_PATH = DATA_OUTPUT_DIR / 'combined_oof_ALL_pipelines.parquet'
+STRATEGY_GUIDE_PATH = DATA_OUTPUT_DIR / 'best_strategy_per_market.csv'
+MARKET_DEFINITIONS_PATH = DATA_OUTPUT_DIR / 'parlay_market_definitions.json'
 
 # Output paths
 PARLAY_RESULTS_PATH = PARLAY_OUTPUT_DIR / 'parlay_backtest_results.csv'
@@ -98,7 +101,7 @@ def preprocess_strategy_guide(raw_guide_df: pd.DataFrame,
         processed_rules.append({
             'market': market_name,
             'model_identifier': model_id, # The "best model" for this market
-            'efficient_entry_threshold': rule['efficient_entry_threshold'], # The "best entry point"
+            'efficient_entry_threshold': rule['tradeoff_threshold'], # The "best entry point"
             'prob_col_to_check': prob_col, # The exact column in OOF data to get the prob from
             'target_col_to_check': target_col, # The exact column for the actual outcome
             'conflict_group': market_info['conflict_group']
