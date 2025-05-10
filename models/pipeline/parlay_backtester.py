@@ -867,7 +867,7 @@ def create_parlay_visualizations(results_df: pd.DataFrame, output_viz_dir: Path)
     if 'avg_prob' in results_df.columns and not results_df['avg_prob'].isnull().all():
         plt.figure(figsize=(10, 6))
         results_df['prob_bin'] = pd.cut(results_df['avg_prob'], bins=np.arange(0.4, 1.01, 0.1), right=False) # Ensure bins cover range
-        prob_summary = results_df.groupby('prob_bin')['parlay_won'].agg(['count', 'mean']).reset_index()
+        prob_summary = results_df.groupby('prob_bin', observed=False)['parlay_won'].agg(['count', 'mean']).reset_index()
         prob_summary['mean'] *= 100
         sns.barplot(x='prob_bin', y='mean', data=prob_summary, hue='prob_bin', palette="viridis", dodge=False, legend=False)
         plt.title('Parlay Win Rate by Avg. Predicted Probability')
@@ -1164,7 +1164,7 @@ def create_selection_visualizations(results_df: pd.DataFrame, output_viz_dir: Pa
     usage_values = [market_usage[m] for m in sorted_markets[:20]]  # Top 20
     usage_labels = sorted_markets[:20]
     
-    sns.barplot(x=usage_values, y=usage_labels, palette="viridis")
+    sns.barplot(x=usage_values, y=usage_labels, hue=usage_labels, palette="viridis", legend=False)
     plt.title('Top 20 Market Selections by Usage')
     plt.xlabel('Number of Times Used in Parlays')
     plt.ylabel('Market Selection')
@@ -1189,7 +1189,7 @@ def create_selection_visualizations(results_df: pd.DataFrame, output_viz_dir: Pa
     win_values = [win_values[i] for i in sorted_indices]
     win_labels = [win_labels[i] for i in sorted_indices]
     
-    sns.barplot(x=win_values, y=win_labels, palette="magma")
+    sns.barplot(x=win_values, y=win_labels, hue=win_labels, palette="magma", legend=False)
     plt.title(f'Top 20 Market Selections by Win Rate (Min {min_usage} Occurrences)')
     plt.xlabel('Win Rate (%)')
     plt.ylabel('Market Selection')
@@ -1246,7 +1246,7 @@ def create_selection_visualizations(results_df: pd.DataFrame, output_viz_dir: Pa
             win_rates = [country_performance[c] for c in sorted_countries]
             
             plt.figure(figsize=(14, 8))
-            sns.barplot(x=win_rates, y=sorted_countries, palette="rocket")
+            sns.barplot(x=win_rates, y=sorted_countries, hue=sorted_countries, palette="rocket", legend=False)
             plt.title(f'Win Rate by Country for Selection: {market}')
             plt.xlabel('Win Rate (%)')
             plt.ylabel('Country')
@@ -1288,7 +1288,7 @@ def create_selection_visualizations(results_df: pd.DataFrame, output_viz_dir: Pa
             win_rates = [leg_performance[n] for n in leg_numbers]
             
             plt.figure(figsize=(10, 6))
-            sns.barplot(x=leg_numbers, y=win_rates, palette="Blues_d")
+            sns.barplot(x=leg_numbers, y=win_rates, hue=leg_numbers, palette="Blues_d", legend=False)
             plt.title(f'Win Rate by Number of Legs for Selection: {market}')
             plt.xlabel('Number of Legs')
             plt.ylabel('Win Rate (%)')
@@ -1323,7 +1323,7 @@ def create_selection_visualizations(results_df: pd.DataFrame, output_viz_dir: Pa
             prob_df['prob_bin'] = pd.cut(prob_df['probability'], bins=bin_edges, labels=bin_labels, right=False)
             
             # Calculate win rate per bin
-            bin_stats = prob_df.groupby('prob_bin')['outcome'].agg(['mean', 'count']).reset_index()
+            bin_stats = prob_df.groupby('prob_bin', observed=False)['outcome'].agg(['mean', 'count']).reset_index()
             bin_stats['mean'] *= 100  # Convert to percentage
             
             # Filter bins with sufficient data
@@ -1331,7 +1331,7 @@ def create_selection_visualizations(results_df: pd.DataFrame, output_viz_dir: Pa
             
             if not bin_stats.empty:
                 plt.figure(figsize=(12, 6))
-                sns.barplot(x='prob_bin', y='mean', data=bin_stats, palette="YlGnBu")
+                sns.barplot(x='prob_bin', y='mean', data=bin_stats, hue='prob_bin', palette="YlGnBu", legend=False)
                 
                 # Add count labels
                 for i, row in bin_stats.iterrows():
@@ -1354,9 +1354,9 @@ if __name__ == "__main__":
     parser.add_argument("--markets_def_path", type=str, default=str(MARKET_DEFINITIONS_PATH_DEFAULT), help="Path to parlay market definitions JSON file.")
     parser.add_argument("--team_info_path", type=str, default=str(CONSOLIDATED_TEAM_INFO_PATH), help="Path to consolidated team info JSON file.")
     parser.add_argument("--output_path", type=str, default=str(PARLAY_RESULTS_PATH_DEFAULT), help="Path to save parlay backtest results CSV.")
-    parser.add_argument("--max_legs", type=int, default=4, help="Maximum number of legs in a parlay.")
+    parser.add_argument("--max_legs", type=int, default=6, help="Maximum number of legs in a parlay.")
     parser.add_argument("--min_legs", type=int, default=2, help="Minimum number of legs in a parlay.")
-    parser.add_argument("--sample_perc", type=float, default=0.25, help="Percentage of unique dates to sample (0.0 to 1.0).")
+    parser.add_argument("--sample_perc", type=float, default=1, help="Percentage of unique dates to sample (0.0 to 1.0).")
     parser.add_argument("--date_col", type=str, default=DEFAULT_DATE_COL, help="Name of the date column in OOF data.")
     parser.add_argument("--match_id_col", type=str, default=DEFAULT_MATCH_ID_COL, help="Name of the match ID column in OOF data.")
     parser.add_argument("--fallback_thresh", type=float, default=0.0, help="Fallback probability threshold for legs not in strategy guide (0.0 to disable).")
