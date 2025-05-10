@@ -1,0 +1,239 @@
+{
+  "Apoel": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Apoel",
+      "country": "Cyprus",
+      "statarea_id": "2247",
+      "mongodb_id": "2247",
+      "leagues": [],
+      "alt_names": [
+        "APOEL Nicosia"
+      ]
+    }
+  },
+  "Cardiff": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Cardiff",
+      "country": "Wales",
+      "statarea_id": "43",
+      "mongodb_id": "43",
+      "leagues": [],
+      "alt_names": [
+        "Cardiff City"
+      ]
+    }
+  },
+  "Celtic": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Celtic",
+      "country": "Scotland",
+      "statarea_id": "247",
+      "mongodb_id": "247",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "Crvena Zvezda": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Crvena Zvezda",
+      "country": "Serbia",
+      "statarea_id": "598",
+      "mongodb_id": "598",
+      "leagues": [],
+      "alt_names": [
+        "Red Star Belgrade",
+        "Crvena_Zvezda"
+      ]
+    }
+  },
+  "FC Lugano": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "FC Lugano",
+      "country": "Switzerland",
+      "statarea_id": "606",
+      "mongodb_id": "606",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "Ferencvarosi TC": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Ferencvarosi TC",
+      "country": "Hungary",
+      "statarea_id": "651",
+      "mongodb_id": "651",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "Olympiakos": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Olympiakos",
+      "country": "Greece",
+      "statarea_id": "553",
+      "mongodb_id": "553",
+      "leagues": [],
+      "alt_names": [
+        "Olympiakos Piraeus"
+      ]
+    }
+  },
+  "PAOK": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "PAOK",
+      "country": "Greece",
+      "statarea_id": "619",
+      "mongodb_id": "619",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "Pafos FC": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Pafos FC",
+      "country": "Cyprus",
+      "statarea_id": "3403",
+      "mongodb_id": "3403",
+      "leagues": [],
+      "alt_names": [
+        "Pafos"
+      ]
+    }
+  },
+  "Panathinaikos": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Panathinaikos",
+      "country": "Greece",
+      "statarea_id": "617",
+      "mongodb_id": "617",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "Rangers": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Rangers",
+      "country": "Scotland",
+      "statarea_id": "77",
+      "mongodb_id": "257",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "Rapid Vienna": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Rapid Vienna",
+      "country": "Austria",
+      "statarea_id": "781",
+      "mongodb_id": "6231",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "Slavia Praha": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Slavia Praha",
+      "country": "Czech Republic",
+      "statarea_id": "560",
+      "mongodb_id": "560",
+      "leagues": [],
+      "alt_names": [
+        "Slavia Prague"
+      ]
+    }
+  },
+  "Sturm Graz": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Sturm Graz",
+      "country": "Austria",
+      "statarea_id": "637",
+      "mongodb_id": "637",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "TSC Backa Topola": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "TSC Backa Topola",
+      "country": "Serbia",
+      "statarea_id": "2646",
+      "mongodb_id": "2646",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "Viktoria Plzen": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Viktoria Plzen",
+      "country": "Czech Republic",
+      "statarea_id": "567",
+      "mongodb_id": "567",
+      "leagues": [],
+      "alt_names": []
+    }
+  },
+  "Zorya Luhansk": {
+    "missing_fields": [
+      "league"
+    ],
+    "current_info": {
+      "canonical_name": "Zorya Luhansk",
+      "country": "Ukraine",
+      "statarea_id": "2234",
+      "mongodb_id": "2234",
+      "leagues": [],
+      "alt_names": [
+        "ZoryaLuhansk",
+        "Zorya"
+      ]
+    }
+  }
+}

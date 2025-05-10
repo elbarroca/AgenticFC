@@ -626,9 +626,43 @@ def run_parlay_backtest_parallel(
     sample_percentage: float,
     fallback_threshold: float,
     max_workers: int = DEFAULT_CPU_WORKERS,
-    output_path_str: Optional[str] = None
+    output_path_str: Optional[str] = None,
+    reuse_checkpoints: bool = True
 ) -> Optional[pd.DataFrame]:
     
+    # Create output directory early
+    if output_path_str:
+        output_dir = Path(output_path_str).parent
+        output_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Try to load existing checkpoints if requested
+    existing_df = None
+    processed_match_dates = set()
+    
+    if reuse_checkpoints and output_path_str:
+        existing_df = load_existing_checkpoints(Path(output_path_str).parent)
+        
+        if existing_df is not None and not existing_df.empty:
+            # Extract already processed dates
+            if 'parlay_date' in existing_df.columns:
+                processed_match_dates = set(existing_df['parlay_date'].unique())
+                logger.info(f"Found {len(processed_match_dates)} already processed dates in checkpoints.")
+    
+    # Enhanced memory management
+    gc.collect()
+    logger.info(f"\nStarting parallel backtest with {max_workers} workers.")
+    
+    # When filtering dates to process, skip already processed dates
+    unique_dates = sorted(combined_oof_df[date_col].unique())
+    
+    if processed_match_dates:
+        # Convert datetime objects to string format matching processed_match_dates
+        date_strings = [d.strftime('%Y-%m-%d') if hasattr(d, 'strftime') else str(d) for d in unique_dates]
+        unprocessed_indices = [i for i, d in enumerate(date_strings) if d not in processed_match_dates]
+        unique_dates = [unique_dates[i] for i in unprocessed_indices]
+        logger.info(f"After filtering already processed dates, {len(unique_dates)} dates remain to be processed.")
+    
+    # Rest of the function continues as before...
     # Enhanced memory management
     gc.collect()
     logger.info(f"\nStarting parallel backtest with {max_workers} workers.")
@@ -699,10 +733,6 @@ def run_parlay_backtest_parallel(
     # Process in very small chunks for stability
     all_parlay_results = []
     num_day_chunks = (len(daily_tasks_args_list) + CHUNK_SIZE -1) // CHUNK_SIZE
-    
-    # Create output directory early
-    if output_path_str:
-        PARLAY_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     
     results_saved = False
     
@@ -787,7 +817,20 @@ def run_parlay_backtest_parallel(
         return None
     
     logger.info(f"\nGenerated {len(all_parlay_results):,} total parlays from all processed days.")
-    return pd.DataFrame(all_parlay_results)
+    
+    # Merge new results with existing results if available
+    if existing_df is not None and not existing_df.empty and all_parlay_results:
+        all_parlay_results_df = pd.DataFrame(all_parlay_results)
+        combined_results_df = pd.concat([existing_df, all_parlay_results_df], ignore_index=True)
+        logger.info(f"Merged {len(all_parlay_results_df)} new parlays with {len(existing_df)} existing parlays.")
+        return combined_results_df
+    elif existing_df is not None and not existing_df.empty and not all_parlay_results:
+        logger.info("No new parlays generated, returning existing results only.")
+        return existing_df
+    elif all_parlay_results:
+        return pd.DataFrame(all_parlay_results)
+    else:
+        return None
 
 # --- Analysis and Plotting (Updated for Country/League) ---
 def create_parlay_visualizations(results_df: pd.DataFrame, output_viz_dir: Path):
@@ -888,7 +931,13 @@ def create_parlay_visualizations(results_df: pd.DataFrame, output_viz_dir: Path)
         plt.savefig(output_viz_dir / 'model_usage_winning_parlays.png')
         plt.close()
 
-    logger.info(f"Visualizations saved to {output_viz_dir}")
+    # Add call to the new selection visualization function
+    try:
+        create_selection_visualizations(results_df, output_viz_dir)
+    except Exception as e:
+        logger.error(f"Error creating selection visualizations: {e}", exc_info=True)
+    
+    logger.info(f"All visualizations saved to {output_viz_dir}")
 
 def analyze_model_usage_in_parlays(parlay_results_df: pd.DataFrame, max_legs_in_data: int) -> Tuple[Optional[pd.Series], Optional[pd.Series]]:
     """Analyzes model usage in all and winning parlays."""
@@ -976,7 +1025,8 @@ def run_parlay_backtester_orchestrator(
         sample_percentage=sample_perc,
         fallback_threshold=fallback_threshold,
         max_workers=max_cpu_workers,
-        output_path_str=output_path_str # Pass the string path
+        output_path_str=output_path_str,
+        reuse_checkpoints=True
     )
 
     # Save to parquet first, then CSV (parquet is faster and safer)
@@ -1011,6 +1061,291 @@ def run_parlay_backtester_orchestrator(
     logger.info(f"Parlay Backtester V2 finished in {time.time() - overall_start_time:.2f} seconds.")
     logger.info("="*30 + " Parlay Backtester V2 Complete " + "="*30 + "\n")
 
+def load_existing_checkpoints(output_dir: Path) -> Optional[pd.DataFrame]:
+    """Load and combine all existing checkpoint files into a single dataframe."""
+    checkpoint_files = list(output_dir.glob("*_checkpoint_*.parquet"))
+    main_file = output_dir / "parlay_backtest_results_v2.parquet"
+    
+    all_files = checkpoint_files + ([main_file] if main_file.exists() else [])
+    
+    if not all_files:
+        logger.info("No existing checkpoint files found.")
+        return None
+        
+    logger.info(f"Found {len(all_files)} existing checkpoint files to load.")
+    
+    dfs = []
+    for file in all_files:
+        try:
+            df = pd.read_parquet(file)
+            dfs.append(df)
+            logger.info(f"Loaded {len(df)} parlays from {file}")
+        except Exception as e:
+            logger.error(f"Error loading checkpoint {file}: {e}")
+    
+    if not dfs:
+        return None
+        
+    # Combine all dataframes and remove duplicates
+    combined_df = pd.concat(dfs, ignore_index=True)
+    
+    # Create a unique identifier for each parlay to detect duplicates
+    # Use leg details to create a unique signature
+    leg_cols = [col for col in combined_df.columns if col.startswith('leg') and '_match_id' in col]
+    market_cols = [col for col in combined_df.columns if col.startswith('leg') and '_market' in col]
+    
+    if leg_cols and market_cols:
+        combined_df['parlay_signature'] = combined_df.apply(
+            lambda row: '_'.join([str(row[col]) for col in (leg_cols + market_cols) if col in row]), 
+            axis=1
+        )
+        
+        # Remove duplicates
+        before_count = len(combined_df)
+        combined_df = combined_df.drop_duplicates(subset=['parlay_signature'])
+        after_count = len(combined_df)
+        
+        logger.info(f"Removed {before_count - after_count} duplicate parlays. Kept {after_count} unique parlays.")
+        
+        # Drop the signature column as it's no longer needed
+        combined_df = combined_df.drop(columns=['parlay_signature'])
+    
+    return combined_df
+
+def create_selection_visualizations(results_df: pd.DataFrame, output_viz_dir: Path):
+    """Create visualizations focused on market selections."""
+    if results_df is None or results_df.empty:
+        logger.warning("No data available for selection visualizations.")
+        return
+    
+    # Create selection directory
+    selection_viz_dir = output_viz_dir / 'selections'
+    selection_viz_dir.mkdir(parents=True, exist_ok=True)
+    
+    plt.style.use('seaborn-v0_8-whitegrid')
+    
+    # 1. Extract all market selections
+    all_market_cols = [col for col in results_df.columns if col.startswith('leg') and '_market' in col]
+    all_markets = []
+    
+    for col in all_market_cols:
+        all_markets.extend(results_df[col].dropna().unique())
+    
+    unique_markets = sorted(set(all_markets))
+    logger.info(f"Analyzing {len(unique_markets)} unique market selections.")
+    
+    # 2. Selections usage count and win rate
+    market_usage = {}
+    market_wins = {}
+    
+    for market in unique_markets:
+        # Count usage across all leg positions
+        usage_count = 0
+        win_count = 0
+        
+        for i in range(1, results_df['num_legs'].max() + 1):
+            market_col = f'leg{i}_market'
+            won_col = f'leg{i}_won'
+            
+            if market_col in results_df.columns and won_col in results_df.columns:
+                market_matches = results_df[results_df[market_col] == market]
+                usage_count += len(market_matches)
+                win_count += market_matches[won_col].sum()
+        
+        if usage_count > 0:
+            market_usage[market] = usage_count
+            market_wins[market] = (win_count / usage_count) * 100
+    
+    # Sort by usage
+    sorted_markets = sorted(market_usage.keys(), key=lambda x: market_usage[x], reverse=True)
+    
+    # 3. Plot selection usage
+    plt.figure(figsize=(14, 10))
+    usage_values = [market_usage[m] for m in sorted_markets[:20]]  # Top 20
+    usage_labels = sorted_markets[:20]
+    
+    sns.barplot(x=usage_values, y=usage_labels, palette="viridis")
+    plt.title('Top 20 Market Selections by Usage')
+    plt.xlabel('Number of Times Used in Parlays')
+    plt.ylabel('Market Selection')
+    plt.tight_layout()
+    plt.savefig(selection_viz_dir / 'market_selection_usage.png')
+    plt.close()
+    
+    # 4. Plot selection win rates
+    plt.figure(figsize=(14, 10))
+    # Filter for selections with sufficient sample size
+    min_usage = 50
+    filtered_markets = [m for m in sorted_markets if market_usage[m] >= min_usage]
+    win_values = [market_wins[m] for m in filtered_markets[:20]]  # Top 20
+    win_labels = filtered_markets[:20]
+    
+    # Create a paired bar chart
+    y_pos = np.arange(len(win_labels))
+    plt.figure(figsize=(14, 10))
+    
+    # Sort by win rate
+    sorted_indices = np.argsort(win_values)[::-1]
+    win_values = [win_values[i] for i in sorted_indices]
+    win_labels = [win_labels[i] for i in sorted_indices]
+    
+    sns.barplot(x=win_values, y=win_labels, palette="magma")
+    plt.title(f'Top 20 Market Selections by Win Rate (Min {min_usage} Occurrences)')
+    plt.xlabel('Win Rate (%)')
+    plt.ylabel('Market Selection')
+    plt.tight_layout()
+    plt.savefig(selection_viz_dir / 'market_selection_win_rates.png')
+    plt.close()
+    
+    # 5. Selection performance by country
+    # Take top 5 most common selections
+    top_markets = sorted_markets[:5]
+    
+    for market in top_markets:
+        country_performance = {}
+        country_usage = {}
+        
+        # Gather data
+        for i in range(1, results_df['num_legs'].max() + 1):
+            market_col = f'leg{i}_market'
+            won_col = f'leg{i}_won'
+            country_col = f'leg{i}_country'
+            
+            if all(col in results_df.columns for col in [market_col, won_col, country_col]):
+                # Filter rows where this market was used in this leg position
+                market_data = results_df[results_df[market_col] == market]
+                
+                for country in market_data[country_col].unique():
+                    if pd.isna(country) or country == 'Unknown':
+                        continue
+                        
+                    country_data = market_data[market_data[country_col] == country]
+                    
+                    # Update counts
+                    if country not in country_usage:
+                        country_usage[country] = 0
+                        country_performance[country] = 0
+                    
+                    country_usage[country] += len(country_data)
+                    country_performance[country] += country_data[won_col].sum()
+        
+        # Calculate win rates
+        for country in country_performance:
+            if country_usage[country] >= 20:  # Minimum threshold
+                country_performance[country] = (country_performance[country] / country_usage[country]) * 100
+            else:
+                country_performance.pop(country, None)
+                
+        # Plot if we have data
+        if country_performance:
+            # Sort countries by win rate
+            sorted_countries = sorted(country_performance.keys(), 
+                                      key=lambda x: country_performance[x], 
+                                      reverse=True)[:15]  # Top 15
+            
+            win_rates = [country_performance[c] for c in sorted_countries]
+            
+            plt.figure(figsize=(14, 8))
+            sns.barplot(x=win_rates, y=sorted_countries, palette="rocket")
+            plt.title(f'Win Rate by Country for Selection: {market}')
+            plt.xlabel('Win Rate (%)')
+            plt.ylabel('Country')
+            plt.tight_layout()
+            plt.savefig(selection_viz_dir / f'selection_{market}_by_country.png')
+            plt.close()
+    
+    # 6. Selection win rate by number of legs
+    for market in top_markets:
+        leg_performance = {}
+        
+        # For each number of legs
+        for num_legs in range(2, results_df['num_legs'].max() + 1):
+            # Get parlays with exactly this many legs
+            parlay_subset = results_df[results_df['num_legs'] == num_legs]
+            
+            # Check if this market appears in any leg
+            market_used = False
+            win_count = 0
+            total_count = 0
+            
+            for i in range(1, num_legs + 1):
+                market_col = f'leg{i}_market'
+                
+                if market_col in parlay_subset.columns:
+                    market_parlays = parlay_subset[parlay_subset[market_col] == market]
+                    
+                    if not market_parlays.empty:
+                        market_used = True
+                        win_count += market_parlays['parlay_won'].sum()
+                        total_count += len(market_parlays)
+            
+            if market_used and total_count >= 20:
+                leg_performance[num_legs] = (win_count / total_count) * 100
+        
+        # Plot if we have data
+        if leg_performance:
+            leg_numbers = sorted(leg_performance.keys())
+            win_rates = [leg_performance[n] for n in leg_numbers]
+            
+            plt.figure(figsize=(10, 6))
+            sns.barplot(x=leg_numbers, y=win_rates, palette="Blues_d")
+            plt.title(f'Win Rate by Number of Legs for Selection: {market}')
+            plt.xlabel('Number of Legs')
+            plt.ylabel('Win Rate (%)')
+            plt.tight_layout()
+            plt.savefig(selection_viz_dir / f'selection_{market}_by_legs.png')
+            plt.close()
+    
+    # 7. Selection win rate vs. average probability
+    for market in top_markets:
+        # Collect probabilities and outcomes
+        probs = []
+        outcomes = []
+        
+        for i in range(1, results_df['num_legs'].max() + 1):
+            market_col = f'leg{i}_market'
+            prob_col = f'leg{i}_prob'
+            won_col = f'leg{i}_won'
+            
+            if all(col in results_df.columns for col in [market_col, prob_col, won_col]):
+                market_data = results_df[results_df[market_col] == market]
+                
+                probs.extend(market_data[prob_col].tolist())
+                outcomes.extend(market_data[won_col].tolist())
+        
+        if probs and outcomes:
+            # Create DataFrame for binning
+            prob_df = pd.DataFrame({'probability': probs, 'outcome': outcomes})
+            
+            # Create bins
+            bin_edges = np.arange(0.5, 1.01, 0.05)
+            bin_labels = [f"{100*x:.0f}-{100*y:.0f}%" for x, y in zip(bin_edges[:-1], bin_edges[1:])]
+            prob_df['prob_bin'] = pd.cut(prob_df['probability'], bins=bin_edges, labels=bin_labels, right=False)
+            
+            # Calculate win rate per bin
+            bin_stats = prob_df.groupby('prob_bin')['outcome'].agg(['mean', 'count']).reset_index()
+            bin_stats['mean'] *= 100  # Convert to percentage
+            
+            # Filter bins with sufficient data
+            bin_stats = bin_stats[bin_stats['count'] >= 20]
+            
+            if not bin_stats.empty:
+                plt.figure(figsize=(12, 6))
+                sns.barplot(x='prob_bin', y='mean', data=bin_stats, palette="YlGnBu")
+                
+                # Add count labels
+                for i, row in bin_stats.iterrows():
+                    plt.text(i, row['mean'] + 1, f"n={row['count']}", ha='center')
+                
+                plt.title(f'Win Rate by Predicted Probability for Selection: {market}')
+                plt.xlabel('Predicted Probability Range')
+                plt.ylabel('Actual Win Rate (%)')
+                plt.xticks(rotation=45)
+                plt.tight_layout()
+                plt.savefig(selection_viz_dir / f'selection_{market}_by_probability.png')
+                plt.close()
+    
+    logger.info(f"Selection-based visualizations saved to {selection_viz_dir}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Parlay Backtester V2 with Enhanced Team Info")

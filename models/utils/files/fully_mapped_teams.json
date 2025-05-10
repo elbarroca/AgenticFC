@@ -1,0 +1,674 @@
+{
+  "teams": [
+    {
+      "raw_name": "1899Hoffenheim",
+      "canonical_name": "Hoffenheim",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "1FCKaiserslautern",
+      "canonical_name": "Kaiserslautern",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "1FCKöln",
+      "canonical_name": "FC Koln",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "1FCNürnberg",
+      "canonical_name": "Nurnberg",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "ACMilan",
+      "canonical_name": "Milan",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "ADODenHaag",
+      "canonical_name": "Den Haag",
+      "country": "Netherlands"
+    },
+    {
+      "raw_name": "AFCHermannstadt",
+      "canonical_name": "AFC Hermannstadt",
+      "country": "Romania"
+    },
+    {
+      "raw_name": "ASEupen",
+      "canonical_name": "Eupen",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "AZAlkmaar",
+      "canonical_name": "AZ Alkmaar",
+      "country": "Netherlands"
+    },
+    {
+      "raw_name": "Aalborg",
+      "canonical_name": "Aalborg",
+      "country": "Denmark"
+    },
+    {
+      "raw_name": "AcademicoViseu",
+      "canonical_name": "Academico Viseu",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "Academico_Viseu",
+      "canonical_name": "Academico Viseu",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "AjaccioGFCO",
+      "canonical_name": "Ajaccio GFCO",
+      "country": "France"
+    },
+    {
+      "raw_name": "Ajax",
+      "canonical_name": "Ajax",
+      "country": "Netherlands"
+    },
+    {
+      "raw_name": "Alanyaspor",
+      "canonical_name": "Alanyaspor",
+      "country": "Turkey"
+    },
+    {
+      "raw_name": "Alaves",
+      "canonical_name": "Alaves",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Albacete",
+      "canonical_name": "Albacete",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "AlmereCityFC",
+      "canonical_name": "Almere City",
+      "country": "Netherlands"
+    },
+    {
+      "raw_name": "Almeria",
+      "canonical_name": "Almeria",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Alverca",
+      "canonical_name": "Alverca",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "Amiens",
+      "canonical_name": "Amiens",
+      "country": "France"
+    },
+    {
+      "raw_name": "Anderlecht",
+      "canonical_name": "Anderlecht",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "Angers",
+      "canonical_name": "Angers",
+      "country": "France"
+    },
+    {
+      "raw_name": "Annecy",
+      "canonical_name": "Annecy",
+      "country": "France"
+    },
+    {
+      "raw_name": "Antalyaspor",
+      "canonical_name": "Antalyaspor",
+      "country": "Turkey"
+    },
+    {
+      "raw_name": "Antwerp",
+      "canonical_name": "Antwerp",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "ApoelNicosia",
+      "canonical_name": "Apoel",
+      "country": "Cyprus"
+    },
+    {
+      "raw_name": "Arouca",
+      "canonical_name": "Arouca",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "Arsenal",
+      "canonical_name": "Arsenal",
+      "country": "England"
+    },
+    {
+      "raw_name": "AstonVilla",
+      "canonical_name": "Aston Villa",
+      "country": "England"
+    },
+    {
+      "raw_name": "Atalanta",
+      "canonical_name": "Atalanta",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "AthleticClub",
+      "canonical_name": "Ath Bilbao",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "AtleticoMadrid",
+      "canonical_name": "Ath Madrid",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Auxerre",
+      "canonical_name": "Auxerre",
+      "country": "France"
+    },
+    {
+      "raw_name": "BBBodrumspor",
+      "canonical_name": "BB Bodrumspor",
+      "country": "Turkey"
+    },
+    {
+      "raw_name": "Barcelona",
+      "canonical_name": "Barcelona",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Bari",
+      "canonical_name": "Bari",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "Bastia",
+      "canonical_name": "Bastia",
+      "country": "France"
+    },
+    {
+      "raw_name": "BayerLeverkusen",
+      "canonical_name": "Leverkusen",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "Beerschot",
+      "canonical_name": "Beerschot VA",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "BeerschotWilrijk",
+      "canonical_name": "Beerschot VA",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "Benfica",
+      "canonical_name": "Benfica",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "BenficaB",
+      "canonical_name": "Benfica B",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "Besiktas",
+      "canonical_name": "Besiktas",
+      "country": "Turkey"
+    },
+    {
+      "raw_name": "Blackburn",
+      "canonical_name": "Blackburn",
+      "country": "England"
+    },
+    {
+      "raw_name": "Boavista",
+      "canonical_name": "Boavista",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "Bologna",
+      "canonical_name": "Bologna",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "BorussiaDortmund",
+      "canonical_name": "Dortmund",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "BorussiaMonchengladbach",
+      "canonical_name": "M'gladbach",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "Bournemouth",
+      "canonical_name": "Bournemouth",
+      "country": "England"
+    },
+    {
+      "raw_name": "Brentford",
+      "canonical_name": "Brentford",
+      "country": "England"
+    },
+    {
+      "raw_name": "Brescia",
+      "canonical_name": "Brescia",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "Brighton",
+      "canonical_name": "Brighton",
+      "country": "England"
+    },
+    {
+      "raw_name": "BristolCity",
+      "canonical_name": "Bristol City",
+      "country": "England"
+    },
+    {
+      "raw_name": "Brondby",
+      "canonical_name": "Brondby",
+      "country": "Denmark"
+    },
+    {
+      "raw_name": "Burgos",
+      "canonical_name": "Burgos",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Burnley",
+      "canonical_name": "Burnley",
+      "country": "England"
+    },
+    {
+      "raw_name": "Cadiz",
+      "canonical_name": "Cadiz",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Caen",
+      "canonical_name": "Caen",
+      "country": "France"
+    },
+    {
+      "raw_name": "Cagliari",
+      "canonical_name": "Cagliari",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "Cambuur",
+      "canonical_name": "Cambuur",
+      "country": "Netherlands"
+    },
+    {
+      "raw_name": "Cardiff",
+      "canonical_name": "Cardiff",
+      "country": "Wales"
+    },
+    {
+      "raw_name": "Carrarese",
+      "canonical_name": "Carrarese",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "CasaPia",
+      "canonical_name": "Casa Pia",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "Catanzaro",
+      "canonical_name": "Catanzaro",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "CeltaVigo",
+      "canonical_name": "Celta Vigo",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Celtic",
+      "canonical_name": "Celtic",
+      "country": "Scotland"
+    },
+    {
+      "raw_name": "CercleBrugge",
+      "canonical_name": "Cercle Brugge",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "Cesena",
+      "canonical_name": "Cesena",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "Charleroi",
+      "canonical_name": "Charleroi",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "Chaves",
+      "canonical_name": "Chaves",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "Chelsea",
+      "canonical_name": "Chelsea",
+      "country": "England"
+    },
+    {
+      "raw_name": "Cittadella",
+      "canonical_name": "Cittadella",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "ClermontFoot",
+      "canonical_name": "Clermont",
+      "country": "France"
+    },
+    {
+      "raw_name": "ClubBruggeKV",
+      "canonical_name": "Club Brugge",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "Como",
+      "canonical_name": "Como",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "Cordoba",
+      "canonical_name": "Cordoba",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Cosenza",
+      "canonical_name": "Cosenza",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "Coventry",
+      "canonical_name": "Coventry",
+      "country": "England"
+    },
+    {
+      "raw_name": "CracoviaKrakow",
+      "canonical_name": "Cracovia Krakow",
+      "country": "Poland"
+    },
+    {
+      "raw_name": "Cremonese",
+      "canonical_name": "Cremonese",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "CrystalPalace",
+      "canonical_name": "Crystal Palace",
+      "country": "England"
+    },
+    {
+      "raw_name": "DeGraafschap",
+      "canonical_name": "Graafschap",
+      "country": "Netherlands"
+    },
+    {
+      "raw_name": "Den_Bosch",
+      "canonical_name": "Den Bosch",
+      "country": "Netherlands"
+    },
+    {
+      "raw_name": "DeportivoLaCoruna",
+      "canonical_name": "La Coruna",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Derby",
+      "canonical_name": "Derby",
+      "country": "England"
+    },
+    {
+      "raw_name": "DinamoBucuresti",
+      "canonical_name": "Dinamo Bucuresti",
+      "country": "Romania"
+    },
+    {
+      "raw_name": "Dordrecht",
+      "canonical_name": "Dordrecht",
+      "country": "Netherlands"
+    },
+    {
+      "raw_name": "Dunkerque",
+      "canonical_name": "Dunkerque",
+      "country": "France"
+    },
+    {
+      "raw_name": "Eibar",
+      "canonical_name": "Eibar",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "EintrachtBraunschweig",
+      "canonical_name": "Braunschweig",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "EintrachtFrankfurt",
+      "canonical_name": "Ein Frankfurt",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "Elche",
+      "canonical_name": "Elche",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Eldense",
+      "canonical_name": "Eldense",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "Emmen",
+      "canonical_name": "FC Emmen",
+      "country": "Netherlands"
+    },
+    {
+      "raw_name": "Empoli",
+      "canonical_name": "Empoli",
+      "country": "Italy"
+    },
+    {
+      "raw_name": "Espanyol",
+      "canonical_name": "Espanol",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "EstacTroyes",
+      "canonical_name": "Troyes",
+      "country": "France"
+    },
+    {
+      "raw_name": "Estoril",
+      "canonical_name": "Estoril",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "Estrela",
+      "canonical_name": "Estrela",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "EvianTG",
+      "canonical_name": "Evian TG",
+      "country": "France"
+    },
+    {
+      "raw_name": "FCCartagena",
+      "canonical_name": "Cartagena",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "FCKaiserslautern",
+      "canonical_name": "Kaiserslautern",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "FCNurnberg",
+      "canonical_name": "Nurnberg",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "FCSchalke04",
+      "canonical_name": "Schalke 04",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "FCStPauli",
+      "canonical_name": "St Pauli",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "FSVMainz05",
+      "canonical_name": "Mainz 05",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "Gent",
+      "canonical_name": "Gent",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "HamburgerSV",
+      "canonical_name": "Hamburg",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "Hannover96",
+      "canonical_name": "Hannover",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "Hércules",
+      "canonical_name": "Hercules",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "KVCWesterlo",
+      "canonical_name": "KVC Westerlo",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "LegiaWarszawa",
+      "canonical_name": "Legia Warszawa",
+      "country": "Poland"
+    },
+    {
+      "raw_name": "Leicester",
+      "canonical_name": "Leicester",
+      "country": "England"
+    },
+    {
+      "raw_name": "ManchesterCity",
+      "canonical_name": "Man City",
+      "country": "England"
+    },
+    {
+      "raw_name": "ManchesterUnited",
+      "canonical_name": "Man United",
+      "country": "England"
+    },
+    {
+      "raw_name": "Metz",
+      "canonical_name": "Metz",
+      "country": "France"
+    },
+    {
+      "raw_name": "Naval1ºdeMaio",
+      "canonical_name": "Naval",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "ParisSaintGermain",
+      "canonical_name": "Paris Saint Germain",
+      "country": "France"
+    },
+    {
+      "raw_name": "RealBetis",
+      "canonical_name": "Betis",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "SCBastia",
+      "canonical_name": "Bastia",
+      "country": "France"
+    },
+    {
+      "raw_name": "SCFreiburg",
+      "canonical_name": "Freiburg",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "SaintEtienne",
+      "canonical_name": "St Etienne",
+      "country": "France"
+    },
+    {
+      "raw_name": "SpGijon",
+      "canonical_name": "Sp Gijon",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "SportingGijon",
+      "canonical_name": "Sp Gijon",
+      "country": "Spain"
+    },
+    {
+      "raw_name": "StandardLiege",
+      "canonical_name": "Standard Liege",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "StokeCity",
+      "canonical_name": "Stoke",
+      "country": "England"
+    },
+    {
+      "raw_name": "UniãodeLeiria",
+      "canonical_name": "Leiria",
+      "country": "Portugal"
+    },
+    {
+      "raw_name": "VfBStuttgart",
+      "canonical_name": "Stuttgart",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "WerderBremen",
+      "canonical_name": "Werder Bremen",
+      "country": "Germany"
+    },
+    {
+      "raw_name": "WestBrom",
+      "canonical_name": "West Brom",
+      "country": "England"
+    },
+    {
+      "raw_name": "ZoryaLuhansk",
+      "canonical_name": "Zorya Luhansk",
+      "country": "Ukraine"
+    },
+    {
+      "raw_name": "ZulteWaregem",
+      "canonical_name": "Zulte Waregem",
+      "country": "Belgium"
+    },
+    {
+      "raw_name": "como",
+      "canonical_name": "Como",
+      "country": "Italy"
+    }
+  ]
+}

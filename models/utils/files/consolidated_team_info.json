@@ -1,0 +1,6707 @@
+{
+  "Hoffenheim": {
+    "canonical_name": "Hoffenheim",
+    "country": "Germany",
+    "statarea_id": "167",
+    "mongodb_id": "167",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "1899Hoffenheim"
+    ]
+  },
+  "Milan": {
+    "canonical_name": "Milan",
+    "country": "Italy",
+    "statarea_id": "489",
+    "mongodb_id": "489",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": [
+      "AC Milan",
+      "AC_Milan"
+    ]
+  },
+  "Den Haag": {
+    "canonical_name": "Den Haag",
+    "country": "Netherlands",
+    "statarea_id": "198",
+    "mongodb_id": "198",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "ADO Den Haag",
+      "ADODenHaag"
+    ]
+  },
+  "AFC Hermannstadt": {
+    "canonical_name": "AFC Hermannstadt",
+    "country": "Romania",
+    "statarea_id": "2579",
+    "mongodb_id": "2579",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": [
+      "AFC_Hermannstadt"
+    ]
+  },
+  "AZ Alkmaar": {
+    "canonical_name": "AZ Alkmaar",
+    "country": "Netherlands",
+    "statarea_id": "201",
+    "mongodb_id": "201",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "AZAlkmaar"
+    ]
+  },
+  "Aalborg": {
+    "canonical_name": "Aalborg",
+    "country": "Denmark",
+    "statarea_id": "402",
+    "mongodb_id": "402",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": [
+      "AalborgBK"
+    ]
+  },
+  "Academico Viseu": {
+    "canonical_name": "Academico Viseu",
+    "country": "Portugal",
+    "statarea_id": "238",
+    "mongodb_id": "238",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "Academico_Viseu"
+    ]
+  },
+  "Ajaccio GFCO": {
+    "canonical_name": "Ajaccio GFCO",
+    "country": "France",
+    "statarea_id": "98",
+    "mongodb_id": "98",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "GFC Ajaccio"
+    ]
+  },
+  "Ajax": {
+    "canonical_name": "Ajax",
+    "country": "Netherlands",
+    "statarea_id": "194",
+    "mongodb_id": "194",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Alanyaspor": {
+    "canonical_name": "Alanyaspor",
+    "country": "Turkey",
+    "statarea_id": "996",
+    "mongodb_id": "996",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Albacete": {
+    "canonical_name": "Albacete",
+    "country": "Spain",
+    "statarea_id": "722",
+    "mongodb_id": "722",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Almere City": {
+    "canonical_name": "Almere City",
+    "country": "Netherlands",
+    "statarea_id": "419",
+    "mongodb_id": "419",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "Almere_City_FC",
+      "Almere City FC"
+    ]
+  },
+  "Almeria": {
+    "canonical_name": "Almeria",
+    "country": "Spain",
+    "statarea_id": "723",
+    "mongodb_id": "723",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Alverca": {
+    "canonical_name": "Alverca",
+    "country": "Portugal",
+    "statarea_id": "4724",
+    "mongodb_id": "4724",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Amiens": {
+    "canonical_name": "Amiens",
+    "country": "France",
+    "statarea_id": "87",
+    "mongodb_id": "87",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "AmiensSC"
+    ]
+  },
+  "Anderlecht": {
+    "canonical_name": "Anderlecht",
+    "country": "Belgium",
+    "statarea_id": "554",
+    "mongodb_id": "554",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": []
+  },
+  "Angers": {
+    "canonical_name": "Angers",
+    "country": "France",
+    "statarea_id": "77",
+    "mongodb_id": "77",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Angers SCO"
+    ]
+  },
+  "Annecy": {
+    "canonical_name": "Annecy",
+    "country": "France",
+    "statarea_id": "3012",
+    "mongodb_id": "3012",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Annecy FC"
+    ]
+  },
+  "Antalyaspor": {
+    "canonical_name": "Antalyaspor",
+    "country": "Turkey",
+    "statarea_id": "1005",
+    "mongodb_id": "1005",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Antwerp": {
+    "canonical_name": "Antwerp",
+    "country": "Belgium",
+    "statarea_id": "740",
+    "mongodb_id": "740",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "Royal Antwerp"
+    ]
+  },
+  "Apoel": {
+    "canonical_name": "Apoel",
+    "country": "Cyprus",
+    "statarea_id": "2247",
+    "mongodb_id": "2247",
+    "leagues": [],
+    "alt_names": [
+      "APOEL Nicosia"
+    ]
+  },
+  "Arouca": {
+    "canonical_name": "Arouca",
+    "country": "Portugal",
+    "statarea_id": "240",
+    "mongodb_id": "240",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Arsenal": {
+    "canonical_name": "Arsenal",
+    "country": "England",
+    "statarea_id": "42",
+    "mongodb_id": "42",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Aston Villa": {
+    "canonical_name": "Aston Villa",
+    "country": "England",
+    "statarea_id": "66",
+    "mongodb_id": "66",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Aston_Villa"
+    ]
+  },
+  "Atalanta": {
+    "canonical_name": "Atalanta",
+    "country": "Italy",
+    "statarea_id": "499",
+    "mongodb_id": "499",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Ath Bilbao": {
+    "canonical_name": "Ath Bilbao",
+    "country": "Spain",
+    "statarea_id": "531",
+    "mongodb_id": "531",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Athletic Bilbao",
+      "Athletic Club",
+      "Athletic_Club"
+    ]
+  },
+  "Ath Madrid": {
+    "canonical_name": "Ath Madrid",
+    "country": "Spain",
+    "statarea_id": "530",
+    "mongodb_id": "530",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Atletico Madrid",
+      "Atletico_Madrid"
+    ]
+  },
+  "Auxerre": {
+    "canonical_name": "Auxerre",
+    "country": "France",
+    "statarea_id": "108",
+    "mongodb_id": "108",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "AJ Auxerre"
+    ]
+  },
+  "BB Bodrumspor": {
+    "canonical_name": "BB Bodrumspor",
+    "country": "Turkey",
+    "statarea_id": "3583",
+    "mongodb_id": "3583",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": [
+      "Bodrumspor",
+      "BB_Bodrumspor"
+    ]
+  },
+  "Barcelona": {
+    "canonical_name": "Barcelona",
+    "country": "Spain",
+    "statarea_id": "529",
+    "mongodb_id": "529",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "FC Barcelona"
+    ]
+  },
+  "Bari": {
+    "canonical_name": "Bari",
+    "country": "Italy",
+    "statarea_id": "508",
+    "mongodb_id": "508",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": [
+      "SSC Bari"
+    ]
+  },
+  "Bastia": {
+    "canonical_name": "Bastia",
+    "country": "France",
+    "statarea_id": "1305",
+    "mongodb_id": "1305",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "SC Bastia"
+    ]
+  },
+  "Leverkusen": {
+    "canonical_name": "Leverkusen",
+    "country": "Germany",
+    "statarea_id": "168",
+    "mongodb_id": "168",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Bayer_Leverkusen",
+      "Bayer Leverkusen"
+    ]
+  },
+  "Beerschot VA": {
+    "canonical_name": "Beerschot VA",
+    "country": "Belgium",
+    "statarea_id": "263",
+    "mongodb_id": "263",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "Beerschot",
+      "Beerschot Wilrijk",
+      "Beerschot_Wilrijk"
+    ]
+  },
+  "Benfica": {
+    "canonical_name": "Benfica",
+    "country": "Portugal",
+    "statarea_id": "211",
+    "mongodb_id": "211",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "SL Benfica"
+    ]
+  },
+  "Benfica B": {
+    "canonical_name": "Benfica B",
+    "country": "Portugal",
+    "statarea_id": "229",
+    "mongodb_id": "229",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "Benfica_B"
+    ]
+  },
+  "Besiktas": {
+    "canonical_name": "Besiktas",
+    "country": "Turkey",
+    "statarea_id": "549",
+    "mongodb_id": "549",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Betis": {
+    "canonical_name": "Betis",
+    "country": "Spain",
+    "statarea_id": "543",
+    "mongodb_id": "543",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Real Betis"
+    ]
+  },
+  "Blackburn": {
+    "canonical_name": "Blackburn",
+    "country": "England",
+    "statarea_id": "67",
+    "mongodb_id": "67",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Blackburn Rovers"
+    ]
+  },
+  "Boavista": {
+    "canonical_name": "Boavista",
+    "country": "Portugal",
+    "statarea_id": "222",
+    "mongodb_id": "222",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Bologna": {
+    "canonical_name": "Bologna",
+    "country": "Italy",
+    "statarea_id": "500",
+    "mongodb_id": "500",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Dortmund": {
+    "canonical_name": "Dortmund",
+    "country": "Germany",
+    "statarea_id": "165",
+    "mongodb_id": "165",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Borussia_Dortmund",
+      "Borussia Dortmund"
+    ]
+  },
+  "M'gladbach": {
+    "canonical_name": "M'gladbach",
+    "country": "Germany",
+    "statarea_id": "163",
+    "mongodb_id": "163",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Borussia Monchengladbach",
+      "Monchengladbach",
+      "Borussia_Monchengladbach"
+    ]
+  },
+  "Bournemouth": {
+    "canonical_name": "Bournemouth",
+    "country": "England",
+    "statarea_id": "35",
+    "mongodb_id": "35",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "AFC Bournemouth"
+    ]
+  },
+  "Brentford": {
+    "canonical_name": "Brentford",
+    "country": "England",
+    "statarea_id": "55",
+    "mongodb_id": "55",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Brescia": {
+    "canonical_name": "Brescia",
+    "country": "Italy",
+    "statarea_id": "518",
+    "mongodb_id": "518",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Brighton": {
+    "canonical_name": "Brighton",
+    "country": "England",
+    "statarea_id": "51",
+    "mongodb_id": "51",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Brighton & Hove Albion"
+    ]
+  },
+  "Bristol City": {
+    "canonical_name": "Bristol City",
+    "country": "England",
+    "statarea_id": "56",
+    "mongodb_id": "56",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Bristol_City"
+    ]
+  },
+  "Brondby": {
+    "canonical_name": "Brondby",
+    "country": "Denmark",
+    "statarea_id": "407",
+    "mongodb_id": "407",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": [
+      "Brondby IF"
+    ]
+  },
+  "Burgos": {
+    "canonical_name": "Burgos",
+    "country": "Spain",
+    "statarea_id": "9580",
+    "mongodb_id": "9580",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Burgos CF"
+    ]
+  },
+  "Burnley": {
+    "canonical_name": "Burnley",
+    "country": "England",
+    "statarea_id": "44",
+    "mongodb_id": "44",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Eldense": {
+    "canonical_name": "Eldense",
+    "country": "Spain",
+    "statarea_id": "9692",
+    "mongodb_id": "9692",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "CD Eldense"
+    ]
+  },
+  "Cadiz": {
+    "canonical_name": "Cadiz",
+    "country": "Spain",
+    "statarea_id": "724",
+    "mongodb_id": "724",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Cadiz CF"
+    ]
+  },
+  "Caen": {
+    "canonical_name": "Caen",
+    "country": "France",
+    "statarea_id": "88",
+    "mongodb_id": "88",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "SM Caen"
+    ]
+  },
+  "Cagliari": {
+    "canonical_name": "Cagliari",
+    "country": "Italy",
+    "statarea_id": "490",
+    "mongodb_id": "490",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Cambuur": {
+    "canonical_name": "Cambuur",
+    "country": "Netherlands",
+    "statarea_id": "420",
+    "mongodb_id": "420",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "SC Cambuur"
+    ]
+  },
+  "Cardiff": {
+    "canonical_name": "Cardiff",
+    "country": "Wales",
+    "statarea_id": "43",
+    "mongodb_id": "43",
+    "leagues": [],
+    "alt_names": [
+      "Cardiff City"
+    ]
+  },
+  "Carrarese": {
+    "canonical_name": "Carrarese",
+    "country": "Italy",
+    "statarea_id": "1581",
+    "mongodb_id": "1581",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Cartagena": {
+    "canonical_name": "Cartagena",
+    "country": "Spain",
+    "statarea_id": "5262",
+    "mongodb_id": "5262",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "FC Cartagena"
+    ]
+  },
+  "Casa Pia": {
+    "canonical_name": "Casa Pia",
+    "country": "Portugal",
+    "statarea_id": "4716",
+    "mongodb_id": "4716",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "Casa_Pia"
+    ]
+  },
+  "Castellon": {
+    "canonical_name": "Castellon",
+    "country": "Spain",
+    "statarea_id": "5254",
+    "mongodb_id": "5254",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "CD Castellon"
+    ]
+  },
+  "Catanzaro": {
+    "canonical_name": "Catanzaro",
+    "country": "Italy",
+    "statarea_id": "1687",
+    "mongodb_id": "1687",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Celta Vigo": {
+    "canonical_name": "Celta Vigo",
+    "country": "Spain",
+    "statarea_id": "538",
+    "mongodb_id": "538",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Celta_Vigo",
+      "Celta"
+    ]
+  },
+  "Celtic": {
+    "canonical_name": "Celtic",
+    "country": "Scotland",
+    "statarea_id": "247",
+    "mongodb_id": "247",
+    "leagues": [],
+    "alt_names": []
+  },
+  "Cercle Brugge": {
+    "canonical_name": "Cercle Brugge",
+    "country": "Belgium",
+    "statarea_id": "741",
+    "mongodb_id": "741",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "Cercle_Brugge"
+    ]
+  },
+  "Cesena": {
+    "canonical_name": "Cesena",
+    "country": "Italy",
+    "statarea_id": "509",
+    "mongodb_id": "509",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Charleroi": {
+    "canonical_name": "Charleroi",
+    "country": "Belgium",
+    "statarea_id": "736",
+    "mongodb_id": "736",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "Sporting Charleroi"
+    ]
+  },
+  "Chaves": {
+    "canonical_name": "Chaves",
+    "country": "Portugal",
+    "statarea_id": "223",
+    "mongodb_id": "223",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "GD Chaves"
+    ]
+  },
+  "Chelsea": {
+    "canonical_name": "Chelsea",
+    "country": "England",
+    "statarea_id": "49",
+    "mongodb_id": "49",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Cittadella": {
+    "canonical_name": "Cittadella",
+    "country": "Italy",
+    "statarea_id": "510",
+    "mongodb_id": "510",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": [
+      "AS Cittadella"
+    ]
+  },
+  "Clermont": {
+    "canonical_name": "Clermont",
+    "country": "France",
+    "statarea_id": "99",
+    "mongodb_id": "99",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Clermont Foot",
+      "Clermont_Foot"
+    ]
+  },
+  "Club Brugge": {
+    "canonical_name": "Club Brugge",
+    "country": "Belgium",
+    "statarea_id": "569",
+    "mongodb_id": "569",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "ClubBruggeKV",
+      "Club_Brugge"
+    ]
+  },
+  "Como": {
+    "canonical_name": "Como",
+    "country": "Italy",
+    "statarea_id": "895",
+    "mongodb_id": "895",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Cordoba": {
+    "canonical_name": "Cordoba",
+    "country": "Spain",
+    "statarea_id": "713",
+    "mongodb_id": "713",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Cordoba CF"
+    ]
+  },
+  "Cosenza": {
+    "canonical_name": "Cosenza",
+    "country": "Italy",
+    "statarea_id": "10137",
+    "mongodb_id": "10137",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Coventry": {
+    "canonical_name": "Coventry",
+    "country": "England",
+    "statarea_id": "1346",
+    "mongodb_id": "1346",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Coventry City"
+    ]
+  },
+  "Cracovia Krakow": {
+    "canonical_name": "Cracovia Krakow",
+    "country": "Poland",
+    "statarea_id": "350",
+    "mongodb_id": "350",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": [
+      "Cracovia_Krakow"
+    ]
+  },
+  "Cremonese": {
+    "canonical_name": "Cremonese",
+    "country": "Italy",
+    "statarea_id": "520",
+    "mongodb_id": "520",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Crvena Zvezda": {
+    "canonical_name": "Crvena Zvezda",
+    "country": "Serbia",
+    "statarea_id": "598",
+    "mongodb_id": "598",
+    "leagues": [],
+    "alt_names": [
+      "Red Star Belgrade",
+      "Crvena_Zvezda"
+    ]
+  },
+  "Crystal Palace": {
+    "canonical_name": "Crystal Palace",
+    "country": "England",
+    "statarea_id": "52",
+    "mongodb_id": "52",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Graafschap": {
+    "canonical_name": "Graafschap",
+    "country": "Netherlands",
+    "statarea_id": "199",
+    "mongodb_id": "199",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "De_Graafschap",
+      "De Graafschap"
+    ]
+  },
+  "Den Bosch": {
+    "canonical_name": "Den Bosch",
+    "country": "Netherlands",
+    "statarea_id": "421",
+    "mongodb_id": "421",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "FC Den Bosch",
+      "Den_Bosch"
+    ]
+  },
+  "Alaves": {
+    "canonical_name": "Alaves",
+    "country": "Spain",
+    "statarea_id": "542",
+    "mongodb_id": "542",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Deportivo Alaves"
+    ]
+  },
+  "La Coruna": {
+    "canonical_name": "La Coruna",
+    "country": "Spain",
+    "statarea_id": "544",
+    "mongodb_id": "544",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Deportivo La Coruna",
+      "Deportivo",
+      "Deportivo_La_Coruna"
+    ]
+  },
+  "Derby": {
+    "canonical_name": "Derby",
+    "country": "England",
+    "statarea_id": "69",
+    "mongodb_id": "69",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Derby County"
+    ]
+  },
+  "Dinamo Bucuresti": {
+    "canonical_name": "Dinamo Bucuresti",
+    "country": "Romania",
+    "statarea_id": "635",
+    "mongodb_id": "635",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": []
+  },
+  "Dordrecht": {
+    "canonical_name": "Dordrecht",
+    "country": "Netherlands",
+    "statarea_id": "409",
+    "mongodb_id": "409",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "FC Dordrecht"
+    ]
+  },
+  "Dunkerque": {
+    "canonical_name": "Dunkerque",
+    "country": "France",
+    "statarea_id": "1304",
+    "mongodb_id": "1304",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "USL Dunkerque"
+    ]
+  },
+  "Eibar": {
+    "canonical_name": "Eibar",
+    "country": "Spain",
+    "statarea_id": "545",
+    "mongodb_id": "545",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "SD Eibar"
+    ]
+  },
+  "Braunschweig": {
+    "canonical_name": "Braunschweig",
+    "country": "Germany",
+    "statarea_id": "744",
+    "mongodb_id": "744",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Eintracht Braunschweig"
+    ]
+  },
+  "Ein Frankfurt": {
+    "canonical_name": "Ein Frankfurt",
+    "country": "Germany",
+    "statarea_id": "169",
+    "mongodb_id": "169",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "EintrachtFrankfurt",
+      "Eintracht Frankfurt"
+    ]
+  },
+  "Elche": {
+    "canonical_name": "Elche",
+    "country": "Spain",
+    "statarea_id": "797",
+    "mongodb_id": "797",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Elche CF"
+    ]
+  },
+  "FC Emmen": {
+    "canonical_name": "FC Emmen",
+    "country": "Netherlands",
+    "statarea_id": "208",
+    "mongodb_id": "208",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "Emmen"
+    ]
+  },
+  "Empoli": {
+    "canonical_name": "Empoli",
+    "country": "Italy",
+    "statarea_id": "511",
+    "mongodb_id": "511",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Espanol": {
+    "canonical_name": "Espanol",
+    "country": "Spain",
+    "statarea_id": "540",
+    "mongodb_id": "540",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Espanyol",
+      "RCD Espanyol"
+    ]
+  },
+  "Troyes": {
+    "canonical_name": "Troyes",
+    "country": "France",
+    "statarea_id": "110",
+    "mongodb_id": "110",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Estac Troyes",
+      "ESTAC Troyes"
+    ]
+  },
+  "Estoril": {
+    "canonical_name": "Estoril",
+    "country": "Portugal",
+    "statarea_id": "230",
+    "mongodb_id": "230",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "Estoril Praia"
+    ]
+  },
+  "Estrela": {
+    "canonical_name": "Estrela",
+    "country": "Portugal",
+    "statarea_id": "15130",
+    "mongodb_id": "15130",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "CF Estrela Amadora",
+      "Estrela Da Amadora"
+    ]
+  },
+  "Everton": {
+    "canonical_name": "Everton",
+    "country": "England",
+    "statarea_id": "45",
+    "mongodb_id": "45",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Excelsior": {
+    "canonical_name": "Excelsior",
+    "country": "Netherlands",
+    "statarea_id": "196",
+    "mongodb_id": "196",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Eyupspor": {
+    "canonical_name": "Eyupspor",
+    "country": "Turkey",
+    "statarea_id": "3588",
+    "mongodb_id": "3588",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Augsburg": {
+    "canonical_name": "Augsburg",
+    "country": "Germany",
+    "statarea_id": "170",
+    "mongodb_id": "170",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "FC Augsburg"
+    ]
+  },
+  "FC Botosani": {
+    "canonical_name": "FC Botosani",
+    "country": "Romania",
+    "statarea_id": "2581",
+    "mongodb_id": "2581",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": []
+  },
+  "FC Copenhagen": {
+    "canonical_name": "FC Copenhagen",
+    "country": "Denmark",
+    "statarea_id": "400",
+    "mongodb_id": "400",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": []
+  },
+  "FC Dender": {
+    "canonical_name": "FC Dender",
+    "country": "Belgium",
+    "statarea_id": "6215",
+    "mongodb_id": "6215",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": []
+  },
+  "FC Eindhoven": {
+    "canonical_name": "FC Eindhoven",
+    "country": "Netherlands",
+    "statarea_id": "197",
+    "mongodb_id": "422",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "FC Koln": {
+    "canonical_name": "FC Koln",
+    "country": "Germany",
+    "statarea_id": "192",
+    "mongodb_id": "192",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "1FCKöln",
+      "Koln",
+      "1. FC Koln",
+      "1.FCKoln"
+    ]
+  },
+  "FC Lugano": {
+    "canonical_name": "FC Lugano",
+    "country": "Switzerland",
+    "statarea_id": "606",
+    "mongodb_id": "606",
+    "leagues": [],
+    "alt_names": []
+  },
+  "FC Midtjylland": {
+    "canonical_name": "FC Midtjylland",
+    "country": "Denmark",
+    "statarea_id": "397",
+    "mongodb_id": "397",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": []
+  },
+  "FC Nordsjaelland": {
+    "canonical_name": "FC Nordsjaelland",
+    "country": "Denmark",
+    "statarea_id": "398",
+    "mongodb_id": "398",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": []
+  },
+  "Porto": {
+    "canonical_name": "Porto",
+    "country": "Portugal",
+    "statarea_id": "212",
+    "mongodb_id": "212",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "FC Porto"
+    ]
+  },
+  "Porto B": {
+    "canonical_name": "Porto B",
+    "country": "Portugal",
+    "statarea_id": "212",
+    "mongodb_id": "243",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "FC Porto B"
+    ]
+  },
+  "Schalke 04": {
+    "canonical_name": "Schalke 04",
+    "country": "Germany",
+    "statarea_id": "174",
+    "mongodb_id": "174",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "FC Schalke 04",
+      "FCSchalke04"
+    ]
+  },
+  "St Pauli": {
+    "canonical_name": "St Pauli",
+    "country": "Germany",
+    "statarea_id": "186",
+    "mongodb_id": "186",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "FC St. Pauli",
+      "FCStPauli"
+    ]
+  },
+  "FCSB": {
+    "canonical_name": "FCSB",
+    "country": "Romania",
+    "statarea_id": "559",
+    "mongodb_id": "559",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": []
+  },
+  "Mainz 05": {
+    "canonical_name": "Mainz 05",
+    "country": "Germany",
+    "statarea_id": "164",
+    "mongodb_id": "164",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "FSVMainz05",
+      "FSV Mainz 05"
+    ]
+  },
+  "Famalicao": {
+    "canonical_name": "Famalicao",
+    "country": "Portugal",
+    "statarea_id": "242",
+    "mongodb_id": "242",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Farense": {
+    "canonical_name": "Farense",
+    "country": "Portugal",
+    "statarea_id": "231",
+    "mongodb_id": "231",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Farul Constanta": {
+    "canonical_name": "Farul Constanta",
+    "country": "Romania",
+    "statarea_id": "2596",
+    "mongodb_id": "2596",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": []
+  },
+  "Feirense": {
+    "canonical_name": "Feirense",
+    "country": "Portugal",
+    "statarea_id": "213",
+    "mongodb_id": "213",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Felgueiras": {
+    "canonical_name": "Felgueiras",
+    "country": "Portugal",
+    "statarea_id": "4744",
+    "mongodb_id": "4744",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Fenerbahce": {
+    "canonical_name": "Fenerbahce",
+    "country": "Turkey",
+    "statarea_id": "611",
+    "mongodb_id": "611",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Ferencvarosi TC": {
+    "canonical_name": "Ferencvarosi TC",
+    "country": "Hungary",
+    "statarea_id": "651",
+    "mongodb_id": "651",
+    "leagues": [],
+    "alt_names": []
+  },
+  "Feyenoord": {
+    "canonical_name": "Feyenoord",
+    "country": "Netherlands",
+    "statarea_id": "209",
+    "mongodb_id": "209",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Fiorentina": {
+    "canonical_name": "Fiorentina",
+    "country": "Italy",
+    "statarea_id": "502",
+    "mongodb_id": "502",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Fortuna Dusseldorf": {
+    "canonical_name": "Fortuna Dusseldorf",
+    "country": "Germany",
+    "statarea_id": "158",
+    "mongodb_id": "158",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": []
+  },
+  "For Sittard": {
+    "canonical_name": "For Sittard",
+    "country": "Netherlands",
+    "statarea_id": "205",
+    "mongodb_id": "205",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "Fortuna Sittard"
+    ]
+  },
+  "Frosinone": {
+    "canonical_name": "Frosinone",
+    "country": "Italy",
+    "statarea_id": "512",
+    "mongodb_id": "512",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Fulham": {
+    "canonical_name": "Fulham",
+    "country": "England",
+    "statarea_id": "36",
+    "mongodb_id": "36",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "GKS Katowice": {
+    "canonical_name": "GKS Katowice",
+    "country": "Poland",
+    "statarea_id": "3484",
+    "mongodb_id": "3484",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Galatasaray": {
+    "canonical_name": "Galatasaray",
+    "country": "Turkey",
+    "statarea_id": "645",
+    "mongodb_id": "645",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Genk": {
+    "canonical_name": "Genk",
+    "country": "Belgium",
+    "statarea_id": "742",
+    "mongodb_id": "742",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": []
+  },
+  "Genoa": {
+    "canonical_name": "Genoa",
+    "country": "Italy",
+    "statarea_id": "495",
+    "mongodb_id": "495",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Gent": {
+    "canonical_name": "Gent",
+    "country": "Belgium",
+    "statarea_id": "631",
+    "mongodb_id": "631",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "KAA Gent"
+    ]
+  },
+  "Getafe": {
+    "canonical_name": "Getafe",
+    "country": "Spain",
+    "statarea_id": "546",
+    "mongodb_id": "546",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Gil Vicente": {
+    "canonical_name": "Gil Vicente",
+    "country": "Portugal",
+    "statarea_id": "762",
+    "mongodb_id": "762",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Girona": {
+    "canonical_name": "Girona",
+    "country": "Spain",
+    "statarea_id": "547",
+    "mongodb_id": "547",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Gloria Buzau": {
+    "canonical_name": "Gloria Buzau",
+    "country": "Romania",
+    "statarea_id": "6232",
+    "mongodb_id": "6232",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": []
+  },
+  "Go Ahead Eagles": {
+    "canonical_name": "Go Ahead Eagles",
+    "country": "Netherlands",
+    "statarea_id": "410",
+    "mongodb_id": "410",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Gornik Zabrze": {
+    "canonical_name": "Gornik Zabrze",
+    "country": "Poland",
+    "statarea_id": "340",
+    "mongodb_id": "340",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Goztep": {
+    "canonical_name": "Goztep",
+    "country": "Turkey",
+    "statarea_id": "994",
+    "mongodb_id": "994",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Granada": {
+    "canonical_name": "Granada",
+    "country": "Spain",
+    "statarea_id": "715",
+    "mongodb_id": "715",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Granada CF"
+    ]
+  },
+  "Grenoble": {
+    "canonical_name": "Grenoble",
+    "country": "France",
+    "statarea_id": "101",
+    "mongodb_id": "101",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Grenoble Foot 38"
+    ]
+  },
+  "Groningen": {
+    "canonical_name": "Groningen",
+    "country": "Netherlands",
+    "statarea_id": "202",
+    "mongodb_id": "202",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Guimaraes": {
+    "canonical_name": "Guimaraes",
+    "country": "Portugal",
+    "statarea_id": "224",
+    "mongodb_id": "224",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "Vitoria Guimaraes"
+    ]
+  },
+  "Guingamp": {
+    "canonical_name": "Guingamp",
+    "country": "France",
+    "statarea_id": "90",
+    "mongodb_id": "90",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "HNK Gorica": {
+    "canonical_name": "HNK Gorica",
+    "country": "Croatia",
+    "statarea_id": "1068",
+    "mongodb_id": "1068",
+    "leagues": [
+      {
+        "name": "HNL (Croatia)",
+        "id": "210"
+      }
+    ],
+    "alt_names": []
+  },
+  "HNK Hajduk Split": {
+    "canonical_name": "HNK Hajduk Split",
+    "country": "Croatia",
+    "statarea_id": "608",
+    "mongodb_id": "608",
+    "leagues": [
+      {
+        "name": "HNL (Croatia)",
+        "id": "210"
+      }
+    ],
+    "alt_names": []
+  },
+  "HNK Rijeka": {
+    "canonical_name": "HNK Rijeka",
+    "country": "Croatia",
+    "statarea_id": "561",
+    "mongodb_id": "561",
+    "leagues": [
+      {
+        "name": "HNL (Croatia)",
+        "id": "210"
+      }
+    ],
+    "alt_names": []
+  },
+  "Hamburg": {
+    "canonical_name": "Hamburg",
+    "country": "Germany",
+    "statarea_id": "175",
+    "mongodb_id": "175",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Hamburger SV",
+      "HamburgerSV"
+    ]
+  },
+  "Hannover": {
+    "canonical_name": "Hannover",
+    "country": "Germany",
+    "statarea_id": "166",
+    "mongodb_id": "166",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Hannover 96",
+      "Hannover96"
+    ]
+  },
+  "Hatayspor": {
+    "canonical_name": "Hatayspor",
+    "country": "Turkey",
+    "statarea_id": "3575",
+    "mongodb_id": "3575",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Heerenveen": {
+    "canonical_name": "Heerenveen",
+    "country": "Netherlands",
+    "statarea_id": "210",
+    "mongodb_id": "210",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Helmond Sport": {
+    "canonical_name": "Helmond Sport",
+    "country": "Netherlands",
+    "statarea_id": "424",
+    "mongodb_id": "424",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Heracles": {
+    "canonical_name": "Heracles",
+    "country": "Netherlands",
+    "statarea_id": "206",
+    "mongodb_id": "206",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Holstein Kiel": {
+    "canonical_name": "Holstein Kiel",
+    "country": "Germany",
+    "statarea_id": "191",
+    "mongodb_id": "191",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": []
+  },
+  "Huesca": {
+    "canonical_name": "Huesca",
+    "country": "Spain",
+    "statarea_id": "726",
+    "mongodb_id": "726",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Hull": {
+    "canonical_name": "Hull",
+    "country": "England",
+    "statarea_id": "64",
+    "mongodb_id": "64",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Hull City"
+    ]
+  },
+  "Inter": {
+    "canonical_name": "Inter",
+    "country": "Italy",
+    "statarea_id": "505",
+    "mongodb_id": "505",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": [
+      "Internazionale"
+    ]
+  },
+  "Ipswich": {
+    "canonical_name": "Ipswich",
+    "country": "England",
+    "statarea_id": "57",
+    "mongodb_id": "57",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Buyuksehyr": {
+    "canonical_name": "Buyuksehyr",
+    "country": "Turkey",
+    "statarea_id": "564",
+    "mongodb_id": "564",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": [
+      "İstanbul Başakşehir",
+      "Istanbul Basaksehir"
+    ]
+  },
+  "Jagiellonia": {
+    "canonical_name": "Jagiellonia",
+    "country": "Poland",
+    "statarea_id": "336",
+    "mongodb_id": "336",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Regensburg": {
+    "canonical_name": "Regensburg",
+    "country": "Germany",
+    "statarea_id": "177",
+    "mongodb_id": "177",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Jahn Regensburg"
+    ]
+  },
+  "Jong AZ": {
+    "canonical_name": "Jong AZ",
+    "country": "Netherlands",
+    "statarea_id": "418",
+    "mongodb_id": "418",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Jong Ajax": {
+    "canonical_name": "Jong Ajax",
+    "country": "Netherlands",
+    "statarea_id": "425",
+    "mongodb_id": "425",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Jong PSV": {
+    "canonical_name": "Jong PSV",
+    "country": "Netherlands",
+    "statarea_id": "411",
+    "mongodb_id": "411",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Jong Utrecht": {
+    "canonical_name": "Jong Utrecht",
+    "country": "Netherlands",
+    "statarea_id": "428",
+    "mongodb_id": "428",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Juve Stabia": {
+    "canonical_name": "Juve Stabia",
+    "country": "Italy",
+    "statarea_id": "863",
+    "mongodb_id": "863",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Juventus": {
+    "canonical_name": "Juventus",
+    "country": "Italy",
+    "statarea_id": "496",
+    "mongodb_id": "496",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Mechelen": {
+    "canonical_name": "Mechelen",
+    "country": "Belgium",
+    "statarea_id": "266",
+    "mongodb_id": "266",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "KV Mechelen"
+    ]
+  },
+  "KVC Westerlo": {
+    "canonical_name": "KVC Westerlo",
+    "country": "Belgium",
+    "statarea_id": "261",
+    "mongodb_id": "261",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "Westerlo",
+      "KVCOosterlo"
+    ]
+  },
+  "Karlsruhe": {
+    "canonical_name": "Karlsruhe",
+    "country": "Germany",
+    "statarea_id": "785",
+    "mongodb_id": "785",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Karlsruher SC"
+    ]
+  },
+  "Kasimpasa": {
+    "canonical_name": "Kasimpasa",
+    "country": "Turkey",
+    "statarea_id": "1004",
+    "mongodb_id": "1004",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Kayserispor": {
+    "canonical_name": "Kayserispor",
+    "country": "Turkey",
+    "statarea_id": "1001",
+    "mongodb_id": "1001",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Konyaspor": {
+    "canonical_name": "Konyaspor",
+    "country": "Turkey",
+    "statarea_id": "607",
+    "mongodb_id": "607",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Korona Kielce": {
+    "canonical_name": "Korona Kielce",
+    "country": "Poland",
+    "statarea_id": "346",
+    "mongodb_id": "346",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Kortrijk": {
+    "canonical_name": "Kortrijk",
+    "country": "Belgium",
+    "statarea_id": "734",
+    "mongodb_id": "734",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": []
+  },
+  "Las Palmas": {
+    "canonical_name": "Las Palmas",
+    "country": "Spain",
+    "statarea_id": "534",
+    "mongodb_id": "534",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Laval": {
+    "canonical_name": "Laval",
+    "country": "France",
+    "statarea_id": "433",
+    "mongodb_id": "433",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Lazio": {
+    "canonical_name": "Lazio",
+    "country": "Italy",
+    "statarea_id": "487",
+    "mongodb_id": "487",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Le Havre": {
+    "canonical_name": "Le Havre",
+    "country": "France",
+    "statarea_id": "111",
+    "mongodb_id": "111",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Lecce": {
+    "canonical_name": "Lecce",
+    "country": "Italy",
+    "statarea_id": "867",
+    "mongodb_id": "867",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Lech Poznan": {
+    "canonical_name": "Lech Poznan",
+    "country": "Poland",
+    "statarea_id": "347",
+    "mongodb_id": "347",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Lechia Gdansk": {
+    "canonical_name": "Lechia Gdansk",
+    "country": "Poland",
+    "statarea_id": "343",
+    "mongodb_id": "343",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Leeds": {
+    "canonical_name": "Leeds",
+    "country": "England",
+    "statarea_id": "63",
+    "mongodb_id": "63",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Leeds United"
+    ]
+  },
+  "Leganes": {
+    "canonical_name": "Leganes",
+    "country": "Spain",
+    "statarea_id": "537",
+    "mongodb_id": "537",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Legia Warszawa": {
+    "canonical_name": "Legia Warszawa",
+    "country": "Poland",
+    "statarea_id": "339",
+    "mongodb_id": "339",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": [
+      "LegiaWarszawa",
+      "Legia Warsaw"
+    ]
+  },
+  "Leicester": {
+    "canonical_name": "Leicester",
+    "country": "England",
+    "statarea_id": "46",
+    "mongodb_id": "46",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Leicester City"
+    ]
+  },
+  "Leiria": {
+    "canonical_name": "Leiria",
+    "country": "Portugal",
+    "statarea_id": "4662",
+    "mongodb_id": "4662",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "UniãodeLeiria",
+      "UniãoLeiria",
+      "União de Leiria"
+    ]
+  },
+  "Leixoes": {
+    "canonical_name": "Leixoes",
+    "country": "Portugal",
+    "statarea_id": "244",
+    "mongodb_id": "244",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Lens": {
+    "canonical_name": "Lens",
+    "country": "France",
+    "statarea_id": "116",
+    "mongodb_id": "116",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Levante": {
+    "canonical_name": "Levante",
+    "country": "Spain",
+    "statarea_id": "539",
+    "mongodb_id": "539",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Lille": {
+    "canonical_name": "Lille",
+    "country": "France",
+    "statarea_id": "79",
+    "mongodb_id": "79",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Liverpool": {
+    "canonical_name": "Liverpool",
+    "country": "England",
+    "statarea_id": "40",
+    "mongodb_id": "40",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Lorient": {
+    "canonical_name": "Lorient",
+    "country": "France",
+    "statarea_id": "97",
+    "mongodb_id": "97",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Luton": {
+    "canonical_name": "Luton",
+    "country": "England",
+    "statarea_id": "1359",
+    "mongodb_id": "1359",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Luton Town"
+    ]
+  },
+  "Lyngby": {
+    "canonical_name": "Lyngby",
+    "country": "Denmark",
+    "statarea_id": "625",
+    "mongodb_id": "625",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": []
+  },
+  "Lyon": {
+    "canonical_name": "Lyon",
+    "country": "France",
+    "statarea_id": "80",
+    "mongodb_id": "80",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Olympique Lyonnais"
+    ]
+  },
+  "MVV": {
+    "canonical_name": "MVV",
+    "country": "Netherlands",
+    "statarea_id": "412",
+    "mongodb_id": "412",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "MVV Maastricht"
+    ]
+  },
+  "Mafra": {
+    "canonical_name": "Mafra",
+    "country": "Portugal",
+    "statarea_id": "245",
+    "mongodb_id": "245",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Malaga": {
+    "canonical_name": "Malaga",
+    "country": "Spain",
+    "statarea_id": "535",
+    "mongodb_id": "535",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Mallorca": {
+    "canonical_name": "Mallorca",
+    "country": "Spain",
+    "statarea_id": "798",
+    "mongodb_id": "798",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "RCD Mallorca"
+    ]
+  },
+  "Man City": {
+    "canonical_name": "Man City",
+    "country": "England",
+    "statarea_id": "50",
+    "mongodb_id": "50",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Manchester City",
+      "Manchester_City"
+    ]
+  },
+  "Man United": {
+    "canonical_name": "Man United",
+    "country": "England",
+    "statarea_id": "33",
+    "mongodb_id": "33",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "ManchesterUtd",
+      "Manchester United",
+      "ManchesterUnited"
+    ]
+  },
+  "Mantova": {
+    "canonical_name": "Mantova",
+    "country": "Italy",
+    "statarea_id": "1693",
+    "mongodb_id": "1693",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Maritimo": {
+    "canonical_name": "Maritimo",
+    "country": "Portugal",
+    "statarea_id": "214",
+    "mongodb_id": "214",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Marseille": {
+    "canonical_name": "Marseille",
+    "country": "France",
+    "statarea_id": "81",
+    "mongodb_id": "81",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Olympique Marseille"
+    ]
+  },
+  "Martigues": {
+    "canonical_name": "Martigues",
+    "country": "France",
+    "statarea_id": "3200",
+    "mongodb_id": "3200",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Metz": {
+    "canonical_name": "Metz",
+    "country": "France",
+    "statarea_id": "112",
+    "mongodb_id": "112",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "FC Metz"
+    ]
+  },
+  "Middlesbrough": {
+    "canonical_name": "Middlesbrough",
+    "country": "England",
+    "statarea_id": "70",
+    "mongodb_id": "70",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Millwall": {
+    "canonical_name": "Millwall",
+    "country": "England",
+    "statarea_id": "58",
+    "mongodb_id": "58",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Mirandes": {
+    "canonical_name": "Mirandes",
+    "country": "Spain",
+    "statarea_id": "799",
+    "mongodb_id": "799",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "CD Mirandés"
+    ]
+  },
+  "Modena": {
+    "canonical_name": "Modena",
+    "country": "Italy",
+    "statarea_id": "899",
+    "mongodb_id": "899",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Monaco": {
+    "canonical_name": "Monaco",
+    "country": "France",
+    "statarea_id": "91",
+    "mongodb_id": "91",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "AS Monaco"
+    ]
+  },
+  "Montpellier": {
+    "canonical_name": "Montpellier",
+    "country": "France",
+    "statarea_id": "82",
+    "mongodb_id": "82",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Monza": {
+    "canonical_name": "Monza",
+    "country": "Italy",
+    "statarea_id": "1579",
+    "mongodb_id": "1579",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Moreirense": {
+    "canonical_name": "Moreirense",
+    "country": "Portugal",
+    "statarea_id": "215",
+    "mongodb_id": "215",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Motor Lublin": {
+    "canonical_name": "Motor Lublin",
+    "country": "Poland",
+    "statarea_id": "14562",
+    "mongodb_id": "14562",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "NAC Breda": {
+    "canonical_name": "NAC Breda",
+    "country": "Netherlands",
+    "statarea_id": "203",
+    "mongodb_id": "203",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Nijmegen": {
+    "canonical_name": "Nijmegen",
+    "country": "Netherlands",
+    "statarea_id": "413",
+    "mongodb_id": "413",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "NEC Nijmegen"
+    ]
+  },
+  "NK Dinamo Zagreb": {
+    "canonical_name": "NK Dinamo Zagreb",
+    "country": "Croatia",
+    "statarea_id": "620",
+    "mongodb_id": "620",
+    "leagues": [
+      {
+        "name": "HNL (Croatia)",
+        "id": "210"
+      }
+    ],
+    "alt_names": [
+      "Dinamo Zagreb"
+    ]
+  },
+  "NK Lokomotiva Zagreb": {
+    "canonical_name": "NK Lokomotiva Zagreb",
+    "country": "Croatia",
+    "statarea_id": "1017",
+    "mongodb_id": "1017",
+    "leagues": [
+      {
+        "name": "HNL (Croatia)",
+        "id": "210"
+      }
+    ],
+    "alt_names": [
+      "Lokomotiva Zagreb"
+    ]
+  },
+  "NK Osijek": {
+    "canonical_name": "NK Osijek",
+    "country": "Croatia",
+    "statarea_id": "616",
+    "mongodb_id": "616",
+    "leagues": [
+      {
+        "name": "HNL (Croatia)",
+        "id": "210"
+      }
+    ],
+    "alt_names": [
+      "Osijek"
+    ]
+  },
+  "NK Slaven Belupo": {
+    "canonical_name": "NK Slaven Belupo",
+    "country": "Croatia",
+    "statarea_id": "1018",
+    "mongodb_id": "1018",
+    "leagues": [
+      {
+        "name": "HNL (Croatia)",
+        "id": "210"
+      }
+    ],
+    "alt_names": [
+      "Slaven Belupo"
+    ]
+  },
+  "NK Varazdin": {
+    "canonical_name": "NK Varazdin",
+    "country": "Croatia",
+    "statarea_id": "1483",
+    "mongodb_id": "1483",
+    "leagues": [
+      {
+        "name": "HNL (Croatia)",
+        "id": "210"
+      }
+    ],
+    "alt_names": [
+      "Varazdin"
+    ]
+  },
+  "Nacional": {
+    "canonical_name": "Nacional",
+    "country": "Portugal",
+    "statarea_id": "225",
+    "mongodb_id": "225",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "CD Nacional"
+    ]
+  },
+  "Nantes": {
+    "canonical_name": "Nantes",
+    "country": "France",
+    "statarea_id": "83",
+    "mongodb_id": "83",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Napoli": {
+    "canonical_name": "Napoli",
+    "country": "Italy",
+    "statarea_id": "492",
+    "mongodb_id": "492",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": [
+      "SSC Napoli"
+    ]
+  },
+  "Newcastle": {
+    "canonical_name": "Newcastle",
+    "country": "England",
+    "statarea_id": "34",
+    "mongodb_id": "34",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Newcastle United"
+    ]
+  },
+  "Nice": {
+    "canonical_name": "Nice",
+    "country": "France",
+    "statarea_id": "84",
+    "mongodb_id": "84",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "OGC Nice"
+    ]
+  },
+  "Norwich": {
+    "canonical_name": "Norwich",
+    "country": "England",
+    "statarea_id": "71",
+    "mongodb_id": "71",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Norwich City"
+    ]
+  },
+  "Nott'm Forest": {
+    "canonical_name": "Nott'm Forest",
+    "country": "England",
+    "statarea_id": "65",
+    "mongodb_id": "65",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Nottingham Forest"
+    ]
+  },
+  "Oud-Heverlee Leuven": {
+    "canonical_name": "Oud-Heverlee Leuven",
+    "country": "Belgium",
+    "statarea_id": "260",
+    "mongodb_id": "260",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "OH Leuven",
+      "Leuven"
+    ]
+  },
+  "Oliveirense": {
+    "canonical_name": "Oliveirense",
+    "country": "Portugal",
+    "statarea_id": "233",
+    "mongodb_id": "233",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Olympiakos": {
+    "canonical_name": "Olympiakos",
+    "country": "Greece",
+    "statarea_id": "553",
+    "mongodb_id": "553",
+    "leagues": [],
+    "alt_names": [
+      "Olympiakos Piraeus"
+    ]
+  },
+  "Osasuna": {
+    "canonical_name": "Osasuna",
+    "country": "Spain",
+    "statarea_id": "727",
+    "mongodb_id": "727",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Oviedo": {
+    "canonical_name": "Oviedo",
+    "country": "Spain",
+    "statarea_id": "718",
+    "mongodb_id": "718",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Real Oviedo"
+    ]
+  },
+  "Oxford": {
+    "canonical_name": "Oxford",
+    "country": "England",
+    "statarea_id": "1338",
+    "mongodb_id": "1338",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Oxford United"
+    ]
+  },
+  "PAOK": {
+    "canonical_name": "PAOK",
+    "country": "Greece",
+    "statarea_id": "619",
+    "mongodb_id": "619",
+    "leagues": [],
+    "alt_names": []
+  },
+  "Zwolle": {
+    "canonical_name": "Zwolle",
+    "country": "Netherlands",
+    "statarea_id": "193",
+    "mongodb_id": "193",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "PEC Zwolle"
+    ]
+  },
+  "PSV Eindhoven": {
+    "canonical_name": "PSV Eindhoven",
+    "country": "Netherlands",
+    "statarea_id": "197",
+    "mongodb_id": "197",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "PSV"
+    ]
+  },
+  "Pacos Ferreira": {
+    "canonical_name": "Pacos Ferreira",
+    "country": "Portugal",
+    "statarea_id": "234",
+    "mongodb_id": "234",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Pafos FC": {
+    "canonical_name": "Pafos FC",
+    "country": "Cyprus",
+    "statarea_id": "3403",
+    "mongodb_id": "3403",
+    "leagues": [],
+    "alt_names": [
+      "Pafos"
+    ]
+  },
+  "Palermo": {
+    "canonical_name": "Palermo",
+    "country": "Italy",
+    "statarea_id": "522",
+    "mongodb_id": "522",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Panathinaikos": {
+    "canonical_name": "Panathinaikos",
+    "country": "Greece",
+    "statarea_id": "617",
+    "mongodb_id": "617",
+    "leagues": [],
+    "alt_names": []
+  },
+  "Paris FC": {
+    "canonical_name": "Paris FC",
+    "country": "France",
+    "statarea_id": "114",
+    "mongodb_id": "114",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Paris Saint Germain": {
+    "canonical_name": "Paris Saint Germain",
+    "country": "France",
+    "statarea_id": "85",
+    "mongodb_id": "85",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Paris SG",
+      "PSG",
+      "ParisSaintGermain"
+    ]
+  },
+  "Parma": {
+    "canonical_name": "Parma",
+    "country": "Italy",
+    "statarea_id": "523",
+    "mongodb_id": "523",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Pau FC": {
+    "canonical_name": "Pau FC",
+    "country": "France",
+    "statarea_id": "1297",
+    "mongodb_id": "1297",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Pau"
+    ]
+  },
+  "Penafiel": {
+    "canonical_name": "Penafiel",
+    "country": "Portugal",
+    "statarea_id": "235",
+    "mongodb_id": "235",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Piast Gliwice": {
+    "canonical_name": "Piast Gliwice",
+    "country": "Poland",
+    "statarea_id": "349",
+    "mongodb_id": "349",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Pisa": {
+    "canonical_name": "Pisa",
+    "country": "Italy",
+    "statarea_id": "801",
+    "mongodb_id": "801",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Plymouth": {
+    "canonical_name": "Plymouth",
+    "country": "England",
+    "statarea_id": "1357",
+    "mongodb_id": "1357",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Plymouth Argyle"
+    ]
+  },
+  "Pogon Szczecin": {
+    "canonical_name": "Pogon Szczecin",
+    "country": "Poland",
+    "statarea_id": "348",
+    "mongodb_id": "348",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Portimonense": {
+    "canonical_name": "Portimonense",
+    "country": "Portugal",
+    "statarea_id": "216",
+    "mongodb_id": "216",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Portsmouth": {
+    "canonical_name": "Portsmouth",
+    "country": "England",
+    "statarea_id": "1355",
+    "mongodb_id": "1355",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Preston": {
+    "canonical_name": "Preston",
+    "country": "England",
+    "statarea_id": "59",
+    "mongodb_id": "59",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Preston North End"
+    ]
+  },
+  "QPR": {
+    "canonical_name": "QPR",
+    "country": "England",
+    "statarea_id": "72",
+    "mongodb_id": "72",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Queens Park Rangers"
+    ]
+  },
+  "RB Leipzig": {
+    "canonical_name": "RB Leipzig",
+    "country": "Germany",
+    "statarea_id": "173",
+    "mongodb_id": "173",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": []
+  },
+  "Santander": {
+    "canonical_name": "Santander",
+    "country": "Spain",
+    "statarea_id": "4665",
+    "mongodb_id": "4665",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Racing Santander"
+    ]
+  },
+  "Radomiak Radom": {
+    "canonical_name": "Radomiak Radom",
+    "country": "Poland",
+    "statarea_id": "4248",
+    "mongodb_id": "4248",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Rakow Czestochowa": {
+    "canonical_name": "Rakow Czestochowa",
+    "country": "Poland",
+    "statarea_id": "3491",
+    "mongodb_id": "3491",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Randers FC": {
+    "canonical_name": "Randers FC",
+    "country": "Denmark",
+    "statarea_id": "799",
+    "mongodb_id": "401",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": [
+      "Randers"
+    ]
+  },
+  "Rangers": {
+    "canonical_name": "Rangers",
+    "country": "Scotland",
+    "statarea_id": "77",
+    "mongodb_id": "257",
+    "leagues": [],
+    "alt_names": []
+  },
+  "Rapid Bucuresti": {
+    "canonical_name": "Rapid Bucuresti",
+    "country": "Romania",
+    "statarea_id": "636",
+    "mongodb_id": "636",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": [
+      "Rapid Bucharest"
+    ]
+  },
+  "Rapid Vienna": {
+    "canonical_name": "Rapid Vienna",
+    "country": "Austria",
+    "statarea_id": "781",
+    "mongodb_id": "6231",
+    "leagues": [],
+    "alt_names": []
+  },
+  "Vallecano": {
+    "canonical_name": "Vallecano",
+    "country": "Spain",
+    "statarea_id": "728",
+    "mongodb_id": "728",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Rayo Vallecano"
+    ]
+  },
+  "Real Madrid": {
+    "canonical_name": "Real Madrid",
+    "country": "Spain",
+    "statarea_id": "541",
+    "mongodb_id": "541",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Sociedad": {
+    "canonical_name": "Sociedad",
+    "country": "Spain",
+    "statarea_id": "548",
+    "mongodb_id": "548",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Real Sociedad"
+    ]
+  },
+  "Red Star": {
+    "canonical_name": "Red Star",
+    "country": "France",
+    "statarea_id": "104",
+    "mongodb_id": "104",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Reggiana": {
+    "canonical_name": "Reggiana",
+    "country": "Italy",
+    "statarea_id": "880",
+    "mongodb_id": "880",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Reims": {
+    "canonical_name": "Reims",
+    "country": "France",
+    "statarea_id": "93",
+    "mongodb_id": "93",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Stade Reims"
+    ]
+  },
+  "Rennes": {
+    "canonical_name": "Rennes",
+    "country": "France",
+    "statarea_id": "94",
+    "mongodb_id": "94",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Stade Rennais"
+    ]
+  },
+  "Rio Ave": {
+    "canonical_name": "Rio Ave",
+    "country": "Portugal",
+    "statarea_id": "226",
+    "mongodb_id": "226",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Rizespor": {
+    "canonical_name": "Rizespor",
+    "country": "Turkey",
+    "statarea_id": "1007",
+    "mongodb_id": "1007",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": [
+      "Caykur Rizespor"
+    ]
+  },
+  "Roda": {
+    "canonical_name": "Roda",
+    "country": "Netherlands",
+    "statarea_id": "414",
+    "mongodb_id": "414",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "Roda JC Kerkrade"
+    ]
+  },
+  "Rodez": {
+    "canonical_name": "Rodez",
+    "country": "France",
+    "statarea_id": "1301",
+    "mongodb_id": "1301",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Roma": {
+    "canonical_name": "Roma",
+    "country": "Italy",
+    "statarea_id": "497",
+    "mongodb_id": "497",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": [
+      "AS Roma"
+    ]
+  },
+  "Sp Braga": {
+    "canonical_name": "Sp Braga",
+    "country": "Portugal",
+    "statarea_id": "217",
+    "mongodb_id": "217",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "SC Braga",
+      "Braga"
+    ]
+  },
+  "Freiburg": {
+    "canonical_name": "Freiburg",
+    "country": "Germany",
+    "statarea_id": "160",
+    "mongodb_id": "160",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "SCFreiburg",
+      "SC Freiburg"
+    ]
+  },
+  "Paderborn": {
+    "canonical_name": "Paderborn",
+    "country": "Germany",
+    "statarea_id": "185",
+    "mongodb_id": "185",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "SC Paderborn 07"
+    ]
+  },
+  "SSV Ulm 1846": {
+    "canonical_name": "SSV Ulm 1846",
+    "country": "Germany",
+    "statarea_id": "1652",
+    "mongodb_id": "1652",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Ulm"
+    ]
+  },
+  "Darmstadt": {
+    "canonical_name": "Darmstadt",
+    "country": "Germany",
+    "statarea_id": "181",
+    "mongodb_id": "181",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "SV Darmstadt 98"
+    ]
+  },
+  "Elversberg": {
+    "canonical_name": "Elversberg",
+    "country": "Germany",
+    "statarea_id": "1660",
+    "mongodb_id": "1660",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "SV Elversberg"
+    ]
+  },
+  "Salernitana": {
+    "canonical_name": "Salernitana",
+    "country": "Italy",
+    "statarea_id": "514",
+    "mongodb_id": "514",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Sampdoria": {
+    "canonical_name": "Sampdoria",
+    "country": "Italy",
+    "statarea_id": "498",
+    "mongodb_id": "498",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Samsunspor": {
+    "canonical_name": "Samsunspor",
+    "country": "Turkey",
+    "statarea_id": "3603",
+    "mongodb_id": "3603",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Santa Clara": {
+    "canonical_name": "Santa Clara",
+    "country": "Portugal",
+    "statarea_id": "227",
+    "mongodb_id": "227",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Sassuolo": {
+    "canonical_name": "Sassuolo",
+    "country": "Italy",
+    "statarea_id": "488",
+    "mongodb_id": "488",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Sepsi OSK": {
+    "canonical_name": "Sepsi OSK",
+    "country": "Romania",
+    "statarea_id": "2585",
+    "mongodb_id": "2585",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": [
+      "Sepsi"
+    ]
+  },
+  "Sevilla": {
+    "canonical_name": "Sevilla",
+    "country": "Spain",
+    "statarea_id": "536",
+    "mongodb_id": "536",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Sheffield United": {
+    "canonical_name": "Sheffield United",
+    "country": "England",
+    "statarea_id": "62",
+    "mongodb_id": "62",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Sheffield Utd"
+    ]
+  },
+  "Sheffield Weds": {
+    "canonical_name": "Sheffield Weds",
+    "country": "England",
+    "statarea_id": "62",
+    "mongodb_id": "74",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Sheffield Wednesday"
+    ]
+  },
+  "Sibenik": {
+    "canonical_name": "Sibenik",
+    "country": "Croatia",
+    "statarea_id": "1475",
+    "mongodb_id": "1475",
+    "leagues": [
+      {
+        "name": "HNL (Croatia)",
+        "id": "210"
+      }
+    ],
+    "alt_names": []
+  },
+  "Silkeborg": {
+    "canonical_name": "Silkeborg",
+    "country": "Denmark",
+    "statarea_id": "2073",
+    "mongodb_id": "2073",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": []
+  },
+  "Sivasspor": {
+    "canonical_name": "Sivasspor",
+    "country": "Turkey",
+    "statarea_id": "1002",
+    "mongodb_id": "1002",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Slask Wroclaw": {
+    "canonical_name": "Slask Wroclaw",
+    "country": "Poland",
+    "statarea_id": "337",
+    "mongodb_id": "337",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Slavia Praha": {
+    "canonical_name": "Slavia Praha",
+    "country": "Czech Republic",
+    "statarea_id": "560",
+    "mongodb_id": "560",
+    "leagues": [],
+    "alt_names": [
+      "Slavia Prague"
+    ]
+  },
+  "SonderjyskE": {
+    "canonical_name": "SonderjyskE",
+    "country": "Denmark",
+    "statarea_id": "396",
+    "mongodb_id": "396",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": [
+      "Sonderjyske"
+    ]
+  },
+  "Southampton": {
+    "canonical_name": "Southampton",
+    "country": "England",
+    "statarea_id": "41",
+    "mongodb_id": "41",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Greuther Furth": {
+    "canonical_name": "Greuther Furth",
+    "country": "Germany",
+    "statarea_id": "178",
+    "mongodb_id": "178",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "SpVgg Greuther Furth"
+    ]
+  },
+  "Sparta Rotterdam": {
+    "canonical_name": "Sparta Rotterdam",
+    "country": "Netherlands",
+    "statarea_id": "426",
+    "mongodb_id": "426",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Spezia": {
+    "canonical_name": "Spezia",
+    "country": "Italy",
+    "statarea_id": "515",
+    "mongodb_id": "515",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Sp Lisbon": {
+    "canonical_name": "Sp Lisbon",
+    "country": "Portugal",
+    "statarea_id": "228",
+    "mongodb_id": "228",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "Sporting Lisbon",
+      "Sporting CP"
+    ]
+  },
+  "Sp Gijon": {
+    "canonical_name": "Sp Gijon",
+    "country": "Spain",
+    "statarea_id": "731",
+    "mongodb_id": "731",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Sporting_Gijon",
+      "Sporting Gijon",
+      "SpGijon"
+    ]
+  },
+  "St Truiden": {
+    "canonical_name": "St Truiden",
+    "country": "Belgium",
+    "statarea_id": "735",
+    "mongodb_id": "735",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "Sint-Truiden"
+    ]
+  },
+  "Brest": {
+    "canonical_name": "Brest",
+    "country": "France",
+    "statarea_id": "106",
+    "mongodb_id": "106",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Stade Brest",
+      "Stade Brestois 29"
+    ]
+  },
+  "Stal Mielec": {
+    "canonical_name": "Stal Mielec",
+    "country": "Poland",
+    "statarea_id": "3493",
+    "mongodb_id": "3493",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Standard Liege": {
+    "canonical_name": "Standard Liege",
+    "country": "Belgium",
+    "statarea_id": "733",
+    "mongodb_id": "733",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "Standard_Liege"
+    ]
+  },
+  "Stoke": {
+    "canonical_name": "Stoke",
+    "country": "England",
+    "statarea_id": "75",
+    "mongodb_id": "75",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "StokeCity",
+      "Stoke City"
+    ]
+  },
+  "Strasbourg": {
+    "canonical_name": "Strasbourg",
+    "country": "France",
+    "statarea_id": "95",
+    "mongodb_id": "95",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Sturm Graz": {
+    "canonical_name": "Sturm Graz",
+    "country": "Austria",
+    "statarea_id": "637",
+    "mongodb_id": "637",
+    "leagues": [],
+    "alt_names": []
+  },
+  "Stuttgart": {
+    "canonical_name": "Stuttgart",
+    "country": "Germany",
+    "statarea_id": "172",
+    "mongodb_id": "172",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "VfB Stuttgart",
+      "VfBStuttgart"
+    ]
+  },
+  "Sudtirol": {
+    "canonical_name": "Sudtirol",
+    "country": "Italy",
+    "statarea_id": "1578",
+    "mongodb_id": "1578",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": [
+      "FC Südtirol"
+    ]
+  },
+  "Sunderland": {
+    "canonical_name": "Sunderland",
+    "country": "England",
+    "statarea_id": "746",
+    "mongodb_id": "746",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Swansea": {
+    "canonical_name": "Swansea",
+    "country": "England",
+    "statarea_id": "76",
+    "mongodb_id": "76",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Swansea City"
+    ]
+  },
+  "TSC Backa Topola": {
+    "canonical_name": "TSC Backa Topola",
+    "country": "Serbia",
+    "statarea_id": "2646",
+    "mongodb_id": "2646",
+    "leagues": [],
+    "alt_names": []
+  },
+  "Telstar": {
+    "canonical_name": "Telstar",
+    "country": "Netherlands",
+    "statarea_id": "427",
+    "mongodb_id": "427",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Tenerife": {
+    "canonical_name": "Tenerife",
+    "country": "Spain",
+    "statarea_id": "719",
+    "mongodb_id": "719",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Tondela": {
+    "canonical_name": "Tondela",
+    "country": "Portugal",
+    "statarea_id": "218",
+    "mongodb_id": "218",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Torino": {
+    "canonical_name": "Torino",
+    "country": "Italy",
+    "statarea_id": "503",
+    "mongodb_id": "503",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Torreense": {
+    "canonical_name": "Torreense",
+    "country": "Portugal",
+    "statarea_id": "4799",
+    "mongodb_id": "4799",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Tottenham": {
+    "canonical_name": "Tottenham",
+    "country": "England",
+    "statarea_id": "47",
+    "mongodb_id": "47",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Spurs"
+    ]
+  },
+  "Toulouse": {
+    "canonical_name": "Toulouse",
+    "country": "France",
+    "statarea_id": "96",
+    "mongodb_id": "96",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": []
+  },
+  "Trabzonspor": {
+    "canonical_name": "Trabzonspor",
+    "country": "Turkey",
+    "statarea_id": "998",
+    "mongodb_id": "998",
+    "leagues": [
+      {
+        "name": "Super Lig (Turkey)",
+        "id": "203"
+      },
+      {
+        "name": "Süper Lig (Turkey)",
+        "id": "203"
+      }
+    ],
+    "alt_names": []
+  },
+  "Twente": {
+    "canonical_name": "Twente",
+    "country": "Netherlands",
+    "statarea_id": "415",
+    "mongodb_id": "415",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "FC Twente"
+    ]
+  },
+  "UTA Arad": {
+    "canonical_name": "UTA Arad",
+    "country": "Romania",
+    "statarea_id": "2589",
+    "mongodb_id": "2589",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": []
+  },
+  "Udinese": {
+    "canonical_name": "Udinese",
+    "country": "Italy",
+    "statarea_id": "494",
+    "mongodb_id": "494",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": []
+  },
+  "Union Berlin": {
+    "canonical_name": "Union Berlin",
+    "country": "Germany",
+    "statarea_id": "182",
+    "mongodb_id": "182",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "1. FC Union Berlin"
+    ]
+  },
+  "St. Gilloise": {
+    "canonical_name": "St. Gilloise",
+    "country": "Belgium",
+    "statarea_id": "1393",
+    "mongodb_id": "1393",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "Union St. Gilloise",
+      "Union Saint-Gilloise"
+    ]
+  },
+  "Venezia": {
+    "canonical_name": "Venezia",
+    "country": "Italy",
+    "statarea_id": "517",
+    "mongodb_id": "517",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": [
+      "Unione Venezia"
+    ]
+  },
+  "Universitatea Cluj": {
+    "canonical_name": "Universitatea Cluj",
+    "country": "Romania",
+    "statarea_id": "2599",
+    "mongodb_id": "2599",
+    "leagues": [
+      {
+        "name": "Liga 1 (Romania)",
+        "id": "283"
+      }
+    ],
+    "alt_names": [
+      "U Cluj"
+    ]
+  },
+  "Utrecht": {
+    "canonical_name": "Utrecht",
+    "country": "Netherlands",
+    "statarea_id": "207",
+    "mongodb_id": "207",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "FC Utrecht"
+    ]
+  },
+  "VVV Venlo": {
+    "canonical_name": "VVV Venlo",
+    "country": "Netherlands",
+    "statarea_id": "204",
+    "mongodb_id": "204",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Valencia": {
+    "canonical_name": "Valencia",
+    "country": "Spain",
+    "statarea_id": "532",
+    "mongodb_id": "532",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Valladolid": {
+    "canonical_name": "Valladolid",
+    "country": "Spain",
+    "statarea_id": "720",
+    "mongodb_id": "720",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Real Valladolid"
+    ]
+  },
+  "Vejle": {
+    "canonical_name": "Vejle",
+    "country": "Denmark",
+    "statarea_id": "395",
+    "mongodb_id": "395",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": []
+  },
+  "Verona": {
+    "canonical_name": "Verona",
+    "country": "Italy",
+    "statarea_id": "504",
+    "mongodb_id": "504",
+    "leagues": [
+      {
+        "name": "Serie A (Italy)",
+        "id": "135"
+      },
+      {
+        "name": "Serie B (Italy)",
+        "id": "136"
+      }
+    ],
+    "alt_names": [
+      "Hellas Verona"
+    ]
+  },
+  "Bochum": {
+    "canonical_name": "Bochum",
+    "country": "Germany",
+    "statarea_id": "176",
+    "mongodb_id": "176",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "VfL Bochum"
+    ]
+  },
+  "Wolfsburg": {
+    "canonical_name": "Wolfsburg",
+    "country": "Germany",
+    "statarea_id": "161",
+    "mongodb_id": "161",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "VfL Wolfsburg"
+    ]
+  },
+  "Viborg": {
+    "canonical_name": "Viborg",
+    "country": "Denmark",
+    "statarea_id": "2070",
+    "mongodb_id": "2070",
+    "leagues": [
+      {
+        "name": "Superliga (Denmark)",
+        "id": "119"
+      }
+    ],
+    "alt_names": []
+  },
+  "Viktoria Plzen": {
+    "canonical_name": "Viktoria Plzen",
+    "country": "Czech Republic",
+    "statarea_id": "567",
+    "mongodb_id": "567",
+    "leagues": [],
+    "alt_names": []
+  },
+  "Villarreal": {
+    "canonical_name": "Villarreal",
+    "country": "Spain",
+    "statarea_id": "533",
+    "mongodb_id": "533",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": []
+  },
+  "Vitesse": {
+    "canonical_name": "Vitesse",
+    "country": "Netherlands",
+    "statarea_id": "200",
+    "mongodb_id": "200",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Vizela": {
+    "canonical_name": "Vizela",
+    "country": "Portugal",
+    "statarea_id": "810",
+    "mongodb_id": "810",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": []
+  },
+  "Volendam": {
+    "canonical_name": "Volendam",
+    "country": "Netherlands",
+    "statarea_id": "416",
+    "mongodb_id": "416",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "FC Volendam"
+    ]
+  },
+  "Waalwijk": {
+    "canonical_name": "Waalwijk",
+    "country": "Netherlands",
+    "statarea_id": "417",
+    "mongodb_id": "417",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": [
+      "RKC Waalwijk"
+    ]
+  },
+  "Watford": {
+    "canonical_name": "Watford",
+    "country": "England",
+    "statarea_id": "38",
+    "mongodb_id": "38",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": []
+  },
+  "Werder Bremen": {
+    "canonical_name": "Werder Bremen",
+    "country": "Germany",
+    "statarea_id": "162",
+    "mongodb_id": "162",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "Werder_Bremen"
+    ]
+  },
+  "West Brom": {
+    "canonical_name": "West Brom",
+    "country": "England",
+    "statarea_id": "60",
+    "mongodb_id": "60",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "West Bromwich Albion",
+      "WestBrom"
+    ]
+  },
+  "West Ham": {
+    "canonical_name": "West Ham",
+    "country": "England",
+    "statarea_id": "48",
+    "mongodb_id": "48",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "West Ham United"
+    ]
+  },
+  "Willem II": {
+    "canonical_name": "Willem II",
+    "country": "Netherlands",
+    "statarea_id": "195",
+    "mongodb_id": "195",
+    "leagues": [
+      {
+        "name": "Eerste Divisie (Netherlands)",
+        "id": "89"
+      },
+      {
+        "name": "Eredivisie (Netherlands)",
+        "id": "88"
+      },
+      {
+        "name": "Eredivisie 2 (Netherlands)",
+        "id": "89"
+      }
+    ],
+    "alt_names": []
+  },
+  "Wolves": {
+    "canonical_name": "Wolves",
+    "country": "England",
+    "statarea_id": "39",
+    "mongodb_id": "39",
+    "leagues": [
+      {
+        "name": "Championship (England)",
+        "id": "40"
+      },
+      {
+        "name": "League Cup (England)",
+        "id": "48"
+      },
+      {
+        "name": "Premier League (England)",
+        "id": "39"
+      }
+    ],
+    "alt_names": [
+      "Wolverhampton Wanderers"
+    ]
+  },
+  "Zaglebie Lubin": {
+    "canonical_name": "Zaglebie Lubin",
+    "country": "Poland",
+    "statarea_id": "345",
+    "mongodb_id": "345",
+    "leagues": [
+      {
+        "name": "Ekstraklasa (Poland)",
+        "id": "106"
+      }
+    ],
+    "alt_names": []
+  },
+  "Zaragoza": {
+    "canonical_name": "Zaragoza",
+    "country": "Spain",
+    "statarea_id": "732",
+    "mongodb_id": "732",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Real Zaragoza"
+    ]
+  },
+  "Zorya Luhansk": {
+    "canonical_name": "Zorya Luhansk",
+    "country": "Ukraine",
+    "statarea_id": "2234",
+    "mongodb_id": "2234",
+    "leagues": [],
+    "alt_names": [
+      "ZoryaLuhansk",
+      "Zorya"
+    ]
+  },
+  "Kaiserslautern": {
+    "canonical_name": "Kaiserslautern",
+    "country": "Germany",
+    "statarea_id": "172",
+    "mongodb_id": "172",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "1. FC Kaiserslautern",
+      "1FCKaiserslautern"
+    ]
+  },
+  "Nurnberg": {
+    "canonical_name": "Nurnberg",
+    "country": "Germany",
+    "statarea_id": "171",
+    "mongodb_id": "171",
+    "leagues": [
+      {
+        "name": "2. Bundesliga (Germany)",
+        "id": "79"
+      },
+      {
+        "name": "Bundesliga (Germany)",
+        "id": "78"
+      }
+    ],
+    "alt_names": [
+      "FCNurnberg",
+      "1. FC Nürnberg"
+    ]
+  },
+  "Evian TG": {
+    "canonical_name": "Evian TG",
+    "country": "France",
+    "statarea_id": "100",
+    "mongodb_id": "100",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Evian Thonon Gaillard FC"
+    ]
+  },
+  "St Etienne": {
+    "canonical_name": "St Etienne",
+    "country": "France",
+    "statarea_id": "94",
+    "mongodb_id": "94",
+    "leagues": [
+      {
+        "name": "Ligue 1 (France)",
+        "id": "61"
+      },
+      {
+        "name": "Ligue 2 (France)",
+        "id": "62"
+      }
+    ],
+    "alt_names": [
+      "Saint Etienne",
+      "AS Saint-Étienne",
+      "Saint-Étienne"
+    ]
+  },
+  "Zulte Waregem": {
+    "canonical_name": "Zulte Waregem",
+    "country": "Belgium",
+    "statarea_id": "742",
+    "mongodb_id": "742",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "Zulte_Waregem"
+    ]
+  },
+  "Eupen": {
+    "canonical_name": "Eupen",
+    "country": "Belgium",
+    "statarea_id": "739",
+    "mongodb_id": "739",
+    "leagues": [
+      {
+        "name": "Jupiler Pro League (Belgium)",
+        "id": "144"
+      }
+    ],
+    "alt_names": [
+      "AS Eupen",
+      "ASEupen",
+      "KAS Eupen"
+    ]
+  },
+  "Naval": {
+    "canonical_name": "Naval",
+    "country": "Portugal",
+    "statarea_id": "232",
+    "mongodb_id": "232",
+    "leagues": [
+      {
+        "name": "Primeira Liga (Portugal)",
+        "id": "94"
+      },
+      {
+        "name": "Segunda Liga (Portugal)",
+        "id": "95"
+      }
+    ],
+    "alt_names": [
+      "Naval 1 de Maio",
+      "Naval 1º de Maio",
+      "Naval1ºdeMaio"
+    ]
+  },
+  "Hercules": {
+    "canonical_name": "Hercules",
+    "country": "Spain",
+    "statarea_id": "720",
+    "mongodb_id": "720",
+    "leagues": [
+      {
+        "name": "Copa del Rey (Spain)",
+        "id": "143"
+      },
+      {
+        "name": "La Liga (Spain)",
+        "id": "140"
+      },
+      {
+        "name": "Segunda División (Spain)",
+        "id": "141"
+      }
+    ],
+    "alt_names": [
+      "Hércules",
+      "Hércules CF"
+    ]
+  }
+}
