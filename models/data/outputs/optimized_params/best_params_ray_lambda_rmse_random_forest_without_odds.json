@@ -1,9 +1,0 @@
-{
-    "n_jobs": -1,
-    "random_state": 44,
-    "n_estimators": 541,
-    "max_depth": 33,
-    "min_samples_split": 6,
-    "min_samples_leaf": 18,
-    "max_features": 0.4739484150161095
-}

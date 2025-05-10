@@ -1,357 +1,1065 @@
-# parlay_backtester.py
+#!/usr/bin/env python3
+"""
+Parlay Backtester with Enhanced Team Info Integration and Analysis.
 
+This script backtests parlay betting strategies using OOF predictions,
+a strategy guide, and consolidated team information. It focuses on
+assertive coding, resource management, and detailed performance analysis
+including country and league-based insights.
+"""
+import json
+import re
+import logging
+from pathlib import Path
+from typing import Dict, Tuple, Optional, List, Any, Set
+from itertools import combinations, product
+import argparse
+import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from tqdm import tqdm
+import multiprocessing
+import warnings
+import psutil
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+import gc
 import pandas as pd
 import numpy as np
-from itertools import combinations
-from pathlib import Path
-import json
-import argparse
-import time # For basic timing
+import sys
+import os
+# Add the project root to the path to allow importing from models
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from models.utils.config import TeamNameStrict
+from pydantic import BaseModel, Field, ValidationError, field_validator
+from multiprocessing import Manager
 
 # --- Configuration ---
-BASE_DIR = Path(__file__).parent.parent.parent  # Go up 3 levels from this file to project root
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - [%(funcName)s] %(message)s"
+)
+logger = logging.getLogger(__name__)
+
+warnings.filterwarnings('ignore', category=pd.errors.PerformanceWarning)
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+# Attempt to find project root (AGENTICFC888)
+if (SCRIPT_DIR.parent / "models").exists() and (SCRIPT_DIR.parent / "scripts").exists():
+    BASE_DIR = SCRIPT_DIR.parent
+elif (SCRIPT_DIR.parent.parent / "models").exists() and (SCRIPT_DIR.parent.parent / "scripts").exists():
+    BASE_DIR = SCRIPT_DIR.parent.parent
+else:
+    BASE_DIR = Path("/Users/barroca888/Downloads/Agenticfc/AgenticFC888") # Fallback
+    logger.warning(f"Could not auto-detect project root. Using hardcoded BASE_DIR: {BASE_DIR}")
+
+# Define paths using BASE_DIR
 DATA_OUTPUT_DIR = BASE_DIR / 'models' / 'data' / 'outputs' / 'predictions'
-MODELS_SAVE_DIR = {
-    'V1': BASE_DIR / 'models' / 'data' / 'outputs' / 'joblib' / 'V1',
-    'V2': BASE_DIR / 'models' / 'data' / 'outputs' / 'joblib' / 'V2'
-}
-PARLAY_OUTPUT_DIR = DATA_OUTPUT_DIR / 'parlay_outputs'  # Dedicated dir for parlay results
+PARLAY_OUTPUT_DIR = DATA_OUTPUT_DIR / 'parlay_outputs_V2' # New output dir for this version
 
-# Input paths
-OOF_INPUT_PATH = DATA_OUTPUT_DIR / 'combined_oof_ALL_pipelines.parquet'
-STRATEGY_GUIDE_PATH = DATA_OUTPUT_DIR / 'best_strategy_per_market.csv'
-MARKET_DEFINITIONS_PATH = DATA_OUTPUT_DIR / 'parlay_market_definitions.json'
+# Default Input paths
+OOF_INPUT_PATH_DEFAULT = DATA_OUTPUT_DIR / 'combined_oof_ALL_pipelines.parquet'
+STRATEGY_GUIDE_PATH_DEFAULT = BASE_DIR / 'models' / 'utils' / 'files' / 'best_strategy_per_market.csv'
+MARKET_DEFINITIONS_PATH_DEFAULT = BASE_DIR / 'models' / 'utils' / 'files' / 'parlay_market_definitions.json'
+CONSOLIDATED_TEAM_INFO_PATH = BASE_DIR / 'models' / 'utils' / 'files' / 'consolidated_team_info.json'
 
-# Output paths
-PARLAY_RESULTS_PATH = PARLAY_OUTPUT_DIR / 'parlay_backtest_results.csv'
-PARLAY_INSIGHTS_PATH = PARLAY_OUTPUT_DIR / 'parlay_model_insights.json'
+# Default Output paths
+PARLAY_RESULTS_PATH_DEFAULT = PARLAY_OUTPUT_DIR / 'parlay_backtest_results_v2.csv'
+VISUALIZATIONS_DIR_DEFAULT = PARLAY_OUTPUT_DIR / 'visualizations_v2'
 
 DEFAULT_DATE_COL = 'Date'
 DEFAULT_MATCH_ID_COL = 'MatchID'
 
-def load_data(combined_oof_path: Path, strategy_guide_path: Path, market_definitions_path: Path) -> tuple | None:
-    print("--- Loading Data ---")
-    s_time = time.time()
-    try:
-        # Ensure combined_oof_df is loaded efficiently
-        # If it's huge, consider if only necessary columns can be pre-selected if possible,
-        # but the strategy guide will dictate which ones are needed.
-        combined_oof_df = pd.read_parquet(combined_oof_path)
-        print(f"Loaded combined_oof_for_betting: {combined_oof_df.shape} (in {time.time()-s_time:.2f}s)")
+# Resource Management
+DEFAULT_CPU_WORKERS = max(1, os.cpu_count() // 2) # Target ~50% CPU usage
+MAX_MEMORY_PERCENT_THRESHOLD = 75.0  # More realistic threshold
+MIN_FREE_MEMORY_GB_THRESHOLD = 2.0  # Ensure at least 2GB free
+CHECKPOINT_INTERVAL = 1000  # Save partial results every N parlays (parlays, not days)
+CHUNK_SIZE_DAYS = 1  # Process fewer days per chunk
+SAMPLE_RATE = 0.25  # Use 25% of dates for testing
 
-        s_time_strat = time.time()
-        strategy_guide_df = pd.read_csv(strategy_guide_path)
-        print(f"Loaded strategy_guide_df (e.g., best_per_market_df): {strategy_guide_df.shape} (in {time.time()-s_time_strat:.2f}s)")
+# --- Pydantic Models for Team Info Validation ---
+
+class LeagueInfo(BaseModel):
+    name: str
+    id: Optional[str] = None
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, v: str) -> str:
+        if not isinstance(v, str):
+            raise ValueError("League name must be a string")
+        return v
+
+class TeamConsolidatedDetails(BaseModel):
+    canonical_name: str
+    country: Optional[str] = None
+    statarea_id: Optional[str] = None
+    mongodb_id: Optional[str] = None
+    leagues: List[LeagueInfo] = Field(default_factory=list)
+    alt_names: List[str] = Field(default_factory=list)
+
+    @field_validator("alt_names")
+    @classmethod
+    def validate_alt_names(cls, v: Any) -> List[str]:
+        if not isinstance(v, list):
+            raise ValueError("alt_names must be a list")
+        return [TeamNameStrict(name) if isinstance(name, str) else name for name in v]
+
+    @field_validator("canonical_name", "country")
+    @classmethod
+    def validate_team_name_fields(cls, v: Any) -> Any:
+        if v is not None:  # Allow None for country
+            return TeamNameStrict(v)
+        return v
+
+    class Config:
+        validate_assignment = True
+
+ConsolidatedTeamInfoSchema = Dict[str, TeamConsolidatedDetails]
+
+# --- Team Information Resolver ---
+class TeamInfoResolver:
+    """
+    Manages loading and resolving team information from consolidated_team_info.json.
+    """
+    def __init__(self, consolidated_info_path: Path):
+        assert consolidated_info_path.exists(), f"Consolidated team info file not found: {consolidated_info_path}"
+        self.consolidated_info_path = str(consolidated_info_path)  # Use string path for better pickling
+        self.team_data = self._load_team_data()
         
-        s_time_mkt = time.time()
-        with open(market_definitions_path, 'r') as f:
-            parlay_market_definitions = json.load(f)
-        print(f"Loaded PARLAY_MARKET_DEFINITIONS: {len(parlay_market_definitions)} entries (in {time.time()-s_time_mkt:.2f}s)")
-        
-        return combined_oof_df, strategy_guide_df, parlay_market_definitions
-    except FileNotFoundError as e:
-        print(f"CRITICAL: File not found: {e}. Ensure paths are correct.")
-        return None
-    except Exception as e:
-        print(f"CRITICAL: Error loading data: {e}")
-        return None
+        self._normalized_lookup = {}  # normalized_variant -> canonical_name
+        self._sorted_raw_forms_for_splitting = []
+        self._build_lookups()
+        logger.info(f"TeamInfoResolver initialized with {len(self.team_data)} canonical teams")
 
-def preprocess_strategy_guide(raw_guide_df: pd.DataFrame, 
-                              market_definitions: dict, 
-                              oof_df_columns: pd.Index # Pass the actual columns from oof_df
-                             ) -> pd.DataFrame | None:
-    print("--- Pre-processing Strategy Guide ---")
-    s_time = time.time()
-    processed_rules = []
-    
-    # Convert oof_df_columns to a set for faster lookups (O(1) on average)
-    oof_column_set = set(oof_df_columns)
-
-    market_details_map = {
-        m_label: {
-            'target_col': m_info['target_col'],
-            'prob_suffix': m_info['prob_suffix'],
-            'conflict_group': m_info.get('conflict_group', m_label)
-        } for m_label, m_info in market_definitions.items()
-    }
-
-    skipped_rules_prob_col = 0
-    skipped_rules_target_col = 0
-
-    for _, rule in raw_guide_df.iterrows(): # This loop count is based on number of markets in your guide
-        market_name = rule['market']
-        model_id = rule['model_identifier'] # This comes from your 'best_per_market_df'
-        
-        market_info = market_details_map.get(market_name)
-        if not market_info or not market_info.get('prob_suffix'):
-            continue # Silently skip if market definition is incomplete
-        
-        # Construct the specific column name for this model's prediction for this market
-        prob_col = f"{model_id}_{market_info['prob_suffix']}"
-        target_col = market_info['target_col']
-
-        # Efficient check using the set
-        if prob_col not in oof_column_set:
-            skipped_rules_prob_col += 1
-            continue
-        if target_col not in oof_column_set:
-            skipped_rules_target_col += 1
-            continue
+    def _load_team_data(self) -> ConsolidatedTeamInfoSchema:
+        try:
+            with open(self.consolidated_info_path, 'r', encoding='utf-8') as f:
+                raw_data = json.load(f)
             
-        processed_rules.append({
-            'market': market_name,
-            'model_identifier': model_id, # The "best model" for this market
-            'efficient_entry_threshold': rule['tradeoff_threshold'], # The "best entry point"
-            'prob_col_to_check': prob_col, # The exact column in OOF data to get the prob from
-            'target_col_to_check': target_col, # The exact column for the actual outcome
-            'conflict_group': market_info['conflict_group']
-        })
-    
-    if skipped_rules_prob_col > 0:
-        print(f"Warning: Skipped {skipped_rules_prob_col} strategy rules due to missing probability columns in OOF data.")
-    if skipped_rules_target_col > 0:
-        print(f"Warning: Skipped {skipped_rules_target_col} strategy rules due to missing target columns in OOF data.")
+            # Validate with Pydantic
+            validated_data: ConsolidatedTeamInfoSchema = {}
+            for canonical, details_dict in raw_data.items():
+                try:
+                    # Pydantic expects the canonical name to be part of the model if it's not the key
+                    # Or ensure the dict structure matches TeamConsolidatedDetails directly
+                    # Here, details_dict should directly match TeamConsolidatedDetails fields
+                    if 'canonical_name' not in details_dict: # Ensure canonical_name is in details
+                        details_dict['canonical_name'] = canonical
+                    
+                    team_details_model = TeamConsolidatedDetails(**details_dict)
+                    validated_data[team_details_model.canonical_name] = team_details_model # Use model's canonical name as key
+                except ValidationError as e:
+                    logger.error(f"Validation error for team '{canonical}' data {details_dict}: {e}")
+                    # Optionally, skip this entry or handle error
+            return validated_data
+        except json.JSONDecodeError as e:
+            logger.error(f"Error decoding JSON from {self.consolidated_info_path}: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error loading team data from {self.consolidated_info_path}: {e}")
+            raise
+            
+    @staticmethod
+    def _normalize_name(name: str) -> str:
+        if not name: return ""
+        return "".join(filter(str.isalnum, name)).lower()
 
-    if not processed_rules:
-        print("ERROR: No valid rules after pre-processing strategy guide. Check input files and column name consistency.")
+    def _build_lookups(self) -> None:
+        raw_forms_for_splitting_set: Set[str] = set()
+        for canonical_name, details in self.team_data.items():
+            # Primary canonical name
+            self._normalized_lookup[self._normalize_name(canonical_name)] = canonical_name
+            raw_forms_for_splitting_set.add(canonical_name)
+
+            # Alternative names
+            for alt_name in details.alt_names:
+                self._normalized_lookup[self._normalize_name(alt_name)] = canonical_name
+                raw_forms_for_splitting_set.add(alt_name)
+        
+        self._sorted_raw_forms_for_splitting = sorted(list(raw_forms_for_splitting_set), key=len, reverse=True)
+
+    def get_canonical_name(self, raw_team_name: str) -> Optional[str]:
+        if not raw_team_name or (isinstance(raw_team_name, float) and pd.isna(raw_team_name)):
+            return None
+        assert isinstance(raw_team_name, str), f"Input must be a string, got {type(raw_team_name)}"
+
+        # Try direct match (case-sensitive) on canonical names first
+        if raw_team_name in self.team_data:
+            return raw_team_name
+
+        # Try normalized lookup
+        norm_name = self._normalize_name(raw_team_name)
+        if norm_name in self._normalized_lookup:
+            return self._normalized_lookup[norm_name]
+        
+        # Try spaced version (e.g., CamelCase to Spaced Name)
+        spaced_version = generate_camel_case_spaced_version(raw_team_name)
+        if spaced_version != raw_team_name: # Only if different
+            norm_spaced_version = self._normalize_name(spaced_version)
+            if norm_spaced_version in self._normalized_lookup:
+                return self._normalized_lookup[norm_spaced_version]
+            # Also check if the spaced version itself is a canonical key
+            if spaced_version in self.team_data:
+                 return spaced_version
+        
+        logger.debug(f"Canonical name not found for raw: '{raw_team_name}'")
         return None
-    
-    print(f"Pre-processing strategy guide complete: {len(processed_rules)} valid rules found (in {time.time()-s_time:.2f}s)")
-    return pd.DataFrame(processed_rules)
 
-def run_parlay_backtest(
-    combined_oof_df: pd.DataFrame, 
-    strategy_guide_df: pd.DataFrame, # This is the pre-processed one
-    date_col: str, 
-    match_id_col: str,
-    max_legs: int, 
-    min_legs: int,
-    sample_percentage: float = 1.0
-    ):
-    """The core parlay backtesting logic."""
-    
-    parlay_input_df = combined_oof_df.copy()
-    
-    if date_col not in parlay_input_df.columns:
-        raise KeyError(f"FATAL ERROR: Date column '{date_col}' not found.")
-    try:
-        parlay_input_df[date_col] = pd.to_datetime(parlay_input_df[date_col])
-    except Exception as e:
-        raise ValueError(f"FATAL ERROR: Could not convert '{date_col}' to datetime: {e}.")
+    def get_team_details(self, team_name_variant: str) -> Optional[TeamConsolidatedDetails]:
+        canonical_name = self.get_canonical_name(team_name_variant)
+        return self.team_data.get(canonical_name) if canonical_name else None
 
-    if sample_percentage < 1.0 and sample_percentage > 0.0:
-        unique_dates = sorted(parlay_input_df[date_col].unique())
-        num_sample_dates = max(1, int(len(unique_dates) * sample_percentage))
-        # Ensure reproducibility of sampling if desired by setting np.random.seed() before this
-        # np.random.seed(42) # Example
-        sampled_dates = np.random.choice(unique_dates, size=num_sample_dates, replace=False)
-        parlay_input_df = parlay_input_df[parlay_input_df[date_col].isin(sampled_dates)]
-        print(f"Using a {sample_percentage*100:.0f}% sample of days: {num_sample_dates} days selected for backtesting.")
-    elif sample_percentage == 1.0:
-        print("Using 100% of days for backtesting.")
-    else:
-        print(f"Warning: Invalid sample_percentage ({sample_percentage}). Using 100% of days.")
-        sample_percentage = 1.0 # Default to full if invalid
+    def get_team_country(self, team_name_variant: str) -> Optional[str]:
+        details = self.get_team_details(team_name_variant)
+        return details.country if details and details.country else None
+        
+    def get_team_primary_league_name(self, team_name_variant: str) -> Optional[str]:
+        details = self.get_team_details(team_name_variant)
+        if details and details.leagues:
+            # Heuristic: return the first league listed, or one marked as primary if such a field existed
+            return details.leagues[0].name 
+        return None
 
+    def parse_match_id(self, match_id_str: str) -> Tuple[Optional[str], Optional[str]]:
+        """
+        Attempts to parse a MatchID string into home and away canonical team names.
+        Relies on the comprehensiveness of `alt_names` in consolidated_team_info.json
+        and the `_sorted_raw_forms_for_splitting` list.
+        """
+        assert isinstance(match_id_str, str), "match_id_str must be a string."
+        
+        teams_part = match_id_str
+        # Remove YYYYMMDD_ prefix if present
+        if len(match_id_str) > 8 and match_id_str[:8].isdigit() and match_id_str[8] == '_':
+            teams_part = match_id_str[9:]
 
-    parlay_results_accumulator = []
-    print(f"\nStarting parlay generation for parlays with {min_legs} to {max_legs} legs.")
-    
-    unique_days_to_process = parlay_input_df[date_col].unique()
-    total_days = len(unique_days_to_process)
-    processed_days_count = 0
-    
-    if total_days == 0:
-        print("No days to process after sampling (or in original data).")
+        # Strategy 1: Try splitting using known team forms (longest first)
+        for home_form_candidate in self._sorted_raw_forms_for_splitting:
+            # Normalize both for robust prefix checking
+            norm_home_form = self._normalize_name(home_form_candidate)
+            norm_teams_part = self._normalize_name(teams_part)
+
+            if norm_teams_part.startswith(norm_home_form):
+                # Found a potential home team. Determine the actual split point in the original `teams_part`.
+                # This is tricky because normalization removes spaces/cases.
+                # We need to find the shortest prefix of `teams_part` that normalizes to `norm_home_form`.
+                split_idx = -1
+                for i in range(1, len(teams_part) + 1): # Iterate through possible split points
+                    current_prefix_original = teams_part[:i]
+                    if self._normalize_name(current_prefix_original) == norm_home_form:
+                        split_idx = i
+                        break # Found the shortest original prefix that matches normalized form
+                
+                if split_idx != -1 and split_idx < len(teams_part): # Ensure there's an away part
+                    home_raw_extracted = teams_part[:split_idx]
+                    away_raw_extracted = teams_part[split_idx:]
+
+                    home_canonical = self.get_canonical_name(home_raw_extracted)
+                    away_canonical = self.get_canonical_name(away_raw_extracted)
+
+                    if home_canonical and away_canonical and home_canonical != away_canonical:
+                        # Additional check: ensure the away part isn't just a suffix of a longer known name
+                        # that could have been the away team if the home split was shorter.
+                        # This is complex. For now, if both resolve, we accept.
+                        return home_canonical, away_canonical
+        
+        # Strategy 2: Fallback to underscore splitting if present (common for non-concatenated IDs)
+        if '_' in teams_part and teams_part.count('_') == 1:
+            home_raw, away_raw = teams_part.split('_', 1)
+            home_canonical = self.get_canonical_name(home_raw)
+            away_canonical = self.get_canonical_name(away_raw)
+            if home_canonical and away_canonical and home_canonical != away_canonical:
+                return home_canonical, away_canonical
+
+        logger.debug(f"Could not parse MatchID '{match_id_str}' into two known teams. Teams part: '{teams_part}'")
         return None, None
 
 
-    for game_date in unique_days_to_process: # Iterate over unique dates to avoid issues with groupby object
-        daily_games_df = parlay_input_df[parlay_input_df[date_col] == game_date]
-        processed_days_count += 1
-        if processed_days_count % 50 == 0 or processed_days_count == 1 or processed_days_count == total_days : # Print progress
-             print(f"Processing day {processed_days_count}/{total_days} ({pd.to_datetime(game_date).date()})... Eligible legs found so far today: ", end="")
+# --- Helper Functions ---
+def generate_camel_case_spaced_version(name: str) -> str: # Keep this as it can help generate alts
+    assert isinstance(name, str), "Input name must be a string."
+    if not name: return ""
+    s1 = re.sub(r"(\B[A-Z][a-z])", r" \1", name) 
+    s2 = re.sub(r"([a-z])([A-Z])", r"\1 \2", s1) 
+    s3 = re.sub(r"([a-zA-Z])(\d)", r"\1 \2", s2) 
+    s4 = re.sub(r"(\d)([a-zA-Z])", r"\1 \2", s3) 
+    return " ".join(s4.split()) 
 
-        eligible_legs_for_this_day = []
-        for _, game_row in daily_games_df.iterrows(): # Iterates over games for that specific day
-            match_id = game_row[match_id_col]
-            # For each game, check against all rules in our (already filtered) strategy guide
-            for _, strategy_rule in strategy_guide_df.iterrows():
-                entry_thresh = strategy_rule['efficient_entry_threshold']
-                prob_col = strategy_rule['prob_col_to_check'] # Already validated to exist
-                target_col = strategy_rule['target_col_to_check'] # Already validated to exist
+def check_memory_usage(critical_threshold=MAX_MEMORY_PERCENT_THRESHOLD, 
+                     critical_free_gb=MIN_FREE_MEMORY_GB_THRESHOLD) -> Tuple[bool, str]:
+    memory_info = psutil.virtual_memory()
+    memory_percent = memory_info.percent
+    free_memory_gb = memory_info.available / (1024**3)
+    
+    status = "normal"
+    should_pause = False
 
-                # Check if the specific game_row actually has a value for this prob_col
-                # (it should, as strategy_guide was pre-filtered based on oof_df columns)
-                if pd.notna(game_row[prob_col]) and pd.notna(game_row[target_col]):
-                    predicted_prob = game_row[prob_col]
-                    if predicted_prob >= entry_thresh:
-                        actual_outcome = game_row[target_col]
-                        eligible_legs_for_this_day.append({
-                            'game_date': game_date, 'match_id': match_id, 'market': strategy_rule['market'],
-                            'model_used': strategy_rule['model_identifier'], 'prob_at_bet': predicted_prob,
-                            'threshold_used': entry_thresh, 'actual_outcome': int(actual_outcome),
-                            'conflict_group': strategy_rule['conflict_group']
-                        })
+    if memory_percent > critical_threshold or free_memory_gb < critical_free_gb:
+        # Force garbage collection
+        gc.collect()
         
-        print(f"{len(eligible_legs_for_this_day)}") # Complete the progress print for the day
+        # Wait for memory to be reclaimed
+        time.sleep(1.0)
+        
+        # Recheck
+        memory_info = psutil.virtual_memory()
+        memory_percent = memory_info.percent
+        free_memory_gb = memory_info.available / (1024**3)
+        
+        if memory_percent > critical_threshold or free_memory_gb < critical_free_gb:
+            logger.warning(f"Critical memory: {memory_percent:.1f}% used, {free_memory_gb:.2f}GB free")
+            status = "critical"
+            should_pause = True
+        else:
+            status = "recovered"
+    
+    return should_pause, status
 
-        if not eligible_legs_for_this_day or len(eligible_legs_for_this_day) < min_legs:
+# --- Global TeamInfoResolver Instance ---
+# To be initialized in main after paths are confirmed.
+TEAM_INFO_RESOLVER: Optional[TeamInfoResolver] = None
+
+# --- Core Parlay Logic (adapted) ---
+def load_data(
+    combined_oof_path: Path, 
+    strategy_guide_path: Path, 
+    market_definitions_path: Path,
+    team_info_path: Path
+) -> Optional[Tuple[pd.DataFrame, pd.DataFrame, Dict, TeamInfoResolver]]:
+    logger.info("--- Loading Data ---")
+    s_time = time.time()
+    try:
+        assert combined_oof_path.exists(), f"OOF File not found: {combined_oof_path}"
+        combined_oof_df = pd.read_parquet(combined_oof_path)
+        logger.info(f"Loaded combined_oof_df: {combined_oof_df.shape} (in {time.time()-s_time:.2f}s)")
+
+        assert DEFAULT_DATE_COL in combined_oof_df.columns, f"Date column '{DEFAULT_DATE_COL}' not found."
+        assert DEFAULT_MATCH_ID_COL in combined_oof_df.columns, f"MatchID column '{DEFAULT_MATCH_ID_COL}' not found."
+        
+        combined_oof_df[DEFAULT_DATE_COL] = pd.to_datetime(combined_oof_df[DEFAULT_DATE_COL])
+
+        assert strategy_guide_path.exists(), f"Strategy Guide File not found: {strategy_guide_path}"
+        strategy_guide_df = pd.read_csv(strategy_guide_path)
+        logger.info(f"Loaded strategy_guide_df: {strategy_guide_df.shape}")
+        
+        assert market_definitions_path.exists(), f"Market Definitions File not found: {market_definitions_path}"
+        with open(market_definitions_path, 'r', encoding='utf-8') as f:
+            parlay_market_definitions = json.load(f)
+        logger.info(f"Loaded PARLAY_MARKET_DEFINITIONS: {len(parlay_market_definitions)} entries")
+
+        global TEAM_INFO_RESOLVER # Initialize global resolver
+        TEAM_INFO_RESOLVER = TeamInfoResolver(team_info_path)
+        
+        return combined_oof_df, strategy_guide_df, parlay_market_definitions, TEAM_INFO_RESOLVER
+    except Exception as e:
+        logger.critical(f"CRITICAL: Error loading data: {e}", exc_info=True)
+        return None
+
+def preprocess_strategy_guide(raw_guide_df: pd.DataFrame, 
+                            market_definitions: dict, 
+                            oof_df_columns_set: set) -> Optional[pd.DataFrame]:
+    logger.info("--- Pre-processing Strategy Guide ---")
+    s_time = time.time()
+    
+    # Filter out O05 market if desired (this specific filter can be made configurable)
+    # raw_guide_df = raw_guide_df[raw_guide_df['market'] != 'O05'].copy() 
+    # For now, let's assume all markets in the guide are intentional.
+
+    market_groups = { # This can be loaded from config or enhanced
+        'match_outcome': ['H', 'A', 'D'],
+        'double_chance': ['HomeOrDraw', 'DrawOrAway', 'HomeOrAway'],
+        'goals_over_under': [m for m in market_definitions if m.startswith('O') or m.startswith('U')],
+        'btts': ['BTTSYes', 'BTTSNo'], # Assuming BTTSNo might exist
+        'match_goals_combo': [m for m in market_definitions if m.startswith('HO') or m.startswith('AO')],
+        'dc_goals_combo': [m for m in market_definitions if m.startswith('1XO') or m.startswith('1XU') or m.startswith('12O') or m.startswith('12U') or m.startswith('X2O') or m.startswith('X2U')]
+    }
+    
+    processed_rules = []
+    skipped_rules_count = 0
+
+    threshold_col = next((col for col in ['tradeoff_threshold', 'efficient_entry_threshold'] 
+                         if col in raw_guide_df.columns), None)
+    assert threshold_col is not None, "No valid threshold column (tradeoff_threshold or efficient_entry_threshold) found in strategy guide."
+    logger.info(f"Using threshold column from strategy guide: '{threshold_col}'")
+
+    for _, rule in raw_guide_df.iterrows():
+        market_name = str(rule['market']).strip() # Ensure market is string and stripped
+        model_id = str(rule['model_identifier']).strip()
+        entry_threshold = float(rule[threshold_col])
+        
+        market_info = market_definitions.get(market_name)
+        if not market_info:
+            logger.warning(f"Market '{market_name}' from strategy guide not found in market_definitions. Skipping rule.")
+            skipped_rules_count += 1
             continue
 
-        for num_legs_in_parlay in range(min_legs, max_legs + 1):
-            if len(eligible_legs_for_this_day) < num_legs_in_parlay: continue
+        prob_col = f"{model_id}_{market_info['prob_suffix']}"
+        target_col = market_info['target_col']
 
-            for parlay_legs_tuple in combinations(eligible_legs_for_this_day, num_legs_in_parlay):
-                match_ids_in_parlay = {leg['match_id'] for leg in parlay_legs_tuple}
-                if len(match_ids_in_parlay) != num_legs_in_parlay: continue # Distinct games only
+        assert prob_col in oof_df_columns_set, f"Probability column '{prob_col}' for market '{market_name}' (model '{model_id}') not found in OOF columns. Check prob_suffix in market definitions or model_identifier in strategy guide."
+        assert target_col in oof_df_columns_set, f"Target column '{target_col}' for market '{market_name}' not found in OOF columns. Check target_col in market definitions."
+            
+        processed_rules.append({
+            'market': market_name,
+            'model_identifier': model_id,
+            'entry_threshold': entry_threshold,
+            'prob_col': prob_col,
+            'target_col': target_col,
+            'conflict_group': market_info.get('conflict_group', market_name), # Default to market name if no specific conflict group
+            'market_group': next((group for group, markets in market_groups.items() if market_name in markets), 'other')
+        })
 
-                parlay_won = all(leg['actual_outcome'] == 1 for leg in parlay_legs_tuple)
-                record = {'parlay_date': game_date, 'num_legs': num_legs_in_parlay, 'parlay_won': int(parlay_won)}
-                for i, leg_info in enumerate(parlay_legs_tuple):
-                    record[f'leg{i+1}_match_id'] = leg_info['match_id']
-                    record[f'leg{i+1}_market'] = leg_info['market']
-                    record[f'leg{i+1}_model'] = leg_info['model_used']
-                    record[f'leg{i+1}_won'] = leg_info['actual_outcome']
-                    record[f'leg{i+1}_prob'] = leg_info['prob_at_bet']
-                parlay_results_accumulator.append(record)
+    assert processed_rules, "No valid rules after pre-processing strategy guide. Check market names, model identifiers, and column existence."
     
-    if not parlay_results_accumulator:
-        print("No hypothetical parlays were generated that met all criteria.")
-        return None # Return None if no results, was (None,None)
+    result_df = pd.DataFrame(processed_rules)
+    logger.info(f"Pre-processing complete: {len(result_df)} valid rules (in {time.time()-s_time:.2f}s). Skipped: {skipped_rules_count}")
+    return result_df
 
-    parlay_summary_df = pd.DataFrame(parlay_results_accumulator)
-    print(f"\n--- Parlay Backtest Summary (Sample: {sample_percentage*100:.0f}% of days) ---")
-    print(f"Total unique parlays generated: {len(parlay_summary_df)}")
-
-    for num_legs_val, group in parlay_summary_df.groupby('num_legs'):
-        total_count = len(group)
-        wins = group['parlay_won'].sum()
-        win_rate = (wins / total_count) * 100 if total_count > 0 else 0
-        print(f"  {num_legs_val}-Leg Parlays: Count={total_count}, Wins={wins}, Win Rate={win_rate:.2f}%")
+def get_match_details_from_id(match_id: str, resolver: TeamInfoResolver) -> Dict[str, Optional[str]]:
+    """Extracts home team, away team, country, and primary league from MatchID."""
+    home_team_canon, away_team_canon = resolver.parse_match_id(match_id)
     
-    return parlay_summary_df # Only return the df, model usage can be a separate call
+    home_country, away_country = None, None
+    home_league, away_league = None, None # Primary league name
 
-def analyze_model_usage_in_parlays(parlay_summary_df: pd.DataFrame, max_legs: int) -> pd.Series | None:
-    """Analyzes model frequency in parlay legs.""" # Changed from "successful parlay legs"
-    if parlay_summary_df is None or parlay_summary_df.empty:
-        print("No parlay summary DataFrame to analyze model usage.")
-        return None
+    if home_team_canon:
+        home_details = resolver.get_team_details(home_team_canon)
+        if home_details:
+            home_country = home_details.country
+            if home_details.leagues:
+                home_league = home_details.leagues[0].name # Assuming first league is primary
+
+    if away_team_canon:
+        away_details = resolver.get_team_details(away_team_canon)
+        if away_details:
+            away_country = away_details.country
+            if away_details.leagues:
+                away_league = away_details.leagues[0].name
+
+    # Determine overall match country/league (e.g., if home_country is primary)
+    match_country = home_country if home_country else away_country
+    match_league = home_league if home_league else away_league
+    
+    return {
+        "home_team_canonical": home_team_canon,
+        "away_team_canonical": away_team_canon,
+        "match_country": match_country,
+        "match_league": match_league,
+        "home_country": home_country,
+        "away_country": away_country,
+        "home_league": home_league,
+        "away_league": away_league,
+    }
+
+
+def process_daily_parlays(args_tuple: tuple) -> List[Dict]:
+    """Processes parlays for a single day's games with memory optimization."""
+    daily_games_df, strategy_guide_df, game_date, min_legs, max_legs, \
+    match_id_col, fallback_threshold, shared_dict = args_tuple
+    
+    team_resolver = shared_dict['team_resolver']
+    
+    # Memory check first
+    should_pause, mem_status = check_memory_usage()
+    if should_pause:
+        logger.warning(f"High memory usage ({mem_status}) at start of process_daily_parlays for {game_date}. Skipping day.")
+        return []
+    
+    # 1. Filter columns dramatically - only keep essential ones
+    needed_cols = [match_id_col, DEFAULT_DATE_COL]
+    
+    # Get only required probability and target columns
+    for _, rule in strategy_guide_df.iterrows():
+        needed_cols.append(rule['prob_col'])
+        needed_cols.append(rule['target_col'])
+    
+    # Remove duplicates and ensure all columns exist
+    needed_cols = list(set(needed_cols))
+    existing_cols = [col for col in needed_cols if col in daily_games_df.columns]
+    
+    # 2. Create minimal dataframe
+    daily_df_minimal = daily_games_df[existing_cols].copy()
+    
+    # 3. Release original dataframe immediately
+    del daily_games_df
+    gc.collect()
+    
+    # Process with minimal dataframe
+    match_ids = daily_df_minimal[match_id_col].unique()
+    all_legs = []
+    
+    # 4. Process one match at a time to minimize memory
+    for match_id in match_ids:
+        match_row = daily_df_minimal[daily_df_minimal[match_id_col] == match_id].iloc[0]
+        match_details = get_match_details_from_id(match_id, team_resolver)
         
-    leg_model_usage = []
-    for i in range(1, max_legs + 1): # Ensure max_legs matches what was generated
+        for _, rule in strategy_guide_df.iterrows():
+            prob_col, target_col = rule['prob_col'], rule['target_col']
+            
+            # Skip if columns don't exist
+            if prob_col not in match_row or target_col not in match_row:
+                continue
+                
+            prob_val = match_row[prob_col]
+            
+            if pd.notna(prob_val) and prob_val >= rule['entry_threshold']:
+                leg_info = {
+                    'match_id': match_id,
+                    'market': rule['market'],
+                    'model_used': rule['model_identifier'],
+                    'prob_at_bet': float(prob_val),
+                    'threshold_used': float(rule['entry_threshold']),
+                    'actual_outcome': int(match_row[target_col]),
+                    'conflict_group': rule['conflict_group'],
+                    'market_group': rule['market_group'],
+                }
+                leg_info.update(match_details)
+                all_legs.append(leg_info)
+                
+        # 5. Check memory after each match
+        if len(all_legs) % 100 == 0:
+            should_pause, _ = check_memory_usage()
+            if should_pause:
+                break
+    
+    # If memory issues, return early with already collected legs
+    should_pause, _ = check_memory_usage()
+    if should_pause or not all_legs:
+        return []
+    
+    # 6. Generate parlays with batched processing
+    parlay_results = []
+    unique_matches = set(leg['match_id'] for leg in all_legs)
+    
+    # Only process if we have enough matches
+    if len(unique_matches) < min_legs:
+        return []
+        
+    # 7. Batch process combinations to control memory
+    BATCH_SIZE = 1000  # Process combinations in batches
+    
+    for num_legs in range(min_legs, min(max_legs + 1, len(unique_matches) + 1)):
+        match_combos = list(combinations(unique_matches, num_legs))
+        
+        # Process in batches
+        for i in range(0, len(match_combos), BATCH_SIZE):
+            batch = match_combos[i:i+BATCH_SIZE]
+            
+            for match_combo in batch:
+                # Generate parlays for this combo
+                parlay_legs = generate_parlay_for_combo(match_combo, all_legs, game_date)
+                if parlay_legs:
+                    parlay_results.extend(parlay_legs)
+            
+            # Check memory after each batch
+            should_pause, _ = check_memory_usage()
+            if should_pause:
+                return parlay_results  # Return what we have so far
+    
+    return parlay_results
+
+# Helper function to generate parlays for a match combination
+def generate_parlay_for_combo(match_combo, all_legs, game_date):
+    results = []
+    legs_by_match = {m_id: [leg for leg in all_legs if leg['match_id'] == m_id] for m_id in match_combo}
+    
+    # Skip if any match has no legs
+    if any(not legs for legs in legs_by_match.values()):
+        return []
+    
+    # Get all combinations of one leg from each match
+    leg_options = [legs_by_match[m_id] for m_id in match_combo]
+    
+    # Limit number of combinations to avoid memory explosion
+    MAX_COMBINATIONS = 5000
+    total_combinations = np.prod([len(legs) for legs in leg_options])
+    
+    if total_combinations > MAX_COMBINATIONS:
+        return []  # Skip if too many combinations
+        
+    for leg_combo in product(*leg_options):
+        # Check for conflicting market groups
+        market_groups = [leg['market_group'] for leg in leg_combo]
+        if len(set(market_groups)) < len(market_groups):
+            continue  # Skip if duplicate market groups
+            
+        # Create parlay record
+        parlay_won = all(leg['actual_outcome'] == 1 for leg in leg_combo)
+        avg_prob = np.mean([leg['prob_at_bet'] for leg in leg_combo])
+        
+        record = {
+            'parlay_date': game_date.strftime('%Y-%m-%d'),
+            'num_legs': len(leg_combo),
+            'parlay_won': int(parlay_won),
+            'avg_prob': float(avg_prob),
+            'parlay_country': leg_combo[0].get('match_country', 'Unknown'),
+            'parlay_league': leg_combo[0].get('match_league', 'Unknown'),
+            'market_combination': '+'.join(sorted(leg['market'] for leg in leg_combo))
+        }
+        
+        # Add leg details
+        for i, leg in enumerate(leg_combo, 1):
+            record.update({
+                f'leg{i}_match_id': leg['match_id'],
+                f'leg{i}_market': leg['market'],
+                f'leg{i}_model': leg['model_used'],
+                f'leg{i}_prob': float(leg['prob_at_bet']),
+                f'leg{i}_won': int(leg['actual_outcome']),
+                f'leg{i}_country': leg.get('match_country', 'Unknown'),
+                f'leg{i}_league': leg.get('match_league', 'Unknown')
+            })
+            
+        results.append(record)
+        
+    return results
+
+def run_parlay_backtest_parallel(
+    combined_oof_df: pd.DataFrame,
+    strategy_guide_df: pd.DataFrame,
+    parlay_market_definitions: dict,
+    team_info_resolver: TeamInfoResolver,
+    date_col: str,
+    match_id_col: str,
+    max_legs: int,
+    min_legs: int,
+    sample_percentage: float,
+    fallback_threshold: float,
+    max_workers: int = DEFAULT_CPU_WORKERS,
+    output_path_str: Optional[str] = None
+) -> Optional[pd.DataFrame]:
+    
+    # Enhanced memory management
+    gc.collect()
+    logger.info(f"\nStarting parallel backtest with {max_workers} workers.")
+    
+    # Create a Manager to share objects between processes
+    manager = Manager()
+    shared_dict = manager.dict()
+    shared_dict['team_resolver'] = team_info_resolver
+    
+    # More aggressive memory parameters for stability
+    MAX_DATES = 100 if sample_percentage < 0.2 else 500  # Fewer dates for full run
+    CHUNK_SIZE = 3  # Very small chunks to ensure processing completes
+    
+    # Filter only essential columns before date splitting to reduce memory footprint
+    essential_cols = [date_col, match_id_col]
+    
+    # Get all probability and target columns from strategy guide
+    for _, rule in strategy_guide_df.iterrows():
+        if 'prob_col' in rule and rule['prob_col']:
+            essential_cols.append(rule['prob_col'])
+        if 'target_col' in rule and rule['target_col']:
+            essential_cols.append(rule['target_col'])
+    
+    essential_cols = list(set(essential_cols))
+    existing_cols = [col for col in essential_cols if col in combined_oof_df.columns]
+    
+    # Pre-filter the dataframe to dramatically reduce memory usage
+    logger.info(f"Filtering combined OOF dataframe to {len(existing_cols)} essential columns")
+    combined_oof_df = combined_oof_df[existing_cols].copy()
+    
+    # Force garbage collection to free memory
+    gc.collect()
+    
+    # Sample dates more aggressively
+    unique_dates = sorted(combined_oof_df[date_col].unique())
+    
+    if sample_percentage < 1:
+        num_dates = min(MAX_DATES, int(len(unique_dates) * sample_percentage))
+        np.random.seed(42)
+        sampled_dates = np.random.choice(unique_dates, size=num_dates, replace=False)
+        logger.info(f"Sampled {len(sampled_dates)} dates from {len(unique_dates)} total for processing.")
+    else:
+        # Hard limit on dates for production runs
+        if len(unique_dates) > MAX_DATES:
+            np.random.seed(42)
+            sampled_dates = np.random.choice(unique_dates, size=MAX_DATES, replace=False)
+            logger.info(f"Limited to {MAX_DATES} random dates from {len(unique_dates)} total for memory efficiency.")
+        else:
+            sampled_dates = unique_dates
+            logger.info(f"Using all {len(sampled_dates)} dates for processing.")
+    
+    # Process in even smaller chunks
+    daily_tasks_args_list = []
+    for date_val in sampled_dates:
+        daily_df_subset = combined_oof_df[combined_oof_df[date_col] == date_val].copy()
+        if not daily_df_subset.empty:
+            task_args = (
+                daily_df_subset, strategy_guide_df.copy(), date_val, 
+                min_legs, max_legs, match_id_col, fallback_threshold,
+                shared_dict
+            )
+            daily_tasks_args_list.append(task_args)
+    
+    # Save incremental results more frequently
+    global CHECKPOINT_INTERVAL
+    CHECKPOINT_INTERVAL = 100000  # Save after every ~100k parlays
+    
+    # Process in very small chunks for stability
+    all_parlay_results = []
+    num_day_chunks = (len(daily_tasks_args_list) + CHUNK_SIZE -1) // CHUNK_SIZE
+    
+    # Create output directory early
+    if output_path_str:
+        PARLAY_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    
+    results_saved = False
+    
+    try:
+        # Process only a manageable number of chunks
+        max_chunks_to_process = min(200, num_day_chunks)
+        logger.info(f"Will process at most {max_chunks_to_process} chunks out of {num_day_chunks} total")
+        
+        for i in range(max_chunks_to_process):
+            chunk_start_idx = i * CHUNK_SIZE
+            chunk_end_idx = min((i + 1) * CHUNK_SIZE, len(daily_tasks_args_list))
+            current_chunk_tasks = daily_tasks_args_list[chunk_start_idx:chunk_end_idx]
+            
+            if not current_chunk_tasks:
+                continue
+                
+            logger.info(f"Processing day chunk {i+1}/{max_chunks_to_process} ({len(current_chunk_tasks)} days)...")
+            
+            # Use fewer workers for better stability
+            actual_workers = min(max_workers, len(current_chunk_tasks))
+            
+            chunk_results = []
+            with ProcessPoolExecutor(max_workers=actual_workers) as executor:
+                futures = [executor.submit(process_daily_parlays, task_args) for task_args in current_chunk_tasks]
+                
+                for future in tqdm(as_completed(futures), total=len(futures), desc=f"Chunk {i+1} Progress"):
+                    try:
+                        day_results = future.result()
+                        chunk_results.extend(day_results)
+                    except Exception as e:
+                        logger.error(f"Error processing a day in chunk {i+1}: {e}", exc_info=True)
+                    
+                    # Check memory inside the loop
+                    should_pause, _ = check_memory_usage()
+                    if should_pause:
+                        logger.critical(f"Critical memory during chunk {i+1}. Stopping further processing.")
+                        break
+            
+            # Add to all results
+            all_parlay_results.extend(chunk_results)
+            
+            # Save incremental results
+            if output_path_str and chunk_results:
+                # Frequent checkpoints with separate files to avoid corruption
+                checkpoint_path = Path(f"{os.path.splitext(output_path_str)[0]}_checkpoint_{i+1}.parquet")
+                pd.DataFrame(chunk_results).to_parquet(checkpoint_path)
+                logger.info(f"Checkpoint saved: {len(chunk_results)} parlays to {checkpoint_path}")
+                
+                # Also save complete results so far
+                if len(all_parlay_results) > 0:
+                    complete_df = pd.DataFrame(all_parlay_results)
+                    complete_path = Path(output_path_str)
+                    complete_df.to_parquet(complete_path.with_suffix('.parquet'))
+                    results_saved = True
+                    logger.info(f"Saved {len(all_parlay_results)} total parlays to {complete_path.with_suffix('.parquet')}")
+            
+            # Force garbage collection
+            gc.collect()
+            
+            # Check memory after each chunk
+            should_pause, _ = check_memory_usage()
+            if should_pause:
+                logger.critical("Critical memory after chunk processing. Stopping further chunks.")
+                break
+    
+    except Exception as e:
+        logger.critical(f"Error during parallel processing: {e}", exc_info=True)
+        
+    finally:
+        # Always try to save what we have, even if there was an error
+        if output_path_str and all_parlay_results and not results_saved:
+            try:
+                results_df = pd.DataFrame(all_parlay_results)
+                output_path = Path(output_path_str)
+                results_df.to_parquet(output_path.with_suffix('.parquet'))
+                logger.info(f"Saved {len(results_df)} parlays to {output_path.with_suffix('.parquet')}")
+            except Exception as save_error:
+                logger.error(f"Failed to save final results: {save_error}")
+    
+    if not all_parlay_results:
+        logger.warning("No valid parlay results were generated.")
+        return None
+    
+    logger.info(f"\nGenerated {len(all_parlay_results):,} total parlays from all processed days.")
+    return pd.DataFrame(all_parlay_results)
+
+# --- Analysis and Plotting (Updated for Country/League) ---
+def create_parlay_visualizations(results_df: pd.DataFrame, output_viz_dir: Path):
+    if results_df is None or results_df.empty:
+        logger.warning("No data available for visualization.")
+        return
+    
+    output_viz_dir.mkdir(parents=True, exist_ok=True)
+    plt.style.use('seaborn-v0_8-whitegrid')
+    sns.set_palette("viridis")
+
+    # 1. Win Rate by Number of Legs - Fix the max() error
+    plt.figure(figsize=(10, 6))
+    summary = results_df.groupby('num_legs')['parlay_won'].agg(['count', 'mean']).reset_index()
+    summary['mean'] *= 100 # Convert to percentage
+    
+    # Fix: Use proper scalar max calculation
+    max_mean_value = summary['mean'].max() if not summary.empty else 10
+    y_limit = max(max_mean_value * 1.15, 10)
+    
+    sns.barplot(x='num_legs', y='mean', data=summary, hue='num_legs', palette="viridis", dodge=False, legend=False)
+    for index, row in summary.iterrows():
+        plt.text(index, row['mean'] + 1, f"{row['mean']:.1f}% (n={row['count']})", 
+                 color='black', ha="center", va="bottom")
+    plt.title('Parlay Win Rate by Number of Legs')
+    plt.xlabel('Number of Legs')
+    plt.ylabel('Win Rate (%)')
+    plt.ylim(0, y_limit)
+    plt.tight_layout()
+    plt.savefig(output_viz_dir / 'win_rate_by_legs.png')
+    plt.close()
+
+    # 2. Win Rate by Predicted Probability (remains similar)
+    if 'avg_prob' in results_df.columns and not results_df['avg_prob'].isnull().all():
+        plt.figure(figsize=(10, 6))
+        results_df['prob_bin'] = pd.cut(results_df['avg_prob'], bins=np.arange(0.4, 1.01, 0.1), right=False) # Ensure bins cover range
+        prob_summary = results_df.groupby('prob_bin')['parlay_won'].agg(['count', 'mean']).reset_index()
+        prob_summary['mean'] *= 100
+        sns.barplot(x='prob_bin', y='mean', data=prob_summary, hue='prob_bin', palette="viridis", dodge=False, legend=False)
+        plt.title('Parlay Win Rate by Avg. Predicted Probability')
+        plt.xlabel('Avg. Predicted Probability Bin')
+        plt.ylabel('Win Rate (%)')
+        plt.xticks(rotation=45, ha="right")
+        plt.tight_layout()
+        plt.savefig(output_viz_dir / 'win_rate_by_avg_prob.png')
+        plt.close()
+
+    # 3. Win Rate by Country (New)
+    if 'parlay_country' in results_df.columns and not results_df['parlay_country'].isnull().all():
+        plt.figure(figsize=(12, 7))
+        country_summary = results_df.groupby('parlay_country')['parlay_won'].agg(['count', 'mean']).reset_index()
+        country_summary['mean'] *= 100
+        country_summary = country_summary[country_summary['count'] >= 50].sort_values('mean', ascending=False).head(15) # Top 15 with min 50 parlays
+        
+        if not country_summary.empty:
+            sns.barplot(x='mean', y='parlay_country', data=country_summary, hue='parlay_country', palette="viridis", dodge=False, legend=False, orient='h')
+            plt.title('Top Parlay Win Rates by Match Country (Min 50 Parlays)')
+            plt.xlabel('Win Rate (%)')
+            plt.ylabel('Country')
+            plt.tight_layout()
+            plt.savefig(output_viz_dir / 'win_rate_by_country.png')
+        else:
+            logger.info("Not enough data per country for 'Win Rate by Country' plot.")
+        plt.close()
+
+    # 4. Win Rate by League (New)
+    if 'parlay_league' in results_df.columns and not results_df['parlay_league'].isnull().all():
+        plt.figure(figsize=(14, 8)) # Wider for league names
+        league_summary = results_df.groupby('parlay_league')['parlay_won'].agg(['count', 'mean']).reset_index()
+        league_summary['mean'] *= 100
+        league_summary = league_summary[league_summary['count'] >= 30].sort_values('mean', ascending=False).head(20) # Top 20 with min 30 parlays
+        
+        if not league_summary.empty:
+            sns.barplot(x='mean', y='parlay_league', data=league_summary, hue='parlay_league', palette="magma", dodge=False, legend=False, orient='h')
+            plt.title('Top Parlay Win Rates by Match League (Min 30 Parlays)')
+            plt.xlabel('Win Rate (%)')
+            plt.ylabel('League')
+            plt.tight_layout()
+            plt.savefig(output_viz_dir / 'win_rate_by_league.png')
+        else:
+            logger.info("Not enough data per league for 'Win Rate by League' plot.")
+        plt.close()
+
+    # 5. Model Usage in Winning vs All Parlays (remains similar)
+    all_models, winning_models = analyze_model_usage_in_parlays(results_df, results_df['num_legs'].max() if 'num_legs' in results_df else 4)
+    if all_models is not None:
+        plt.figure(figsize=(12,7))
+        all_models.sort_values().plot(kind='barh', title='Model Usage in All Parlay Legs', color='skyblue')
+        plt.xlabel('Percentage of Legs (%)')
+        plt.tight_layout()
+        plt.savefig(output_viz_dir / 'model_usage_all_parlays.png')
+        plt.close()
+    if winning_models is not None:
+        plt.figure(figsize=(12,7))
+        winning_models.sort_values().plot(kind='barh', title='Model Usage in Winning Parlay Legs', color='lightgreen')
+        plt.xlabel('Percentage of Legs (%)')
+        plt.tight_layout()
+        plt.savefig(output_viz_dir / 'model_usage_winning_parlays.png')
+        plt.close()
+
+    logger.info(f"Visualizations saved to {output_viz_dir}")
+
+def analyze_model_usage_in_parlays(parlay_results_df: pd.DataFrame, max_legs_in_data: int) -> Tuple[Optional[pd.Series], Optional[pd.Series]]:
+    """Analyzes model usage in all and winning parlays."""
+    if parlay_results_df is None or parlay_results_df.empty:
+        logger.warning("No parlay results to analyze model usage.")
+        return None, None
+
+    all_leg_models: List[str] = []
+    winning_leg_models: List[str] = []
+
+    for i in range(1, max_legs_in_data + 1):
         model_col = f'leg{i}_model'
-        if model_col in parlay_summary_df.columns:
-            leg_model_usage.extend(parlay_summary_df[model_col].dropna().tolist()) # Add dropna()
-    
-    if not leg_model_usage:
-        print("No model usage data found in parlay legs (possibly no parlays or model column missing/empty).")
-        return None
+        won_col = f'leg{i}_won' # Assuming individual leg win status is stored, or use parlay_won
         
-    model_counts = pd.Series(leg_model_usage).value_counts(normalize=True) * 100
-    return model_counts
+        if model_col in parlay_results_df.columns:
+            all_leg_models.extend(parlay_results_df[model_col].dropna().tolist())
+            
+            # If using parlay_won for leg contribution:
+            # This attributes all models in a winning parlay as "winning models"
+            # A more granular `leg{i}_won` column would be better for leg-specific model performance
+            if 'parlay_won' in parlay_results_df.columns:
+                 winning_legs_from_parlay = parlay_results_df[parlay_results_df['parlay_won'] == 1][model_col].dropna().tolist()
+                 winning_leg_models.extend(winning_legs_from_parlay)
 
-def run_parlay_backtester(
-    oof_path: str = str(OOF_INPUT_PATH),
-    strategy_path: str = str(STRATEGY_GUIDE_PATH),
-    markets_def_path: str = str(MARKET_DEFINITIONS_PATH),
-    output_path: str = str(PARLAY_RESULTS_PATH),
-    max_legs: int = 3,
-    min_legs: int = 2,
-    sample_perc: float = 1.0,
-    date_col: str = DEFAULT_DATE_COL,
-    match_id_col: str = DEFAULT_MATCH_ID_COL
-):
-    """Main function to run the parlay backtester with arguments as parameters instead of CLI."""
+    all_usage_series = pd.Series(all_leg_models).value_counts(normalize=True) * 100 if all_leg_models else None
+    winning_usage_series = pd.Series(winning_leg_models).value_counts(normalize=True) * 100 if winning_leg_models else None
     
-    # --- 1. Load Data ---
-    data_load_result = load_data(Path(oof_path), Path(strategy_path), Path(markets_def_path))
-    if data_load_result is None:
-        print("Exiting due to data loading errors.")
-        return None
-    combined_oof_df, raw_strategy_guide_df, parlay_market_definitions_loaded = data_load_result
+    return all_usage_series, winning_usage_series
 
-    # --- 2. Pre-process Strategy Guide ---
-    strategy_guide_processed_df = preprocess_strategy_guide(
-        raw_strategy_guide_df, 
-        parlay_market_definitions_loaded,
-        combined_oof_df.columns
+# Updated helper function for safe visualization
+def safe_max(series, default=10):
+    """Safely get max value from a series, handling empty series."""
+    if series.empty:
+        return default
+    return series.max()
+
+# --- Main Orchestrator ---
+def run_parlay_backtester_orchestrator(
+    oof_path_str: str, strategy_path_str: str, markets_def_path_str: str, 
+    team_info_path_str: str, output_path_str: str,
+    max_legs: int, min_legs: int, sample_perc: float,
+    date_col: str, match_id_col: str,
+    fallback_threshold: float,
+    max_cpu_workers: int = DEFAULT_CPU_WORKERS,
+    create_plots: bool = True
+):
+    logger.info("\n" + "="*30 + " Starting Parlay Backtester V2 " + "="*30)
+    overall_start_time = time.time()
+
+    # Create output directory if it doesn't exist
+    PARLAY_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    if create_plots:
+        VISUALIZATIONS_DIR_DEFAULT.mkdir(parents=True, exist_ok=True)
+
+    # Load data (this will initialize TEAM_INFO_RESOLVER globally)
+    data_load_res = load_data(
+        Path(oof_path_str), Path(strategy_path_str), 
+        Path(markets_def_path_str), Path(team_info_path_str)
     )
-    if strategy_guide_processed_df is None:
-        print("Exiting due to strategy guide pre-processing errors.")
-        return None
+    if data_load_res is None:
+        logger.critical("Data loading failed. Exiting.")
+        return
+    combined_oof_df, raw_strat_guide_df, mkt_defs_loaded, _ = data_load_res # team_resolver is now global
 
-    # --- 3. Run Backtest ---
-    s_time_backtest = time.time()
-    results_df = run_parlay_backtest(
+    # Preprocess strategy guide
+    assert TEAM_INFO_RESOLVER is not None, "TeamInfoResolver was not initialized by load_data."
+    strat_guide_processed_df = preprocess_strategy_guide(
+        raw_strat_guide_df, mkt_defs_loaded, set(combined_oof_df.columns)
+    )
+    if strat_guide_processed_df is None:
+        logger.critical("Strategy guide processing failed. Exiting.")
+        return
+
+    logger.info(f"Configuration: Max Legs={max_legs}, Min Legs={min_legs}, Sample={sample_perc*100}%, CPU Workers={max_cpu_workers}")
+
+    results_df = run_parlay_backtest_parallel(
         combined_oof_df=combined_oof_df,
-        strategy_guide_df=strategy_guide_processed_df,
+        strategy_guide_df=strat_guide_processed_df,
+        parlay_market_definitions=mkt_defs_loaded,
+        team_info_resolver=TEAM_INFO_RESOLVER, # Pass it explicitly
         date_col=date_col,
         match_id_col=match_id_col,
         max_legs=max_legs,
         min_legs=min_legs,
-        sample_percentage=sample_perc
+        sample_percentage=sample_perc,
+        fallback_threshold=fallback_threshold,
+        max_workers=max_cpu_workers,
+        output_path_str=output_path_str # Pass the string path
     )
-    print(f"Parlay generation and evaluation took {time.time() - s_time_backtest:.2f} seconds.")
 
-    # --- 4. Save Results & Analyze Model Usage ---
+    # Save to parquet first, then CSV (parquet is faster and safer)
     if results_df is not None and not results_df.empty:
-        print(f"\nSaving parlay results to: {output_path}")
-        results_df.to_csv(output_path, index=False)
-
-        print("\nSample of Final Parlay Results (first 5):")
-        print(results_df.head())
-
-        model_usage_stats = analyze_model_usage_in_parlays(results_df, max_legs)
-        if model_usage_stats is not None:
-            print("\n\n--- Insights for Stacker Model from Parlay Leg Usage ---")
-            print("Frequency of Models appearing in generated parlay legs (based on strategy guide):")
-            print(model_usage_stats.round(2).to_string())
-            print("\nInterpretation for Stacker:")
-            print("- Models appearing more frequently here are those your strategy guide relies on often.")
-            print("- When building your stacker, features from these frequently used models might be particularly important.")
+        output_p = Path(output_path_str)
+        parquet_path = output_p.with_suffix('.parquet')
+        
+        # First save as parquet
+        results_df.to_parquet(parquet_path)
+        logger.info(f"Saved parlay results to: {parquet_path}")
+        
+        try:
+            # Then save as CSV with reduced columns if needed
+            if results_df.shape[1] > 100:  # If too many columns for CSV
+                essential_cols = ['parlay_date', 'num_legs', 'parlay_won', 'avg_prob', 
+                                 'parlay_country', 'parlay_league', 'market_combination']
+                results_df[essential_cols].to_csv(output_p, index=False)
+            else:
+                results_df.to_csv(output_p, index=False)
+            logger.info(f"Saved CSV results to: {output_p}")
+        except Exception as e:
+            logger.warning(f"Could not save CSV version: {e}")
+        
+        if create_plots:
+            try:
+                create_parlay_visualizations(results_df, VISUALIZATIONS_DIR_DEFAULT)
+            except Exception as e:
+                logger.error(f"Error creating visualizations: {e}")
     else:
-        print("Parlay backtesting did not produce any results to save or analyze further.")
+        logger.error("No valid parlay results generated. Cannot save or visualize.")
 
-    print("\nScript execution complete.")
-    return results_df
+    logger.info(f"Parlay Backtester V2 finished in {time.time() - overall_start_time:.2f} seconds.")
+    logger.info("="*30 + " Parlay Backtester V2 Complete " + "="*30 + "\n")
 
-# --- Main Execution Block ---
+
 if __name__ == "__main__":
-    # Create output directory if it doesn't exist
-    PARLAY_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser(description="Parlay Backtester V2 with Enhanced Team Info")
+    parser.add_argument("--oof_path", type=str, default=str(OOF_INPUT_PATH_DEFAULT), help="Path to combined OOF predictions parquet file.")
+    parser.add_argument("--strategy_path", type=str, default=str(STRATEGY_GUIDE_PATH_DEFAULT), help="Path to strategy guide CSV file.")
+    parser.add_argument("--markets_def_path", type=str, default=str(MARKET_DEFINITIONS_PATH_DEFAULT), help="Path to parlay market definitions JSON file.")
+    parser.add_argument("--team_info_path", type=str, default=str(CONSOLIDATED_TEAM_INFO_PATH), help="Path to consolidated team info JSON file.")
+    parser.add_argument("--output_path", type=str, default=str(PARLAY_RESULTS_PATH_DEFAULT), help="Path to save parlay backtest results CSV.")
+    parser.add_argument("--max_legs", type=int, default=4, help="Maximum number of legs in a parlay.")
+    parser.add_argument("--min_legs", type=int, default=2, help="Minimum number of legs in a parlay.")
+    parser.add_argument("--sample_perc", type=float, default=0.25, help="Percentage of unique dates to sample (0.0 to 1.0).")
+    parser.add_argument("--date_col", type=str, default=DEFAULT_DATE_COL, help="Name of the date column in OOF data.")
+    parser.add_argument("--match_id_col", type=str, default=DEFAULT_MATCH_ID_COL, help="Name of the match ID column in OOF data.")
+    parser.add_argument("--fallback_thresh", type=float, default=0.0, help="Fallback probability threshold for legs not in strategy guide (0.0 to disable).")
+    parser.add_argument("--max_cpu", type=int, default=DEFAULT_CPU_WORKERS, help=f"Maximum CPU workers (cores) to use. Defaults to ~25% of available cores.")
+    parser.add_argument("--no_plots", action="store_true", help="Disable generation of plots.")
+    parser.add_argument("--sample_rate", type=float, default=0.25,
+                   help="Percentage of dates to sample for backtesting (0.0 to 1.0)")
     
-    parser = argparse.ArgumentParser(description="Run Parlay Backtester for Football Predictions.")
-    parser.add_argument("--oof_path", type=str, default=str(OOF_INPUT_PATH), 
-                       help="Path to the combined OOF predictions Parquet file.")
-    parser.add_argument("--strategy_path", type=str, default=str(STRATEGY_GUIDE_PATH),
-                       help="Path to the strategy guide CSV file (e.g., best_per_market_df).")
-    parser.add_argument("--markets_def_path", type=str, default=str(MARKET_DEFINITIONS_PATH),
-                       help="Path to the PARLAY_MARKET_DEFINITIONS JSON file.")
-    parser.add_argument("--output_path", type=str, default=str(PARLAY_RESULTS_PATH),
-                       help="Path to save the parlay results CSV.")
-    parser.add_argument("--max_legs", type=int, default=3,
-                       help="Maximum number of legs per parlay.")
-    parser.add_argument("--min_legs", type=int, default=2,
-                       help="Minimum number of legs per parlay.")
-    parser.add_argument("--sample_perc", type=float, default=1.0,
-                       help="Percentage of days to sample (0.0 to 1.0). Default 1.0 (all days).")
-    parser.add_argument("--date_col", type=str, default=DEFAULT_DATE_COL,
-                       help="Name of the date column in OOF data.")
-    parser.add_argument("--match_id_col", type=str, default=DEFAULT_MATCH_ID_COL,
-                       help="Name of the match ID column.")
-
     args = parser.parse_args()
-    
-    # Run the backtester with CLI arguments
-    run_parlay_backtester(
-        oof_path=args.oof_path,
-        strategy_path=args.strategy_path,
-        markets_def_path=args.markets_def_path,
-        output_path=args.output_path,
-        max_legs=args.max_legs,
-        min_legs=args.min_legs,
-        sample_perc=args.sample_perc,
-        date_col=args.date_col,
-        match_id_col=args.match_id_col
-    )
+
+    # Assertions for arguments
+    assert Path(args.oof_path).exists(), f"OOF file not found: {args.oof_path}"
+    assert Path(args.strategy_path).exists(), f"Strategy guide file not found: {args.strategy_path}"
+    assert Path(args.markets_def_path).exists(), f"Market definitions file not found: {args.markets_def_path}"
+    assert Path(args.team_info_path).exists(), f"Consolidated team info file not found: {args.team_info_path}"
+    assert args.min_legs >= 1, "min_legs must be at least 1."
+    assert args.max_legs >= args.min_legs, "max_legs must be greater than or equal to min_legs."
+    assert 0.0 < args.sample_perc <= 1.0, "sample_perc must be between 0 (exclusive) and 1 (inclusive)."
+    assert args.fallback_thresh >= 0.0 and args.fallback_thresh <= 1.0, "fallback_thresh must be between 0.0 and 1.0."
+    assert args.max_cpu >= 1, "max_cpu must be at least 1."
+
+    try:
+        run_parlay_backtester_orchestrator(
+            oof_path_str=args.oof_path,
+            strategy_path_str=args.strategy_path,
+            markets_def_path_str=args.markets_def_path,
+            team_info_path_str=args.team_info_path,
+            output_path_str=args.output_path,
+            max_legs=args.max_legs,
+            min_legs=args.min_legs,
+            sample_perc=args.sample_perc,
+            date_col=args.date_col,
+            match_id_col=args.match_id_col,
+            fallback_threshold=args.fallback_thresh,
+            max_cpu_workers=args.max_cpu,
+            create_plots=not args.no_plots
+        )
+    except Exception as e:
+        logger.critical(f"Parlay backtester orchestrator failed with unhandled error: {e}", exc_info=True)
+        # Potentially exit with an error code
+        # sys.exit(1)

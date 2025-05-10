@@ -1,16 +1,25 @@
+from typing import Dict, Optional
+import json
+from pathlib import Path
+import logging
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Define TEAM_ID_MAPPING first before using it in the TeamMappingManager
 TEAM_ID_MAPPING = {
-    # Renamed from "1899_Hoffenheim"
+    # Original mappings as before...
     "Hoffenheim": {
         "statarea_id": "167",
         "mongodb_id": "167",
         "country": "Germany"
     },
-    # Renamed from "AC_Milan"
-    "Milan": { # Note: Encoder uses "Milan", not "AC Milan"
+    "Milan": {
         "statarea_id": "489",
         "mongodb_id": "489",
-        "country": "Italy"
+        "country": "Italy",
+        "alternative_names": ["AC Milan", "AC_Milan"]
     },
     # Renamed from "ADO_Den_Haag"
     "Den Haag": { # Note: Encoder uses "Den Haag"
@@ -2137,4 +2146,102 @@ TEAM_ID_MAPPING = {
         "country": "Spain"
     },
 }
+
+class TeamMappingManager:
+    def __init__(self):
+        self._mappings: Dict[str, Dict] = TEAM_ID_MAPPING
+        self._normalized_mappings = self._create_normalized_mappings()
+    
+    def _create_normalized_mappings(self) -> Dict[str, str]:
+        """Create normalized team name mappings for fuzzy matching."""
+        normalized = {}
+        for team_name, data in self._mappings.items():
+            # Store original name with normalized version
+            norm_name = self._normalize_team_name(team_name)
+            normalized[norm_name] = team_name
+            
+            # Handle alternative names if specified
+            if 'alternative_names' in data:
+                for alt_name in data['alternative_names']:
+                    norm_alt = self._normalize_team_name(alt_name)
+                    normalized[norm_alt] = team_name
+        return normalized
+    
+    @staticmethod
+    def _normalize_team_name(name: str) -> str:
+        """Normalize team name for consistent matching."""
+        return ''.join(c.lower() for c in name if c.isalnum())
+    
+    def get_team_info(self, team_name: str) -> Optional[Dict]:
+        """
+        Get team information using fuzzy matching.
+        
+        Args:
+            team_name: Raw team name to look up
+            
+        Returns:
+            Dict with team information or None if not found
+        """
+        try:
+            # Try direct lookup first
+            if team_name in self._mappings:
+                return self._mappings[team_name]
+            
+            # Try normalized lookup
+            norm_name = self._normalize_team_name(team_name)
+            if norm_name in self._normalized_mappings:
+                original_name = self._normalized_mappings[norm_name]
+                return self._mappings[original_name]
+            
+            # Try partial matches
+            for norm_key, original_name in self._normalized_mappings.items():
+                if norm_name in norm_key or norm_key in norm_name:
+                    return self._mappings[original_name]
+            
+            logger.warning(f"No mapping found for team: {team_name}")
+            return None
+            
+        except Exception as e:
+            logger.error(f"Error getting team info for {team_name}: {str(e)}")
+            return None
+    
+    def get_team_country(self, team_name: str) -> str:
+        """
+        Get team's country/league.
+        
+        Args:
+            team_name: Team name to look up
+            
+        Returns:
+            Country name or "Unknown" if not found
+        """
+        team_info = self.get_team_info(team_name)
+        return team_info.get('country', "Unknown") if team_info else "Unknown"
+    
+    def get_team_ids(self, team_name: str) -> tuple[Optional[str], Optional[str]]:
+        """
+        Get team's statarea and mongodb IDs.
+        
+        Args:
+            team_name: Team name to look up
+            
+        Returns:
+            Tuple of (statarea_id, mongodb_id) or (None, None) if not found
+        """
+        team_info = self.get_team_info(team_name)
+        if not team_info:
+            return None, None
+            
+        return team_info.get('statarea_id'), team_info.get('mongodb_id')
+
+# Initialize the global mapping manager
+_team_mapping_manager = TeamMappingManager()
+
+# Export key functions at module level
+get_team_info = _team_mapping_manager.get_team_info
+get_team_country = _team_mapping_manager.get_team_country
+get_team_ids = _team_mapping_manager.get_team_ids
+
+# Export TEAM_ID_MAPPING for backwards compatibility
+__all__ = ['get_team_info', 'get_team_country', 'get_team_ids', 'TEAM_ID_MAPPING']
 
