@@ -71,11 +71,11 @@ DEFAULT_MATCH_ID_COL = 'MatchID'
 
 # Resource Management
 DEFAULT_CPU_WORKERS = max(1, os.cpu_count() // 2) # Target ~50% CPU usage
-MAX_MEMORY_PERCENT_THRESHOLD = 75.0  # More realistic threshold
-MIN_FREE_MEMORY_GB_THRESHOLD = 2.0  # Ensure at least 2GB free
+MAX_MEMORY_PERCENT_THRESHOLD = 90.0  # More realistic threshold
+MIN_FREE_MEMORY_GB_THRESHOLD = 1.0  # Ensure at least 2GB free
 CHECKPOINT_INTERVAL = 1000  # Save partial results every N parlays (parlays, not days)
 CHUNK_SIZE_DAYS = 1  # Process fewer days per chunk
-SAMPLE_RATE = 0.25  # Use 25% of dates for testing
+SAMPLE_RATE = 1.0  # Use 100% of dates for testing
 
 # --- Pydantic Models for Team Info Validation ---
 
@@ -286,8 +286,9 @@ def generate_camel_case_spaced_version(name: str) -> str: # Keep this as it can 
     s4 = re.sub(r"(\d)([a-zA-Z])", r"\1 \2", s3) 
     return " ".join(s4.split()) 
 
-def check_memory_usage(critical_threshold=MAX_MEMORY_PERCENT_THRESHOLD, 
-                     critical_free_gb=MIN_FREE_MEMORY_GB_THRESHOLD) -> Tuple[bool, str]:
+def check_memory_usage(critical_threshold=90.0, critical_free_gb=1.0, 
+                       recovery_threshold=85.0) -> Tuple[bool, str]:
+    """Enhanced memory management with recovery mechanism."""
     memory_info = psutil.virtual_memory()
     memory_percent = memory_info.percent
     free_memory_gb = memory_info.available / (1024**3)
@@ -300,17 +301,34 @@ def check_memory_usage(critical_threshold=MAX_MEMORY_PERCENT_THRESHOLD,
         gc.collect()
         
         # Wait for memory to be reclaimed
-        time.sleep(1.0)
+        time.sleep(2.0)
         
         # Recheck
         memory_info = psutil.virtual_memory()
         memory_percent = memory_info.percent
         free_memory_gb = memory_info.available / (1024**3)
         
+        # Try harder to recover memory if still critical
         if memory_percent > critical_threshold or free_memory_gb < critical_free_gb:
             logger.warning(f"Critical memory: {memory_percent:.1f}% used, {free_memory_gb:.2f}GB free")
             status = "critical"
             should_pause = True
+            
+            # Wait and try to recover more aggressively
+            recovery_attempts = 0
+            while (memory_percent > recovery_threshold or free_memory_gb < critical_free_gb) and recovery_attempts < 5:
+                logger.warning(f"Attempting memory recovery ({recovery_attempts+1}/5)")
+                gc.collect()
+                time.sleep(5.0)  # Wait longer for memory to be reclaimed
+                memory_info = psutil.virtual_memory()
+                memory_percent = memory_info.percent
+                free_memory_gb = memory_info.available / (1024**3)
+                recovery_attempts += 1
+                
+            if memory_percent <= recovery_threshold and free_memory_gb >= critical_free_gb:
+                logger.info(f"Memory recovered: {memory_percent:.1f}% used, {free_memory_gb:.2f}GB free")
+                status = "recovered"
+                should_pause = False
         else:
             status = "recovered"
     
@@ -454,110 +472,130 @@ def get_match_details_from_id(match_id: str, resolver: TeamInfoResolver) -> Dict
 
 
 def process_daily_parlays(args_tuple: tuple) -> List[Dict]:
-    """Processes parlays for a single day's games with memory optimization."""
+    """Processes parlays for a single day's games with enhanced memory optimization."""
     daily_games_df, strategy_guide_df, game_date, min_legs, max_legs, \
     match_id_col, fallback_threshold, shared_dict = args_tuple
     
     team_resolver = shared_dict['team_resolver']
     
-    # Memory check first
-    should_pause, mem_status = check_memory_usage()
+    # Memory check first with recovery attempt
+    should_pause, mem_status = check_memory_usage(critical_threshold=90.0, critical_free_gb=1.0)
     if should_pause:
-        logger.warning(f"High memory usage ({mem_status}) at start of process_daily_parlays for {game_date}. Skipping day.")
-        return []
+        logger.warning(f"High memory usage ({mem_status}) at start of process_daily_parlays for {game_date}. Attempting recovery...")
+        # Try more aggressive memory recovery
+        gc.collect()
+        time.sleep(5)
+        should_pause, mem_status = check_memory_usage(critical_threshold=90.0)
+        if should_pause:
+            logger.warning(f"Memory still critical after recovery. Skipping day {game_date}.")
+            return []
     
-    # 1. Filter columns dramatically - only keep essential ones
-    needed_cols = [match_id_col, DEFAULT_DATE_COL]
-    
-    # Get only required probability and target columns
-    for _, rule in strategy_guide_df.iterrows():
-        needed_cols.append(rule['prob_col'])
-        needed_cols.append(rule['target_col'])
-    
-    # Remove duplicates and ensure all columns exist
-    needed_cols = list(set(needed_cols))
-    existing_cols = [col for col in needed_cols if col in daily_games_df.columns]
-    
-    # 2. Create minimal dataframe
-    daily_df_minimal = daily_games_df[existing_cols].copy()
-    
-    # 3. Release original dataframe immediately
-    del daily_games_df
-    gc.collect()
-    
-    # Process with minimal dataframe
-    match_ids = daily_df_minimal[match_id_col].unique()
-    all_legs = []
-    
-    # 4. Process one match at a time to minimize memory
-    for match_id in match_ids:
-        match_row = daily_df_minimal[daily_df_minimal[match_id_col] == match_id].iloc[0]
-        match_details = get_match_details_from_id(match_id, team_resolver)
+    try:
+        # 1. Filter columns dramatically - only keep essential ones
+        needed_cols = [match_id_col, DEFAULT_DATE_COL]
         
+        # Get only required probability and target columns
         for _, rule in strategy_guide_df.iterrows():
-            prob_col, target_col = rule['prob_col'], rule['target_col']
-            
-            # Skip if columns don't exist
-            if prob_col not in match_row or target_col not in match_row:
-                continue
-                
-            prob_val = match_row[prob_col]
-            
-            if pd.notna(prob_val) and prob_val >= rule['entry_threshold']:
-                leg_info = {
-                    'match_id': match_id,
-                    'market': rule['market'],
-                    'model_used': rule['model_identifier'],
-                    'prob_at_bet': float(prob_val),
-                    'threshold_used': float(rule['entry_threshold']),
-                    'actual_outcome': int(match_row[target_col]),
-                    'conflict_group': rule['conflict_group'],
-                    'market_group': rule['market_group'],
-                }
-                leg_info.update(match_details)
-                all_legs.append(leg_info)
-                
-        # 5. Check memory after each match
-        if len(all_legs) % 100 == 0:
-            should_pause, _ = check_memory_usage()
-            if should_pause:
-                break
-    
-    # If memory issues, return early with already collected legs
-    should_pause, _ = check_memory_usage()
-    if should_pause or not all_legs:
-        return []
-    
-    # 6. Generate parlays with batched processing
-    parlay_results = []
-    unique_matches = set(leg['match_id'] for leg in all_legs)
-    
-    # Only process if we have enough matches
-    if len(unique_matches) < min_legs:
-        return []
+            needed_cols.append(rule['prob_col'])
+            needed_cols.append(rule['target_col'])
         
-    # 7. Batch process combinations to control memory
-    BATCH_SIZE = 1000  # Process combinations in batches
-    
-    for num_legs in range(min_legs, min(max_legs + 1, len(unique_matches) + 1)):
-        match_combos = list(combinations(unique_matches, num_legs))
+        # Remove duplicates and ensure all columns exist
+        needed_cols = list(set(needed_cols))
+        existing_cols = [col for col in needed_cols if col in daily_games_df.columns]
         
-        # Process in batches
-        for i in range(0, len(match_combos), BATCH_SIZE):
-            batch = match_combos[i:i+BATCH_SIZE]
+        # 2. Create minimal dataframe
+        daily_df_minimal = daily_games_df[existing_cols].copy()
+        
+        # 3. Release original dataframe immediately
+        del daily_games_df
+        gc.collect()
+        
+        # Process with minimal dataframe
+        match_ids = daily_df_minimal[match_id_col].unique()
+        all_legs = []
+        
+        # 4. Process one match at a time
+        for match_id in match_ids:
+            match_row = daily_df_minimal[daily_df_minimal[match_id_col] == match_id].iloc[0]
+            match_details = get_match_details_from_id(match_id, team_resolver)
             
-            for match_combo in batch:
-                # Generate parlays for this combo
-                parlay_legs = generate_parlay_for_combo(match_combo, all_legs, game_date)
-                if parlay_legs:
-                    parlay_results.extend(parlay_legs)
+            for _, rule in strategy_guide_df.iterrows():
+                prob_col, target_col = rule['prob_col'], rule['target_col']
+                
+                # Skip if columns don't exist
+                if prob_col not in match_row or target_col not in match_row:
+                    continue
+                    
+                prob_val = match_row[prob_col]
+                
+                if pd.notna(prob_val) and prob_val >= rule['entry_threshold']:
+                    # This leg is eligible
+                    leg_info = {
+                        'match_id': match_id,
+                        'market': rule['market'],
+                        'model_used': rule['model_identifier'],
+                        'prob_at_bet': float(prob_val),
+                        'threshold_used': float(rule['entry_threshold']),
+                        'actual_outcome': int(match_row[target_col]),
+                        'conflict_group': rule['conflict_group'],
+                        'market_group': rule['market_group'],
+                    }
+                    leg_info.update(match_details)
+                    all_legs.append(leg_info)
             
-            # Check memory after each batch
-            should_pause, _ = check_memory_usage()
-            if should_pause:
-                return parlay_results  # Return what we have so far
+        # No need to keep the minimal dataframe anymore
+        del daily_df_minimal
+        gc.collect()
+        
+        # If no eligible legs, return early
+        if not all_legs:
+            return []
+        
+        # 6. Generate parlays with batched processing
+        parlay_results = []
+        unique_matches = set(leg['match_id'] for leg in all_legs)
+        
+        # Only process if we have enough matches
+        if len(unique_matches) < min_legs:
+            return []
+            
+        # 7. Process combinations with even smaller batches
+        BATCH_SIZE = 500  # Smaller batch size for better memory management
+        
+        for num_legs in range(min_legs, min(max_legs + 1, len(unique_matches) + 1)):
+            match_combos = list(combinations(unique_matches, num_legs))
+            
+            # Process in batches
+            for i in range(0, len(match_combos), BATCH_SIZE):
+                # Check memory before each batch
+                should_pause, _ = check_memory_usage()
+                if should_pause:
+                    # Try to recover
+                    gc.collect()
+                    time.sleep(3)
+                    should_pause, _ = check_memory_usage(critical_threshold=90.0)
+                    if should_pause:
+                        return parlay_results  # Return what we have so far
+                
+                batch = match_combos[i:i+BATCH_SIZE]
+                batch_results = []
+                
+                for match_combo in batch:
+                    # Generate parlays for this combo
+                    parlay_legs = generate_parlay_for_combo(match_combo, all_legs, game_date)
+                    if parlay_legs:
+                        batch_results.extend(parlay_legs)
+                
+                parlay_results.extend(batch_results)
+                
+                # Clear batch results to free memory
+                batch_results = None
+        
+        return parlay_results
     
-    return parlay_results
+    except Exception as e:
+        logger.error(f"Error in process_daily_parlays for {game_date}: {e}", exc_info=True)
+        return []
 
 # Helper function to generate parlays for a match combination
 def generate_parlay_for_combo(match_combo, all_legs, game_date):
@@ -572,13 +610,19 @@ def generate_parlay_for_combo(match_combo, all_legs, game_date):
     leg_options = [legs_by_match[m_id] for m_id in match_combo]
     
     # Limit number of combinations to avoid memory explosion
-    MAX_COMBINATIONS = 5000
+    MAX_COMBINATIONS = 150000 
     total_combinations = np.prod([len(legs) for legs in leg_options])
     
     if total_combinations > MAX_COMBINATIONS:
+        logger.warning(f"Skipping parlay generation for match combo on {game_date} due to excessive combinations: {total_combinations} > {MAX_COMBINATIONS}. Match IDs: {match_combo}")
         return []  # Skip if too many combinations
         
     for leg_combo in product(*leg_options):
+        # Check for unique match IDs - this check is redundant as match_combo already ensures unique games
+        match_ids = [leg['match_id'] for leg in leg_combo]
+        if len(set(match_ids)) != len(match_ids):
+            continue  # Skip if duplicate match IDs
+
         # Check for conflicting market groups
         market_groups = [leg['market_group'] for leg in leg_combo]
         if len(set(market_groups)) < len(market_groups):
@@ -630,53 +674,22 @@ def run_parlay_backtest_parallel(
     reuse_checkpoints: bool = True
 ) -> Optional[pd.DataFrame]:
     
-    # Create output directory early
+    # Create output directory and checkpoint directory
     if output_path_str:
         output_dir = Path(output_path_str).parent
         output_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Try to load existing checkpoints if requested
-    existing_df = None
-    processed_match_dates = set()
-    
-    if reuse_checkpoints and output_path_str:
-        existing_df = load_existing_checkpoints(Path(output_path_str).parent)
         
-        if existing_df is not None and not existing_df.empty:
-            # Extract already processed dates
-            if 'parlay_date' in existing_df.columns:
-                processed_match_dates = set(existing_df['parlay_date'].unique())
-                logger.info(f"Found {len(processed_match_dates)} already processed dates in checkpoints.")
+        # Create dedicated checkpoint directory
+        checkpoint_dir = output_dir / "checkpoint_parlays"
+        checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    else:
+        checkpoint_dir = None
     
     # Enhanced memory management
     gc.collect()
-    logger.info(f"\nStarting parallel backtest with {max_workers} workers.")
+    logger.info(f"\nStarting parallel backtest with controlled resource usage.")
     
-    # When filtering dates to process, skip already processed dates
-    unique_dates = sorted(combined_oof_df[date_col].unique())
-    
-    if processed_match_dates:
-        # Convert datetime objects to string format matching processed_match_dates
-        date_strings = [d.strftime('%Y-%m-%d') if hasattr(d, 'strftime') else str(d) for d in unique_dates]
-        unprocessed_indices = [i for i, d in enumerate(date_strings) if d not in processed_match_dates]
-        unique_dates = [unique_dates[i] for i in unprocessed_indices]
-        logger.info(f"After filtering already processed dates, {len(unique_dates)} dates remain to be processed.")
-    
-    # Rest of the function continues as before...
-    # Enhanced memory management
-    gc.collect()
-    logger.info(f"\nStarting parallel backtest with {max_workers} workers.")
-    
-    # Create a Manager to share objects between processes
-    manager = Manager()
-    shared_dict = manager.dict()
-    shared_dict['team_resolver'] = team_info_resolver
-    
-    # More aggressive memory parameters for stability
-    MAX_DATES = 100 if sample_percentage < 0.2 else 500  # Fewer dates for full run
-    CHUNK_SIZE = 3  # Very small chunks to ensure processing completes
-    
-    # Filter only essential columns before date splitting to reduce memory footprint
+    # Filter only essential columns before date splitting
     essential_cols = [date_col, match_id_col]
     
     # Get all probability and target columns from strategy guide
@@ -689,147 +702,161 @@ def run_parlay_backtest_parallel(
     essential_cols = list(set(essential_cols))
     existing_cols = [col for col in essential_cols if col in combined_oof_df.columns]
     
-    # Pre-filter the dataframe to dramatically reduce memory usage
+    # Pre-filter the dataframe
     logger.info(f"Filtering combined OOF dataframe to {len(existing_cols)} essential columns")
     combined_oof_df = combined_oof_df[existing_cols].copy()
     
-    # Force garbage collection to free memory
-    gc.collect()
-    
-    # Sample dates more aggressively
+    # Get unique dates and sort chronologically
     unique_dates = sorted(combined_oof_df[date_col].unique())
     
     if sample_percentage < 1:
-        num_dates = min(MAX_DATES, int(len(unique_dates) * sample_percentage))
+        num_dates = int(len(unique_dates) * sample_percentage)
         np.random.seed(42)
         sampled_dates = np.random.choice(unique_dates, size=num_dates, replace=False)
+        sampled_dates = sorted(sampled_dates)  # Sort chronologically
         logger.info(f"Sampled {len(sampled_dates)} dates from {len(unique_dates)} total for processing.")
     else:
-        # Hard limit on dates for production runs
-        if len(unique_dates) > MAX_DATES:
-            np.random.seed(42)
-            sampled_dates = np.random.choice(unique_dates, size=MAX_DATES, replace=False)
-            logger.info(f"Limited to {MAX_DATES} random dates from {len(unique_dates)} total for memory efficiency.")
-        else:
-            sampled_dates = unique_dates
-            logger.info(f"Using all {len(sampled_dates)} dates for processing.")
+        sampled_dates = unique_dates
+        logger.info(f"Using all {len(sampled_dates)} dates for processing.")
     
-    # Process in even smaller chunks
-    daily_tasks_args_list = []
-    for date_val in sampled_dates:
-        daily_df_subset = combined_oof_df[combined_oof_df[date_col] == date_val].copy()
-        if not daily_df_subset.empty:
+    # Create a Manager to share objects between processes
+    manager = Manager()
+    shared_dict = manager.dict()
+    shared_dict['team_resolver'] = team_info_resolver
+    
+    # Organize dates into time chunks (e.g., 5 days per chunk)
+    DAYS_PER_CHUNK = 5
+    date_chunks = []
+    
+    for i in range(0, len(sampled_dates), DAYS_PER_CHUNK):
+        chunk_dates = sampled_dates[i:i+DAYS_PER_CHUNK]
+        if chunk_dates:
+            # Create a unique ID based on the time period
+            start_date = chunk_dates[0].strftime('%Y%m%d') if hasattr(chunk_dates[0], 'strftime') else str(chunk_dates[0])
+            end_date = chunk_dates[-1].strftime('%Y%m%d') if hasattr(chunk_dates[-1], 'strftime') else str(chunk_dates[-1])
+            chunk_id = f"{start_date}_to_{end_date}"
+            
+            date_chunks.append({
+                'dates': chunk_dates,
+                'chunk_id': chunk_id,
+                'index': i // DAYS_PER_CHUNK
+            })
+    
+    logger.info(f"Organized {len(sampled_dates)} dates into {len(date_chunks)} time chunks.")
+    
+    # Check which chunks already exist in checkpoints
+    processed_chunks = set()
+    if reuse_checkpoints and checkpoint_dir:
+        existing_files = list(checkpoint_dir.glob("chunk_*.parquet"))
+        for file_path in existing_files:
+            chunk_id = file_path.stem.replace("chunk_", "")
+            processed_chunks.add(chunk_id)
+        
+        if processed_chunks:
+            logger.info(f"Found {len(processed_chunks)} already processed time chunks.")
+    
+    # Process each time chunk
+    all_processed_dfs = []
+    
+    for chunk in date_chunks:
+        chunk_id = chunk['chunk_id']
+        chunk_index = chunk['index']
+        chunk_dates = chunk['dates']
+        
+        # Skip if this chunk has already been processed
+        chunk_file_path = checkpoint_dir / f"chunk_{chunk_id}.parquet"
+        if reuse_checkpoints and chunk_id in processed_chunks:
+            logger.info(f"Chunk {chunk_index+1}/{len(date_chunks)} (ID: {chunk_id}) already processed. Loading from checkpoint.")
+            try:
+                chunk_df = pd.read_parquet(chunk_file_path)
+                all_processed_dfs.append(chunk_df)
+                logger.info(f"Loaded {len(chunk_df)} parlays from chunk {chunk_id}.")
+                continue
+            except Exception as e:
+                logger.error(f"Error loading chunk {chunk_id}: {e}. Will reprocess.")
+        
+        logger.info(f"Processing chunk {chunk_index+1}/{len(date_chunks)} (ID: {chunk_id}) with {len(chunk_dates)} dates...")
+        
+        # Process all dates in this chunk
+        chunk_results = []
+        
+        for date_val in chunk_dates:
+            # Check memory before each date
+            should_pause, mem_status = check_memory_usage()
+            if should_pause:
+                logger.warning(f"High memory ({mem_status}) before processing date {date_val}. Taking recovery action.")
+                gc.collect()
+                time.sleep(5)
+            
+            logger.info(f"Processing date: {date_val}")
+            daily_df_subset = combined_oof_df[combined_oof_df[date_col] == date_val].copy()
+            
+            if daily_df_subset.empty:
+                logger.warning(f"No data for date {date_val}. Skipping.")
+                continue
+            
+            # Process this day's parlays
             task_args = (
                 daily_df_subset, strategy_guide_df.copy(), date_val, 
                 min_legs, max_legs, match_id_col, fallback_threshold,
                 shared_dict
             )
-            daily_tasks_args_list.append(task_args)
-    
-    # Save incremental results more frequently
-    global CHECKPOINT_INTERVAL
-    CHECKPOINT_INTERVAL = 100000  # Save after every ~100k parlays
-    
-    # Process in very small chunks for stability
-    all_parlay_results = []
-    num_day_chunks = (len(daily_tasks_args_list) + CHUNK_SIZE -1) // CHUNK_SIZE
-    
-    results_saved = False
-    
-    try:
-        # Process only a manageable number of chunks
-        max_chunks_to_process = min(200, num_day_chunks)
-        logger.info(f"Will process at most {max_chunks_to_process} chunks out of {num_day_chunks} total")
-        
-        for i in range(max_chunks_to_process):
-            chunk_start_idx = i * CHUNK_SIZE
-            chunk_end_idx = min((i + 1) * CHUNK_SIZE, len(daily_tasks_args_list))
-            current_chunk_tasks = daily_tasks_args_list[chunk_start_idx:chunk_end_idx]
             
-            if not current_chunk_tasks:
-                continue
-                
-            logger.info(f"Processing day chunk {i+1}/{max_chunks_to_process} ({len(current_chunk_tasks)} days)...")
-            
-            # Use fewer workers for better stability
-            actual_workers = min(max_workers, len(current_chunk_tasks))
-            
-            chunk_results = []
-            with ProcessPoolExecutor(max_workers=actual_workers) as executor:
-                futures = [executor.submit(process_daily_parlays, task_args) for task_args in current_chunk_tasks]
-                
-                for future in tqdm(as_completed(futures), total=len(futures), desc=f"Chunk {i+1} Progress"):
-                    try:
-                        day_results = future.result()
-                        chunk_results.extend(day_results)
-                    except Exception as e:
-                        logger.error(f"Error processing a day in chunk {i+1}: {e}", exc_info=True)
-                    
-                    # Check memory inside the loop
-                    should_pause, _ = check_memory_usage()
-                    if should_pause:
-                        logger.critical(f"Critical memory during chunk {i+1}. Stopping further processing.")
-                        break
-            
-            # Add to all results
-            all_parlay_results.extend(chunk_results)
-            
-            # Save incremental results
-            if output_path_str and chunk_results:
-                # Frequent checkpoints with separate files to avoid corruption
-                checkpoint_path = Path(f"{os.path.splitext(output_path_str)[0]}_checkpoint_{i+1}.parquet")
-                pd.DataFrame(chunk_results).to_parquet(checkpoint_path)
-                logger.info(f"Checkpoint saved: {len(chunk_results)} parlays to {checkpoint_path}")
-                
-                # Also save complete results so far
-                if len(all_parlay_results) > 0:
-                    complete_df = pd.DataFrame(all_parlay_results)
-                    complete_path = Path(output_path_str)
-                    complete_df.to_parquet(complete_path.with_suffix('.parquet'))
-                    results_saved = True
-                    logger.info(f"Saved {len(all_parlay_results)} total parlays to {complete_path.with_suffix('.parquet')}")
-            
-            # Force garbage collection
-            gc.collect()
-            
-            # Check memory after each chunk
-            should_pause, _ = check_memory_usage()
-            if should_pause:
-                logger.critical("Critical memory after chunk processing. Stopping further chunks.")
-                break
-    
-    except Exception as e:
-        logger.critical(f"Error during parallel processing: {e}", exc_info=True)
-        
-    finally:
-        # Always try to save what we have, even if there was an error
-        if output_path_str and all_parlay_results and not results_saved:
             try:
-                results_df = pd.DataFrame(all_parlay_results)
+                day_results = process_daily_parlays(task_args)
+                chunk_results.extend(day_results)
+                logger.info(f"Generated {len(day_results)} parlays for {date_val}. Chunk total: {len(chunk_results)} parlays")
+                
+                # Clean up after each date
+                del daily_df_subset
+                gc.collect()
+                
+            except Exception as e:
+                logger.error(f"Error processing date {date_val}: {e}", exc_info=True)
+        
+        # Save this chunk's results if we have any
+        if chunk_results:
+            chunk_df = pd.DataFrame(chunk_results)
+            
+            # Save to chunk-specific file
+            if checkpoint_dir:
+                chunk_df.to_parquet(chunk_file_path)
+                logger.info(f"Saved {len(chunk_df)} parlays to chunk file: {chunk_file_path}")
+            
+            all_processed_dfs.append(chunk_df)
+        else:
+            logger.warning(f"No parlays generated for chunk {chunk_id}.")
+    
+    # Merge all processed dataframes
+    if all_processed_dfs:
+        try:
+            final_df = pd.concat(all_processed_dfs, ignore_index=True)
+            logger.info(f"Created final dataframe with {len(final_df)} total parlays.")
+            
+            # Save complete results
+            if output_path_str:
                 output_path = Path(output_path_str)
-                results_df.to_parquet(output_path.with_suffix('.parquet'))
-                logger.info(f"Saved {len(results_df)} parlays to {output_path.with_suffix('.parquet')}")
-            except Exception as save_error:
-                logger.error(f"Failed to save final results: {save_error}")
-    
-    if not all_parlay_results:
-        logger.warning("No valid parlay results were generated.")
-        return None
-    
-    logger.info(f"\nGenerated {len(all_parlay_results):,} total parlays from all processed days.")
-    
-    # Merge new results with existing results if available
-    if existing_df is not None and not existing_df.empty and all_parlay_results:
-        all_parlay_results_df = pd.DataFrame(all_parlay_results)
-        combined_results_df = pd.concat([existing_df, all_parlay_results_df], ignore_index=True)
-        logger.info(f"Merged {len(all_parlay_results_df)} new parlays with {len(existing_df)} existing parlays.")
-        return combined_results_df
-    elif existing_df is not None and not existing_df.empty and not all_parlay_results:
-        logger.info("No new parlays generated, returning existing results only.")
-        return existing_df
-    elif all_parlay_results:
-        return pd.DataFrame(all_parlay_results)
+                final_df.to_parquet(output_path.with_suffix('.parquet'))
+                logger.info(f"Saved {len(final_df)} parlays to final output: {output_path.with_suffix('.parquet')}")
+                
+                # Also save as CSV (with potential column reduction if needed)
+                try:
+                    if final_df.shape[1] > 100:  # If too many columns for CSV
+                        essential_cols = ['parlay_date', 'num_legs', 'parlay_won', 'avg_prob', 
+                                         'parlay_country', 'parlay_league', 'market_combination']
+                        final_df[essential_cols].to_csv(output_path, index=False)
+                    else:
+                        final_df.to_csv(output_path, index=False)
+                    logger.info(f"Saved CSV results to: {output_path}")
+                except Exception as e:
+                    logger.warning(f"Could not save CSV version: {e}")
+            
+            return final_df
+        except Exception as e:
+            logger.error(f"Error merging final results: {e}", exc_info=True)
+            return None
     else:
+        logger.warning("No valid parlay results were generated.")
         return None
 
 # --- Analysis and Plotting (Updated for Country/League) ---
@@ -987,8 +1014,11 @@ def run_parlay_backtester_orchestrator(
     logger.info("\n" + "="*30 + " Starting Parlay Backtester V2 " + "="*30)
     overall_start_time = time.time()
 
-    # Create output directory if it doesn't exist
+    # Create output directories
     PARLAY_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    checkpoint_dir = PARLAY_OUTPUT_DIR / "checkpoint_parlays"
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    
     if create_plots:
         VISUALIZATIONS_DIR_DEFAULT.mkdir(parents=True, exist_ok=True)
 
@@ -1000,7 +1030,7 @@ def run_parlay_backtester_orchestrator(
     if data_load_res is None:
         logger.critical("Data loading failed. Exiting.")
         return
-    combined_oof_df, raw_strat_guide_df, mkt_defs_loaded, _ = data_load_res # team_resolver is now global
+    combined_oof_df, raw_strat_guide_df, mkt_defs_loaded, _ = data_load_res
 
     # Preprocess strategy guide
     assert TEAM_INFO_RESOLVER is not None, "TeamInfoResolver was not initialized by load_data."
@@ -1017,7 +1047,7 @@ def run_parlay_backtester_orchestrator(
         combined_oof_df=combined_oof_df,
         strategy_guide_df=strat_guide_processed_df,
         parlay_market_definitions=mkt_defs_loaded,
-        team_info_resolver=TEAM_INFO_RESOLVER, # Pass it explicitly
+        team_info_resolver=TEAM_INFO_RESOLVER,
         date_col=date_col,
         match_id_col=match_id_col,
         max_legs=max_legs,
@@ -1029,34 +1059,11 @@ def run_parlay_backtester_orchestrator(
         reuse_checkpoints=True
     )
 
-    # Save to parquet first, then CSV (parquet is faster and safer)
-    if results_df is not None and not results_df.empty:
-        output_p = Path(output_path_str)
-        parquet_path = output_p.with_suffix('.parquet')
-        
-        # First save as parquet
-        results_df.to_parquet(parquet_path)
-        logger.info(f"Saved parlay results to: {parquet_path}")
-        
+    if create_plots and results_df is not None and not results_df.empty:
         try:
-            # Then save as CSV with reduced columns if needed
-            if results_df.shape[1] > 100:  # If too many columns for CSV
-                essential_cols = ['parlay_date', 'num_legs', 'parlay_won', 'avg_prob', 
-                                 'parlay_country', 'parlay_league', 'market_combination']
-                results_df[essential_cols].to_csv(output_p, index=False)
-            else:
-                results_df.to_csv(output_p, index=False)
-            logger.info(f"Saved CSV results to: {output_p}")
+            create_parlay_visualizations(results_df, VISUALIZATIONS_DIR_DEFAULT)
         except Exception as e:
-            logger.warning(f"Could not save CSV version: {e}")
-        
-        if create_plots:
-            try:
-                create_parlay_visualizations(results_df, VISUALIZATIONS_DIR_DEFAULT)
-            except Exception as e:
-                logger.error(f"Error creating visualizations: {e}")
-    else:
-        logger.error("No valid parlay results generated. Cannot save or visualize.")
+            logger.error(f"Error creating visualizations: {e}")
 
     logger.info(f"Parlay Backtester V2 finished in {time.time() - overall_start_time:.2f} seconds.")
     logger.info("="*30 + " Parlay Backtester V2 Complete " + "="*30 + "\n")
@@ -1362,7 +1369,7 @@ if __name__ == "__main__":
     parser.add_argument("--fallback_thresh", type=float, default=0.0, help="Fallback probability threshold for legs not in strategy guide (0.0 to disable).")
     parser.add_argument("--max_cpu", type=int, default=DEFAULT_CPU_WORKERS, help=f"Maximum CPU workers (cores) to use. Defaults to ~25% of available cores.")
     parser.add_argument("--no_plots", action="store_true", help="Disable generation of plots.")
-    parser.add_argument("--sample_rate", type=float, default=0.25,
+    parser.add_argument("--sample_rate", type=float, default=1.0,
                    help="Percentage of dates to sample for backtesting (0.0 to 1.0)")
     
     args = parser.parse_args()
