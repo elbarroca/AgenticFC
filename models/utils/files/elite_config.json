@@ -1,72 +1,102 @@
 [
     {
-        "market": "U45",
-        "model_identifier": "gradient_boosting_V1_NonPCA_NoOdds_L0",
-        "min_elite_threshold": 0.80
+        "market": "BTTSYes", 
+        "model_identifier": "gradient_boosting_V1_NonPCA_WithOdds_L0",
+        "min_elite_threshold": 0.65 
     },
     {
-        "market": "O15",
+        "market": "BTTSNo", 
+        "model_identifier": "gradient_boosting_V1_NonPCA_WithOdds_L0", 
+        "min_elite_threshold": 0.65 
+    },
+    {
+        "market": "U45", 
+        "model_identifier": "gradient_boosting_V1_NonPCA_NoOdds_L0",
+        "min_elite_threshold": 0.71 
+    },
+    {
+        "market": "O15", 
         "model_identifier": "monte_carlo_V1_NonPCA_WithOdds_L0",
-        "min_elite_threshold": 0.75
+        "min_elite_threshold": 0.71 
     },
     {
-        "market": "HomeOrAway",
+        "market": "U35", 
+        "model_identifier": "gradient_boosting_V1_NonPCA_NoOdds_L0",
+        "min_elite_threshold": 0.71 
+    },
+    {
+        "market": "O25", 
+        "model_identifier": "monte_carlo_V2_PCA_WithOdds_L0",
+        "min_elite_threshold": 0.71
+    },
+    {
+        "market": "U25", 
+        "model_identifier": "monte_carlo_V2_PCA_WithOdds_L0",
+        "min_elite_threshold": 0.71 
+    },
+    {
+        "market": "HomeOrAway", 
         "model_identifier": "monte_carlo_V1_NonPCA_WithOdds_L0",
-        "min_elite_threshold": 0.70
+        "min_elite_threshold": 0.71 
     },
     {
-        "market": "HomeOrDraw",
+        "market": "HomeOrDraw", 
         "model_identifier": "gradient_boosting_V1_NonPCA_NoOdds_L0",
-        "min_elite_threshold": 0.75
+        "min_elite_threshold": 0.71 
     },
     {
-        "market": "U35",
-        "model_identifier": "gradient_boosting_V1_NonPCA_NoOdds_L0",
-        "min_elite_threshold": 0.70
+        "market": "H", 
+        "model_identifier": "monte_carlo_V1_NonPCA_WithOdds_L0",
+        "min_elite_threshold": 0.71
     },
     {
-        "market": "1XU45",
+        "market": "A", 
+        "model_identifier": "gradient_boosting_V2_PCA_NoOdds_L0",
+        "min_elite_threshold": 0.71
+    },
+    {
+        "market": "home_or_away", 
+        "model_identifier": "gradient_boosting_V2_PCA_NoOdds_L0",
+        "min_elite_threshold": 0.71 
+    },
+    {
+        "market": "12O15", 
+        "model_identifier": "monte_carlo_V2_PCA_WithOdds_L0",
+        "min_elite_threshold": 0.71 
+    },
+    {
+        "market": "1XO15", 
         "model_identifier": "poisson_V2_PCA_NoOdds_L0",
-        "min_elite_threshold": 0.62
+        "min_elite_threshold": 0.65 
+    },
+    {
+        "market": "1XU35", 
+        "model_identifier": "monte_carlo_V2_PCA_WithOdds_L0",
+        "min_elite_threshold": 0.71 
+    },
+    {
+        "market": "1XU45", 
+        "model_identifier": "poisson_V2_PCA_NoOdds_L0",
+        "min_elite_threshold": 0.65 
+    },
+    {
+        "market": "AO15", 
+        "model_identifier": "gradient_boosting_V2_PCA_NoOdds_L0",
+        "min_elite_threshold": 0.71
+    },
+    {
+        "market": "HO15", 
+        "model_identifier": "monte_carlo_V2_PCA_WithOdds_L0",
+        "min_elite_threshold": 0.71
     },
     {
         "market": "X2O15",
         "model_identifier": "gradient_boosting_V2_PCA_WithOdds_L0",
-        "min_elite_threshold": 0.62
+        "min_elite_threshold": 0.71
     },
     {
         "market": "X2O25",
         "model_identifier": "gradient_boosting_V1_NonPCA_NoOdds_L0",
-        "min_elite_threshold": 0.62
-    },
-    {
-        "market": "X2U45",
-        "model_identifier": "random_forest_V2_PCA_WithOdds_L0",
-        "min_elite_threshold": 0.62
-    },
-    {
-        "market": "1XO15",
-        "model_identifier": "poisson_V2_PCA_NoOdds_L0",
-        "min_elite_threshold": 0.53
-    },
-    {
-        "market": "1XO25",
-        "model_identifier": "random_forest_V2_PCA_WithOdds_L0",
-        "min_elite_threshold": 0.62
-    },
-    {
-        "market": "1XU35",
-        "model_identifier": "monte_carlo_V2_PCA_WithOdds_L0",
-        "min_elite_threshold": 0.62
-    },
-    {
-        "market": "BTTSYes",
-        "model_identifier": "gradient_boosting_V1_NonPCA_WithOdds_L0",
-        "min_elite_threshold": 0.65
-    },
-    {
-        "market": "1XU45",
-        "model_identifier": "poisson_V2_PCA_NoOdds_L0",
-        "min_elite_threshold": 0.60
+        "min_elite_threshold": 0.71
     }
 ]

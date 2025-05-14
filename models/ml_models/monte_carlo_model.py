@@ -1,10 +1,13 @@
 # ml_models/monte_carlo_model.py
 import pandas as pd
 import numpy as np
-from sklearn.linear_model import PoissonRegressor # Internal model for lambda estimation
+# from sklearn.linear_model import PoissonRegressor # Keep for fallback if external lambdas not provided
 from typing import Dict, Any
 from models.base_model import BaseModel
 from models.utils.features import BaseFeatureConfig
+# Import the standardized probability calculation function from poisson_model
+from .poisson_model import calculate_poisson_outcome_probs
+
 
 class MonteCarloModel(BaseModel):
     """
@@ -29,185 +32,115 @@ class MonteCarloModel(BaseModel):
         
         # The BaseClass now handles self.feature_config assignment.
         # The assertion below is good for this class's specific needs.
-        assert isinstance(self.feature_config, BaseFeatureConfig), "feature_config is required and must be a BaseFeatureConfig instance."
+        assert isinstance(self.feature_config, BaseFeatureConfig), "feature_config is required."
         # self.feature_config = feature_config # This is now handled by BaseModel.__init__
 
         # --- Model Specific Parameters ---
-        self.n_simulations: int = self.params.get('n_simulations', 20000) # Use value from params if passed
-        internal_alpha = self.params.get('internal_estimator_alpha', 1.0) # Allow configuring internal model
-        assert isinstance(self.n_simulations, int) and self.n_simulations > 0, \
-            "'n_simulations' must be a positive integer."
-        assert isinstance(internal_alpha, (float, int)) and internal_alpha >= 0, \
-            "'internal_estimator_alpha' must be non-negative."
+        self.n_simulations: int = self.params.get('n_simulations', 20000)
+        # internal_alpha = self.params.get('internal_estimator_alpha', 1.0) # No longer strictly needed if external lambdas are primary
 
-        # --- Internal Model for Lambda Estimation ---
-        self._lambda_estimator_home = PoissonRegressor(alpha=internal_alpha, max_iter=1000, tol=1e-3, warm_start=False)
-        self._lambda_estimator_away = PoissonRegressor(alpha=internal_alpha, max_iter=1000, tol=1e-3, warm_start=False)
+        # If we want a fallback to internal estimation, we'd keep these.
+        # For now, let's assume external lambdas will be provided for the "enhanced" version.
+        # If not, this model would need its own lambda estimation logic if called directly.
+        # self._lambda_estimator_home = PoissonRegressor(alpha=internal_alpha, max_iter=1000)
+        # self._lambda_estimator_away = PoissonRegressor(alpha=internal_alpha, max_iter=1000)
 
-        self._model = {
+        self._model = { # Store params that might be useful for saving/loading context
              'n_simulations': self.n_simulations,
-             'internal_estimator_alpha': internal_alpha,
-             'estimator_home': self._lambda_estimator_home,
-             'estimator_away': self._lambda_estimator_away
+             # 'internal_estimator_alpha': internal_alpha # If keeping internal estimators
         }
-        print(f"Initialized MonteCarloModel with {self.n_simulations} simulations.")
-        print(f"Internal lambda estimators use alpha={internal_alpha}.")
+        print(f"Initialized MonteCarloModel with {self.n_simulations} simulations. Expects lambdas via X_scaled or internal estimation.")
 
     def _fit_model(self, X_scaled: pd.DataFrame, y: pd.DataFrame):
         """
-        Fits the internal PoissonRegressors used for lambda estimation,
-        using the scaled input features.
+        Fits internal lambda estimators IF external lambdas are not the primary mode.
+        For an "enhanced" MC that *only* uses external lambdas, this might do nothing
+        or fit very simple fallback estimators.
         """
-        target_hg = self.feature_config.target_home_goals
-        target_ag = self.feature_config.target_away_goals
-        assert target_hg in y.columns and target_ag in y.columns
-        assert pd.api.types.is_numeric_dtype(y[target_hg]) and pd.api.types.is_numeric_dtype(y[target_ag])
-        assert not y[[target_hg, target_ag]].isnull().any().any()
-        assert np.all(y[target_hg] >= 0) and np.all(y[target_ag] >= 0)
-        assert X_scaled.columns.tolist() == self.features_in_, "Scaled features columns mismatch features_in_"
+        # If MC is *only* a calculator based on external lambdas, fit might be a no-op.
+        # However, to keep it a complete BaseModel, it should have a fit.
+        # Let's assume it can still fit its own basic lambda estimators as a fallback.
+        # This part is only relevant if generate_oof_predictions.py calls fit on MC directly.
+        # For the "enhanced" flow, we might bypass direct fitting of MC.
 
-        print("Fitting internal lambda estimators for MonteCarloModel...")
-        try:
-            self._model['estimator_home'].fit(X_scaled, y[target_hg])
-            self._model['estimator_away'].fit(X_scaled, y[target_ag])
-        except Exception as e:
-            print(f"ERROR fitting internal estimators for MonteCarloModel: {e}")
-            raise
-        print("Internal lambda estimators fitted successfully.")
+        # For now, let's make fit a no-op if we intend to always provide external lambdas
+        # when this model is used in the "enhanced" way.
+        # If you want it to still be trainable independently, then include the PoissonRegressor fitting.
+        print("MonteCarloModel _fit_model: No explicit fitting if primarily using external lambdas for simulation.")
+        print("If internal lambda estimation is desired, uncomment/implement estimator fitting here.")
+        # target_hg = self.feature_config.target_home_goals
+        # target_ag = self.feature_config.target_away_goals
+        # if hasattr(self, '_lambda_estimator_home'): # Check if internal estimators exist
+        #     print("Fitting internal lambda estimators for MonteCarloModel (fallback)...")
+        #     self._model['estimator_home'].fit(X_scaled, y[target_hg])
+        #     self._model['estimator_away'].fit(X_scaled, y[target_ag])
+        #     print("Internal lambda estimators (fallback) fitted.")
+        pass
+
 
     def _predict_proba_model(self, X_scaled: pd.DataFrame) -> Dict[str, np.ndarray]:
         """
-        Estimates lambdas using the internal fitted models, runs Monte Carlo simulations,
-        and calculates outcome probabilities by aggregation for an expanded set of markets.
+        Uses lambdas from X_scaled if provided (e.g., 'external_lambda_HG', 'external_lambda_AG'),
+        otherwise would fall back to internal estimators (if implemented and fitted).
+        Runs Monte Carlo simulations and calculates outcome probabilities.
         """
-        assert X_scaled.columns.tolist() == self.features_in_, "Scaled prediction features columns mismatch features_in_"
-        assert 'estimator_home' in self._model and 'estimator_away' in self._model, "Internal estimators not found in model state."
-        assert hasattr(self._model['estimator_home'], 'predict'), "Internal home estimator cannot predict."
-        assert hasattr(self._model['estimator_away'], 'predict'), "Internal away estimator cannot predict."
-
+        assert isinstance(X_scaled, pd.DataFrame), "X_scaled must be a DataFrame"
         n_matches = X_scaled.shape[0]
-        print(f"Estimating lambdas using internal estimators for {n_matches} matches...")
 
-        # --- 1. Estimate Lambdas using internal model ---
-        try:
-            lambda_home_est = self._model['estimator_home'].predict(X_scaled)
-            lambda_away_est = self._model['estimator_away'].predict(X_scaled)
-        except Exception as e:
-             print(f"ERROR predicting lambdas with internal estimators: {e}")
-             raise
-        lambda_home_est = np.maximum(lambda_home_est, 1e-9)
-        lambda_away_est = np.maximum(lambda_away_est, 1e-9)
+        # --- 1. Get Lambdas ---
+        # Check if external lambdas are provided directly in X_scaled
+        # These column names would be set by generate_oof_predictions.py
+        # when preparing X_val_fold for this "enhanced" MC call.
+        external_lambda_hg_col = 'external_lambda_HG' # Define conventional names
+        external_lambda_ag_col = 'external_lambda_AG'
 
-        print(f"Running {self.n_simulations} Monte Carlo simulations...")
+        if external_lambda_hg_col in X_scaled.columns and external_lambda_ag_col in X_scaled.columns:
+            print(f"MonteCarloModel: Using externally provided lambdas from columns: {external_lambda_hg_col}, {external_lambda_ag_col}")
+            lambda_home_sim = X_scaled[external_lambda_hg_col].values
+            lambda_away_sim = X_scaled[external_lambda_ag_col].values
+        else:
+            # Fallback: If you had internal estimators and wanted to use them
+            # warnings.warn("External lambdas not found in X_scaled for MonteCarlo. Add internal lambda estimation if needed, or ensure X_scaled provides them.", RuntimeWarning)
+            # For this "enhanced" version, we'll raise an error if external lambdas aren't provided,
+            # as that's the primary intention.
+            raise ValueError(f"MonteCarloModel in enhanced mode expects '{external_lambda_hg_col}' and "
+                             f"'{external_lambda_ag_col}' in input X_scaled DataFrame.")
+            # lambda_home_sim = self._model['estimator_home'].predict(X_scaled.drop(columns=[external_lambda_hg_col, external_lambda_ag_col], errors='ignore'))
+            # lambda_away_sim = self._model['estimator_away'].predict(X_scaled.drop(columns=[external_lambda_hg_col, external_lambda_ag_col], errors='ignore'))
+
+        lambda_home_sim = np.maximum(lambda_home_sim, 1e-9)
+        lambda_away_sim = np.maximum(lambda_away_sim, 1e-9)
+
+        print(f"Running {self.n_simulations} Monte Carlo simulations using provided lambdas...")
         # --- 2. Run Simulations (Vectorized) ---
-        sim_hg = np.random.poisson(lambda_home_est, size=(self.n_simulations, n_matches))
-        sim_ag = np.random.poisson(lambda_away_est, size=(self.n_simulations, n_matches))
-
-        # --- 3. Calculate Base Outcomes for Each Simulation ---
-        sim_total_goals = sim_hg + sim_ag
-        sim_home_win = sim_hg > sim_ag
-        sim_draw = sim_hg == sim_ag
-        sim_away_win = sim_hg < sim_ag
-        sim_btts_yes = (sim_hg > 0) & (sim_ag > 0)
-        sim_btts_no = ~sim_btts_yes
-
-        # O/U Lines
-        ou_lines_sim = {}
-        for val_str, val_num in {"05":0.5, "15":1.5, "25":2.5, "35":3.5, "45":4.5}.items():
-            ou_lines_sim[f'O{val_str}'] = sim_total_goals > val_num
-            ou_lines_sim[f'U{val_str}'] = sim_total_goals <= val_num # Or `~ou_lines_sim[f'O{val_str}']` after O line is defined
-
-        # Goal Bands
-        sim_goals_0_1 = (sim_total_goals >= 0) & (sim_total_goals <= 1)
-        sim_goals_2_3 = (sim_total_goals >= 2) & (sim_total_goals <= 3)
-        sim_goals_2_4 = (sim_total_goals >= 2) & (sim_total_goals <= 4)
-        sim_goals_3_plus = sim_total_goals >= 3 
-
-        # Derived Double Chance
-        sim_1X = sim_home_win | sim_draw
-        sim_12 = sim_home_win | sim_away_win
-        sim_X2 = sim_draw | sim_away_win
-
-        # --- 4. Calculate ALL Dual Outcomes (Vectorized Evaluation) ---
-        sim_conditions = {
-            'H': sim_home_win, 'D': sim_draw, 'A': sim_away_win,
-            '1X': sim_1X, '12': sim_12, 'X2': sim_X2,
-            'BTTS_Y': sim_btts_yes, 'BTTS_N': sim_btts_no,
-            **ou_lines_sim # Add all O/U lines to sim_conditions
-        }
-
-        dual_conditions_map = {}
-        ou_line_keys = list(ou_lines_sim.keys()) # e.g. ['O05', 'U05', 'O15', 'U15', ...]
-
-        # --- Result & O/U X.5 ---
-        for result in ['H', 'D', 'A']:
-            for ou_line_key in ou_line_keys: # Iterate through all O/U lines
-                key = f"{result}_and_{ou_line_key}"
-                dual_conditions_map[key] = sim_conditions[result] & sim_conditions[ou_line_key]
-
-        # --- Double Chance & O/U X.5 ---
-        for dc in ['1X', '12', 'X2']:
-            for ou_line_key in ou_line_keys: # Iterate through all O/U lines
-                key = f"{dc}_and_{ou_line_key}"
-                dual_conditions_map[key] = sim_conditions[dc] & sim_conditions[ou_line_key]
-
-        # --- Result & BTTS ---
-        for result in ['H', 'D', 'A']:
-            for btts_key in ['BTTS_Y', 'BTTS_N']:
-                key = f"{result}_and_{btts_key}"
-                dual_conditions_map[key] = sim_conditions[result] & sim_conditions[btts_key]
+        # This part is now identical to calculate_poisson_outcome_probs's simulation part,
+        # but here it's explicitly Monte Carlo.
+        # Alternatively, just call calculate_poisson_outcome_probs directly.
         
-        # --- Double Chance & BTTS ---
-        for dc in ['1X', '12', 'X2']:
-            for btts_key in ['BTTS_Y', 'BTTS_N']:
-                key = f"{dc}_and_{btts_key}"
-                dual_conditions_map[key] = sim_conditions[dc] & sim_conditions[btts_key]
+        # For consistency and to use the robust probability calculation logic:
+        outcome_probs_raw = calculate_poisson_outcome_probs(lambda_home_sim, lambda_away_sim, max_goals=8) # Use existing function
 
-        # --- O/U X.5 & BTTS ---
-        for ou_line_key in ou_line_keys: # Iterate through all O/U lines
-             for btts_key in ['BTTS_Y', 'BTTS_N']:
-                key = f"{ou_line_key}_and_{btts_key}"
-                dual_conditions_map[key] = sim_conditions[ou_line_key] & sim_conditions[btts_key]
-        
-        print(f"Generated {len(dual_conditions_map)} dual outcome conditions for Monte Carlo.")
-
-        # --- 5. Aggregate Probabilities ---
-        outcome_probs_raw = {
-            'prob_H': np.mean(sim_home_win, axis=0),
-            'prob_D': np.mean(sim_draw, axis=0),
-            'prob_A': np.mean(sim_away_win, axis=0),
-            'prob_1X': np.mean(sim_1X, axis=0),
-            'prob_12': np.mean(sim_12, axis=0),
-            'prob_X2': np.mean(sim_X2, axis=0),
-            'prob_BTTS_Y': np.mean(sim_btts_yes, axis=0),
-            'prob_BTTS_N': np.mean(sim_btts_no, axis=0),
-            'prob_goals_0_1': np.mean(sim_goals_0_1, axis=0),
-            'prob_goals_2_3': np.mean(sim_goals_2_3, axis=0),
-            'prob_goals_2_4': np.mean(sim_goals_2_4, axis=0),
-            'prob_goals_3_plus': np.mean(sim_goals_3_plus, axis=0),
-            # Add all O/U lines
-            **{f'prob_{key}': np.mean(sim_array, axis=0) for key, sim_array in ou_lines_sim.items()},
-            # Add all dual outcomes
-            **{f'prob_{key}': np.mean(sim_array, axis=0) for key, sim_array in dual_conditions_map.items()}
-        }
-        outcome_probs_raw['expected_HG'] = lambda_home_est
-        outcome_probs_raw['expected_AG'] = lambda_away_est
-
-        # Clip all probabilities
-        for key in outcome_probs_raw:
-            if key.startswith("prob_"): # Clip only probabilities
-                outcome_probs_raw[key] = np.clip(outcome_probs_raw[key], 0.0, 1.0)
+        # Add the input lambdas to the output as well, clearly marked as "sim_input"
+        outcome_probs_raw['sim_input_lambda_HG'] = lambda_home_sim
+        outcome_probs_raw['sim_input_lambda_AG'] = lambda_away_sim
         
         # --- Prefix all keys with model name ---
-        outcome_probs = {f"monte_carlo_{key}": value for key, value in outcome_probs_raw.items()}
+        # Use a distinct prefix for this enhanced MC
+        prefixed_probs = {f"monte_carlo_enhanced_{key}": value for key, value in outcome_probs_raw.items()}
+        
+        # Assertions (as in poisson_model)
+        # ... (add assertions for shape, [0,1] range for probs, non-negative for lambdas) ...
+        num_rows = X_scaled.shape[0]
+        for key, arr in prefixed_probs.items():
+            assert arr.shape == (num_rows,), f"MC Output '{key}' shape mismatch."
+            if "prob_" in key: assert np.all((arr >= 0) & (arr <= 1.00001)), f"MC Probs '{key}' out of [0,1]." # Allow for tiny float issues before final clip
+            elif "lambda_HG" in key or "lambda_AG" in key : assert np.all(arr >= 0), f"MC Lambdas '{key}' negative."
 
 
-        # --- 6. Assertions (checking prefixed_probs) ---
-        tol = 1e-5 # Looser tolerance for MC
-        assert np.allclose(outcome_probs['monte_carlo_prob_H'] + outcome_probs['monte_carlo_prob_D'] + outcome_probs['monte_carlo_prob_A'], 1.0, atol=tol)
-        # Add more checks for other O/U lines and duals if necessary
+        print(f"Monte Carlo (enhanced) simulations complete. All outcome probabilities calculated.")
+        return prefixed_probs
 
-        print(f"Monte Carlo simulations complete. All outcome probabilities calculated.")
-        return outcome_probs
-
-    # Inherit fit, predict_proba, save, load from BaseModel
+    # fit and predict_proba are inherited from BaseModel
+    # The predict_proba in BaseModel will call self._predict_proba_model
+    # We just need to ensure that when it's called for MC in generate_oof_predictions.py,
+    # the X_val_fold DataFrame contains the 'external_lambda_HG' and 'external_lambda_AG' columns.

@@ -67,11 +67,9 @@ def format_predictions(
         # Singles
         'prob_H': "[Home Win]", 'prob_D': "[Draw]", 'prob_A': "[Away Win]",
         'prob_1X': "[Home Win or Draw]", 'prob_X2': "[Away Win or Draw]", 'prob_12': "[Home Win or Away Win]",
-        'prob_O05': "[Over 0.5]", 'prob_U05': "[Under 0.5]",
         'prob_O15': "[Over 1.5]", 'prob_U15': "[Under 1.5]",
         'prob_O25': "[Over 2.5]", 'prob_U25': "[Under 2.5]",
         'prob_O35': "[Over 3.5]", 'prob_U35': "[Under 3.5]",
-        'prob_O45': "[Over 4.5]", 'prob_U45': "[Under 4.5]",
         'prob_BTTS_Y': "[BTTS Yes]", 'prob_BTTS_N': "[BTTS No]",
         'prob_goals_0_1': "[Goals 0-1]",
         'prob_goals_2_3': "[Goals 2-3]",
@@ -79,8 +77,6 @@ def format_predictions(
         'prob_goals_3_plus': "[Goals 3+]", # This is prob_O25
 
         # --- Match Result + Goals (ALL LINES) ---
-        'prob_H_and_O05': '[Home Win + Over 0.5]', 'prob_D_and_O05': '[Draw + Over 0.5]', 'prob_A_and_O05': '[Away Win + Over 0.5]',
-        'prob_H_and_U05': '[Home Win + Under 0.5]', 'prob_D_and_U05': '[Draw + Under 0.5]', 'prob_A_and_U05': '[Away Win + Under 0.5]',
         'prob_H_and_O15': '[Home Win + Over 1.5]', 'prob_D_and_O15': '[Draw + Over 1.5]', 'prob_A_and_O15': '[Away Win + Over 1.5]',
         'prob_H_and_U15': '[Home Win + Under 1.5]', 'prob_D_and_U15': '[Draw + Under 1.5]', 'prob_A_and_U15': '[Away Win + Under 1.5]',
         'prob_H_and_O25': '[Home Win + Over 2.5]', 'prob_D_and_O25': '[Draw + Over 2.5]', 'prob_A_and_O25': '[Away Win + Over 2.5]',
@@ -91,8 +87,6 @@ def format_predictions(
         'prob_H_and_U45': '[Home Win + Under 4.5]', 'prob_D_and_U45': '[Draw + Under 4.5]', 'prob_A_and_U45': '[Away Win + Under 4.5]',
 
         # --- Double Chance + Goals (ALL LINES) ---
-        'prob_1X_and_O05': '[Home Win or Draw + Over 0.5]', 'prob_12_and_O05': '[Home Win or Away Win + Over 0.5]', 'prob_X2_and_O05': '[Draw or Away Win + Over 0.5]',
-        'prob_1X_and_U05': '[Home Win or Draw + Under 0.5]', 'prob_12_and_U05': '[Home Win or Away Win + Under 0.5]', 'prob_X2_and_U05': '[Draw or Away Win + Under 0.5]',
         'prob_1X_and_O15': '[Home Win or Draw + Over 1.5]', 'prob_12_and_O15': '[Home Win or Away Win + Over 1.5]', 'prob_X2_and_O15': '[Draw or Away Win + Over 1.5]',
         'prob_1X_and_U15': '[Home Win or Draw + Under 1.5]', 'prob_12_and_U15': '[Home Win or Away Win + Under 1.5]', 'prob_X2_and_U15': '[Draw or Away Win + Under 1.5]',
         'prob_1X_and_O25': '[Home Win or Draw + Over 2.5]', 'prob_12_and_O25': '[Home Win or Away Win + Over 2.5]', 'prob_X2_and_O25': '[Draw or Away Win + Over 2.5]',
@@ -105,22 +99,18 @@ def format_predictions(
         # --- Match Result + BTTS ---
         'prob_H_and_BTTS_Y': '[Home Win + BTTS Yes]', 'prob_D_and_BTTS_Y': '[Draw + BTTS Yes]', 'prob_A_and_BTTS_Y': '[Away Win + BTTS Yes]',
         'prob_H_and_BTTS_N': '[Home Win + BTTS No]', 'prob_D_and_BTTS_N': '[Draw + BTTS No]', 'prob_A_and_BTTS_N': '[Away Win + BTTS No]',
-        
+        'prob_home_or_away_and_BTTS_Y': '[Home or Away Win + BTTS Yes]', 'prob_home_or_away_and_BTTS_N': '[Home or Away Win + BTTS No]',
+        'prob_home_or_draw_and_BTTS_Y': '[Home or Draw Win + BTTS Yes]', 'prob_home_or_draw_and_BTTS_N': '[Home or Draw Win + BTTS No]',
+        'prob_away_or_draw_and_BTTS_Y': '[Away or Draw Win + BTTS Yes]', 'prob_away_or_draw_and_BTTS_N': '[Away or Draw Win + BTTS No]',
+
+
         # --- Double Chance + BTTS ---
         'prob_1X_and_BTTS_Y': '[Home Win or Draw + BTTS Yes]', 'prob_12_and_BTTS_Y': '[Home Win or Away Win + BTTS Yes]', 'prob_X2_and_BTTS_Y': '[Draw or Away Win + BTTS Yes]',
         'prob_1X_and_BTTS_N': '[Home Win or Draw + BTTS No]', 'prob_12_and_BTTS_N': '[Home Win or Away Win + BTTS No]', 'prob_X2_and_BTTS_N': '[Draw or Away Win + BTTS No]',
         
         # --- Goals + BTTS (ALL LINES) ---
-        'prob_O05_and_BTTS_Y': '[Over 0.5 + BTTS Yes]', 'prob_O05_and_BTTS_N': '[Over 0.5 + BTTS No]', # U0.5 + BTTS_Y is impossible
-        'prob_U05_and_BTTS_N': '[Under 0.5 + BTTS No]', # U0.5 + BTTS_Y is impossible, U0.5 implies BTTS_N
-        'prob_O15_and_BTTS_Y': '[Over 1.5 + BTTS Yes]', 'prob_O15_and_BTTS_N': '[Over 1.5 + BTTS No]',
-        'prob_U15_and_BTTS_Y': '[Under 1.5 + BTTS Yes]', 'prob_U15_and_BTTS_N': '[Under 1.5 + BTTS No]',
         'prob_O25_and_BTTS_Y': '[Over 2.5 + BTTS Yes]', 'prob_O25_and_BTTS_N': '[Over 2.5 + BTTS No]',
-        'prob_U25_and_BTTS_Y': '[Under 2.5 + BTTS Yes]', 'prob_U25_and_BTTS_N': '[Under 2.5 + BTTS No]',
         'prob_O35_and_BTTS_Y': '[Over 3.5 + BTTS Yes]', 'prob_O35_and_BTTS_N': '[Over 3.5 + BTTS No]',
-        'prob_U35_and_BTTS_Y': '[Under 3.5 + BTTS Yes]', 'prob_U35_and_BTTS_N': '[Under 3.5 + BTTS No]',
-        'prob_O45_and_BTTS_Y': '[Over 4.5 + BTTS Yes]', 'prob_O45_and_BTTS_N': '[Over 4.5 + BTTS No]',
-        'prob_U45_and_BTTS_Y': '[Under 4.5 + BTTS Yes]', 'prob_U45_and_BTTS_N': '[Under 4.5 + BTTS No]',
     }
 
     unmapped_keys = allowed_unprefixed_keys_from_config - set(outcome_name_map.keys())

@@ -1,0 +1,38 @@
+{   
+    "gradient_boosting": {
+    "n_jobs": -1,
+    "objective": "poisson",
+    "metric": "None",
+    "random_state": 42,
+    "learning_rate": 0.007579399787859584,
+    "n_estimators": 1004,
+    "max_depth": 9,
+    "num_leaves": 86,
+    "subsample": 0.6686003352665787,
+    "colsample_bytree": 0.8927320383201608,
+    "reg_alpha": 0.44987761866309667,
+    "reg_lambda": 2.9288570581931404,
+    "min_child_samples": 17
+},
+
+    "monte_carlo": {
+    "n_simulations": 10000,
+    "internal_estimator_alpha": 1.0
+},
+
+    "poisson": {
+    "max_iter": 100000,
+    "tol": 0.0001,
+    "alpha": 0.2690571648265577
+},
+
+    "random_forest": {
+    "n_jobs": -1,
+    "random_state": 44,
+    "n_estimators": 541,
+    "max_depth": 33,
+    "min_samples_split": 6,
+    "min_samples_leaf": 18,
+    "max_features": 0.4739484150161095
+    }
+}

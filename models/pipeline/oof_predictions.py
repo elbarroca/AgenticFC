@@ -4,336 +4,377 @@ import numpy as np
 import os
 import json
 import warnings
-import joblib # Keep for potential future use
+import joblib
 from pathlib import Path
 import time
 import traceback
 from sklearn.model_selection import TimeSeriesSplit
-from typing import Dict, List, Type, Any # Added Any
+from typing import Dict, List, Type, Any
+import argparse
 
-# --- Add project root to sys.path if needed ---
+# --- Add project root ---
 import sys
 PROJECT_ROOT_PATH = Path(__file__).resolve().parent.parent.parent
-assert str(PROJECT_ROOT_PATH) not in sys.path, f"Project Root already in sys.path: {PROJECT_ROOT_PATH}"
-sys.path.append(str(PROJECT_ROOT_PATH))
-print(f"Project Root added to sys.path: {PROJECT_ROOT_PATH}")
+if str(PROJECT_ROOT_PATH) not in sys.path:  # Only add if not already there
+    sys.path.append(str(PROJECT_ROOT_PATH))
+    print(f"Project Root added to sys.path: {PROJECT_ROOT_PATH}")
 
 # --- Import model classes ---
 from models.utils.features import BaseFeatureConfig, get_feature_config
 from models.ml_models.poisson_model import PoissonModel
-from models.ml_models.random_forest_model import RandomForestModel
 from models.ml_models.gradient_boosting_model import GradientBoostingModel
-from models.ml_models.monte_carlo_model import MonteCarloModel
+from models.ml_models.monte_carlo_model import MonteCarloModel # Will use this in enhanced mode
 from models.base_model import BaseModel
-from models.pipeline.train_pipeline import MODELS_TO_TRAIN_CONFIG
+from models.pipeline.train_pipeline import MODELS_TO_TRAIN_CONFIG as MODELS_TO_TRAIN_CONFIG_L0
 
-# --- Model Registry ---
+# --- Model Registry (Focused) ---
 AVAILABLE_MODELS: Dict[str, Type[BaseModel]] = {
     "poisson": PoissonModel,
-    "random_forest": RandomForestModel,
     "gradient_boosting": GradientBoostingModel,
-    "monte_carlo": MonteCarloModel,
+    "monte_carlo": MonteCarloModel, # Keep for instantiation, but will be fed lambdas
 }
 
-# --- Configuration (Aligned with train_pipeline.py) ---
+# --- Configuration ---
 BASE_DIR = PROJECT_ROOT_PATH
 DATA_OUTPUT_DIR = BASE_DIR / 'models' / 'data' / 'outputs'
 PARAMS_OUTPUT_DIR = DATA_OUTPUT_DIR / 'optimized_params'
-MODELS_SAVE_DIR = DATA_OUTPUT_DIR / 'joblib' / 'V2'
 
-# *** Load PCA processed data ***
-PROCESSED_DATA_PATH_TEMPLATE = str(DATA_OUTPUT_DIR / 'processed_pca_{}.parquet')
-# *** Load params based on the metric used in train_pipeline ***
-LAMBDA_OPTIMIZATION_METRIC_USED = 'rmse' # <<< ENSURE THIS MATCHES train_pipeline.py
-OPTIMIZED_PARAMS_PATH_TEMPLATE = str(PARAMS_OUTPUT_DIR / f'best_params_ray_lambda_{LAMBDA_OPTIMIZATION_METRIC_USED}_{{}}_{{}}.json') # {model_key}_{odds_suffix}
-# *** Output filename indicates PCA was used ***
-OOF_OUTPUT_PATH_TEMPLATE = str(DATA_OUTPUT_DIR / 'level0_oof_predictions_pca_{}.parquet') # {odds_suffix}
+# --- Updated Path Configurations ---
+# PCA (V2) paths
+PCA_MODEL_CONFIG_PATH = BASE_DIR / 'models' / 'data' / 'outputs' / 'joblib' / 'V2' / 'best_params_all_models_without_odds.json'
+PCA_DATA_PATH = BASE_DIR / 'models' / 'data' / 'parquets' / 'ml' / 'processed_pca_without_odds.parquet'
 
-# --- Models to Generate OOF Predictions For ---
-MODELS_FOR_OOF = ["poisson", "random_forest", "gradient_boosting", "monte_carlo"] # <<< Ensure this matches trained models
+# Non-PCA (V1) paths
+NONPCA_MODEL_CONFIG_PATH = BASE_DIR / 'models' / 'data' / 'outputs' / 'joblib' / 'V1' / 'best_params_all_models_without_odds.json'
+NONPCA_DATA_PATH = BASE_DIR / 'models' / 'data' / 'parquets' / 'ml' / 'processed_without_odds.parquet'
 
-# --- Core Prediction Keys to Extract from Model Output Dicts ---
-# This list defines the columns that will end up in the OOF file (prefixed with model name)
+# Define where to load L0 models from based on PCA/non-PCA version
+L0_MODELS_BASE_DIR = DATA_OUTPUT_DIR / 'joblib'
+OOF_VERSION_SUFFIX = "_L0_focused"
+
+# Path templates updated to use the new paths
+PROCESSED_DATA_PATH_TEMPLATE_PCA = str(PCA_DATA_PATH)
+PROCESSED_DATA_PATH_TEMPLATE_NONPCA = str(NONPCA_DATA_PATH)
+
+LAMBDA_OPTIMIZATION_METRIC_USED = 'rmse'
+
+# Updated params path to use the version-specific config files
+def get_params_path(model_key: str, use_pca: bool) -> str:
+    if use_pca:
+        return str(PCA_MODEL_CONFIG_PATH)
+    return str(NONPCA_MODEL_CONFIG_PATH)
+
+# Output OOF path
+OOF_OUTPUT_PATH_TEMPLATE = str(DATA_OUTPUT_DIR / f'level0_oof_predictions{{}}{OOF_VERSION_SUFFIX}_{{}}.parquet')
+
+# --- Models to Generate L0 OOF Predictions For (Focused) ---
+# These are the keys used to find models and params
+# The actual model filenames might include _pca_ or _nonpca_
+MODELS_FOR_L0_OOF_BASE = ["poisson", "gradient_boosting"]
+# Monte Carlo will be handled specially after these two.
+
+# --- Core Prediction Keys (same as before) ---
 CORE_PREDICTION_KEYS = [
-    # Lambdas (NEW) - Assuming models return these raw keys
-    'expected_HG', 'expected_AG',
-    # Single outcomes
-    'prob_H', 'prob_D', 'prob_A',
-    'prob_1X', 'prob_12', 'prob_X2',
-    'prob_O05', 'prob_U05',
-    'prob_O15', 'prob_U15',
-    'prob_O25', 'prob_U25',
-    'prob_O35', 'prob_U35',
-    'prob_O45', 'prob_U45',
-    'prob_BTTS_Y', 'prob_BTTS_N',
-    # Multiple outcomes - Match Result + Goals
-    'prob_H_and_O05', 'prob_D_and_O05', 'prob_A_and_O05',
-    'prob_H_and_U05', 'prob_D_and_U05', 'prob_A_and_U05',
-    'prob_H_and_O15', 'prob_D_and_O15', 'prob_A_and_O15',
-    'prob_H_and_U15', 'prob_D_and_U15', 'prob_A_and_U15',
-    'prob_H_and_O25', 'prob_D_and_O25', 'prob_A_and_O25',
-    'prob_H_and_U25', 'prob_D_and_U25', 'prob_A_and_U25',
-    'prob_H_and_O35', 'prob_D_and_O35', 'prob_A_and_O35',
-    'prob_H_and_U35', 'prob_D_and_U35', 'prob_A_and_U35',
-    'prob_H_and_O45', 'prob_D_and_O45', 'prob_A_and_O45',
-    'prob_H_and_U45', 'prob_D_and_U45', 'prob_A_and_U45',
-    # Multiple outcomes - Double Chance + Goals
-    'prob_1X_and_O05', 'prob_12_and_O05', 'prob_X2_and_O05',
-    'prob_1X_and_U05', 'prob_12_and_U05', 'prob_X2_and_U05',
-    'prob_1X_and_O15', 'prob_12_and_O15', 'prob_X2_and_O15',
-    'prob_1X_and_U15', 'prob_12_and_U15', 'prob_X2_and_U15',
-    'prob_1X_and_O25', 'prob_12_and_O25', 'prob_X2_and_O25',
-    'prob_1X_and_U25', 'prob_12_and_U25', 'prob_X2_and_U25',
-    'prob_1X_and_O35', 'prob_12_and_O35', 'prob_X2_and_O35',
-    'prob_1X_and_U35', 'prob_12_and_U35', 'prob_X2_and_U35',
-    'prob_1X_and_O45', 'prob_12_and_O45', 'prob_X2_and_O45',
-    'prob_1X_and_U45', 'prob_12_and_U45', 'prob_X2_and_U45',
-    # Multiple outcomes - Match Result + BTTS
-    'prob_H_and_BTTS_Y', 'prob_D_and_BTTS_Y', 'prob_A_and_BTTS_Y',
-    'prob_H_and_BTTS_N', 'prob_D_and_BTTS_N', 'prob_A_and_BTTS_N',
-    # Multiple outcomes - Double Chance + BTTS
-    'prob_1X_and_BTTS_Y', 'prob_12_and_BTTS_Y', 'prob_X2_and_BTTS_Y',
-    'prob_1X_and_BTTS_N', 'prob_12_and_BTTS_N', 'prob_X2_and_BTTS_N',
-    # Multiple outcomes - Goals + BTTS
-    'prob_O25_and_BTTS_Y', 'prob_O25_and_BTTS_N',
-    'prob_U25_and_BTTS_Y', 'prob_U25_and_BTTS_N',
-    'prob_O35_and_BTTS_Y', 'prob_O35_and_BTTS_N',
-    'prob_U35_and_BTTS_Y', 'prob_U35_and_BTTS_N',
-    'prob_O45_and_BTTS_Y', 'prob_O45_and_BTTS_N',
-    'prob_U45_and_BTTS_Y', 'prob_U45_and_BTTS_N',
+    'expected_HG', 'expected_AG', 'prob_H', 'prob_D', 'prob_A', 'prob_1X', 'prob_12', 'prob_X2',
+    'prob_O15', 'prob_U15', 'prob_O25', 'prob_U25', 'prob_O35', 'prob_U35',
+    'prob_BTTS_Y', 'prob_BTTS_N', 'prob_goals_0_1', 'prob_goals_2_3', 'prob_goals_2_4', 'prob_goals_3_plus',
+    # --- Match Result + Goals (ALL LINES) ---
+    'prob_H_and_O15', 'prob_D_and_O15', 'prob_A_and_O15', 'prob_H_and_U15', 'prob_D_and_U15', 'prob_A_and_U15',
+    'prob_H_and_O25', 'prob_D_and_O25', 'prob_A_and_O25', 'prob_H_and_U25', 'prob_D_and_U25', 'prob_A_and_U25',
+    'prob_H_and_O35', 'prob_D_and_O35', 'prob_A_and_O35', 'prob_H_and_U35', 'prob_D_and_U35', 'prob_A_and_U35',
+    'prob_H_and_O45', 'prob_D_and_O45', 'prob_A_and_O45', 'prob_H_and_U45', 'prob_D_and_U45', 'prob_A_and_U45',
+    # --- Double Chance + Goals (ALL LINES) ---
+    'prob_1X_and_O15', 'prob_12_and_O15', 'prob_X2_and_O15', 'prob_1X_and_U15', 'prob_12_and_U15', 'prob_X2_and_U15',
+    'prob_1X_and_O25', 'prob_12_and_O25', 'prob_X2_and_O25', 'prob_1X_and_U25', 'prob_12_and_U25', 'prob_X2_and_U25',
+    'prob_1X_and_O35', 'prob_12_and_O35', 'prob_X2_and_O35', 'prob_1X_and_U35', 'prob_12_and_U35', 'prob_X2_and_U35',
+    'prob_1X_and_O45', 'prob_12_and_O45', 'prob_X2_and_O45', 'prob_1X_and_U45', 'prob_12_and_U45', 'prob_X2_and_U45',
+    # --- Match Result + BTTS ---
+    'prob_H_and_BTTS_Y', 'prob_D_and_BTTS_Y', 'prob_A_and_BTTS_Y', 'prob_H_and_BTTS_N', 'prob_D_and_BTTS_N', 'prob_A_and_BTTS_N',
+    # --- Double Chance + BTTS ---
+    'prob_1X_and_BTTS_Y', 'prob_12_and_BTTS_Y', 'prob_X2_and_BTTS_Y', 'prob_1X_and_BTTS_N', 'prob_12_and_BTTS_N', 'prob_X2_and_BTTS_N',
+    # --- Goals + BTTS (ALL LINES) ---
+    'prob_O25_and_BTTS_Y', 'prob_O25_and_BTTS_N', 'prob_O35_and_BTTS_Y', 'prob_O35_and_BTTS_N',
 ]
-print(f"Generating OOF for {len(CORE_PREDICTION_KEYS)} prediction keys (including lambdas).")
 
-# --- Cross-Validation Settings ---
-N_SPLITS = 8 # Number of folds for TimeSeriesSplit
-IMPUTE_NANS = True # Fill NaNs from initial folds with column means
+N_SPLITS = 17
+IMPUTE_NANS = True
+# Decide which model's lambdas to primarily use for the enhanced Monte Carlo
+# This could be based on which model had better lambda prediction performance
+# Or you could even average them if both are good.
+# Let's default to 'gradient_boosting' if available, else 'poisson'.
+PRIMARY_LAMBDA_SOURCE_MODEL_KEY = "gradient_boosting"
 
-# Main OOF Generation Function
-def generate_oof_predictions(include_odds: bool):
-    """
-    Generates Out-of-Fold (OOF) predictions for Level 0 models using PCA features.
-    Includes raw lambda predictions alongside derived probabilities.
+def validate_model_params(model_key: str, params: dict, use_pca: bool) -> None:
+    """Validate that critical parameters are present for each model type."""
+    if model_key == "gradient_boosting":
+        required = {"n_estimators", "learning_rate", "max_depth", "objective"}
+        missing = required - set(params.keys())
+        if missing:
+            raise ValueError(f"Missing required parameters for {model_key} ({'PCA' if use_pca else 'Non-PCA'}): {missing}")
+    elif model_key == "poisson":
+        required = {"alpha", "max_iter", "tol"}
+        missing = required - set(params.keys())
+        if missing:
+            raise ValueError(f"Missing required parameters for {model_key} ({'PCA' if use_pca else 'Non-PCA'}): {missing}")
+    elif model_key == "monte_carlo":
+        required = {"n_simulations"}
+        missing = required - set(params.keys())
+        if missing:
+            raise ValueError(f"Missing required parameters for {model_key} ({'PCA' if use_pca else 'Non-PCA'}): {missing}")
 
-    Args:
-        include_odds: Boolean flag whether to use data/models trained with odds.
-    """
+def generate_oof_predictions(include_odds: bool, use_pca: bool):
     odds_suffix = "with_odds" if include_odds else "without_odds"
-    print(f"\n===== Generating OOF Predictions (PCA Features, {odds_suffix}) =====")
+    pca_suffix = "pca" if use_pca else "nonpca"
+    pca_tag = "_pca" if use_pca else "_nonpca" # For filenames
 
-    # --- 1. Load Full PCA Processed Training Data ---
-    data_path = Path(PROCESSED_DATA_PATH_TEMPLATE.format(odds_suffix))
-    print(f"Loading full PCA processed data from: {data_path}")
-    assert data_path.exists(), f"PCA Data file not found: {data_path}"
+    print(f"\n===== Generating L0 OOF (Data: {pca_suffix}, Odds: {odds_suffix}) =====")
+
+    # --- 1. Load Processed Training Data (PCA or Non-PCA) ---
+    if use_pca:
+        data_path = Path(PROCESSED_DATA_PATH_TEMPLATE_PCA)
+        model_joblib_dir = L0_MODELS_BASE_DIR / "V2"  # V2 for PCA models
+    else:
+        data_path = Path(PROCESSED_DATA_PATH_TEMPLATE_NONPCA)
+        model_joblib_dir = L0_MODELS_BASE_DIR / "V1"  # V1 for non-PCA models
+
+    print(f"Loading data from: {data_path}")
+    assert data_path.exists(), f"Data file not found: {data_path}"
     df_full = pd.read_parquet(data_path, engine='pyarrow')
-    assert not df_full.empty, "Loaded PCA DataFrame is empty."
+    df_full['Date'] = pd.to_datetime(df_full['Date'])
+    df_full = df_full.sort_values(by='Date').reset_index(drop=True)
 
-    date_col = 'Date'
-    assert date_col in df_full.columns, f"Date column '{date_col}' not found for sorting."
-    df_full[date_col] = pd.to_datetime(df_full[date_col])
-    df_full = df_full.sort_values(by=date_col).reset_index(drop=True)
-    print(f"Data sorted by Date. Shape: {df_full.shape}")
-
-    # --- 2. Load Feature Config & Prepare Base Data ---
-    print("Loading feature config and preparing data...")
     feature_cfg = get_feature_config(include_odds=include_odds)
     target_cols = [feature_cfg.target_home_goals, feature_cfg.target_away_goals, feature_cfg.target_result]
-    feature_cols = [col for col in df_full.columns if col.startswith('PC')]
+    if use_pca:
+        feature_cols = [col for col in df_full.columns if col.startswith('PC')]
+    else:
+        # Only select numeric columns for non-PCA features
+        numeric_cols = df_full.select_dtypes(include=['int64', 'float64']).columns
+        feature_cols = [f for f in numeric_cols 
+                       if f not in target_cols + [feature_cfg.match_id_col, feature_cfg.date_col, 'Season', 'Tier', 'GameWeek']]
+
+    assert feature_cols, f"No feature columns found for pca={use_pca} in {data_path}."
+    print(f"Selected {len(feature_cols)} features for {'PCA' if use_pca else 'Non-PCA'} model")
     id_col = feature_cfg.match_id_col
+    date_col = feature_cfg.date_col
 
-    assert feature_cols, f"No PCA feature columns (PC*) found in {data_path}."
-    required_cols = set(target_cols) | set(feature_cols) | {id_col, date_col}
-    missing_cols = required_cols - set(df_full.columns)
-    assert not missing_cols, f"PCA DataFrame missing required columns: {missing_cols}"
+    # Add after feature selection
+    # Validate features are all numeric
+    X_full = df_full[feature_cols]
+    assert X_full.select_dtypes(include=['int64', 'float64']).shape[1] == len(feature_cols), \
+        "Non-numeric columns found in features. Check feature selection."
 
-    X_full: pd.DataFrame = df_full[feature_cols]
-    y_full: pd.DataFrame = df_full[target_cols]
-    match_ids: pd.Series = df_full[id_col]
+    y_full = df_full[target_cols]
+    match_ids = df_full[id_col]
+    assert not X_full.isnull().any().any(), "NaNs in features."
 
-    assert not X_full.isnull().any().any(), "NaNs found in PCA features."
-    assert not y_full.isnull().any().any(), "NaNs found in targets."
-    assert X_full.shape[0] == y_full.shape[0] == match_ids.shape[0], "Shape mismatch."
-    print(f"Data prepared: {X_full.shape[0]} matches, {X_full.shape[1]} PCA features.")
-
-    # --- 3. Initialize OOF Storage ---
-    oof_pred_dfs: Dict[str, pd.DataFrame] = {} # Stores final OOF df per model
-
-    # --- 4. Setup Cross-Validation ---
+    oof_pred_dfs: Dict[str, pd.DataFrame] = {}
     tscv = TimeSeriesSplit(n_splits=N_SPLITS)
-    print(f"Using TimeSeriesSplit with {N_SPLITS} splits.")
 
-    # --- 5. Loop Through Models ---
-    for model_key in MODELS_FOR_OOF:
-        print(f"\n--- Generating OOF for model: {model_key} ---")
-        ModelClass = AVAILABLE_MODELS.get(model_key)
-        assert ModelClass is not None, f"Model class for '{model_key}' not found."
+    # --- Loop Through Base L0 Models (Poisson, GB) ---
+    for model_key_base in MODELS_FOR_L0_OOF_BASE:
+        model_identifier_for_loading = f"{model_key_base}_{pca_suffix}_{odds_suffix}"
+        print(f"\n--- Generating OOF for L0 model: {model_identifier_for_loading} ---")
+        ModelClass = AVAILABLE_MODELS.get(model_key_base)
+        assert ModelClass is not None
 
-        # --- Load Correct Parameters (Lambda Optimized) ---
-        params_path = Path(OPTIMIZED_PARAMS_PATH_TEMPLATE.format(model_key, odds_suffix))
-        # Get defaults from imported config as fallback
-        model_params = MODELS_TO_TRAIN_CONFIG.get(model_key, {}).get("params", {})
-        assert isinstance(model_params, dict), f"Default params for {model_key} not found or not a dict."
+        # Load model parameters from the appropriate version's config file
+        params_path = Path(get_params_path(model_key_base, use_pca))
+        model_params = MODELS_TO_TRAIN_CONFIG_L0.get(model_key_base, {}).get("params", {})
 
         if params_path.exists():
-            print(f"  Loading parameters for {model_key} from: {params_path}")
             try:
-                with open(params_path, 'r') as f: loaded_params = json.load(f)
-                assert isinstance(loaded_params, dict), f"Invalid format in {params_path}"
-                model_params = loaded_params # Use loaded params (fixed + tuned)
+                with open(params_path, 'r') as f:
+                    all_params = json.load(f)
+                    # Extract model-specific parameters from the config file
+                    if model_key_base in all_params:
+                        model_params = all_params[model_key_base]
+                        validate_model_params(model_key_base, model_params, use_pca)
+                print(f"  Loaded params for {model_identifier_for_loading} from: {params_path}")
             except Exception as e:
-                 warnings.warn(f"  Failed loading {params_path}: {e}. Using defaults for {model_key}.", UserWarning)
+                warnings.warn(f"  Failed loading params {params_path}: {e}. Using defaults for {model_key_base}.", UserWarning)
         else:
-             warnings.warn(f"  Params file not found: {params_path}. Using defaults for {model_key}.", UserWarning)
-        print(f"  Using parameters: {model_params}")
-
-        # Reduce n_simulations for Monte Carlo specifically for OOF if needed for speed
-        if model_key == "monte_carlo" and 'n_simulations' in model_params:
-            oof_sims = model_params.get('n_simulations', 10000) // 2 # Example: Halve sims for OOF
-            print(f"  Adjusting n_simulations for Monte Carlo OOF: {oof_sims}")
-            model_params['n_simulations'] = max(oof_sims, 1000) # Ensure reasonable minimum
-
-        model_oof_preds_list: List[pd.DataFrame] = [] # Stores prediction DFs from each fold for this model
-
-        # --- 6. Loop Through Folds ---
+            warnings.warn(f"  Params file not found: {params_path}. Using defaults for {model_key_base}.", UserWarning)
+        
+        model_oof_preds_list = []
         for fold_idx, (train_indices, val_indices) in enumerate(tscv.split(X_full)):
-            fold_num = fold_idx + 1
-            print(f"  Processing Fold {fold_num}/{N_SPLITS}...")
-            if len(val_indices) == 0: print("    Skipping empty validation set."); continue
-
+            fold_num = fold_idx + 1; print(f"  Processing Fold {fold_num}/{N_SPLITS}...")
+            if len(val_indices) == 0: continue
             X_train_fold, X_val_fold = X_full.iloc[train_indices], X_full.iloc[val_indices]
             y_train_fold = y_full.iloc[train_indices]
             match_ids_val = match_ids.iloc[val_indices]
-            print(f"    Train size: {len(X_train_fold)}, Validation size: {len(X_val_fold)}")
 
-            assert not X_train_fold.isnull().any().any(), f"Fold {fold_num}: NaNs in X_train_fold."
-            assert not y_train_fold.isnull().any().any(), f"Fold {fold_num}: NaNs in y_train_fold."
-            assert not X_val_fold.isnull().any().any(), f"Fold {fold_num}: NaNs in X_val_fold."
-
-            # --- 7. Instantiate and Train Model on Fold Data ---
-            print(f"    Fitting model {model_key}...")
-            model_fold = ModelClass(model_params=model_params, feature_config=feature_cfg, apply_scaling=False)
-            assert hasattr(model_fold, 'fit'), f"Model {model_key} lacks fit method."
-            # Fit using only goal targets if it's a lambda-predicting model primarily
+            # --- Instantiate and Train Model ---
+            # When instantiating, tell model if it's using PCA features or not for scaling
+            model_fold = ModelClass(model_params=model_params, feature_config=feature_cfg, apply_scaling=not use_pca)
             y_fit_targets = y_train_fold[[feature_cfg.target_home_goals, feature_cfg.target_away_goals]]
             model_fold.fit(X_train_fold, y_fit_targets)
-            print(f"    Model fitted.")
 
-            # --- 8. Predict on Validation Fold ---
-            print(f"    Predicting with model {model_key}...")
-            assert hasattr(model_fold, 'predict_proba'), f"Model {model_key} lacks predict_proba method."
-            val_pred_dict: Dict[str, np.ndarray] = model_fold.predict_proba(X_val_fold)
-            print(f"    Debug: Keys from model {model_key} predict_proba: {list(val_pred_dict.keys())}") # Temporary debug line
-            assert isinstance(val_pred_dict, dict), "predict_proba did not return dict."
-            print(f"    Prediction complete.")
-
-            # --- 9. Extract and Store Core Predictions ---
-            # Initialize a dictionary to hold prediction arrays for the current fold
-            current_fold_pred_data: Dict[str, np.ndarray] = {}
-            keys_found_count = 0
-            missing_keys_in_fold = []
-
-            # Iterate through the desired raw keys (now includes lambdas)
-            for raw_key in CORE_PREDICTION_KEYS:
-                # Construct the key name as it's expected to appear in the model's output dict
-                expected_model_output_key = f"{model_key}_{raw_key}"
-
-                # Check if the model's output dict contains this expected (prefixed) key
-                if expected_model_output_key in val_pred_dict:
-                    pred_array = val_pred_dict[expected_model_output_key]
-                    assert pred_array.shape == (len(match_ids_val),), \
-                        f"Fold {fold_num}, Model {model_key}, Key {expected_model_output_key}: Shape mismatch " \
-                        f"({pred_array.shape} vs expected ({len(match_ids_val)},))"
-                    
-                    # Store the array in our dictionary
-                    current_fold_pred_data[expected_model_output_key] = pred_array
-                    keys_found_count += 1
-                else:
-                    # If the prefixed key is not found, then the raw_key is indeed missing
-                    missing_keys_in_fold.append(raw_key)
+            val_pred_dict_raw: Dict[str, np.ndarray] = model_fold.predict_proba(X_val_fold)
             
-            # Create the DataFrame for the fold's predictions in one go
-            fold_preds = pd.DataFrame(current_fold_pred_data, index=match_ids_val)
+            # --- Store Predictions with Full Model Identifier ---
+            current_fold_pred_data = {}
+            for raw_key in CORE_PREDICTION_KEYS:
+                # The model's predict_proba should return keys prefixed with model_key_base (e.g., "poisson_expected_HG")
+                model_output_key = f"{model_key_base}_{raw_key}"
+                if model_output_key in val_pred_dict_raw:
+                    # Store with the full identifier including PCA/odds status for clarity in OOF
+                    oof_col_name = f"{model_identifier_for_loading}_{raw_key}" # e.g. poisson_pca_with_odds_expected_HG
+                    current_fold_pred_data[oof_col_name] = val_pred_dict_raw[model_output_key]
+            
+            if not current_fold_pred_data:
+                 warnings.warn(f"No core predictions extracted for {model_identifier_for_loading} in fold {fold_num}")
+                 continue
+            model_oof_preds_list.append(pd.DataFrame(current_fold_pred_data, index=match_ids_val))
 
-            if missing_keys_in_fold:
-                 warnings.warn(f"Keys {missing_keys_in_fold} not found in {model_key} predictions dict for fold {fold_num}.", UserWarning)
+        if model_oof_preds_list:
+            oof_pred_dfs[model_identifier_for_loading] = pd.concat(model_oof_preds_list).sort_index()
+            print(f"--- Finished OOF for L0 model: {model_identifier_for_loading} ---")
 
-            assert keys_found_count > 0, f"Fold {fold_num}, Model {model_key}: No prediction keys found!"
-            model_oof_preds_list.append(fold_preds)
-            print(f"    Stored {keys_found_count} prediction columns for validation set.")
+    # --- Enhanced Monte Carlo using Best Lambdas from GB or Poisson ---
+    print(f"\n--- Generating OOF for Enhanced Monte Carlo (Data: {pca_suffix}, Odds: {odds_suffix}) ---")
+    
+    # Determine the source of lambdas for this MC run
+    primary_lambda_source_full_id = f"{PRIMARY_LAMBDA_SOURCE_MODEL_KEY}_{pca_suffix}_{odds_suffix}"
+    fallback_lambda_source_full_id = f"poisson_{pca_suffix}_{odds_suffix}"
+    
+    lambda_source_df = None
+    lambda_source_model_name_used = ""
+
+    if primary_lambda_source_full_id in oof_pred_dfs:
+        lambda_source_df = oof_pred_dfs[primary_lambda_source_full_id]
+        lambda_source_model_name_used = primary_lambda_source_full_id
+    elif fallback_lambda_source_full_id in oof_pred_dfs:
+        lambda_source_df = oof_pred_dfs[fallback_lambda_source_full_id]
+        lambda_source_model_name_used = fallback_lambda_source_full_id
+    
+    if lambda_source_df is not None:
+        lambda_hg_col_name = f"{lambda_source_model_name_used}_expected_HG"
+        lambda_ag_col_name = f"{lambda_source_model_name_used}_expected_AG"
+
+        if lambda_hg_col_name in lambda_source_df.columns and lambda_ag_col_name in lambda_source_df.columns:
+            print(f"  Using lambdas from {lambda_source_model_name_used} for Enhanced Monte Carlo.")
+            
+            # Load Monte Carlo parameters from the appropriate version's config file
+            mc_params_path = Path(get_params_path("monte_carlo", use_pca))
+            mc_default_params = {'n_simulations': 10000 if use_pca else 80000}
+            
+            if mc_params_path.exists():
+                try:
+                    with open(mc_params_path, 'r') as f:
+                        all_params = json.load(f)
+                        if 'monte_carlo' in all_params:
+                            mc_default_params.update(all_params['monte_carlo'])
+                    print(f"  Loaded MC params from: {mc_params_path}")
+                except Exception as e:
+                    warnings.warn(f"  Failed loading MC params from {mc_params_path}: {e}. Using defaults.", UserWarning)
+            
+            mc_oof_preds_list = []
+            for fold_idx, (train_indices, val_indices) in enumerate(tscv.split(X_full)):
+                fold_num = fold_idx + 1
+                print(f"  MC Processing Fold {fold_num}/{N_SPLITS}...")
+                if len(val_indices) == 0:
+                    continue
+                
+                match_ids_val_mc = match_ids.iloc[val_indices]
+                fold_lambdas_df = lambda_source_df.loc[lambda_source_df.index.isin(match_ids_val_mc)]
+                
+                if fold_lambdas_df.empty or lambda_hg_col_name not in fold_lambdas_df.columns:
+                    warnings.warn(f"  MC Fold {fold_num}: Lambda source data missing for validation indices. Skipping MC for this fold.")
+                    continue
+
+                lambda_h_for_mc_fold = fold_lambdas_df[lambda_hg_col_name].values
+                lambda_a_for_mc_fold = fold_lambdas_df[lambda_ag_col_name].values
+
+                X_val_fold_for_mc = pd.DataFrame({
+                    'external_lambda_HG': lambda_h_for_mc_fold,
+                    'external_lambda_AG': lambda_a_for_mc_fold
+                }, index=match_ids_val_mc)
+
+                mc_model_fold = MonteCarloModel(
+                    model_params=mc_default_params,
+                    feature_config=feature_cfg,
+                    apply_scaling=False
+                )
+                mc_model_fold.features_in_ = ['external_lambda_HG', 'external_lambda_AG']
+
+                val_pred_dict_mc_raw: Dict[str, np.ndarray] = mc_model_fold._predict_proba_model(X_val_fold_for_mc)
+
+                mc_identifier_for_oof = f"monte_carlo_enhanced_{pca_suffix}_{odds_suffix}"
+                current_fold_mc_data = {}
+                for raw_key in CORE_PREDICTION_KEYS:
+                    mc_model_output_key = f"monte_carlo_enhanced_{raw_key}"
+                    if mc_model_output_key in val_pred_dict_mc_raw:
+                        oof_col_name = f"{mc_identifier_for_oof}_{raw_key}"
+                        current_fold_mc_data[oof_col_name] = val_pred_dict_mc_raw[mc_model_output_key]
+                
+                if current_fold_mc_data:
+                    mc_oof_preds_list.append(pd.DataFrame(current_fold_mc_data, index=match_ids_val_mc))
+            
+            if mc_oof_preds_list:
+                oof_pred_dfs[mc_identifier_for_oof] = pd.concat(mc_oof_preds_list).sort_index()
+                print(f"--- Finished OOF for Enhanced Monte Carlo: {mc_identifier_for_oof} ---")
+            else:
+                warnings.warn(f"No OOF predictions generated for Enhanced Monte Carlo ({pca_suffix}, {odds_suffix}).")
+        else:
+            warnings.warn(f"  Lambda columns not found in {lambda_source_model_name_used} OOF for Enhanced MC. Skipping MC.")
+    else:
+        warnings.warn(f"  No suitable lambda source model OOF found for Enhanced MC. Skipping MC.")
 
 
-        # --- 10. Combine Fold Predictions for this Model ---
-        if not model_oof_preds_list:
-            warnings.warn(f"No OOF predictions generated for model: {model_key}. Skipping.", RuntimeWarning)
-            continue
-
-        model_oof_df = pd.concat(model_oof_preds_list).sort_index() # Sort by index (MatchID)
-        oof_pred_dfs[model_key] = model_oof_df
-        print(f"--- Finished OOF generation for model: {model_key} ({len(model_oof_df)} rows) ---")
-
-
-    # --- 11. Combine Predictions from All Models ---
+    # --- Combine All Predictions ---
     if not oof_pred_dfs:
-        raise RuntimeError("CRITICAL: No OOF predictions were generated for ANY model. Cannot proceed.")
+        raise RuntimeError(f"CRITICAL: No L0 OOF generated for {pca_suffix}, {odds_suffix}.")
 
-    print("\nCombining OOF predictions from all models...")
-    # Start with base info, ensure index is MatchID for joining
     final_oof_df = df_full[[id_col, date_col] + target_cols].set_index(id_col)
-
-    for model_key, model_oof_df in oof_pred_dfs.items():
-        # Ensure the model_oof_df index is also MatchID before joining
-        assert model_oof_df.index.name == id_col, f"Index name mismatch for {model_key}"
-        final_oof_df = final_oof_df.join(model_oof_df, how='left') # Left join preserves all original matches
-
-    print(f"Combined OOF DataFrame shape before NaN check: {final_oof_df.shape}")
-    final_oof_df = final_oof_df.sort_values(by=date_col)
-
-    # --- 12. Handle NaNs ---
+    for model_oof_identifier, model_oof_data in oof_pred_dfs.items():
+        final_oof_df = final_oof_df.join(model_oof_data, how='left') # model_oof_data is already indexed
+    # --- Handle NaNs ---
     nan_cols = final_oof_df.columns[final_oof_df.isnull().any()].tolist()
     pred_nan_cols = [c for c in nan_cols if c not in target_cols + [date_col]]
-
     if pred_nan_cols:
-        print(f"Found NaNs in {len(pred_nan_cols)} prediction columns (likely TimeSeriesSplit gap).")
         if IMPUTE_NANS:
-            print("Imputing NaNs using column means...")
             impute_values = final_oof_df[pred_nan_cols].mean()
-            impute_map = {}
-            for col in pred_nan_cols:
-                mean_val = impute_values.get(col) # Use .get for safety
-                if pd.notna(mean_val):
-                    impute_map[col] = mean_val
-                else: # Fallback if mean is NaN (e.g., all values were NaN in a column)
-                    fallback_val = 0.5 if '_prob_' in col else 0.0
-                    warnings.warn(f"Mean for column {col} is NaN. Imputing with {fallback_val}.", RuntimeWarning)
-                    impute_map[col] = fallback_val
-
+            impute_map = {col: impute_values.get(col, 0.5 if '_prob_' in col else 0.0) for col in pred_nan_cols}
             final_oof_df.fillna(value=impute_map, inplace=True)
-            remaining_nans = final_oof_df[pred_nan_cols].isnull().sum().sum()
-            assert remaining_nans == 0, f"NaN imputation failed! {remaining_nans} NaNs remain."
-            print("NaN imputation complete. No NaNs remaining in prediction columns.")
-        else:
-            warnings.warn(f"NaNs found in columns: {pred_nan_cols}. IMPUTE_NANS=False, NaNs will remain.", RuntimeWarning)
-    else:
-        print("No NaNs found in prediction columns.")
+            assert final_oof_df[pred_nan_cols].isnull().sum().sum() == 0, "NaN imputation failed."
+        else: warnings.warn(f"NaNs remain in {pred_nan_cols}.")
 
-
-    # --- 13. Save Final OOF DataFrame ---
-    output_path = Path(OOF_OUTPUT_PATH_TEMPLATE.format(odds_suffix))
-    print(f"Saving final OOF predictions DataFrame to: {output_path}")
+    # --- Save Final OOF DataFrame ---
+    output_path = Path(OOF_OUTPUT_PATH_TEMPLATE.format(pca_tag, odds_suffix))
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    # Reset index to save MatchID as a column
     final_oof_df.reset_index().to_parquet(output_path, index=False, engine='pyarrow')
-    print("OOF predictions saved successfully as Parquet.")
-
-    print(f"===== OOF Prediction Generation Complete (PCA Features, {odds_suffix}) =====")
+    print(f"Saved L0 OOF ({pca_suffix}, {odds_suffix}) to: {output_path}")
+    print(f"===== L0 OOF Generation Complete ({pca_suffix}, {odds_suffix}) =====")
 
 # Main Execution Block
 if __name__ == "__main__":
-    print("Starting OOF Prediction Generation Process...")
+    parser = argparse.ArgumentParser(description="Generate L0 OOF predictions for focused models (GB, Poisson, Enhanced MC) with PCA/Non-PCA options.")
+    parser.add_argument("--no_pca", action="store_true", help="Run for Non-PCA features.")
+    parser.add_argument("--with_pca", action="store_true", help="Run for PCA features.")
+    # parser.add_argument("--odds_config", type=str, choices=['with_odds', 'without_odds', 'both'], default='without_odds', help="Odds configuration to run for.")
+    # For now, let's stick to your request: only "without_odds"
+    
+    args = parser.parse_args()
+
+    if not args.no_pca and not args.with_pca:
+        print("Please specify at least one of --no_pca or --with_pca. Defaulting to PCA only.")
+        args.with_pca = True # Default behavior if nothing specified
+
+    print("Starting FOCUSED L0 OOF Prediction Generation Process...")
     start_time = time.time()
 
-    # Generate OOF predictions for both odds settings using PCA data
-    generate_oof_predictions(include_odds=False)
-    generate_oof_predictions(include_odds=True)
+    # --- Run for "without_odds" data ---
+    include_odds_run = False # As per your request
+
+    if args.with_pca:
+        print("\n>>>> Generating OOF for PCA features, WITHOUT odds <<<<")
+        generate_oof_predictions(include_odds=include_odds_run, use_pca=True)
+    
+    if args.no_pca:
+        print("\n>>>> Generating OOF for Non-PCA features, WITHOUT odds <<<<")
+        generate_oof_predictions(include_odds=include_odds_run, use_pca=False)
+
 
     end_time = time.time()
-    print(f"\nOOF Prediction Generation Process Finished. Total time: {end_time - start_time:.2f} seconds.")
+    print(f"\nFOCUSED L0 OOF Generation Finished. Total time: {end_time - start_time:.2f} seconds.")

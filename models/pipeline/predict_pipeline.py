@@ -7,7 +7,6 @@ import warnings # To show warnings clearly
 # --- Imports from our modules ---
 # Import ALL model classes that have a .load method
 from models.ml_models.poisson_model import PoissonModel
-from models.ml_models.random_forest_model import RandomForestModel
 from models.ml_models.gradient_boosting_model import GradientBoostingModel
 from models.ml_models.monte_carlo_model import MonteCarloModel
 from models.utils.predict import format_predictions
@@ -30,7 +29,6 @@ class PredictionConfig:
 # --- Model Loading Registry ---
 MODEL_LOADERS = {
     "poisson": PoissonModel.load,
-    "random_forest": RandomForestModel.load,
     "gradient_boosting": GradientBoostingModel.load,
     "monte_carlo": MonteCarloModel.load,
     # Add other models here as you create them

@@ -22,14 +22,13 @@ from sklearn.metrics import root_mean_squared_error, mean_poisson_deviance
 import sys
 import os
 PROJECT_ROOT_PATH = Path(__file__).resolve().parent.parent.parent
-assert str(PROJECT_ROOT_PATH) not in sys.path, "Project root path already in sys.path"
-sys.path.append(str(PROJECT_ROOT_PATH))
-print(f"Project Root added to sys.path: {PROJECT_ROOT_PATH}")
+if str(PROJECT_ROOT_PATH) not in sys.path:  # Only add if not already there
+    sys.path.append(str(PROJECT_ROOT_PATH))
+    print(f"Project Root added to sys.path: {PROJECT_ROOT_PATH}")
 
 # --- Model Classes & Config ---
 from models.utils.features import BaseFeatureConfig, get_feature_config
 from models.ml_models.poisson_model import PoissonModel
-from models.ml_models.random_forest_model import RandomForestModel
 from models.ml_models.gradient_boosting_model import GradientBoostingModel
 from models.ml_models.monte_carlo_model import MonteCarloModel
 from models.base_model import BaseModel # Import base for type checking and apply_scaling flag
@@ -37,7 +36,6 @@ from models.base_model import BaseModel # Import base for type checking and appl
 # --- Model Registry ---
 AVAILABLE_MODELS: Dict[str, Type[BaseModel]] = {
     "poisson": PoissonModel,
-    "random_forest": RandomForestModel,
     "gradient_boosting": GradientBoostingModel,
     "monte_carlo": MonteCarloModel,
 }
@@ -59,24 +57,13 @@ MODEL_OUTPUT_PATH_TEMPLATE = str(MODELS_SAVE_DIR / '{}_pca_{}_v1.joblib') # PCA 
 # --- Models to Train & Default Params ---
 
 MODELS_TO_TRAIN_CONFIG = {
-    #"poisson": {
-    #    "params": {'max_iter': 100000, 'tol': 1e-4}, # Fixed params
-    #    "optimize": True,
-    #    "search_space": {'alpha': tune.loguniform(1e-5, 1.0)}
-    #},
-    "random_forest": { # Uncommented Random Forest
-        "params": {'n_jobs': -1, 'random_state': 44}, # Fixed params
+    "poisson": {
+        "params": {'max_iter': 100000, 'tol': 1e-4}, # Fixed params
         "optimize": True,
-        "search_space": {
-            'n_estimators': tune.randint(100, 801),
-            'max_depth': tune.randint(8, 41),
-            'min_samples_split': tune.randint(2, 31),
-            'min_samples_leaf': tune.randint(3, 21),
-            'max_features': tune.uniform(0.1, 0.9),
-        }
+        "search_space": {'alpha': tune.loguniform(1e-5, 1.0)}
     },
     "gradient_boosting": {
-        "params": {'n_jobs': -1, 'objective': 'poisson', 'metric': 'None', 'random_state': 42}, # Fixed
+        "params": {'objective': 'poisson', 'metric': 'None', 'random_state': 42, 'n_jobs': -1}, # Fixed
         "optimize": True,
         "search_space": {
             'learning_rate': tune.loguniform(0.005, 0.2),
@@ -90,12 +77,6 @@ MODELS_TO_TRAIN_CONFIG = {
             'min_child_samples': tune.randint(3, 51),
         }
     }
-    #},
-    #"monte_carlo": { # Monte Carlo still doesn't have tunable params in this setup
-    #    "params": {'n_simulations': 10000, 'internal_estimator_alpha': 1.0},
-    #    "optimize": False,
-    #    "search_space": {}
-    #},
 }
 
 # --- Ray Tune Settings ---
