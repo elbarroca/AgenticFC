@@ -34,4 +34,4 @@ progress_checkpoint.json
 
 # Output directories
 enriched_fixtures/
-fixtures/
+fixtures/models/data/outputs/predictions/combined_oof_ALL_pipelines.parquet
