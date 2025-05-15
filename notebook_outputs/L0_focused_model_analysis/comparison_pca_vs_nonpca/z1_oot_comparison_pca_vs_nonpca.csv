@@ -1,0 +1,23 @@
+market_suffix,BestModel_PCA,OOT_PCA,WR_Onwards_PCA(%),Bets_Onwards_PCA,BestModel_NonPCA,OOT_NonPCA,WR_Onwards_NonPCA(%),Bets_Onwards_NonPCA,WR_Diff (NonPCA-PCA),Bets_Ratio (NonPCA/PCA)
+prob_1X_and_O15,poisson_pca_without_odds,0.625,68.53050306324964,23178,gradient_boosting__without_odds,0.675,70.36279069767441,5375.0,1.8322876344247732,0.2319009405470705
+prob_1X_and_U45,poisson_pca_without_odds,0.625,66.82834132657678,55255,poisson__without_odds,0.675,68.35242986961674,12655.0,1.5240885430399658,0.22902904714505476
+prob_12_and_O15,poisson_pca_without_odds,0.625,66.12417305960183,32197,gradient_boosting__without_odds,0.675,67.30217302173021,4878.0,1.177999962128382,0.15150479858371899
+prob_X2_and_O15,gradient_boosting_pca_without_odds,0.625,66.69354838709678,6200,poisson__without_odds,0.625,67.05598066854611,2483.0,0.3624322814493297,0.40048387096774196
+prob_H_and_O15,gradient_boosting_pca_without_odds,0.625,68.72306034482759,3712,gradient_boosting__without_odds,0.625,68.91348088531187,1988.0,0.1904205404842827,0.5355603448275862
+prob_1X,poisson_pca_without_odds,0.075,68.64533411082967,109754,gradient_boosting__without_odds,0.225,68.72018424082908,109422.0,0.07485012999941887,0.9969750533010187
+prob_12,gradient_boosting_pca_without_odds,0.675,75.58128940559058,109756,poisson__without_odds,0.7250000000000001,75.58830781031696,109509.0,0.0070184047263808225,0.9977495535551587
+prob_U35,gradient_boosting_pca_without_odds,0.275,69.99544377619829,109740,gradient_boosting__without_odds,0.425,69.98673921990031,109345.0,-0.008704556297971067,0.9964005831966466
+prob_O15,gradient_boosting_pca_without_odds,0.5750000000000001,75.7157697144211,109742,gradient_boosting__without_odds,0.525,75.68895749792193,109477.0,-0.026812216499166652,0.9975852453937417
+prob_A,poisson_pca_without_odds,0.625,67.67317939609237,2815,poisson__without_odds,0.5750000000000001,67.13523994183228,2063.0,-0.5379394542600835,0.7328596802841918
+prob_X2_and_U45,poisson_pca_without_odds,0.675,68.71680657872194,5837,gradient_boosting__without_odds,0.675,67.14285714285714,2520.0,-1.5739494358648045,0.43172862771971904
+prob_H,gradient_boosting_pca_without_odds,0.625,69.28202565383975,12006,gradient_boosting__without_odds,0.625,67.63422500474293,5271.0,-1.6478006490968227,0.4390304847576212
+prob_X2,gradient_boosting_pca_without_odds,0.625,69.8609564744569,38621,poisson__without_odds,0.625,68.15876170057,19123.0,-1.7021947738869017,0.49514512829807616
+prob_12_and_O25,poisson_pca_without_odds,0.7250000000000001,70.28571428571428,700,,,,,,
+prob_1X_and_O25,poisson_pca_without_odds,0.675,66.72967863894141,1058,,,,,,
+prob_A_and_O15,gradient_boosting_pca_without_odds,0.625,69.54177897574124,742,,,,,,
+prob_A_and_O25,gradient_boosting_pca_without_odds,0.675,65.85365853658537,123,,,,,,
+prob_H_and_O25,gradient_boosting_pca_without_odds,0.675,67.88990825688074,218,,,,,,
+prob_O25,poisson_pca_without_odds,0.675,67.84605834885164,4833,,,,,,
+prob_U25,poisson_pca_without_odds,0.675,65.50218340611353,229,,,,,,
+prob_X2_and_O25,gradient_boosting_pca_without_odds,0.675,67.13780918727915,283,,,,,,
+prob_goals_3_plus,poisson_pca_without_odds,0.675,67.84605834885164,4833,,,,,,

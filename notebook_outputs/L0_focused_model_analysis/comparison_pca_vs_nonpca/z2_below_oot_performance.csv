@@ -1,0 +1,14 @@
+model_full_name,market_suffix,feature_type,oot_compared_against,num_bets_below_oot,wr_below_oot_pct,avg_pred_prob_below_oot
+gradient_boosting__without_odds,prob_1X_and_O15,Unknown,0.675,105718,51.101988308518884,0.5212042485157714
+poisson__without_odds,prob_1X_and_U45,Unknown,0.675,103579,58.70108805839022,0.5955321477492452
+gradient_boosting__without_odds,prob_12_and_O15,Unknown,0.675,106371,57.96974739355652,0.571829437570726
+poisson__without_odds,prob_X2_and_O15,Unknown,0.625,107599,40.684392977629905,0.4044500490011121
+gradient_boosting__without_odds,prob_H_and_O15,Unknown,0.625,107913,33.961617228693484,0.3425975324039963
+gradient_boosting__without_odds,prob_1X,Unknown,0.225,138,23.18840579710145,0.17577271117026055
+poisson__without_odds,prob_12,Unknown,0.7250000000000001,61,70.49180327868852,0.7222003410000998
+gradient_boosting__without_odds,prob_U35,Unknown,0.425,237,49.36708860759494,0.36308245567479297
+gradient_boosting__without_odds,prob_O15,Unknown,0.525,66,71.21212121212122,0.4953165758624567
+poisson__without_odds,prob_A,Unknown,0.5750000000000001,107809,30.717287053956532,0.3005085227370424
+gradient_boosting__without_odds,prob_X2_and_U45,Unknown,0.675,108041,48.69910496940976,0.48657495420824015
+gradient_boosting__without_odds,prob_H,Unknown,0.625,105344,43.236444410692584,0.43549228226039693
+poisson__without_odds,prob_X2,Unknown,0.625,96793,53.641275712086625,0.5341183356199334
